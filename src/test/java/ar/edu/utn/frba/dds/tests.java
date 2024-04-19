@@ -18,10 +18,9 @@ public class tests {
     assertEquals("La contraseña debe ser de al menos 8 caracteres", exception.getMessage());
   }
 
-  /**PROBLEMA CON LECTURA DE TOP1000CONTRASENAS. CUANDO LLEGA AHÍ SE ROMPE*/
   @Test
   public void testContrasenaValida() throws ExcepcionDeValidacionDeContrasena {
-    String contrasenaValida = "Holaaaaaa";
+    String contrasenaValida = "Holaa1234!";
     Set<String> alertas = EstandarDeContrasena.validar(contrasenaValida);
     assertTrue(alertas.isEmpty());
   }
@@ -31,18 +30,31 @@ public class tests {
     String contrasenaUnicode= "Canc1ión";
     assertTrue(EstandarDeContrasena.contieneCaracteresUnicode(contrasenaUnicode));
   }
-
   @Test
   public void testContrasenaNoUnicode() {
     String contrasenaUnicode= "Canc1ioon";
     assertFalse(EstandarDeContrasena.contieneCaracteresUnicode(contrasenaUnicode));
   }
 
-  /**PROBLEMA CON LECTURA DEL ARCHIVO, NO ANDA DIRECTAMENTE EL MÉTODO*/
   @Test
-  public void testContrasenaPopular() {
-    String contrasenaPopular= "123456789";
-    assertFalse(EstandarDeContrasena.esContrasenaPopular(contrasenaPopular));
+  public void testEsContrasenaNoPopular() {
+    String contrasenaNoExistente = "ContraseñaUnicaa1";
+    assertFalse(EstandarDeContrasena.esContrasenaPopular(contrasenaNoExistente));
+  }
+
+  @Test
+  public void testEsContrasenaPopular() {
+    // Prueba con una contraseña que existe en el archivo
+    String contrasenaExistente = "master";
+    assertTrue(EstandarDeContrasena.esContrasenaPopular(contrasenaExistente));
+  }
+  @Test
+  public void testContrasenaInvalidaPopular() {
+    String contrasenaPopular = "qwertyuiop";
+    ExcepcionDeValidacionDeContrasena exception = assertThrows(
+        ExcepcionDeValidacionDeContrasena.class,
+        () -> EstandarDeContrasena.validar(contrasenaPopular));
+    assertEquals("La contraseña es demasiado popular. Por favor elija una contraseña más única", exception.getMessage());
   }
 
 }
