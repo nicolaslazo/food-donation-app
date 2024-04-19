@@ -28,10 +28,6 @@ public class EstandarDeContrasena {
    * Asegura que la contraseña se alinee con las recomendaciones de la Sección 5.1.1.2 para
    * Secretos Memorizados de la Guía NIST.
    * Tira una ExcepcionDeValidacionDeContrasena con el justificativo en el caso de un rechazo.
-   *
-   * @param contrasena la contraseña a verificar
-   * @return TODO: asegurarnos que existe una chance que más de una alerta se pueda devolver
-   * @throws ExcepcionDeValidacionDeContrasena reporta el rechazo de una contraseña
    */
   public static Set<String> validar(@NonNull String contrasena)
       throws ExcepcionDeValidacionDeContrasena {
