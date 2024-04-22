@@ -12,12 +12,14 @@ import lombok.NonNull;
  * Contiene el conocimiento para verificar la validez de una contraseña.
  */
 public class EstandarDeContrasena {
-  private static boolean contieneCaracteresUnicode(@NonNull String contrasena) {
+  public static boolean contieneCaracteresUnicode(@NonNull String contrasena) {
     return contrasena.chars().anyMatch(c -> c > 127);
   }
 
-  private static boolean esContrasenaPopular(@NonNull String contrasena) {
-    try (Stream<String> lineas = Files.lines(Paths.get("top-10000-contrasenas.txt"))) {
+  public static boolean esContrasenaPopular(@NonNull String contrasena) {
+    try (Stream<String> lineas = Files.lines(
+            Paths.get("src/main/java/ar/edu/utn/frba/dds/auth/top-10000-contrasenas.txt")))
+    {
       return lineas.anyMatch(linea -> linea.equals(contrasena));
     } catch (IOException e) {
       throw new RuntimeException(e);
