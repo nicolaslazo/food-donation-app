@@ -12,7 +12,7 @@ import lombok.NonNull;
  * Contiene el conocimiento para verificar la validez de una contraseña.
  */
 public class EstandarDeContrasena {
-  private static boolean contieneCaracteresUnicode(@NonNull String contrasena) {
+  public static boolean contieneCaracteresUnicode(@NonNull String contrasena) {
     return contrasena.chars().anyMatch(c -> c > 127);
   }
 

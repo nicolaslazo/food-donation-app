@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa interactivo</title>
+    <link rel="stylesheet" href="leaflet.css">
+    <script src="leaflet.js"></script>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        // Nuestro código relacionado a Leaflet
+        const map = L.map('map', {
+            center: [-34.6037425,-58.381669],
+            zoom: 17
+        });
+
+        L.tileLayer(
+            'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+            { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }
+        ).addTo(map);
+
+        L.marker([-34.6025246,-58.3843585]).bindPopup('Primera heladera').openPopup().addTo(map);
+        L.marker([-34.6024605,-58.3812774]).bindPopup('Segunda heladera').openPopup().addTo(map);
+        L.marker([-34.6047476,-58.3795161]).bindPopup('Tercera heladera').openPopup().addTo(map);
+    </script>
+</body>
+</html>
