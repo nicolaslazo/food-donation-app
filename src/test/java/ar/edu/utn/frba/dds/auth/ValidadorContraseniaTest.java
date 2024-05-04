@@ -12,7 +12,7 @@ public class ValidadorContraseniaTest {
     @Test
     public void testContraseniaCorta()
     {ValidadorDeContrasenia validador = new ValidadorDeContrasenia();
-        assertFalse(validador.validar("short"));}
+        assertFalse(validador.validar("hola"));}
     @Test
     public void testContraseniaUnicode()
     {ValidadorDeContrasenia validador = new ValidadorDeContrasenia();
@@ -26,6 +26,6 @@ public class ValidadorContraseniaTest {
     @Test
     public void testContraseniaValida()
     {ValidadorDeContrasenia validador = new ValidadorDeContrasenia();
-        assertFalse(validador.validar("dds2024mm"));}
+        assertTrue(validador.validar("contraseniaValida"));}
 
 }

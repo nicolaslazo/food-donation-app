@@ -10,9 +10,9 @@ public class ValidadorDeContrasenia {
 
   public ValidadorDeContrasenia()
   { filtros = new HashSet<>();
-    filtros.add(new FiltroEstandarContraseniaPopular());
+    filtros.add(new FiltroEstandarContraseniaNoPopular());
     filtros.add(new FiltroEstandarLongitud());
-    filtros.add(new FiltroEstandarUnicode());
+    filtros.add(new FiltroEstandarNoTieneUnicode());
   }
 
   public boolean validar(@NonNull String contrasenia) {
