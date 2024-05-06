@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.domain;
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class Heladera {
@@ -12,7 +12,7 @@ public class Heladera {
   private Ubicacion ubicacion;
   private boolean enAlta;
   private int capacidadEnVianda;
-  private LocalDateTime fechaInstalacion;
+  private ZonedDateTime fechaInstalacion;
   private List<Vianda> viandas;
   private float temperaturaMinima;
   private float temperaturaMaxima;

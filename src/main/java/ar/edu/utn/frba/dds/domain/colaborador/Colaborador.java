@@ -4,13 +4,13 @@ import ar.edu.utn.frba.dds.domain.Heladera;
 import ar.edu.utn.frba.dds.domain.contacto.Contacto;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public abstract class Colaborador {
   private String apellido;
   private String nombre;
-  private LocalDateTime fechaNacimiento;
+  private ZonedDateTime fechaNacimiento;
   private Ubicacion ubicacion;
   private List<Contacto> contactos;
   private TipoColaborador tipoColaborador;
