@@ -10,8 +10,8 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 public class EnviadorDeMails {
     // Configuración de correo electrónico
-    private static final String userName = "ghrybalvarez@frba.utn.edu.ar";
-    private static final String password = "ajnf cmhv ruam roaw";
+    private static final String userName = "aaaa@gmail.ar";
+    private static final String password = "xxxxxxxx";
     private static final String asunto = "Bienvenido";
     private static final String filePathPlantilla = "src/main/resources/email/plantilla-cuenta-nueva.html";
 
