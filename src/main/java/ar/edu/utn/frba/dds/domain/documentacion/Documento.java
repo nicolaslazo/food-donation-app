@@ -1,9 +1,5 @@
 package ar.edu.utn.frba.dds.domain.documentacion;
 
-public class Documento {
-  private TipoDocumento tipo;
-  private String valor;
+import lombok.NonNull;
 
-  public Documento() {
-  }
-}
+public record Documento(@NonNull TipoDocumento tipo, @NonNull int valor) {}
