@@ -1,22 +1,42 @@
 package ar.edu.utn.frba.dds.domain;
 
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.domain.documentacion.Documento;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
+import lombok.NonNull;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
 
-public class PersonaVulnerable extends Colaborador {
-
-  public Colaborador reclutante;
-  private String nombre;
-  private String apellido;
-  private ZonedDateTime fechaNacimiento;
-  private ZonedDateTime fechaRegistrada;
+public class PersonaVulnerable {
+  @NonNull
+  private final Documento documento;
+  @NonNull
+  private final Colaborador reclutador;
+  @NonNull
+  private final String nombre;
+  @NonNull
+  private final String apellido;
+  private final ZonedDateTime fechaNacimiento;
+  @NonNull
+  private final ZonedDateTime fechaRegistrada;
+  @Setter
   private Ubicacion ubicacion;
-  private Documento documento;
+  @NonNull
+  @Setter
   private int menoresACargo;
 
-  private PersonaVulnerable() {
+  public PersonaVulnerable(@NonNull Documento documento, @NonNull Colaborador reclutador, @NonNull String nombre,
+                           @NonNull String apellido, ZonedDateTime fechaNacimiento,
+                           @NonNull ZonedDateTime fechaRegistrada, Ubicacion ubicacion, @NonNull int menoresACargo) {
+    this.documento = documento;
+    this.reclutador = reclutador;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.fechaNacimiento = fechaNacimiento;
+    this.fechaRegistrada = fechaRegistrada;
+    this.ubicacion = ubicacion;
+    this.menoresACargo = menoresACargo;
   }
 
   public void solicitarVianda(Vianda vianda, Heladera heladera) {
