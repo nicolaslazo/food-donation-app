@@ -1,8 +1,7 @@
 package ar.edu.utn.frba.dds.domain.colaborador;
 
-import ar.edu.utn.frba.dds.contribucion.Contribucion;
-import ar.edu.utn.frba.dds.domain.Heladera;
 import ar.edu.utn.frba.dds.domain.contacto.Contacto;
+import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.domain.documentacion.Documento;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 import lombok.Getter;
@@ -13,21 +12,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Colaborador {
-  @NonNull
   @Getter
-  private Documento documento;
-  @NonNull
-  private String apellido;
+  private final Documento documento;
   @NonNull
   private String nombre;
+  @NonNull
+  private String apellido;
   private LocalDate fechaNacimiento;
   private Ubicacion ubicacion;
   private List<Contacto> contactos = new ArrayList<>();
-  private List<Heladera> heladerasACargo = new ArrayList<>();
-  @NonNull
+  private int dineroDonado = 0;
+  private int viandasDonadas = 0;
   private int tarjetasAlimentariasEntregadas = 0;
+  private int viandasRedistribuidas = 0;
 
-  public Colaborador(Documento documento, String nombre, String apellido) {
+  public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
+    this.documento = documento;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.contactos.add(mail);
+
+    // TODO: Mandar mail de bienvenida cuando el colaborador es creado
   }
 
   public TipoColaborador getTipoColaborador() {
@@ -35,8 +40,20 @@ public class Colaborador {
     return TipoColaborador.JURIDICO;
   }
 
-  public void colaborar(Contribucion contribucion) {
-    // TODO implement here
+  public void registrarColaboracionDinero(int cantidad) {
+    this.dineroDonado += cantidad;
+  }
+
+  public void registrarColaboracionViandas(int cantidad) {
+    this.viandasDonadas += cantidad;
+  }
+
+  public void registrarColaboracionEntregaTarjetas(int cantidad) {
+    this.tarjetasAlimentariasEntregadas += cantidad;
+  }
+
+  public void registrarColaboracionRedistribucionViandas(int cantidad) {
+    this.viandasRedistribuidas += cantidad;
   }
 
   public float calcularReconocimiento() {
