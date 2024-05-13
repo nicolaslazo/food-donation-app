@@ -15,15 +15,22 @@ public class Colaborador {
   @Getter
   private final Documento documento;
   @NonNull
+  @Getter
   private String nombre;
   @NonNull
+  @Getter
   private String apellido;
   private LocalDate fechaNacimiento;
   private Ubicacion ubicacion;
+  @Getter
   private List<Contacto> contactos = new ArrayList<>();
+  @Getter
   private int dineroDonado = 0;
+  @Getter
   private int viandasDonadas = 0;
+  @Getter
   private int tarjetasAlimentariasEntregadas = 0;
+  @Getter
   private int viandasRedistribuidas = 0;
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {

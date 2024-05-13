@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 import static java.nio.file.Files.newBufferedReader;
 
@@ -56,7 +55,7 @@ public class CargadorMasivoDeColaboradores implements Iterator<ContribucionLegac
 
   @Override
   public ContribucionLegacy next() {
-    if (!reader.hasNext()) throw new NoSuchElementException();
+    if (!this.hasNext()) throw new NoSuchElementException();
 
     EntradaDeCargaCSV lecturaNueva = reader.next();
     Colaborador colaborador = encontrarOCrearColaborador(lecturaNueva);
