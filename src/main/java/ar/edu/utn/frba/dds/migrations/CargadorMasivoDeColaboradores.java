@@ -15,6 +15,9 @@ import java.util.NoSuchElementException;
 
 import static java.nio.file.Files.newBufferedReader;
 
+/**
+ * Itera línea por línea por un archivo de contribuciones ejecutadas antes de la existencia del sistema
+ */
 public class CargadorMasivoDeColaboradores implements Iterator<ContribucionLegacy> {
   private final Iterator<EntradaDeCargaCSV> reader;
   private final List<Colaborador> colaboradores = new ArrayList<>();

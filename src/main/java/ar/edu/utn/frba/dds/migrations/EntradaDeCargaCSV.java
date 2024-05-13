@@ -11,6 +11,12 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
+/**
+ * Representa una línea de una migración de colaboraciones legacy en formato CSV.
+ * Su único trabajo es implementar la API de OpenCSV para mapear las strings de cada línea
+ * a los objetos equivalentes de nuestro dominio.
+ * Por ejemplo, esta clase garantiza que si hay una fecha esta va a ser parseada de acuerdo al formato predefinido.
+ */
 public class EntradaDeCargaCSV {
   @CsvCustomBindByPosition(position = 0, converter = TipoDocumentoConverter.class)
   private TipoDocumento tipoDocumento;
