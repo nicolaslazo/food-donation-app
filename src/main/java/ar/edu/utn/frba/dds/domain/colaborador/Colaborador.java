@@ -23,7 +23,7 @@ public class Colaborador {
   private LocalDate fechaNacimiento;
   private Ubicacion ubicacion;
   @Getter
-  private List<Contacto> contactos = new ArrayList<>();
+  private final List<Contacto> contactos = new ArrayList<>();
   @Getter
   private int dineroDonado = 0;
   @Getter

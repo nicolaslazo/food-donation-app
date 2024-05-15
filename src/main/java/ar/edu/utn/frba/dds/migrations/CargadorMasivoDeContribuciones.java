@@ -18,11 +18,11 @@ import static java.nio.file.Files.newBufferedReader;
 /**
  * Itera línea por línea por un archivo de contribuciones ejecutadas antes de la existencia del sistema
  */
-public class CargadorMasivoDeColaboradores implements Iterator<ContribucionLegacy> {
+public class CargadorMasivoDeContribuciones implements Iterator<ContribucionLegacy> {
   private final Iterator<EntradaDeCargaCSV> reader;
   private final List<Colaborador> colaboradores = new ArrayList<>();
 
-  public CargadorMasivoDeColaboradores(Path pathACSV) throws IOException {
+  public CargadorMasivoDeContribuciones(Path pathACSV) throws IOException {
     try (BufferedReader reader = newBufferedReader(pathACSV)) {
       CsvToBean<EntradaDeCargaCSV> csvToBean = new CsvToBeanBuilder<EntradaDeCargaCSV>(reader)
           .withType(EntradaDeCargaCSV.class)

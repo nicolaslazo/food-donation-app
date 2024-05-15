@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.migrations;
 
 import ar.edu.utn.frba.dds.contribucion.ContribucionLegacy;
 import ar.edu.utn.frba.dds.contribucion.TipoContribucion;
+import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.domain.documentacion.TipoDocumento;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,12 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class CargadorMasivoDeColaboradoresTest {
+class CargadorMasivoDeContribucionesTest {
   private Iterator<ContribucionLegacy> contribuciones;
 
   @BeforeEach
   void setUp() throws IOException {
-    contribuciones = new CargadorMasivoDeColaboradores(
+    contribuciones = new CargadorMasivoDeContribuciones(
         Paths.get("src", "test", "resources", "carga-masiva-colaboradores.csv")
     );
   }
@@ -60,15 +61,16 @@ class CargadorMasivoDeColaboradoresTest {
   void testPuedeProcesarLineas() {
     // DNI,30123456,Juan,Pérez,jperez@example.com,08/05/2024,DINERO,1000
     ContribucionLegacy contribucion = contribuciones.next();
+    Colaborador colaborador = contribucion.colaborador();
 
     assertAll("Campos leídos",
         () -> assertEquals(TipoContribucion.DINERO, contribucion.tipo()),
-        () -> assertEquals(TipoDocumento.DNI, contribucion.colaborador().getDocumento().tipo()),
-        () -> assertEquals(30123456, contribucion.colaborador().getDocumento().valor()),
-        () -> assertEquals("Juan", contribucion.colaborador().getNombre()),
-        () -> assertEquals("Pérez", contribucion.colaborador().getApellido()),
+        () -> assertEquals(TipoDocumento.DNI, colaborador.getDocumento().tipo()),
+        () -> assertEquals(30123456, colaborador.getDocumento().valor()),
+        () -> assertEquals("Juan", colaborador.getNombre()),
+        () -> assertEquals("Pérez", colaborador.getApellido()),
         () -> {
-          ContactoEmail email = (ContactoEmail) contribucion.colaborador().getContactos().stream().findFirst().get();
+          ContactoEmail email = (ContactoEmail) colaborador.getContactos().stream().findFirst().get();
           assertEquals(
               "jperez@example.com",
               email.destinatario()
