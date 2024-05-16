@@ -1,16 +1,16 @@
 package ar.edu.utn.frba.dds.migrations;
 
-import ar.edu.utn.frba.dds.contribucion.ContribucionLegacy;
-import ar.edu.utn.frba.dds.contribucion.TipoContribucion;
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
+import ar.edu.utn.frba.dds.domain.contribucion.Contribucion;
+import ar.edu.utn.frba.dds.domain.contribucion.Dinero;
 import ar.edu.utn.frba.dds.domain.documentacion.TipoDocumento;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -19,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CargadorMasivoDeContribucionesTest {
-  private Iterator<ContribucionLegacy> contribuciones;
+  private CargadorMasivoDeContribuciones contribuciones;
 
   @BeforeEach
   void setUp() throws IOException {
     contribuciones = new CargadorMasivoDeContribuciones(
-        Paths.get("src", "test", "resources", "carga-masiva-colaboradores.csv")
+        Paths.get("src", "test", "resources", "carga-masiva-contribuciones.csv")
     );
   }
 
@@ -39,20 +39,9 @@ class CargadorMasivoDeContribucionesTest {
   }
 
   @Test
-  void testSoportaSegundoHasNext() {
-    // Test medio específico, pero es un problema que tuve
-    contribuciones.next();
-
-    assertTrue(contribuciones.hasNext());
-  }
-
-  @Test
   void testPuedeLeerTodoElArchivo() {
     int cuenta;
-
-    for (cuenta = 0; contribuciones.hasNext(); cuenta++) {
-      contribuciones.next();
-    }
+    for (cuenta = 0; contribuciones.hasNext(); cuenta++) contribuciones.next();
 
     assertEquals(10, cuenta);
   }
@@ -60,11 +49,11 @@ class CargadorMasivoDeContribucionesTest {
   @Test
   void testPuedeProcesarLineas() {
     // DNI,30123456,Juan,Pérez,jperez@example.com,08/05/2024,DINERO,1000
-    ContribucionLegacy contribucion = contribuciones.next();
-    Colaborador colaborador = contribucion.colaborador();
+    Dinero contribucion = (Dinero) contribuciones.next();
+    Colaborador colaborador = contribucion.getColaborador();
 
     assertAll("Campos leídos",
-        () -> assertEquals(TipoContribucion.DINERO, contribucion.tipo()),
+        () -> assertInstanceOf(Dinero.class, contribucion),
         () -> assertEquals(TipoDocumento.DNI, colaborador.getDocumento().tipo()),
         () -> assertEquals(30123456, colaborador.getDocumento().valor()),
         () -> assertEquals("Juan", colaborador.getNombre()),
@@ -76,35 +65,28 @@ class CargadorMasivoDeContribucionesTest {
               email.destinatario()
           );
         },
-        () -> assertEquals(LocalDate.parse("2024-05-08"), contribucion.fecha()),
-        () -> assertEquals(1000, contribucion.cantidad())
+        () -> assertEquals(
+            ZonedDateTime.parse("2024-05-08T00:00-03:00[America/Argentina/Buenos_Aires]"),
+            contribucion.getFecha()
+        ),
+        () -> assertEquals(1000, contribucion.getMonto())
     );
   }
 
   @Test
   void testIteradorSeReseteaDespuesDeCadaTest() {
-    ContribucionLegacy contribucion = contribuciones.next();
+    Contribucion contribucion = contribuciones.next();
 
-    assertEquals(LocalDate.parse("2024-05-08"), contribucion.fecha());  // La fecha de la primera línea, de vuelta
-  }
-
-  @Test
-  void testRegistraContribucionesEnColaborador() {
-    ContribucionLegacy contribucion = contribuciones.next();
-
-    assertEquals(contribucion.cantidad(), contribucion.colaborador().getDineroDonado());
+    assertEquals(
+        ZonedDateTime.parse("2024-05-08T00:00-03:00[America/Argentina/Buenos_Aires]"),
+        contribucion.getFecha()
+    );  // La fecha de la primera línea, de vuelta
   }
 
   @Test
   void testReciclaColaboradoresYaCreados() {
-    // DNI,30123456,Juan,Pérez,jperez@example.com,08/05/2024,DINERO,1000
-    // DNI,30123456,Juan,Pérez,jperez@example.com,08/15/2024,DONACION_VIANDAS,15
+    while (contribuciones.hasNext()) contribuciones.next();
 
-    ContribucionLegacy primeraContribucion = contribuciones.next();
-    ContribucionLegacy segundaContribucion = contribuciones.next();
-
-    assertEquals(primeraContribucion.colaborador(), segundaContribucion.colaborador());
-    assertEquals(15, primeraContribucion.colaborador().getViandasDonadas());
-    assertEquals(1000, segundaContribucion.colaborador().getDineroDonado());
+    assertEquals(7, contribuciones.getColaboradores().toArray().length);
   }
 }
