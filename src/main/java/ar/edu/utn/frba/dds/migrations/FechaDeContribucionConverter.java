@@ -7,7 +7,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class FechaDeContribucionConverter extends AbstractBeanField<ZonedDateTime, String> {
+public final class FechaDeContribucionConverter extends AbstractBeanField<ZonedDateTime, String> {
   @Override
   protected ZonedDateTime convert(String valor) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import java.time.ZonedDateTime;
-import java.util.Objects;
 
+@Getter
 public abstract class Contribucion {
   @NonNull
-  @Getter
   private final Colaborador colaborador;
   @NonNull
-  @Getter
   private final ZonedDateTime fecha;
 
   public Contribucion(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha) {

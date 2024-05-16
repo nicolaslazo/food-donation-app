@@ -25,16 +25,19 @@ import java.util.Set;
 import static java.nio.file.Files.newBufferedReader;
 
 /**
- * Itera línea por línea por un archivo de contribuciones ejecutadas antes de la existencia del sistema
+ * Itera línea por línea por un archivo de contribuciones ejecutadas
+ * antes de la existencia del sistema.
  */
 public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
   private final Iterator<EntradaDeCargaCSV> reader;
   @Getter
   private final Set<Colaborador> colaboradores = new HashSet<>();
 
-  public CargadorMasivoDeContribuciones(Path pathACSV) throws IOException {
-    try (BufferedReader reader = newBufferedReader(pathACSV)) {
-      CsvToBean<EntradaDeCargaCSV> csvToBean = new CsvToBeanBuilder<EntradaDeCargaCSV>(reader).withType(EntradaDeCargaCSV.class).build();
+  public CargadorMasivoDeContribuciones(Path pathArchivoCsv) throws IOException {
+    try (BufferedReader reader = newBufferedReader(pathArchivoCsv)) {
+      CsvToBean<EntradaDeCargaCSV> csvToBean = new CsvToBeanBuilder<EntradaDeCargaCSV>(reader)
+          .withType(EntradaDeCargaCSV.class)
+          .build();
       // Idealmente llamaríamos a .iterator() directamente pero CsvToBean se comporta erráticamente con ese método
       this.reader = csvToBean.parse().iterator();
     }
@@ -70,8 +73,13 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
     return switch (entrada.getTipoDeContribucion()) {
       case "DINERO" -> new Dinero(colaborador, fecha, entrada.getCantidad(), 0);
       case "DONACION_VIANDAS" -> new DonacionViandas(colaborador, fecha, listaDeNulls(entrada.getCantidad()));
-      case "REDISTRIBUCION_VIANDAS" ->
-          new RedistribucionViandas(colaborador, fecha, null, null, null, listaDeNulls(entrada.getCantidad()));
+      case "REDISTRIBUCION_VIANDAS" -> new RedistribucionViandas(
+          colaborador,
+          fecha,
+          null,
+          null,
+          null,
+          listaDeNulls(entrada.getCantidad()));
       case "ENTREGA_TARJETAS" -> new EntregaTarjetas(colaborador, fecha, listaDeNulls(entrada.getCantidad()));
       default -> throw new RuntimeException("Tipo de contribución no soportado");
     };
