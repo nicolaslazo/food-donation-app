@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 
 import java.time.ZonedDateTime;
 
-public class Vianda implements Contribucion {
+public class Vianda {
   private String descripcion;
   private ZonedDateTime fechaCaducidad;
   private ZonedDateTime fechaDonacion;

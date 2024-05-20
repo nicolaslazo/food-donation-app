@@ -1,12 +1,8 @@
 package ar.edu.utn.frba.dds.domain.contacto;
 
-public class ContactoEmail implements Contacto {
+import lombok.NonNull;
 
-  private String destinatario;
-
-  public ContactoEmail() {
-  }
-
+public record ContactoEmail(@NonNull String destinatario) implements Contacto {
   public void enviarMensaje(String mensaje) {
     // TODO implement here
   }
