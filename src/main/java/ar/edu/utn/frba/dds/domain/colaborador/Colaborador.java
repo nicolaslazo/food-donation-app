@@ -7,11 +7,14 @@ import ar.edu.utn.frba.dds.domain.documentacion.Documento;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.ServiceLoader;
+import java.util.stream.Collectors;
 
 public class Colaborador {
   @Getter
@@ -38,6 +41,10 @@ public class Colaborador {
     // TODO: Mandar mail de bienvenida cuando el colaborador es creado
   }
 
+  public void agregarContribucion(Contribucion contribucion) {
+    this.contribuciones.add(contribucion);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -54,5 +61,13 @@ public class Colaborador {
   public TipoColaborador getTipoColaborador() {
     if (documento != null) return TipoColaborador.HUMANO;
     return TipoColaborador.JURIDICO;
+  }
+
+  // Método para filtrar contribuciones por tipo
+  public <T extends Contribucion> List<T> filtrarContribucionesPorTipo(Class<T> tipo) {
+    return contribuciones.stream()
+            .filter(tipo::isInstance)
+            .map(tipo::cast)
+            .collect(Collectors.toList());
   }
 }
