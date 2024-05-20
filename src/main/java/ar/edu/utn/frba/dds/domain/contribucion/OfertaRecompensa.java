@@ -30,3 +30,4 @@ public class OfertaRecompensa extends Contribucion {
     this.imagen = imagen;
   }
 }
+
