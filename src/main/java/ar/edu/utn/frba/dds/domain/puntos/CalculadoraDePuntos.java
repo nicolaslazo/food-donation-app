@@ -8,14 +8,18 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.stream.Collectors;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+import java.io.InputStream;
+
 
 public class CalculadoraDePuntos {
-    // COEFICIENTES - Depende del archivo properties
-    private double coeficientePesosDonados = 0.5;
-    private double coeficienteViandasDistribuidas = 1;
-    private double coeficienteViandasDonadas = 1.5;
-    private double coeficienteTarjetasRepartidas = 2;
-    private double coeficienteHeladerasActivas = 5;
+    private double coeficientePesosDonados;
+    private double coeficienteViandasDistribuidas;
+    private double coeficienteViandasDonadas;
+    private double coeficienteTarjetasRepartidas;
+    private double coeficienteHeladerasActivas;
 
     // VARIABLES - Depende de cada Colaborador
     private double pesosDonados;
@@ -24,6 +28,22 @@ public class CalculadoraDePuntos {
     private double tarjetasRepartidas;
     private int heladerasActivas;
     private double mesesActivas;
+
+        public CalculadoraDePuntos() {
+        Properties prop = new Properties();
+        //try (InputStream input = new FileInputStream("coeficientes.properties")) {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("configuraciones/coeficientes.properties")) {
+            prop.load(input);
+            coeficientePesosDonados = Double.parseDouble(prop.getProperty("coeficientePesosDonados"));
+            coeficienteViandasDistribuidas = Double.parseDouble(prop.getProperty("coeficienteViandasDistribuidas"));
+            coeficienteViandasDonadas = Double.parseDouble(prop.getProperty("coeficienteViandasDonadas"));
+            coeficienteTarjetasRepartidas = Double.parseDouble(prop.getProperty("coeficienteTarjetasRepartidas"));
+            coeficienteHeladerasActivas = Double.parseDouble(prop.getProperty("coeficienteHeladerasActivas"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
 
     public double calcularPuntos(Colaborador colaborador){
         return (
