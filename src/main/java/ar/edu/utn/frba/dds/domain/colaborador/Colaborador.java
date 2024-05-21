@@ -7,13 +7,11 @@ import ar.edu.utn.frba.dds.domain.documentacion.Documento;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
 public class Colaborador {
@@ -29,6 +27,8 @@ public class Colaborador {
   private Ubicacion ubicacion;
   @Getter
   private final List<Contacto> contactos = new ArrayList<>();
+  @Getter
+  private double cantidadDePuntos;
   @Getter
   private final List<Contribucion> contribuciones = new ArrayList<Contribucion>();
 
@@ -70,4 +70,7 @@ public class Colaborador {
             .map(tipo::cast)
             .collect(Collectors.toList());
   }
+  public void actualizarPuntos(double monto) {
+    this.cantidadDePuntos=-monto;
+  };
 }
