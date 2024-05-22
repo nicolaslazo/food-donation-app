@@ -1,0 +1,10 @@
+DNI,30123456,Juan,Pérez,jperez@example.com,08/05/2024,DINERO,1000
+DNI,30123456,Juan,Pérez,jperez@example.com,18/05/2024,DONACION_VIANDAS,15
+LC,12345678,Maria,Gonzalez,mgonzalez@example.com,09/05/2024,DONACION_VIANDAS,30
+LE,87654321,Carlos,Rodriguez,crodriguez@example.com,10/05/2024,REDISTRIBUCION_VIANDAS,20
+DNI,40234567,Lucia,Fernandez,lfernandez@example.com,11/05/2024,ENTREGA_TARJETAS,50
+DNI,40234567,Lucia,Fernandez,lfernandez@example.com,12/05/2024,DINERO,1500
+DNI,40234567,Lucia,Fernandez,lfernandez@example.com,13/05/2024,DONACION_VIANDAS,25
+LC,70567890,Federico,Lopez,flopez@example.com,14/05/2024,REDISTRIBUCION_VIANDAS,15
+DNI,80678901,Sofia,Quintana,squintana@example.com,15/05/2024,ENTREGA_TARJETAS,60
+LE,90789012,Gabriel,Torres,gtorres@example.com,16/05/2024,DINERO,1200
