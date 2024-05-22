@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.auth.validadorContrasenia;
+package ar.edu.utn.frba.dds.auth;
 
 import lombok.NonNull;
 
@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-public class FiltroEstandarContraseniaNoPopular implements FiltrosContrasenia{
+public class FiltroEstandarContraseniaNoPopular implements FiltrosContrasenia {
   public boolean validar(@NonNull String contrasena) {
     try (Stream<String> lineas = Files.lines(
         Paths.get("src/main/java/ar/edu/utn/frba/dds/auth/validadorContrasenia/top-10000-contrasenas.txt")))

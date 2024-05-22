@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.auth.validadorContrasenia;
+package ar.edu.utn.frba.dds.auth;
 
 import lombok.NonNull;
 

@@ -1,10 +1,8 @@
 package ar.edu.utn.frba.dds.auth;
 
-import ar.edu.utn.frba.dds.auth.validadorContrasenia.ValidadorDeContrasenia;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Set;
 
 
 public class ValidadorContraseniaTest {
