@@ -5,6 +5,7 @@ import lombok.NonNull;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public class OfertaRecompensa extends Contribucion {
   @NonNull
@@ -30,3 +31,4 @@ public class OfertaRecompensa extends Contribucion {
     this.imagen = imagen;
   }
 }
+
