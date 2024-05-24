@@ -15,10 +15,9 @@ public class ConfigLoader {
   }
 
   private void cargarProperties(String nombreDeArchivo) throws IOException {
-    @NonNull
-    InputStream input = getClass().getClassLoader().getResourceAsStream(nombreDeArchivo);
-
-    properties.load(input);
+    try (InputStream input = getClass().getClassLoader().getResourceAsStream(nombreDeArchivo)) {
+      properties.load(input);
+    }
   }
 
   public String getProperty(@NonNull String key) {

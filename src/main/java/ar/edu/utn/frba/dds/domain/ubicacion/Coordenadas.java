@@ -5,10 +5,10 @@ import lombok.NonNull;
 
 import java.util.Objects;
 
+@SuppressWarnings("ClassCanBeRecord")
+@Getter
 public final class Coordenadas {
-  @Getter
   private final @NonNull Double longitud;
-  @Getter
   private final @NonNull Double latitud;
 
   public Coordenadas(@NonNull Double longitud, @NonNull Double latitud) {
