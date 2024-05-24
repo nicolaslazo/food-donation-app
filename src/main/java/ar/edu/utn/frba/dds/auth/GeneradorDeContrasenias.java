@@ -23,5 +23,4 @@ public class GeneradorDeContrasenias {
       return mayusculas + minusculas;
     }
 
-
 }
