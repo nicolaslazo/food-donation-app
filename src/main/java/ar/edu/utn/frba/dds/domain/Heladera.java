@@ -43,7 +43,12 @@ public class Heladera {
   public void analizarEstadoHeladera(){
     //Si no se encuentra en una temperatura optima, la pone en estado inactiva
     if(!this.temperaturaOptimaParaFuncionamiento()) {
+      //Deberiamos de loggear esto para que se sepa que fue por mala temperatura
       this.heladeraActiva = false;
+    }
+    //Si la heladera esta en estado desactivado entra al if
+    if(!this.heladeraActiva) {
+      //TODO deberiamos de notificar este cambio de estado
     }
   }
 
@@ -53,4 +58,12 @@ public class Heladera {
             &&
             (this.temperaturaMinima < this.ultimaTempRegistrada);
   }
+
+  //Se recibe algun tipo de alerta de movimiento, todavia no sabemos de donde!
+  public void alertaMovimientoDetectado() {
+    //Entiendo que la alerta se envia al sistema, pero no afecta el estado de activa o no
+    //TODO deberia de enviar una alerta al sistema
+
+  }
+
 }
