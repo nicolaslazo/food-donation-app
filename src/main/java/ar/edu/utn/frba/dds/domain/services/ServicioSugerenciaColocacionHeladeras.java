@@ -3,8 +3,6 @@ package ar.edu.utn.frba.dds.domain.services;
 import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.domain.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.domain.ubicacion.Coordenadas;
-import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
-import lombok.NonNull;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -38,17 +36,16 @@ public class ServicioSugerenciaColocacionHeladeras {
     return instancia;
   }
 
-  public List<Ubicacion> solicitarSugerencias(AreaGeografica area) throws IOException {
+  public List<Coordenadas> solicitarSugerencias(AreaGeografica area) throws IOException {
     Coordenadas coordenadas = area.centro().coordenadas();
 
     InterfazServicioSugerenciaColocacionHeladeras interfaz =
         this.retrofit.create(InterfazServicioSugerenciaColocacionHeladeras.class);
-    Call<List<Ubicacion>> request = interfaz.sugerencias(
-        coordenadas.longitud(), coordenadas.latitud(), area.radioEnMetros()
+    Call<List<Coordenadas>> request = interfaz.sugerencias(
+        coordenadas.getLongitud(), coordenadas.getLatitud(), area.radioEnMetros()
     );
-    Response<List<Ubicacion>> response = request.execute();
-    @NonNull List<Ubicacion> sugerencias = response.body();
+    Response<List<Coordenadas>> response = request.execute();
 
-    return sugerencias;
+    return response.body();
   }
 }

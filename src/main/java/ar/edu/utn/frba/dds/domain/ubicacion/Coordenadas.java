@@ -1,4 +1,31 @@
 package ar.edu.utn.frba.dds.domain.ubicacion;
 
-public record Coordenadas(double longitud, double latitud) {
+import lombok.Getter;
+import lombok.NonNull;
+
+import java.util.Objects;
+
+public final class Coordenadas {
+  @Getter
+  private final @NonNull Double longitud;
+  @Getter
+  private final @NonNull Double latitud;
+
+  public Coordenadas(@NonNull Double longitud, @NonNull Double latitud) {
+    this.longitud = longitud;
+    this.latitud = latitud;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Coordenadas that = (Coordenadas) o;
+    return Objects.equals(getLongitud(), that.getLongitud()) && Objects.equals(getLatitud(), that.getLatitud());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getLongitud(), getLatitud());
+  }
 }
