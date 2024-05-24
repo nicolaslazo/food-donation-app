@@ -2,10 +2,13 @@ package ar.edu.utn.frba.dds.domain;
 
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-
+@Getter
+@Setter
 public class Heladera {
 
   private String nombre;
@@ -19,6 +22,7 @@ public class Heladera {
   private float ultimaTempRegistrada;
   private float temperaturaDeseada;
   private Colaborador colaboradorACargo;
+  private boolean heladeraActiva;
 
   public Heladera() {
   }
@@ -34,5 +38,19 @@ public class Heladera {
 
   public void alertarMovimiento() {
     // TODO implement here
+  }
+
+  public void analizarEstadoHeladera(){
+    //Si no se encuentra en una temperatura optima, la pone en estado inactiva
+    if(!this.temperaturaOptimaParaFuncionamiento()) {
+      this.heladeraActiva = false;
+    }
+  }
+
+  public boolean temperaturaOptimaParaFuncionamiento(){
+    return
+            (this.temperaturaMaxima > this.ultimaTempRegistrada)
+            &&
+            (this.temperaturaMinima < this.ultimaTempRegistrada);
   }
 }

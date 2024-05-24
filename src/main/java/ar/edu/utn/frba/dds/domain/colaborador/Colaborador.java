@@ -28,6 +28,7 @@ public class Colaborador {
   private final List<Contacto> contactos = new ArrayList<>();
   @Getter
   private final List<Contribucion> contribuciones = new ArrayList<Contribucion>();
+  private double cantidadDePuntos;
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
     this.documento = documento;
