@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{url}/api/sugerencias?latitud=-34.6036152&longitud=-58.381703&radioAreaEnMetros=50",
+					"raw": "https://{url}/api/sugerencias?longitud=-34.6036152&latitud=-58.381703&radioAreaEnMetros=50",
 					"protocol": "https",
 					"host": [
 						"{url}"
@@ -23,11 +23,11 @@
 					],
 					"query": [
 						{
-							"key": "latitud",
+							"key": "longitud",
 							"value": "-34.6036152"
 						},
 						{
-							"key": "longitud",
+							"key": "latitud",
 							"value": "-58.381703"
 						},
 						{
@@ -44,7 +44,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{url}/api/sugerencias?latitud=-34.6036152&longitud=-58.381703&radioAreaEnMetros=50",
+							"raw": "https://{url}/api/sugerencias?longitud=-34.6036152&latitud=-58.381703&radioAreaEnMetros=50",
 							"protocol": "https",
 							"host": [
 								"{url}"
@@ -55,11 +55,11 @@
 							],
 							"query": [
 								{
-									"key": "latitud",
+									"key": "longitud",
 									"value": "-34.6036152"
 								},
 								{
-									"key": "longitud",
+									"key": "latitud",
 									"value": "-58.381703"
 								},
 								{
@@ -78,7 +78,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "[\n    {\n        \"latitud\": -34.6036150,\n        \"longitud\": -58.381700\n    },\n    {\n        \"latitud\": -34.6036200,\n        \"longitud\": -58.381750\n    }\n]"
+					"body": "[\n    {\n        \"longitud\": -34.6036150,\n        \"latitud\": -58.381700\n    },\n    {\n        \"longitud\": -34.6036200,\n        \"latitud\": -58.381750\n    }\n]"
 				}
 			]
 		}
