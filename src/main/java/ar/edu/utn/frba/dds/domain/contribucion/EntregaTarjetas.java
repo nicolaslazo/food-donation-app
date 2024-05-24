@@ -22,4 +22,13 @@ public class EntregaTarjetas extends Contribucion {
     this.fecha = fecha;
     this.tarjetas = tarjetas;
   }
+
+  @Override
+  public String toString() {
+    return "EntregaTarjetas{" +
+        "colaborador=" + colaborador +
+        ", fecha=" + fecha +
+        ", cantidadTarjetas=" + tarjetas.size() +
+        '}';
+  }
 }

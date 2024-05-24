@@ -32,4 +32,13 @@ public class RedistribucionViandas extends Contribucion {
     this.destino = destino;
     this.viandas = viandas;
   }
+
+  @Override
+  public String toString() {
+    return "RedistribucionViandas{" +
+        "colaborador=" + colaborador +
+        ", fecha=" + fecha +
+        ", cantidadViandas=" + viandas.size() +
+        '}';
+  }
 }

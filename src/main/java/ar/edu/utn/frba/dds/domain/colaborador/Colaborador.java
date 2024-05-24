@@ -7,13 +7,11 @@ import ar.edu.utn.frba.dds.domain.documentacion.Documento;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
 public class Colaborador {
@@ -30,7 +28,7 @@ public class Colaborador {
   @Getter
   private final List<Contacto> contactos = new ArrayList<>();
   @Getter
-  private final List<Contribucion> contribuciones = new ArrayList<Contribucion>();
+  private final List<Contribucion> contribuciones = new ArrayList<>();
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
     this.documento = documento;
@@ -69,5 +67,14 @@ public class Colaborador {
             .filter(tipo::isInstance)
             .map(tipo::cast)
             .collect(Collectors.toList());
+  }
+
+  @Override
+  public String toString() {
+    return "Colaborador{" +
+        "documento=" + documento +
+        ", nombre='" + nombre + '\'' +
+        ", apellido='" + apellido + '\'' +
+        '}';
   }
 }
