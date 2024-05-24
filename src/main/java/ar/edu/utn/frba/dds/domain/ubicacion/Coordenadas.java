@@ -1,4 +1,4 @@
 package ar.edu.utn.frba.dds.domain.ubicacion;
 
-public record Coordenadas(float latitud, float longitud) {
+public record Coordenadas(double longitud, double latitud) {
 }
