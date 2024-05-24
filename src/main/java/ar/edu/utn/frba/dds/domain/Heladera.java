@@ -4,12 +4,15 @@ import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 @Getter
 @Setter
 public class Heladera {
+  private static final Logger logger = LoggerFactory.getLogger(Heladera.class);
 
   private String nombre;
   private Ubicacion ubicacion;
@@ -45,10 +48,14 @@ public class Heladera {
     if(!this.temperaturaOptimaParaFuncionamiento()) {
       //Deberiamos de loggear esto para que se sepa que fue por mala temperatura
       this.heladeraActiva = false;
+      logger.warn(
+              "Heladera {} desactivada debido a temperatura no óptima. Última temperatura registrada: {}",
+              nombre, ultimaTempRegistrada);
     }
     //Si la heladera esta en estado desactivado entra al if
     if(!this.heladeraActiva) {
       //TODO deberiamos de notificar este cambio de estado
+      logger.info("Heladera {} está actualmente inactiva.", nombre);
     }
   }
 
@@ -63,7 +70,7 @@ public class Heladera {
   public void alertaMovimientoDetectado() {
     //Entiendo que la alerta se envia al sistema, pero no afecta el estado de activa o no
     //TODO deberia de enviar una alerta al sistema
-
+    logger.info("Alerta de movimiento detectada para la heladera {}.", nombre);
   }
 
 }
