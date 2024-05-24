@@ -17,10 +17,10 @@ public class Heladera {
   private int capacidadEnVianda;
   private ZonedDateTime fechaInstalacion;
   private List<Vianda> viandas;
-  private float temperaturaMinima;
-  private float temperaturaMaxima;
-  private float ultimaTempRegistrada;
-  private float temperaturaDeseada;
+  private double temperaturaMinima;
+  private double temperaturaMaxima;
+  private double ultimaTempRegistrada;
+  private double temperaturaDeseada;
   private Colaborador colaboradorACargo;
   private boolean heladeraActiva;
 
