@@ -41,9 +41,9 @@ public class Colaborador {
     // TODO: Mandar mail de bienvenida cuando el colaborador es creado
   }
 
-  public void agregarContribucion(Contribucion contribucion) {
+  /*public void agregarContribucion(Contribucion contribucion) {
     this.contribuciones.add(contribucion);
-  }
+  }*/
 
   @Override
   public boolean equals(Object o) {

@@ -15,6 +15,10 @@ public class CuidadoHeladera extends Contribucion {
         @Getter
         private List<Heladera> heladeras;
 
-        public CuidadoHeladera(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha) {
-                super(colaborador, fecha);}
+        public CuidadoHeladera(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, ZonedDateTime fechaContribucion, List<Heladera> heladeras) {
+                super(colaborador, fecha);
+                this.fechaContribucion = fechaContribucion;
+                this.heladeras = heladeras;
+        }
+
 }
