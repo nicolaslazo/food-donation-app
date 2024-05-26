@@ -17,7 +17,8 @@ public class CalculadoraDePuntos {
             colaborador.getNumeroViandasDistribuidas() * coeficienteViandasDistribuidas +
             colaborador.getNumeroViandasDonadas() * coeficienteViandasDonadas +
             colaborador.getNumeroTarjetasRepartidas() * coeficienteTarjetasRepartidas +
-            colaborador.getMesesCumulativosCuidadoHeladeras() * coeficienteHeladerasActivas);
+            colaborador.getMesesCumulativosCuidadoHeladeras() * coeficienteHeladerasActivas
+    );
   }
 }
 
