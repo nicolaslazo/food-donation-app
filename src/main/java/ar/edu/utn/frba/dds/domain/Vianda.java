@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.domain;
 
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.domain.heladera.Heladera;
 
 import java.time.ZonedDateTime;
 

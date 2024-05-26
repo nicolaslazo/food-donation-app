@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.colaborador;
 
-import ar.edu.utn.frba.dds.domain.Heladera;
+import ar.edu.utn.frba.dds.domain.heladera.Heladera;
 import ar.edu.utn.frba.dds.domain.contacto.Contacto;
 import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.domain.contribucion.Contribucion;
