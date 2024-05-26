@@ -9,9 +9,13 @@ import java.util.Properties;
 public class ConfigLoader {
   private final Properties properties;
 
-  public ConfigLoader(String nombreDeArchivo) throws IOException {
+  public ConfigLoader(String nombreDeArchivo) {
     properties = new Properties();
-    cargarProperties(nombreDeArchivo);
+    try {
+      cargarProperties(nombreDeArchivo);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void cargarProperties(String nombreDeArchivo) throws IOException {

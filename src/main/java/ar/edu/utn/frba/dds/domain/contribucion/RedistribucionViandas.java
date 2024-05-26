@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.domain.contribucion;
 import ar.edu.utn.frba.dds.domain.Heladera;
 import ar.edu.utn.frba.dds.domain.Vianda;
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
+import lombok.Getter;
 import lombok.NonNull;
 
 import java.time.ZonedDateTime;
@@ -17,6 +18,7 @@ public class RedistribucionViandas extends Contribucion {
   private final Heladera origen;
   private final Heladera destino;
   @NonNull
+  @Getter
   private final List<Vianda> viandas;
 
   public RedistribucionViandas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
@@ -29,5 +31,18 @@ public class RedistribucionViandas extends Contribucion {
     this.origen = origen;
     this.destino = destino;
     this.viandas = viandas;
+  }
+
+  public int getNumeroViandas() {
+    return viandas.size();
+  }
+  
+  @Override
+  public String toString() {
+    return "RedistribucionViandas{" +
+        "colaborador=" + colaborador +
+        ", fecha=" + fecha +
+        ", cantidadViandas=" + viandas.size() +
+        '}';
   }
 }

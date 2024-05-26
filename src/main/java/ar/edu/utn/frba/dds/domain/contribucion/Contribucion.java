@@ -19,4 +19,12 @@ public abstract class Contribucion {
 
     colaborador.getContribuciones().add(this);
   }
+
+  @Override
+  public String toString() {
+    return "Contribucion{" +
+        "colaborador=" + colaborador +
+        ", fecha=" + fecha +
+        '}';
+  }
 }
