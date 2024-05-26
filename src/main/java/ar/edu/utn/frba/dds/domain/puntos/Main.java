@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.domain.contribucion.*;
 import ar.edu.utn.frba.dds.domain.documentacion.Documento;
 import ar.edu.utn.frba.dds.domain.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.domain.utils.FiltradorContribuciones;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -20,9 +21,15 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        FiltradorContribuciones filtrador = FiltradorContribuciones.getInstance();
+
         // Crear un colaborador
         TipoDocumento documento = TipoDocumento.DNI;
-        Colaborador colaborador = new Colaborador(new Documento(documento, 12345678), "Juan", "Perez", new ContactoEmail("juan@example.com"));
+        Colaborador colaborador = new Colaborador(
+                new Documento(documento, 12345678), "Juan", "Perez",
+                new ContactoEmail("juan@example.com"),
+                filtrador
+        );
 
         // Contribuciones de dinero
         Dinero dinero1 = new Dinero(colaborador, ZonedDateTime.now(), 100, 30);

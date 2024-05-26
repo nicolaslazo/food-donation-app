@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.domain.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.domain.documentacion.Documento;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.domain.utils.FiltradorContribuciones;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -31,19 +32,18 @@ public class Colaborador {
   private final List<Contacto> contactos = new ArrayList<>();
   @Getter
   private final List<Contribucion> contribuciones = new ArrayList<Contribucion>();
+  private final FiltradorContribuciones filtrador;
 
-  public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
+  public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail,
+                     FiltradorContribuciones filtrador) {
     this.documento = documento;
     this.nombre = nombre;
     this.apellido = apellido;
     this.contactos.add(mail);
+    this.filtrador = filtrador;
 
     // TODO: Mandar mail de bienvenida cuando el colaborador es creado
   }
-
-  /*public void agregarContribucion(Contribucion contribucion) {
-    this.contribuciones.add(contribucion);
-  }*/
 
   @Override
   public boolean equals(Object o) {
@@ -65,9 +65,6 @@ public class Colaborador {
 
   // Método para filtrar contribuciones por tipo
   public <T extends Contribucion> List<T> filtrarContribucionesPorTipo(Class<T> tipo) {
-    return contribuciones.stream()
-            .filter(tipo::isInstance)
-            .map(tipo::cast)
-            .collect(Collectors.toList());
+    return filtrador.filtrarContribucionesPorTipo(tipo, contribuciones);
   }
 }
