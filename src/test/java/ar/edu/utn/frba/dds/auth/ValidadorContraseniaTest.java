@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ValidadorContraseniaTest {
-
     @Test
     public void testContraseniaCorta()
     {ValidadorDeContrasenia validador = new ValidadorDeContrasenia();
@@ -26,4 +25,12 @@ public class ValidadorContraseniaTest {
     {ValidadorDeContrasenia validador = new ValidadorDeContrasenia();
         assertTrue(validador.validar("contraseniaValida"));}
 
+    @Test
+    public void contraseniaGenerada()
+    {ValidadorDeContrasenia validador = new ValidadorDeContrasenia();
+     GeneradorDeContrasenias generador = new GeneradorDeContrasenias();
+     String contrasenia = generador.generarContrasenias();
+        assertTrue(validador.validar(contrasenia));
+
+    }
 }

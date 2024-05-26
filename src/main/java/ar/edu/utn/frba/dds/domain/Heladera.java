@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
-@Getter
-@Setter
+
 public class Heladera {
   private static final Logger logger = LoggerFactory.getLogger(Heladera.class);
 
@@ -20,12 +20,11 @@ public class Heladera {
   private int capacidadEnVianda;
   private ZonedDateTime fechaInstalacion;
   private List<Vianda> viandas;
-  private double temperaturaMinima;
-  private double temperaturaMaxima;
-  private double ultimaTempRegistrada;
-  private double temperaturaDeseada;
+  private float temperaturaMinima;
+  private float temperaturaMaxima;
+  private float ultimaTempRegistrada;
+  private float temperaturaDeseada;
   private Colaborador colaboradorACargo;
-  private boolean heladeraActiva;
 
   public Heladera() {
   }
@@ -41,6 +40,13 @@ public class Heladera {
 
   public void alertarMovimiento() {
     // TODO implement here
+  }
+
+  public int mesesActiva ()
+  {
+    // TODO: testear
+    if (!isEnAlta()) return 0;  // TODO: Es lo mismo activa que en alta?
+    return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
 
   public void analizarEstadoHeladera(){

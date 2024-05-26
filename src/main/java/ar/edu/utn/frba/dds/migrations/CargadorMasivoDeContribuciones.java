@@ -13,6 +13,7 @@ import lombok.Getter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +54,9 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
   }
 
   private Colaborador crearColaborador(EntradaDeCargaCSV entrada) {
-    Colaborador colaboradorNuevo = new Colaborador(entrada.getDocumento(), entrada.getNombre(), entrada.getApellido(), entrada.getMail());
+    Colaborador colaboradorNuevo = new Colaborador(
+            entrada.getDocumento(), entrada.getNombre(), entrada.getApellido(), entrada.getMail()
+    );
     this.colaboradores.add(colaboradorNuevo);
 
     return colaboradorNuevo;
@@ -71,7 +74,7 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
     final ZonedDateTime fecha = entrada.getFechaDeContribucion();
 
     return switch (entrada.getTipoDeContribucion()) {
-      case "DINERO" -> new Dinero(colaborador, fecha, entrada.getCantidad(), 0);
+      case "DINERO" -> new Dinero(colaborador, fecha, entrada.getCantidad(), null);
       case "DONACION_VIANDAS" -> new DonacionViandas(colaborador, fecha, listaDeNulls(entrada.getCantidad()));
       case "REDISTRIBUCION_VIANDAS" -> new RedistribucionViandas(
           colaborador,
@@ -94,4 +97,23 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
 
     return instanciarContribucion(lecturaNueva, colaborador);
   }
-}
+
+  public static void main(String[] args) {
+    if (args.length != 1) {
+      System.err.println("Por favor, proporcione la ruta del archivo CSV como argumento.");
+      System.exit(1);
+    }
+
+    Path pathArchivoCsv = Paths.get(args[0]);
+
+    try {
+      Iterator<Contribucion> iterator = new CargadorMasivoDeContribuciones(pathArchivoCsv);
+
+      while (iterator.hasNext()) {
+        Contribucion contribucion = iterator.next();
+        System.out.println(contribucion);
+      }
+    } catch (IOException e) {
+      System.err.println("Error al leer el archivo CSV: " + e.getMessage());
+    }
+  }}
