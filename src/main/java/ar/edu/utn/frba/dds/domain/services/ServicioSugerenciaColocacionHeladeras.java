@@ -12,17 +12,9 @@ import java.io.IOException;
 import java.util.List;
 
 public class ServicioSugerenciaColocacionHeladeras {
-  private static final String urlApi;
+  private static final String urlApi = new ConfigLoader("application.properties")
+      .getProperty("servicios.sugerenciasUbicacionDeHeladerasAPI.url");
   private static ServicioSugerenciaColocacionHeladeras instancia = null;
-
-  static {
-    try {
-      urlApi = new ConfigLoader("application.properties")
-          .getProperty("servicios.sugerenciasUbicacionDeHeladerasAPI.url");
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
   private final Retrofit retrofit;
 
