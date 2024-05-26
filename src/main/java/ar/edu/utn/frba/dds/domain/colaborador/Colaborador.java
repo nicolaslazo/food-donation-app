@@ -35,10 +35,6 @@ public class Colaborador {
   private final String apellido;
   private LocalDate fechaNacimiento;
   private Ubicacion ubicacion;
-  @Getter
-  private final List<Contacto> contactos = new ArrayList<>();
-  @Getter
-  private final List<Contribucion> contribuciones = new ArrayList<>();
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
     this.documento = documento;
