@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.contribucion;
 
-import ar.edu.utn.frba.dds.domain.Heladera;
+import ar.edu.utn.frba.dds.domain.heladera.Heladera;
 import ar.edu.utn.frba.dds.domain.Vianda;
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 import lombok.Getter;

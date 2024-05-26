@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.domain.recompensas;
 
 import ar.edu.utn.frba.dds.TarjetaAlimentaria;
-import ar.edu.utn.frba.dds.domain.Heladera;
+import ar.edu.utn.frba.dds.domain.heladera.Heladera;
 import ar.edu.utn.frba.dds.domain.PersonaVulnerable;
 import ar.edu.utn.frba.dds.domain.Vianda;
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;

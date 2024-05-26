@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.colaborador;
 
-import ar.edu.utn.frba.dds.domain.Heladera;
+import ar.edu.utn.frba.dds.domain.heladera.Heladera;
 import ar.edu.utn.frba.dds.domain.contacto.Contacto;
 import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.domain.contribucion.Contribucion;
@@ -23,18 +23,18 @@ import java.util.stream.Collectors;
 public class Colaborador {
   @Getter
   private final Documento documento;
+  @NonNull
+  @Getter
+  private String nombre;
+  @NonNull
+  @Getter
+  private String apellido;
+  private LocalDate fechaNacimiento;
+  private Ubicacion ubicacion;
   @Getter
   private final List<Contacto> contactos = new ArrayList<>();
   @Getter
   private final List<Contribucion> contribuciones = new ArrayList<Contribucion>();
-  @NonNull
-  @Getter
-  private final String nombre;
-  @NonNull
-  @Getter
-  private final String apellido;
-  private LocalDate fechaNacimiento;
-  private Ubicacion ubicacion;
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
     this.documento = documento;
@@ -87,6 +87,11 @@ public class Colaborador {
   @Override
   public int hashCode() {
     return Objects.hash(getDocumento());
+  }
+
+  public TipoColaborador getTipoColaborador() {
+    if (documento != null) return TipoColaborador.HUMANO;
+    return TipoColaborador.JURIDICO;
   }
 
   @Override

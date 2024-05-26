@@ -17,6 +17,9 @@ public class OfertaRecompensa extends Contribucion {
   private final RubroRecompensa rubro;
   @NonNull
   private final int costoEnPuntos;
+
+  private int cantidadOfertas;
+
   private URL imagen;
 
   public OfertaRecompensa(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, @NonNull String nombre,
@@ -29,5 +32,7 @@ public class OfertaRecompensa extends Contribucion {
     this.costoEnPuntos = costoEnPuntos;
     this.imagen = imagen;
   }
+
+  
 }
 
