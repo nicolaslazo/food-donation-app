@@ -101,4 +101,5 @@ public class Colaborador {
         ", nombre='" + nombre + '\'' +
         ", apellido='" + apellido + '\'' +
         '}';
+  }
 }
