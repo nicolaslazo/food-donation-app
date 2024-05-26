@@ -63,7 +63,7 @@ public class Heladera {
 
   public int mesesActiva() {
     // TODO: testear
-    if (!isEnAlta()) return 0;  // TODO: Es lo mismo activa que en alta?
+    if (getEstado() == EstadoDeFuncionamiento.EN_FALLA) return 0;
     return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
 }
