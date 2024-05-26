@@ -36,4 +36,13 @@ public class RedistribucionViandas extends Contribucion {
   public int getNumeroViandas() {
     return viandas.size();
   }
+  
+  @Override
+  public String toString() {
+    return "RedistribucionViandas{" +
+        "colaborador=" + colaborador +
+        ", fecha=" + fecha +
+        ", cantidadViandas=" + viandas.size() +
+        '}';
+  }
 }

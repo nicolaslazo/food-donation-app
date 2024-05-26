@@ -26,4 +26,13 @@ public class EntregaTarjetas extends Contribucion {
   public int getNumeroTarjetas() {
     return tarjetas.size();
   }
+    
+  @Override
+  public String toString() {
+    return "EntregaTarjetas{" +
+        "colaborador=" + colaborador +
+        ", fecha=" + fecha +
+        ", cantidadTarjetas=" + tarjetas.size() +
+        '}';
+  }
 }
