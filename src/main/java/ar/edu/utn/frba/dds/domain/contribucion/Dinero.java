@@ -14,13 +14,22 @@ public class Dinero extends Contribucion {
   @NonNull
   @Getter
   private final float monto;
-  private final int frecuenciaEnDias;
+  private final Integer frecuenciaEnDias;
 
-  public Dinero(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, @NonNull float monto, int frecuenciaEnDias) {
+  public Dinero(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, @NonNull float monto, Integer frecuenciaEnDias) {
     super(colaborador, fecha);
     this.colaborador = colaborador;
     this.fecha = fecha;
     this.monto = monto;
     this.frecuenciaEnDias = frecuenciaEnDias;
+  }
+
+  @Override
+  public String toString() {
+    return "Dinero{" +
+        "colaborador=" + colaborador +
+        ", fecha=" + fecha +
+        ", monto=" + monto +
+        '}';
   }
 }

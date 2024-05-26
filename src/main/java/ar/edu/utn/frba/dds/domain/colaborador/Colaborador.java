@@ -1,8 +1,14 @@
 package ar.edu.utn.frba.dds.domain.colaborador;
 
+import ar.edu.utn.frba.dds.domain.Heladera;
 import ar.edu.utn.frba.dds.domain.contacto.Contacto;
 import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.domain.contribucion.Contribucion;
+import ar.edu.utn.frba.dds.domain.contribucion.CuidadoHeladera;
+import ar.edu.utn.frba.dds.domain.contribucion.Dinero;
+import ar.edu.utn.frba.dds.domain.contribucion.DonacionViandas;
+import ar.edu.utn.frba.dds.domain.contribucion.EntregaTarjetas;
+import ar.edu.utn.frba.dds.domain.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.domain.documentacion.Documento;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 import lombok.Getter;
@@ -17,20 +23,20 @@ import java.util.stream.Collectors;
 public class Colaborador {
   @Getter
   private final Documento documento;
-  @NonNull
-  @Getter
-  private String nombre;
-  @NonNull
-  @Getter
-  private String apellido;
-  private LocalDate fechaNacimiento;
-  private Ubicacion ubicacion;
   @Getter
   private final List<Contacto> contactos = new ArrayList<>();
   @Getter
   private double cantidadDePuntos;
   @Getter
   private final List<Contribucion> contribuciones = new ArrayList<Contribucion>();
+  @NonNull
+  @Getter
+  private final String nombre;
+  @NonNull
+  @Getter
+  private final String apellido;
+  private LocalDate fechaNacimiento;
+  private Ubicacion ubicacion;
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
     this.documento = documento;
@@ -41,8 +47,35 @@ public class Colaborador {
     // TODO: Mandar mail de bienvenida cuando el colaborador es creado
   }
 
-  public void agregarContribucion(Contribucion contribucion) {
-    this.contribuciones.add(contribucion);
+  public <T extends Contribucion> List<T> getContribuciones(Class<T> tipo) {
+    return contribuciones.stream()
+        .filter(tipo::isInstance)
+        .map(tipo::cast)
+        .collect(Collectors.toList());
+  }
+
+  public float getDineroDonado() {
+    return getContribuciones(Dinero.class).stream().map(Dinero::getMonto).reduce(0f, Float::sum);
+  }
+
+  public int getNumeroViandasDistribuidas() {
+    return getContribuciones(RedistribucionViandas.class).stream().mapToInt(RedistribucionViandas::getNumeroViandas).sum();
+  }
+
+  public int getNumeroViandasDonadas() {
+    return getContribuciones(DonacionViandas.class).stream().mapToInt(DonacionViandas::getNumeroViandas).sum();
+  }
+
+  public int getNumeroTarjetasRepartidas() {
+    return getContribuciones(EntregaTarjetas.class).stream().mapToInt(EntregaTarjetas::getNumeroTarjetas).sum();
+  }
+
+  public int getMesesCumulativosCuidadoHeladeras() {
+    return getContribuciones(CuidadoHeladera.class)
+        .stream()
+        .map(CuidadoHeladera::getHeladera)
+        .mapToInt(Heladera::mesesActiva)
+        .sum();
   }
 
   @Override
@@ -58,17 +91,13 @@ public class Colaborador {
     return Objects.hash(getDocumento());
   }
 
-  public TipoColaborador getTipoColaborador() {
-    if (documento != null) return TipoColaborador.HUMANO;
-    return TipoColaborador.JURIDICO;
-  }
-
-  // Método para filtrar contribuciones por tipo
-  public <T extends Contribucion> List<T> filtrarContribucionesPorTipo(Class<T> tipo) {
-    return contribuciones.stream()
-            .filter(tipo::isInstance)
-            .map(tipo::cast)
-            .collect(Collectors.toList());
+  @Override
+  public String toString() {
+    return "Colaborador{" +
+        "documento=" + documento +
+        ", nombre='" + nombre + '\'' +
+        ", apellido='" + apellido + '\'' +
+        '}';
   }
   public void actualizarPuntos(double monto) {
     this.cantidadDePuntos=-monto;
