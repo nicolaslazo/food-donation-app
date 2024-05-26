@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.domain;
 
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.domain.documentacion.Documento;
+import ar.edu.utn.frba.dds.domain.heladera.Heladera;
 import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 import lombok.NonNull;
 import lombok.Setter;
