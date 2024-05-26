@@ -1,0 +1,86 @@
+{
+	"info": {
+		"_postman_id": "a86fc9d6-a8d2-4c00-8559-56d56e33eda3",
+		"name": "API Mock DDS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35124886"
+	},
+	"item": [
+		{
+			"name": "Sugerir posiciones de heladeras alrededor del obelisco",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{url}/api/sugerencias?longitud=-34.6036152&latitud=-58.381703&radioAreaEnMetros=50",
+					"protocol": "https",
+					"host": [
+						"{url}"
+					],
+					"path": [
+						"api",
+						"sugerencias"
+					],
+					"query": [
+						{
+							"key": "longitud",
+							"value": "-34.6036152"
+						},
+						{
+							"key": "latitud",
+							"value": "-58.381703"
+						},
+						{
+							"key": "radioAreaEnMetros",
+							"value": "50"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sugerir posiciones de heladeras alrededor del obelisco",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{url}/api/sugerencias?longitud=-34.6036152&latitud=-58.381703&radioAreaEnMetros=50",
+							"protocol": "https",
+							"host": [
+								"{url}"
+							],
+							"path": [
+								"api",
+								"sugerencias"
+							],
+							"query": [
+								{
+									"key": "longitud",
+									"value": "-34.6036152"
+								},
+								{
+									"key": "latitud",
+									"value": "-58.381703"
+								},
+								{
+									"key": "radioAreaEnMetros",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": ""
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"longitud\": -34.6036150,\n        \"latitud\": -58.381700\n    },\n    {\n        \"longitud\": -34.6036200,\n        \"latitud\": -58.381750\n    }\n]"
+				}
+			]
+		}
+	]
+}
