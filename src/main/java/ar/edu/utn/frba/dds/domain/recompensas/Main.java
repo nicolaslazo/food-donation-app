@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.domain.puntos;
+package ar.edu.utn.frba.dds.domain.recompensas;
 
 import ar.edu.utn.frba.dds.TarjetaAlimentaria;
 import ar.edu.utn.frba.dds.domain.Heladera;
@@ -9,21 +9,22 @@ import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.domain.contribucion.*;
 import ar.edu.utn.frba.dds.domain.documentacion.Documento;
 import ar.edu.utn.frba.dds.domain.documentacion.TipoDocumento;
-import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
+        // TODO: convertir en un test
         // Crear un colaborador
         TipoDocumento documento = TipoDocumento.DNI;
-        Colaborador colaborador = new Colaborador(new Documento(documento, 12345678), "Juan", "Perez", new ContactoEmail("juan@example.com"));
+        Colaborador colaborador = new Colaborador(
+                new Documento(documento, 12345678), "Juan", "Perez",
+                new ContactoEmail("juan@example.com")
+        );
 
         // Contribuciones de dinero
         Dinero dinero1 = new Dinero(colaborador, ZonedDateTime.now(), 100, 30);

@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.domain.ubicacion.Ubicacion;
 import lombok.Getter;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class Heladera {
@@ -42,14 +43,8 @@ public class Heladera {
 
   public int mesesActiva ()
   {
-    ZonedDateTime fechaActual  = ZonedDateTime.now();
-
-    int anioInstalacion = fechaInstalacion.getYear();
-    int mesInstalacion = fechaInstalacion.getMonthValue();
-
-    int anioActual = fechaActual.getYear();
-    int mesActual = fechaActual.getMonthValue();
-
-    return (anioActual - anioInstalacion) * 12 + (mesActual - mesInstalacion);
+    // TODO: testear
+    if (!isEnAlta()) return 0;  // TODO: Es lo mismo activa que en alta?
+    return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
 }
