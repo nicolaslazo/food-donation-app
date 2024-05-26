@@ -53,7 +53,9 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
   }
 
   private Colaborador crearColaborador(EntradaDeCargaCSV entrada) {
-    Colaborador colaboradorNuevo = new Colaborador(entrada.getDocumento(), entrada.getNombre(), entrada.getApellido(), entrada.getMail());
+    Colaborador colaboradorNuevo = new Colaborador(
+            entrada.getDocumento(), entrada.getNombre(), entrada.getApellido(), entrada.getMail()
+    );
     this.colaboradores.add(colaboradorNuevo);
 
     return colaboradorNuevo;
