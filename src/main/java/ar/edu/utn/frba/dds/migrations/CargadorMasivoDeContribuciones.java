@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.domain.contribucion.Dinero;
 import ar.edu.utn.frba.dds.domain.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.domain.contribucion.EntregaTarjetas;
 import ar.edu.utn.frba.dds.domain.contribucion.RedistribucionViandas;
-import ar.edu.utn.frba.dds.domain.utils.FiltradorContribuciones;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.Getter;
@@ -54,12 +53,8 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
   }
 
   private Colaborador crearColaborador(EntradaDeCargaCSV entrada) {
-    //Agregue esto para los test
-    FiltradorContribuciones filtrador = FiltradorContribuciones.getInstance();
-
     Colaborador colaboradorNuevo = new Colaborador(
-            entrada.getDocumento(), entrada.getNombre(), entrada.getApellido(), entrada.getMail(),
-            filtrador
+            entrada.getDocumento(), entrada.getNombre(), entrada.getApellido(), entrada.getMail()
     );
     this.colaboradores.add(colaboradorNuevo);
 

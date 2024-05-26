@@ -23,4 +23,8 @@ public class DonacionViandas extends Contribucion {
     this.fecha = fecha;
     this.viandas = viandas;
   }
+
+  public int getNumeroViandas() {
+    return viandas.size();
+  }
 }

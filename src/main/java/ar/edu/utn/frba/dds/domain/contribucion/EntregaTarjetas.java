@@ -22,4 +22,8 @@ public class EntregaTarjetas extends Contribucion {
     this.fecha = fecha;
     this.tarjetas = tarjetas;
   }
+
+  public int getNumeroTarjetas() {
+    return tarjetas.size();
+  }
 }

@@ -32,4 +32,8 @@ public class RedistribucionViandas extends Contribucion {
     this.destino = destino;
     this.viandas = viandas;
   }
+
+  public int getNumeroViandas() {
+    return viandas.size();
+  }
 }
