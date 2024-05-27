@@ -31,7 +31,7 @@ public class EnviadorDeMails {
 
   private void inicializarCorreo() {
     mailProperties = new Properties();
-    try (InputStream input = getClass().getClassLoader().getResourceAsStream("configuraciones/servidormail.properties")) {
+    try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
       if (input == null) {
         System.out.println("Lo sentimos, no se pudo encontrar el archivo de configuración.");
         return;
