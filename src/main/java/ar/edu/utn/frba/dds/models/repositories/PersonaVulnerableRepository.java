@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PersonaVulnerableRepository {
+public class PersonaVulnerableRepository implements IPersonaVulnerableRepository {
 
   private final List<PersonaVulnerable> personasVulnerables;
 
