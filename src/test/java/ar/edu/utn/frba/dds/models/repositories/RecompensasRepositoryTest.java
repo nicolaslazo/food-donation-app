@@ -1,0 +1,75 @@
+package ar.edu.utn.frba.dds.models.repositories;
+
+import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
+import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+class RecompensasRepositoryTest {
+  RecompensasRepository repositorio;
+  Recompensa recompensaDummy;
+
+  @BeforeEach
+  void setUp() {
+    repositorio = new RecompensasRepository();
+    recompensaDummy = new Recompensa(
+        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
+    );
+  }
+
+  @Test
+  void repositorioSeInstancia() {
+    assertInstanceOf(RecompensasRepository.class, repositorio);
+  }
+
+  @Test
+  void insertaRecompensasSinFallar() {
+    assertDoesNotThrow(() -> repositorio.insert(recompensaDummy));
+  }
+
+  @Test
+  void insertSeteaIdEnRecompensa() {
+    assertNotEquals(recompensaDummy.getId(), 1);
+
+    repositorio.insert(recompensaDummy);
+
+    assertEquals(recompensaDummy.getId(), 1);
+  }
+
+  @Test
+  void getRetornaRecompensaPorId() {
+    Recompensa otraRecompensa = new Recompensa(
+        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
+    );
+    Recompensa otraRecompensaMas = new Recompensa(
+        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
+    );
+
+    repositorio.insert(recompensaDummy);
+    repositorio.insert(otraRecompensa);
+    repositorio.insert(otraRecompensaMas);
+
+    assertEquals(repositorio.get(2).orElse(null), otraRecompensa);
+  }
+
+  @Test
+  void getTodosRetornaTodosLosContenidos() {
+    Recompensa otraRecompensa = new Recompensa(
+        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
+    );
+    Recompensa otraRecompensaMas = new Recompensa(
+        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
+    );
+
+    repositorio.insert(recompensaDummy);
+    repositorio.insert(otraRecompensa);
+    repositorio.insert(otraRecompensaMas);
+
+    assertEquals(repositorio.getTodos().size(), 3);
+  }
+}
