@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.models.entities;
 import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
 import ar.edu.utn.frba.dds.models.repositories.IPersonaVulnerableRepository;
 import ar.edu.utn.frba.dds.models.repositories.ITarjetasAlimentariasRepository;
-import ar.edu.utn.frba.dds.models.repositories.PersonaVulnerableRepository;
 
 public class CargadorPersonasVulnerables {
     ITarjetasAlimentariasRepository itarjetasAlimentarias;
@@ -15,7 +14,7 @@ public class CargadorPersonasVulnerables {
     }
 
     public void cargarPersonasVulnerables(EntregaTarjetas entrega) {
-        for(TarjetaAlimentaria tarjetaAlimentaria : entrega.getTarjetasRepartidas()){
+        for( TarjetaAlimentaria tarjetaAlimentaria : entrega.getTarjetasRepartidas() ){
             itarjetasAlimentarias.insert(tarjetaAlimentaria);
             PersonaVulnerable personaVulnerable = tarjetaAlimentaria.recipiente();
             ipersonaVulnerable.insert(personaVulnerable);

@@ -33,14 +33,15 @@ public class PersonaVulnerable {
 
   public PersonaVulnerable(@NonNull Documento documento, @NonNull Colaborador reclutador, @NonNull String nombre,
                            @NonNull String apellido, ZonedDateTime fechaNacimiento,
-                           @NonNull ZonedDateTime fechaRegistrada /*Ubicacion ubicacion*/, @NonNull int menoresACargo) {
+                           @NonNull ZonedDateTime fechaRegistrada, Ubicacion ubicacion,
+                           @NonNull int menoresACargo) {
     this.documento = documento;
     this.reclutador = reclutador;
     this.nombre = nombre;
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
     this.fechaRegistrada = fechaRegistrada;
-    //this.ubicacion = ubicacion;
+    this.ubicacion = ubicacion;
     this.menoresACargo = menoresACargo;
   }
 
