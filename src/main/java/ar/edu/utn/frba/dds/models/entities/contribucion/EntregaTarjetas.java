@@ -16,21 +16,17 @@ public class EntregaTarjetas extends Contribucion {
   @NonNull
   private final ZonedDateTime fecha;
   @Getter
-  private final PersonaVulnerable personaVulnerable;
-  private final List<TarjetaAlimentaria> tarjetas;
+  private List<TarjetaAlimentaria> tarjetasRepartidas;
+
 
   private String idTarjeta;
 
   public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
-                         PersonaVulnerable personaVulnerable,
-                         PersonaVulnerableRepository personasRepository, List<TarjetaAlimentaria> tarjetas) {
+                         @NonNull List<TarjetaAlimentaria> tarjetaAlimentarias) {
     super(colaborador, fecha);
     this.colaborador = colaborador;
     this.fecha = fecha;
-    this.personaVulnerable = personaVulnerable;
-    this.tarjetas = tarjetas;
-    personasRepository.insert(personaVulnerable);
-    TarjetaAlimentaria tarjeta = new TarjetaAlimentaria(idTarjeta, personaVulnerable, colaborador);
+    this.tarjetasRepartidas = tarjetaAlimentarias;
   }
 
   @Override
@@ -42,6 +38,8 @@ public class EntregaTarjetas extends Contribucion {
   }
 
   public int getNumeroTarjetas() {
-    return tarjetas.size();
+    return tarjetasRepartidas.size();
   }
+
+
 }
