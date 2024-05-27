@@ -37,5 +37,4 @@ public class TecnicoRepository implements ITecnicoRepository {
     }
 
 
-
 }

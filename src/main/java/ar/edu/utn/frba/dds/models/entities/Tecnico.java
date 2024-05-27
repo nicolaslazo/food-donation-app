@@ -18,6 +18,7 @@ public class Tecnico {
   private List<Contacto> contactos;
   private AreaGeografica areaAsignada;
 
-  public Tecnico() {
+  public Tecnico(String cuil) {
+    this.cuil = cuil;
   }
 }
