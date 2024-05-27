@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.migrations;
 
-import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
-import ar.edu.utn.frba.dds.domain.contribucion.Contribucion;
-import ar.edu.utn.frba.dds.domain.contribucion.Dinero;
-import ar.edu.utn.frba.dds.domain.documentacion.TipoDocumento;
+import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contacto.ContactoEmail;
+import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
+import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

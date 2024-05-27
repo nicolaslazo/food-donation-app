@@ -1,11 +1,11 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
-import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.domain.documentacion.Documento;
-import ar.edu.utn.frba.dds.domain.recompensas.CalculadoraDePuntos;
-import ar.edu.utn.frba.dds.domain.recompensas.Canjeo;
-import ar.edu.utn.frba.dds.domain.recompensas.ExcepcionDeCanjeDePuntos;
-import ar.edu.utn.frba.dds.domain.recompensas.Recompensa;
+import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.recompensas.CalculadoraDePuntos;
+import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
+import ar.edu.utn.frba.dds.models.entities.recompensas.ExcepcionDeCanjeDePuntos;
+import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 
 import java.util.ArrayList;
 import java.util.List;

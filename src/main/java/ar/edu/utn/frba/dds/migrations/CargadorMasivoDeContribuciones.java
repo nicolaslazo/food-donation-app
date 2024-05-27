@@ -1,11 +1,11 @@
 package ar.edu.utn.frba.dds.migrations;
 
-import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.domain.contribucion.Contribucion;
-import ar.edu.utn.frba.dds.domain.contribucion.Dinero;
-import ar.edu.utn.frba.dds.domain.contribucion.DonacionViandas;
-import ar.edu.utn.frba.dds.domain.contribucion.EntregaTarjetas;
-import ar.edu.utn.frba.dds.domain.contribucion.RedistribucionViandas;
+import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
+import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
+import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
+import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
+import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.Getter;

@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.migrations;
 
-import ar.edu.utn.frba.dds.domain.contacto.ContactoEmail;
-import ar.edu.utn.frba.dds.domain.documentacion.Documento;
-import ar.edu.utn.frba.dds.domain.documentacion.TipoDocumento;
+import ar.edu.utn.frba.dds.models.entities.contacto.ContactoEmail;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
 import com.opencsv.bean.CsvDate;

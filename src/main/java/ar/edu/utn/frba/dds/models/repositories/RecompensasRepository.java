@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
-import ar.edu.utn.frba.dds.domain.recompensas.Recompensa;
+import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 
 import java.util.ArrayList;
 import java.util.List;
