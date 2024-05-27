@@ -21,11 +21,11 @@ public class Recompensa {
   private final int stockInicial;
   private final URL imagen;
 
-  public Recompensa(@NonNull String nombre, @NonNull RubroRecompensa rubro, double costoEnPuntos, int stock, URL imagen) {
+  public Recompensa(@NonNull String nombre, @NonNull RubroRecompensa rubro, double costoEnPuntos, int stockInicial, URL imagen) {
     this.costoEnPuntos = costoEnPuntos;
     this.nombre = nombre;
     this.rubro = rubro;
-    this.stockInicial = stock;
+    this.stockInicial = stockInicial;
     this.imagen = imagen;
   }
 }
