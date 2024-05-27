@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.models.entities.colaborador;
 
+import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
+import ar.edu.utn.frba.dds.email.EnviadorDeMails;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
@@ -44,7 +46,9 @@ public class Colaborador {
     this.apellido = apellido;
     this.contactos.add(mail);
 
-    // TODO: Mandar mail de bienvenida cuando el colaborador es creado
+    String contraseniaTemporaria = GeneradorDeContrasenias.generarContrasenia();
+    EnviadorDeMails enviadorDeMails = new EnviadorDeMails();
+    enviadorDeMails.enviarMail(mail.getEmail(), contraseniaTemporaria);
   }
 
   public <T extends Contribucion> List<T> getContribuciones(Class<T> tipo) {
