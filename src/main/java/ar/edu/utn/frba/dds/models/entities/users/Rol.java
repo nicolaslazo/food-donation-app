@@ -1,6 +1,5 @@
-package ar.edu.utn.frba.dds.models.entities;
+package ar.edu.utn.frba.dds.models.entities.users;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class Rol {

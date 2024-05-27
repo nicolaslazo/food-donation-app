@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
-import ar.edu.utn.frba.dds.models.entities.Permiso;
+import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 
 import java.util.ArrayList;
 import java.util.List;
