@@ -1,18 +1,20 @@
 package ar.edu.utn.frba.dds.email;
 
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
-import jakarta.mail.*;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Properties;
 
 public class EnviadorDeMails {
   // Configuración de correo electrónico
@@ -22,6 +24,7 @@ public class EnviadorDeMails {
   private static final String filePathPlantilla = "src/main/resources/email/plantilla-cuenta-nueva.html";
 
   private Properties mailProperties;
+
   public EnviadorDeMails() {
     inicializarCorreo();
   }
@@ -38,6 +41,7 @@ public class EnviadorDeMails {
       ex.printStackTrace();
     }
   }
+
   private void inicializarMailProperties() {
     mailProperties.put("mail.smtp.host", mailProperties.getProperty("mail.smtp.host"));
     mailProperties.put("mail.smtp.port", mailProperties.getProperty("mail.smtp.port"));
@@ -58,7 +62,7 @@ public class EnviadorDeMails {
       message.setSubject(asunto);
       String htmlContent;
       try {
-        htmlContent = new String(Files.readAllBytes(Paths.get(filePathPlantilla)), StandardCharsets.UTF_8);
+        htmlContent = Files.readString(Paths.get(filePathPlantilla));
       } catch (IOException e) {
         System.out.println("Error al leer el archivo: " + e.getMessage());
         return;

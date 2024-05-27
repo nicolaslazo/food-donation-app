@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.models.entities.colaborador;
 
-import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
@@ -10,6 +9,7 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import lombok.Getter;
 import lombok.NonNull;
@@ -23,6 +23,10 @@ import java.util.stream.Collectors;
 public class Colaborador {
   @Getter
   private final Documento documento;
+  @Getter
+  private final List<Contacto> contactos = new ArrayList<>();
+  @Getter
+  private final List<Contribucion> contribuciones = new ArrayList<>();
   @NonNull
   @Getter
   private String nombre;
@@ -32,11 +36,7 @@ public class Colaborador {
   private LocalDate fechaNacimiento;
   private Ubicacion ubicacion;
   @Getter
-  private final List<Contacto> contactos = new ArrayList<>();
-  @Getter
   private double cantidadDePuntos;
-  @Getter
-  private final List<Contribucion> contribuciones = new ArrayList<Contribucion>();
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
     this.documento = documento;
@@ -104,7 +104,4 @@ public class Colaborador {
         ", apellido='" + apellido + '\'' +
         '}';
   }
-  public void actualizarPuntos(double monto) {
-    this.cantidadDePuntos=-monto;
-  };
 }

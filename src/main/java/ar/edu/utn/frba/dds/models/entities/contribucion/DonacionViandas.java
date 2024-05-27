@@ -27,7 +27,7 @@ public class DonacionViandas extends Contribucion {
   public int getNumeroViandas() {
     return viandas.size();
   }
-    
+
   @Override
   public String toString() {
     return "DonacionViandas{" +

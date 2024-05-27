@@ -1,27 +1,32 @@
 package ar.edu.utn.frba.dds.auth;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class GeneradorContraseniaTest {
 
-    @Test
-    public void testGeneraContrasenia() {
-      GeneradorDeContrasenias generador = new GeneradorDeContrasenias();
-      String contrasenia = generador.generarContrasenias();
-
-      // Verifica que la contraseña no sea nula
-      assertNotNull(contrasenia, "La contraseña generada no debe ser nula");}
-
   @Test
-      public void testLongitudContrasenia(){
-      GeneradorDeContrasenias generador = new GeneradorDeContrasenias();
-      String contrasenia = generador.generarContrasenias();
-     assertEquals(12, contrasenia.length(), "La longitud de la contraseña debe ser 12");
+  public void testGeneraContrasenia() {
+    GeneradorDeContrasenias generador = new GeneradorDeContrasenias();
+    String contrasenia = generador.generarContrasenias();
+
+    // Verifica que la contraseña no sea nula
+    assertNotNull(contrasenia, "La contraseña generada no debe ser nula");
   }
 
   @Test
-  public void testContieneMinusculas(){
+  public void testLongitudContrasenia() {
+    GeneradorDeContrasenias generador = new GeneradorDeContrasenias();
+    String contrasenia = generador.generarContrasenias();
+    assertEquals(12, contrasenia.length(), "La longitud de la contraseña debe ser 12");
+  }
+
+  @Test
+  public void testContieneMinusculas() {
     GeneradorDeContrasenias generador = new GeneradorDeContrasenias();
     String contrasenia = generador.generarContrasenias();
     assertTrue(contrasenia.chars().anyMatch(Character::isLowerCase),
@@ -29,7 +34,7 @@ public class GeneradorContraseniaTest {
   }
 
   @Test
-  public void testContieneMayusculas(){
+  public void testContieneMayusculas() {
     GeneradorDeContrasenias generador = new GeneradorDeContrasenias();
     String contrasenia = generador.generarContrasenias();
     assertTrue(contrasenia.chars().anyMatch(Character::isUpperCase),

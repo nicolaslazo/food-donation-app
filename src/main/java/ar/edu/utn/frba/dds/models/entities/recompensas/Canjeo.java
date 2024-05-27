@@ -8,13 +8,13 @@ import java.time.ZonedDateTime;
 
 public final class Canjeo {
   @Getter
-  @Setter
-  private int id;
-  @Getter
   private final Colaborador colaborador;
   @Getter
   private final Recompensa recompensa;
   private final ZonedDateTime fecha;
+  @Getter
+  @Setter
+  private int id;
 
   public Canjeo(Colaborador colaborador, Recompensa recompensa, ZonedDateTime fecha) {
     this.colaborador = colaborador;

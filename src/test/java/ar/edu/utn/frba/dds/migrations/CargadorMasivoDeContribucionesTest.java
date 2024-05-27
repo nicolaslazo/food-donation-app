@@ -59,7 +59,7 @@ class CargadorMasivoDeContribucionesTest {
         () -> assertEquals("Juan", colaborador.getNombre()),
         () -> assertEquals("Pérez", colaborador.getApellido()),
         () -> {
-          ContactoEmail email = (ContactoEmail) colaborador.getContactos().stream().findFirst().get();
+          ContactoEmail email = (ContactoEmail) colaborador.getContactos().stream().findFirst().orElse(null);
           assertEquals(
               "jperez@example.com",
               email.destinatario()

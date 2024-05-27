@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class RecompensasRepository {
-  private List<Recompensa> recompensas;
+  private final List<Recompensa> recompensas;
 
   public RecompensasRepository() {
     recompensas = new ArrayList<>();
   }
+
   public Optional<Recompensa> get(int id) {
     return recompensas
         .stream()

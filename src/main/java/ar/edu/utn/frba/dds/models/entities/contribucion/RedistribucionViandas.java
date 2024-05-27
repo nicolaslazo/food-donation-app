@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.models.entities.contribucion;
 
-import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -36,7 +36,7 @@ public class RedistribucionViandas extends Contribucion {
   public int getNumeroViandas() {
     return viandas.size();
   }
-  
+
   @Override
   public String toString() {
     return "RedistribucionViandas{" +

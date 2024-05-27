@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CanjeosRepository {
-  private List<Canjeo> canjeos;
+  private final List<Canjeo> canjeos;
 
   public CanjeosRepository() {
     canjeos = new ArrayList<>();

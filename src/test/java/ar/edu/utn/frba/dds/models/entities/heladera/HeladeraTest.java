@@ -2,8 +2,6 @@ package ar.edu.utn.frba.dds.models.entities.heladera;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class HeladeraTest {
   @Test
   public void heladeraDeBajaNoTieneMesesActiva() {

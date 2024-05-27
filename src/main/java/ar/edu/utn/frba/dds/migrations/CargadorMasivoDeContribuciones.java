@@ -44,8 +44,28 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
     }
   }
 
-  private static List listaDeNulls(int cantidad) {
-    return new ArrayList(Collections.nCopies(cantidad, null));
+  private static <T> List<T> listaDeNulls(int cantidad) {
+    return new ArrayList<>(Collections.nCopies(cantidad, null));
+  }
+
+  public static void main(String[] args) {
+    if (args.length != 1) {
+      System.err.println("Por favor, proporcione la ruta del archivo CSV como argumento.");
+      System.exit(1);
+    }
+
+    Path pathArchivoCsv = Paths.get(args[0]);
+
+    try {
+      Iterator<Contribucion> iterator = new CargadorMasivoDeContribuciones(pathArchivoCsv);
+
+      while (iterator.hasNext()) {
+        Contribucion contribucion = iterator.next();
+        System.out.println(contribucion);
+      }
+    } catch (IOException e) {
+      System.err.println("Error al leer el archivo CSV: " + e.getMessage());
+    }
   }
 
   @Override
@@ -55,7 +75,7 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
 
   private Colaborador crearColaborador(EntradaDeCargaCSV entrada) {
     Colaborador colaboradorNuevo = new Colaborador(
-            entrada.getDocumento(), entrada.getNombre(), entrada.getApellido(), entrada.getMail()
+        entrada.getDocumento(), entrada.getNombre(), entrada.getApellido(), entrada.getMail()
     );
     this.colaboradores.add(colaboradorNuevo);
 
@@ -97,23 +117,4 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
 
     return instanciarContribucion(lecturaNueva, colaborador);
   }
-
-  public static void main(String[] args) {
-    if (args.length != 1) {
-      System.err.println("Por favor, proporcione la ruta del archivo CSV como argumento.");
-      System.exit(1);
-    }
-
-    Path pathArchivoCsv = Paths.get(args[0]);
-
-    try {
-      Iterator<Contribucion> iterator = new CargadorMasivoDeContribuciones(pathArchivoCsv);
-
-      while (iterator.hasNext()) {
-        Contribucion contribucion = iterator.next();
-        System.out.println(contribucion);
-      }
-    } catch (IOException e) {
-      System.err.println("Error al leer el archivo CSV: " + e.getMessage());
-    }
-  }}
+}
