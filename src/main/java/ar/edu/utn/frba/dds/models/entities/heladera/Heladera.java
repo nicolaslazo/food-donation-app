@@ -3,28 +3,45 @@ package ar.edu.utn.frba.dds.models.entities.heladera;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import lombok.NonNull;
 
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Heladera {
   private final float temperaturaMinimaCelsius;
   private final float temperaturaMaximaCelsius;
+  private final int capacidadEnViandas;
+  @NonNull
+  private final ZonedDateTime fechaInstalacion;
+  @NonNull
+  private final List<Vianda> viandas;
+  @NonNull
+  private final Colaborador colaboradorACargo;
+  @NonNull
   private String nombre;
   private Ubicacion ubicacion;
-  private int capacidadEnViandas;
-  private ZonedDateTime fechaInstalacion;
-  private List<Vianda> viandas;
   private float temperaturaDeseadaCelsius;
   private float ultimaTempRegistradaCelsius;
   private ZonedDateTime momentoUltimaTempRegistrada;
-  private Colaborador colaboradorACargo;
 
-  public Heladera(float temperaturaMinimaCelsius, float temperaturaMaximaCelsius, float temperaturaDeseadaCelsius) {
+  public Heladera(@NonNull String nombre, @NonNull Colaborador colaboradorACargo, int capacidadEnViandas, @NonNull ZonedDateTime fechaInstalacion, float temperaturaMinimaCelsius, float temperaturaMaximaCelsius, float temperaturaDeseadaCelsius) {
     this.temperaturaMinimaCelsius = temperaturaMinimaCelsius;
     this.temperaturaMaximaCelsius = temperaturaMaximaCelsius;
+    this.nombre = nombre;
+    this.capacidadEnViandas = capacidadEnViandas;
+    this.fechaInstalacion = fechaInstalacion;
     this.temperaturaDeseadaCelsius = temperaturaDeseadaCelsius;
+    this.colaboradorACargo = colaboradorACargo;
+
+    this.viandas = new ArrayList<>();
+  }
+
+  public void setUltimaTempRegistradaCelsius(float temperatura) {
+    ultimaTempRegistradaCelsius = temperatura;
+    momentoUltimaTempRegistrada = ZonedDateTime.now();
   }
 
   private boolean ultimaTemperaturaEsVieja() {
@@ -41,7 +58,9 @@ public class Heladera {
   }
 
   public EstadoDeFuncionamiento getEstado() {
-    if (ultimaTemperaturaEsVieja()) {
+    if (momentoUltimaTempRegistrada == null) {
+      return EstadoDeFuncionamiento.EN_FALLA;
+    } else if (ultimaTemperaturaEsVieja()) {
       return EstadoDeFuncionamiento.EN_FALLA;
     } else if (temperaturaEstaDentroDeRangoDeModelo()) {
       return EstadoDeFuncionamiento.DEFICIENTE;
@@ -50,15 +69,6 @@ public class Heladera {
     } else {
       return EstadoDeFuncionamiento.ENFRIANDO;
     }
-  }
-
-  public Vianda sacarVianda() {
-    // TODO implement here
-    return null;
-  }
-
-  public void ingresarViandas(List<Vianda> viandas) {
-    // TODO implement here
   }
 
   public int mesesActiva() {
