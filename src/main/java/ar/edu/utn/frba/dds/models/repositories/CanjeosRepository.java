@@ -55,7 +55,6 @@ public class CanjeosRepository {
   }
 
   public void insert(Canjeo canjeo) throws ExcepcionDeCanjeDePuntos {
-    // TODO: Testear
     Colaborador colaborador = canjeo.getColaborador();
     if (getPuntosDisponibles(colaborador) < canjeo.getRecompensa().getCostoEnPuntos()) {
       throw new ExcepcionDeCanjeDePuntos("Colaborador no posee los puntos necesarios para la transacción");
@@ -66,9 +65,5 @@ public class CanjeosRepository {
 
     canjeo.setId(canjeos.size() + 1);
     canjeos.add(canjeo);
-  }
-
-  public void update(Canjeo canjeo) {
-    //DO NOTHING
   }
 }
