@@ -9,6 +9,5 @@ public class TecnicoController {
 
     public void darDeAltaTecnico(DataTecnico tecnico, Usuario usuario) {
         verificador.verificarSiUsuarioPuede("DAR_DE_ALTA_TECNICO",usuario);
-
     }
 }

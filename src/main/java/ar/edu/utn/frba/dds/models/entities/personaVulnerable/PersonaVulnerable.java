@@ -1,5 +1,6 @@
-package ar.edu.utn.frba.dds.models.entities;
+package ar.edu.utn.frba.dds.models.entities.personaVulnerable;
 
+import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;

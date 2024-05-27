@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
-import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
+import ar.edu.utn.frba.dds.models.entities.personaVulnerable.PersonaVulnerable;
 
 import java.util.ArrayList;
 import java.util.List;

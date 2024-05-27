@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.models.entities;
 
 import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
+import ar.edu.utn.frba.dds.models.entities.personaVulnerable.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.repositories.IPersonaVulnerableRepository;
 import ar.edu.utn.frba.dds.models.repositories.ITarjetasAlimentariasRepository;
 
