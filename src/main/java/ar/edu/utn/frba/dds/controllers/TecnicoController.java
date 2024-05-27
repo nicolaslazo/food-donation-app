@@ -11,7 +11,8 @@ import java.util.Optional;
 public class TecnicoController {
     private VerificadorDePermisos verificador;
 
-    public void darDeAltaTecnico(DataTecnico tenico, Usuario usuario) {
+    public void darDeAltaTecnico(DataTecnico tecnico, Usuario usuario) {
         verificador.verificarSiUsuarioPuede("DAR_DE_ALTA_TECNICO",usuario);
+
     }
 }

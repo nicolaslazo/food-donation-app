@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TecnicoRepository {
+public class TecnicoRepository implements ITecnicoRepository {
     private final List<Tecnico> tecnicos;
 
     public TecnicoRepository() { tecnicos = new ArrayList<Tecnico>(); }
