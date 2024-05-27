@@ -1,6 +1,5 @@
-package ar.edu.utn.frba.dds;
+package ar.edu.utn.frba.dds.domain;
 
-import ar.edu.utn.frba.dds.domain.PersonaVulnerable;
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 import lombok.NonNull;
 

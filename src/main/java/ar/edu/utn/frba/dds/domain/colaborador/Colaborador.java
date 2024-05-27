@@ -34,6 +34,8 @@ public class Colaborador {
   @Getter
   private final List<Contacto> contactos = new ArrayList<>();
   @Getter
+  private double cantidadDePuntos;
+  @Getter
   private final List<Contribucion> contribuciones = new ArrayList<Contribucion>();
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
@@ -102,4 +104,7 @@ public class Colaborador {
         ", apellido='" + apellido + '\'' +
         '}';
   }
+  public void actualizarPuntos(double monto) {
+    this.cantidadDePuntos=-monto;
+  };
 }

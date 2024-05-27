@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.domain.contribucion;
 
-import ar.edu.utn.frba.dds.TarjetaAlimentaria;
+import ar.edu.utn.frba.dds.domain.TarjetaAlimentaria;
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
 import lombok.Getter;
 import lombok.NonNull;
