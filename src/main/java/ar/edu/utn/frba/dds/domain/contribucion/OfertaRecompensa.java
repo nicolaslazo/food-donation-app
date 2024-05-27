@@ -1,9 +1,10 @@
 package ar.edu.utn.frba.dds.domain.contribucion;
 
 import ar.edu.utn.frba.dds.domain.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.domain.recompensas.Recompensa;
+import lombok.Getter;
 import lombok.NonNull;
 
-import java.net.URL;
 import java.time.ZonedDateTime;
 
 public class OfertaRecompensa extends Contribucion {
@@ -21,8 +22,7 @@ public class OfertaRecompensa extends Contribucion {
 
   private URL imagen;
 
-  public OfertaRecompensa(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, @NonNull String nombre,
-                          @NonNull RubroRecompensa rubro, @NonNull double costoEnPuntos, URL imagen) {
+  public OfertaRecompensa(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, @NonNull Recompensa recompensa) {
     super(colaborador, fecha);
     this.colaborador = colaborador;
     this.fecha = fecha;
