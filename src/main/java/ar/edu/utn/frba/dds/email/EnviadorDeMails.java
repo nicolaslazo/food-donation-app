@@ -8,11 +8,14 @@ import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 public class EnviadorDeMails {
+  private static final Logger logger = LoggerFactory.getLogger(EnviadorDeMails.class);
   // Configuración de correo electrónico
   private static final String userName = "ghrybalvarez@frba.utn.edu.ar";
   private static final String password = "vfew lkmx wmhv nhwj";
@@ -30,7 +33,7 @@ public class EnviadorDeMails {
 
   private void inicializarCorreo() {
     mailProperties = new Properties();
-    try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
+    try (InputStream input = getClass().getClassLoader().getResourceAsStream("configuracion/servidormail.properties")) {
       if (input == null) {
         System.out.println("Lo sentimos, no se pudo encontrar el archivo de configuración.");
         return;

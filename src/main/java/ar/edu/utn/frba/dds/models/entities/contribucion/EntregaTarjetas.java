@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.models.entities.contribucion;
 
+import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.entities.TarjetaAlimentaria;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.repositories.PersonaVulnerableRepository;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -14,17 +16,17 @@ public class EntregaTarjetas extends Contribucion {
   @NonNull
   private final ZonedDateTime fecha;
   @Getter
-  private final List<TarjetaAlimentaria> tarjetas;
+  private List<TarjetaAlimentaria> tarjetasRepartidas;
 
-  public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, List<TarjetaAlimentaria> tarjetas) {
+
+  private String idTarjeta;
+
+  public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
+                         @NonNull List<TarjetaAlimentaria> tarjetaAlimentarias) {
     super(colaborador, fecha);
     this.colaborador = colaborador;
     this.fecha = fecha;
-    this.tarjetas = tarjetas;
-  }
-
-  public int getNumeroTarjetas() {
-    return tarjetas.size();
+    this.tarjetasRepartidas = tarjetaAlimentarias;
   }
 
   @Override
@@ -32,7 +34,12 @@ public class EntregaTarjetas extends Contribucion {
     return "EntregaTarjetas{" +
         "colaborador=" + colaborador +
         ", fecha=" + fecha +
-        ", cantidadTarjetas=" + tarjetas.size() +
         '}';
   }
+
+  public int getNumeroTarjetas() {
+    return tarjetasRepartidas.size();
+  }
+
+
 }
