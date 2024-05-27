@@ -8,14 +8,11 @@ import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 public class EnviadorDeMails {
-  private static final Logger logger = LoggerFactory.getLogger(EnviadorDeMails.class);
   // Configuración de correo electrónico
   private static final String userName = "ghrybalvarez@frba.utn.edu.ar";
   private static final String password = "vfew lkmx wmhv nhwj";
