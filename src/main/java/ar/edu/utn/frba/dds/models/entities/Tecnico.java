@@ -8,12 +8,12 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
+
 public class Tecnico {
   private String nombre;
   private String apellido;
   private Documento documento;
+  @Getter
   private String cuil;
   private List<Contacto> contactos;
   private AreaGeografica areaAsignada;

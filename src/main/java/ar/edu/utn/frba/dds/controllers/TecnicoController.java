@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.controllers;
 
-import ar.edu.utn.frba.dds.models.entities.DataTecnico;
+import ar.edu.utn.frba.dds.dtos.inputs.tecnicos.DataTecnico;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.entities.utils.permisos.VerificadorDePermisos;
 
