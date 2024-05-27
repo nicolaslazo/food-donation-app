@@ -34,11 +34,11 @@ class RecompensasRepositoryTest {
 
   @Test
   void insertSeteaIdEnRecompensa() {
-    assertNotEquals(recompensaDummy.getId(), 1);
+    assertNotEquals(1, recompensaDummy.getId());
 
     repositorio.insert(recompensaDummy);
 
-    assertEquals(recompensaDummy.getId(), 1);
+    assertEquals(1, recompensaDummy.getId());
   }
 
   @Test
@@ -54,7 +54,7 @@ class RecompensasRepositoryTest {
     repositorio.insert(otraRecompensa);
     repositorio.insert(otraRecompensaMas);
 
-    assertEquals(repositorio.get(2).orElse(null), otraRecompensa);
+    assertEquals(otraRecompensa, repositorio.get(2).orElse(null));
   }
 
   @Test
@@ -70,6 +70,6 @@ class RecompensasRepositoryTest {
     repositorio.insert(otraRecompensa);
     repositorio.insert(otraRecompensaMas);
 
-    assertEquals(repositorio.getTodos().size(), 3);
+    assertEquals(3, repositorio.getTodos().size());
   }
 }

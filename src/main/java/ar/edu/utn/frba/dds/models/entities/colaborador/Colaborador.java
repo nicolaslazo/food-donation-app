@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Colaborador {
+  @NonNull
   @Getter
   private final Documento documento;
   @Getter
@@ -35,8 +36,6 @@ public class Colaborador {
   private String apellido;
   private LocalDate fechaNacimiento;
   private Ubicacion ubicacion;
-  @Getter
-  private double cantidadDePuntos;
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
     this.documento = documento;
@@ -89,11 +88,6 @@ public class Colaborador {
   @Override
   public int hashCode() {
     return Objects.hash(getDocumento());
-  }
-
-  public TipoColaborador getTipoColaborador() {
-    if (documento != null) return TipoColaborador.HUMANO;
-    return TipoColaborador.JURIDICO;
   }
 
   @Override
