@@ -6,4 +6,7 @@ public record ContactoEmail(@NonNull String destinatario) implements Contacto {
   public void enviarMensaje(String mensaje) {
     // TODO implement here
   }
+  public String getEmail() {
+    return destinatario;
+  }
 }

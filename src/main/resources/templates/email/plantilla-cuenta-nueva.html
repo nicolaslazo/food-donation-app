@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gracias por inscribirse!</title>
+    <style>
+        body { background-color: #d8890f; font-family: Arial, sans-serif; line-height: 1.6; }
+        .container { width: 80%; margin: auto; padding: 20px; background-color: #f2f2f2; }
+        .header { background-color: #d8890f; color: white; padding: 10px; text-align: center; }
+        .content { margin-top: 20px; }
+        .footer { margin-top: 20px; color: #444; text-align: left; }
+        .credentials { padding: 15px; text-align: center; border-radius: 5px; margin-top: 20px; }
+        .credentials ul { list-style: none; padding: 0; }
+        .credentials li { margin-bottom: 10px; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Bienvenid@ al equipo!</h1>
+    </div>
+    <div class="content">
+        <p>Muchas gracias por inscribirse a nuestro sistema de colaboración de viandas! Estas son las credenciales que va a necesitar para poder ingresar a su cuenta:</p>
+        <div class="credentials">
+            <ul>
+                <li>Email: <strong th:text="${email}">example@example.com</strong></li>
+                <li>Contraseña temporaria: <strong th:text="${contrasena_temporaria}">defaultpassword</strong></li>
+            </ul>
+        </div>
+        <p>Debe usar estas credenciales para ingresar al sistema por primera vez. Sugerimos cambiar la contraseña después de entrar.</p>
+        <p>Puede ingresar a su cuenta acá: <a href="https://google.com/">Cambiar después</a></p>
+        <p>Si tiene dudas o necesita ayuda, por favor no dude de contactar a nuestro equipo de soporte.</p>
+        <p>Bienvenid@, y esperamos que tenga una experiencia agradable!</p>
+    </div>
+    <div class="footer">
+        Saludos,<br>
+        Equipo 6 de DDS
+    </div>
+</div>
+</body>
+</html>

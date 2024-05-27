@@ -32,11 +32,9 @@ public class ValidadorContraseniaTest {
   }
 
   @Test
-  public void contraseniaGenerada() {
+  public void testContraseniaGenerada() {
     ValidadorDeContrasenia validador = new ValidadorDeContrasenia();
-    GeneradorDeContrasenias generador = new GeneradorDeContrasenias();
-    String contrasenia = generador.generarContrasenias();
+    String contrasenia = GeneradorDeContrasenias.generarContrasenia();
     assertTrue(validador.validar(contrasenia));
-
   }
 }
