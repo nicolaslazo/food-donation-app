@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PermisosRepository {
+public class PermisosRepository implements IPermisosRepository {
     private static List<Permiso> permisos = List.of();
+
 
     public PermisosRepository() { permisos = new ArrayList<Permiso>(); }
 
-    public static Permiso buscarPermisoPorNombre(String nombre) {
+    public Optional<Permiso> buscarPermisoPorNombre(String nombre) {
         return permisos
                 .stream()
                 .filter(permiso -> permiso.getNombrePermiso().equalsIgnoreCase(nombre))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 }
