@@ -16,6 +16,7 @@ class HeladeraTest {
   @BeforeEach
   void setUp() {
     heladera = new Heladera("Heladera Test",
+        null,
         Mockito.mock(Colaborador.class),
         10,
         ZonedDateTime.now().minusMonths(6),
