@@ -4,20 +4,21 @@ import ar.edu.utn.frba.dds.models.entities.TarjetaAlimentaria;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
 public class EntregaTarjetas extends Contribucion {
+  @Getter
+  @Setter
+  private int id;
   @NonNull
   private final Colaborador colaborador;
   @NonNull
   private final ZonedDateTime fecha;
   @Getter
-  private List<TarjetaAlimentaria> tarjetasRepartidas;
-
-
-  private String idTarjeta;
+  private final List<TarjetaAlimentaria> tarjetasRepartidas;
 
   public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
                          @NonNull List<TarjetaAlimentaria> tarjetaAlimentarias) {
@@ -38,6 +39,4 @@ public class EntregaTarjetas extends Contribucion {
   public int getNumeroTarjetas() {
     return tarjetasRepartidas.size();
   }
-
-
 }
