@@ -8,18 +8,25 @@ import java.util.List;
 import java.util.Optional;
 
 public class TarjetasAlimentariasRepository implements ITarjetasAlimentariasRepository {
-    private final List<TarjetaAlimentaria> tarjetasAlimentarias;
+  // TODO: testear
+  private final List<TarjetaAlimentaria> tarjetasAlimentarias;
 
-    public TarjetasAlimentariasRepository() { tarjetasAlimentarias = new ArrayList<>(); }
+  public TarjetasAlimentariasRepository() {
+    tarjetasAlimentarias = new ArrayList<>();
+  }
 
-    public void insert(TarjetaAlimentaria tarjetaAlimentaria) {
-        tarjetasAlimentarias.add(tarjetaAlimentaria);
+  public Optional<TarjetaAlimentaria> get(String id) {
+    return tarjetasAlimentarias
+        .stream()
+        .filter(ta -> ta.getIdentificador().equals(id))
+        .findFirst();
+  }
+
+  public void insert(TarjetaAlimentaria tarjetaAlimentaria) throws RepositoryInsertException {
+    if (get(tarjetaAlimentaria.getIdentificador()).isPresent()) {
+      throw new RepositoryInsertException("Otra tarjeta alimentaria con este identificador ya existe");
     }
 
-    public Optional<TarjetaAlimentaria> getPorIdentificador(String id) {
-        return tarjetasAlimentarias
-                .stream()
-                .filter(ta -> ta.identificador().equals(id))
-                .findFirst();
-    }
+    tarjetasAlimentarias.add(tarjetaAlimentaria);
+  }
 }
