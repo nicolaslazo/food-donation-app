@@ -57,30 +57,6 @@ public class Colaborador {
         .collect(Collectors.toList());
   }
 
-  public float getDineroDonado() {
-    return getContribuciones(Dinero.class).stream().map(Dinero::getMonto).reduce(0f, Float::sum);
-  }
-
-  public int getNumeroViandasDistribuidas() {
-    return getContribuciones(RedistribucionViandas.class).stream().mapToInt(RedistribucionViandas::getNumeroViandas).sum();
-  }
-
-  public int getNumeroViandasDonadas() {
-    return getContribuciones(DonacionViandas.class).stream().mapToInt(DonacionViandas::getNumeroViandas).sum();
-  }
-
-  public int getNumeroTarjetasRepartidas() {
-    return getContribuciones(EntregaTarjetas.class).stream().mapToInt(EntregaTarjetas::getNumeroTarjetas).sum();
-  }
-
-  public int getMesesCumulativosCuidadoHeladeras() {
-    return getContribuciones(CuidadoHeladera.class)
-        .stream()
-        .map(CuidadoHeladera::getHeladera)
-        .mapToInt(Heladera::mesesActiva)
-        .sum();
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
