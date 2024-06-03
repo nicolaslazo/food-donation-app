@@ -7,9 +7,7 @@ import ar.edu.utn.frba.dds.models.repositories.contribucion.DineroRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.EntregaTarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.RedistribucionViandasRepository;
-import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 
-// TODO: Hay alguna manera de hacerla estática? Nunca vamos a necesitar múltiples instancias de esta clase
 public class CalculadoraDePuntos {
   private static final ConfigLoader coeficientesConfig =
       new ConfigLoader("application.properties");

@@ -39,7 +39,7 @@ public class HeladerasRepository {
   }
 
   public int getMesesActivosCumulativos(Colaborador colaborador) {
-    return getTodas(colaborador).stream().mapToInt(heladera -> heladera.mesesActiva()).sum();
+    return getTodas(colaborador).stream().mapToInt(Heladera::mesesActiva).sum();
   }
 
   public int insert(Heladera heladera) throws RepositoryInsertException {
