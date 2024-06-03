@@ -20,4 +20,11 @@ public class PersonaVulnerableRepository implements IPersonaVulnerableRepository
         .filter(personaVulnerable -> personaVulnerable.getDocumento() == documento)
         .findFirst();
   }
+
+  public void insert(PersonaVulnerable personaVulnerable) throws RepositoryInsertException {
+    if (get(personaVulnerable.getDocumento()).isPresent()) {
+      throw new RepositoryInsertException("Este documento ya está siendo usado");
+    }
+    personasVulnerables.add(personaVulnerable);
+  }
 }
