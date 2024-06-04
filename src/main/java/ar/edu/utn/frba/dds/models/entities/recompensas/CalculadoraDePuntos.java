@@ -2,8 +2,12 @@ package ar.edu.utn.frba.dds.models.entities.recompensas;
 
 import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.CuidadoHeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.DineroRepository;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.EntregaTarjetasRepository;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.RedistribucionViandasRepository;
 
-// TODO: Hay alguna manera de hacerla estática? Nunca vamos a necesitar múltiples instancias de esta clase
 public class CalculadoraDePuntos {
   private static final ConfigLoader coeficientesConfig =
       new ConfigLoader("application.properties");
@@ -20,11 +24,11 @@ public class CalculadoraDePuntos {
 
   public static double calcular(Colaborador colaborador) {
     return (
-        colaborador.getDineroDonado() * coeficientePesosDonados +
-            colaborador.getNumeroViandasDistribuidas() * coeficienteViandasDistribuidas +
-            colaborador.getNumeroViandasDonadas() * coeficienteViandasDonadas +
-            colaborador.getNumeroTarjetasRepartidas() * coeficienteTarjetasRepartidas +
-            colaborador.getMesesCumulativosCuidadoHeladeras() * coeficienteHeladerasActivas
+        DineroRepository.getInstancia().getTotal(colaborador) * coeficientePesosDonados +
+            RedistribucionViandasRepository.getInstancia().getTotal(colaborador) * coeficienteViandasDistribuidas +
+            DonacionViandasRepository.getInstancia().getTotal(colaborador) * coeficienteViandasDonadas +
+            EntregaTarjetasRepository.getInstancia().getTotal(colaborador) * coeficienteTarjetasRepartidas +
+            CuidadoHeladerasRepository.getInstancia().getMesesActivosCumulativos(colaborador) * coeficienteHeladerasActivas
     );
   }
 }

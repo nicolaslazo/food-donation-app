@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,16 +18,25 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HeladerasRepositoryTest {
-  private final Ubicacion obelisco = new Ubicacion(new Coordenadas(-34.5611745, -58.4287506));
-  private final Heladera heladera = new Heladera("Heladera",
+  final Ubicacion obelisco = new Ubicacion(new Coordenadas(-34.5611745, -58.4287506));
+  final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
+  final Heladera heladera = new Heladera("Heladera",
       obelisco,
-      Mockito.mock(Colaborador.class),
+      colaboradorMock,
       50,
       ZonedDateTime.now(),
       0,
       10,
       5);
-  private HeladerasRepository repository;
+  final Heladera otraHeladera = new Heladera("Otra heladera",
+      new Ubicacion(new Coordenadas(-34.0, -58.0)),
+      colaboradorMock,
+      60,
+      ZonedDateTime.now(),
+      1,
+      12,
+      7);
+  HeladerasRepository repository;
 
   @BeforeEach
   void setUp() {
@@ -65,5 +75,27 @@ class HeladerasRepositoryTest {
     repository.insert(heladera);
 
     assertThrows(RepositoryInsertException.class, () -> repository.insert(heladera));
+  }
+
+  @Test
+  void testGetTodasPorColaborador() throws RepositoryInsertException {
+    repository.insert(heladera);
+    repository.insert(otraHeladera);
+
+    List<Heladera> heladerasDelColaborador = repository.getTodas(colaboradorMock);
+
+    assertEquals(2, heladerasDelColaborador.size());
+    assertTrue(heladerasDelColaborador.contains(heladera));
+    assertTrue(heladerasDelColaborador.contains(otraHeladera));
+  }
+
+  @Test
+  void testGetMesesActivosCumulativos() throws RepositoryInsertException {
+    repository.insert(heladera);
+    repository.insert(otraHeladera);
+
+    int mesesActivos = repository.getMesesActivosCumulativos(colaboradorMock);
+
+    assertEquals(5 + 7, mesesActivos);
   }
 }

@@ -5,13 +5,7 @@ import ar.edu.utn.frba.dds.email.EnviadorDeMails;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.ContactoEmail;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
-import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
-import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
-import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
-import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
-import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
-import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import lombok.Getter;
 import lombok.NonNull;
@@ -55,30 +49,6 @@ public class Colaborador {
         .filter(tipo::isInstance)
         .map(tipo::cast)
         .collect(Collectors.toList());
-  }
-
-  public float getDineroDonado() {
-    return getContribuciones(Dinero.class).stream().map(Dinero::getMonto).reduce(0f, Float::sum);
-  }
-
-  public int getNumeroViandasDistribuidas() {
-    return getContribuciones(RedistribucionViandas.class).stream().mapToInt(RedistribucionViandas::getNumeroViandas).sum();
-  }
-
-  public int getNumeroViandasDonadas() {
-    return getContribuciones(DonacionViandas.class).stream().mapToInt(DonacionViandas::getNumeroViandas).sum();
-  }
-
-  public int getNumeroTarjetasRepartidas() {
-    return getContribuciones(EntregaTarjetas.class).stream().mapToInt(EntregaTarjetas::getNumeroTarjetas).sum();
-  }
-
-  public int getMesesCumulativosCuidadoHeladeras() {
-    return getContribuciones(CuidadoHeladera.class)
-        .stream()
-        .map(CuidadoHeladera::getHeladera)
-        .mapToInt(Heladera::mesesActiva)
-        .sum();
   }
 
   @Override

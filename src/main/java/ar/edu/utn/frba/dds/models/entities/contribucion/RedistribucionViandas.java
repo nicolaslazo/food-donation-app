@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -20,6 +21,9 @@ public class RedistribucionViandas extends Contribucion {
   @NonNull
   @Getter
   private final List<Vianda> viandas;
+  @Getter
+  @Setter
+  private int id;
 
   public RedistribucionViandas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
                                MotivoDeDistribucion motivo, Heladera origen, Heladera destino,

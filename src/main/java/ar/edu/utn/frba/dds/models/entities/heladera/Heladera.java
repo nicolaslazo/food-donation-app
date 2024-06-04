@@ -20,8 +20,9 @@ public class Heladera {
   private final ZonedDateTime fechaInstalacion;
   @NonNull
   private final List<Vianda> viandas;
+  @Getter
   @NonNull
-  private final Colaborador colaboradorACargo;
+  private final Colaborador encargado;
   @Getter
   @Setter
   private int id;
@@ -35,7 +36,7 @@ public class Heladera {
 
   public Heladera(@NonNull String nombre,
                   Ubicacion ubicacion,
-                  @NonNull Colaborador colaboradorACargo,
+                  @NonNull Colaborador encargado,
                   int capacidadEnViandas,
                   @NonNull ZonedDateTime fechaInstalacion,
                   float temperaturaMinimaCelsius,
@@ -43,7 +44,7 @@ public class Heladera {
                   float temperaturaDeseadaCelsius) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
-    this.colaboradorACargo = colaboradorACargo;
+    this.encargado = encargado;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
     this.temperaturaMinimaCelsius = temperaturaMinimaCelsius;
@@ -86,7 +87,6 @@ public class Heladera {
   }
 
   public int mesesActiva() {
-    // TODO: testear
     if (getEstado() == EstadoDeFuncionamiento.EN_FALLA) return 0;
     return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
