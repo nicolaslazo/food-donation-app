@@ -3,7 +3,9 @@ package ar.edu.utn.frba.dds.models.entities.heladera;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -20,21 +22,33 @@ public class Heladera {
   private final List<Vianda> viandas;
   @NonNull
   private final Colaborador colaboradorACargo;
+  @Getter
+  @Setter
+  private int id;
   @NonNull
   private String nombre;
+  @Getter
   private Ubicacion ubicacion;
   private float temperaturaDeseadaCelsius;
   private float ultimaTempRegistradaCelsius;
   private ZonedDateTime momentoUltimaTempRegistrada;
 
-  public Heladera(@NonNull String nombre, @NonNull Colaborador colaboradorACargo, int capacidadEnViandas, @NonNull ZonedDateTime fechaInstalacion, float temperaturaMinimaCelsius, float temperaturaMaximaCelsius, float temperaturaDeseadaCelsius) {
-    this.temperaturaMinimaCelsius = temperaturaMinimaCelsius;
-    this.temperaturaMaximaCelsius = temperaturaMaximaCelsius;
+  public Heladera(@NonNull String nombre,
+                  Ubicacion ubicacion,
+                  @NonNull Colaborador colaboradorACargo,
+                  int capacidadEnViandas,
+                  @NonNull ZonedDateTime fechaInstalacion,
+                  float temperaturaMinimaCelsius,
+                  float temperaturaMaximaCelsius,
+                  float temperaturaDeseadaCelsius) {
     this.nombre = nombre;
+    this.ubicacion = ubicacion;
+    this.colaboradorACargo = colaboradorACargo;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
+    this.temperaturaMinimaCelsius = temperaturaMinimaCelsius;
+    this.temperaturaMaximaCelsius = temperaturaMaximaCelsius;
     this.temperaturaDeseadaCelsius = temperaturaDeseadaCelsius;
-    this.colaboradorACargo = colaboradorACargo;
 
     this.viandas = new ArrayList<>();
   }
