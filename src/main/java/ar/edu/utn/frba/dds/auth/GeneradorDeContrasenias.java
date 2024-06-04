@@ -14,6 +14,6 @@ public class GeneradorDeContrasenias {
 
     return generadorContra.generate(length);
   }
-  }
+}
 
 

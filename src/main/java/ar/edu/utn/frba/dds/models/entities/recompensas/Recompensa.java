@@ -15,11 +15,11 @@ public class Recompensa {
   @NonNull
   private final RubroRecompensa rubro;
   @Getter
-  @Setter
-  private int id;
-  @Getter
   private final int stockInicial;
   private final URL imagen;
+  @Getter
+  @Setter
+  private int id;
 
   public Recompensa(@NonNull String nombre, @NonNull RubroRecompensa rubro, double costoEnPuntos, int stockInicial, URL imagen) {
     this.costoEnPuntos = costoEnPuntos;
