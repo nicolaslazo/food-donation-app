@@ -9,8 +9,7 @@ import ar.edu.utn.frba.dds.models.repositories.contribucion.EntregaTarjetasRepos
 import ar.edu.utn.frba.dds.models.repositories.contribucion.RedistribucionViandasRepository;
 
 public class CalculadoraDePuntos {
-  private static final ConfigLoader coeficientesConfig =
-      new ConfigLoader("application.properties");
+  private static final ConfigLoader coeficientesConfig = ConfigLoader.getInstancia();
   private static final double coeficientePesosDonados =
       Double.parseDouble(coeficientesConfig.getProperty("puntaje.coeficiente.pesosDonados"));
   private static final double coeficienteViandasDistribuidas =
