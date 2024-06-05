@@ -7,21 +7,25 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigLoader {
-  private final Properties properties;
+  private static ConfigLoader instancia = null;
+  private final Properties properties = new Properties();
 
-  public ConfigLoader(String nombreDeArchivo) {
-    properties = new Properties();
+  private ConfigLoader() {
     try {
-      cargarProperties(nombreDeArchivo);
+      try (InputStream input = getClass().getClassLoader().getResourceAsStream("application.properties")) {
+        properties.load(input);
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }
 
-  private void cargarProperties(String nombreDeArchivo) throws IOException {
-    try (InputStream input = getClass().getClassLoader().getResourceAsStream(nombreDeArchivo)) {
-      properties.load(input);
+  public static ConfigLoader getInstancia() {
+    if (instancia == null) {
+      instancia = new ConfigLoader();
     }
+
+    return instancia;
   }
 
   public String getProperty(@NonNull String key) {

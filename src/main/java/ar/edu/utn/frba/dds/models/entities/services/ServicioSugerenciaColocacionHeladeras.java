@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class ServicioSugerenciaColocacionHeladeras {
-  private static final String urlApi = new ConfigLoader("application.properties")
+  private static final String urlApi = ConfigLoader
+      .getInstancia()
       .getProperty("servicios.sugerenciasUbicacionDeHeladerasAPI.url");
   private static ServicioSugerenciaColocacionHeladeras instancia = null;
 
