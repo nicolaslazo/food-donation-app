@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Permiso {
-    private String nombrePermiso;
-    private String descripcion;
+  private String nombrePermiso;
+  private String descripcion;
 }

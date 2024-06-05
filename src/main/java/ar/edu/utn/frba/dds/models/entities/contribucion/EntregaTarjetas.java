@@ -10,15 +10,15 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 public class EntregaTarjetas extends Contribucion {
-  @Getter
-  @Setter
-  private int id;
   @NonNull
   private final Colaborador colaborador;
   @NonNull
   private final ZonedDateTime fecha;
   @Getter
   private final List<TarjetaAlimentaria> tarjetasRepartidas;
+  @Getter
+  @Setter
+  private int id;
 
   public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
                          @NonNull List<TarjetaAlimentaria> tarjetaAlimentarias) {
