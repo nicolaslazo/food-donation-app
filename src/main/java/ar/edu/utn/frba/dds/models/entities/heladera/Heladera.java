@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Heladera {
   private final float temperaturaMinimaCelsius;
@@ -89,5 +90,17 @@ public class Heladera {
   public int mesesActiva() {
     if (getEstado() == EstadoDeFuncionamiento.EN_FALLA) return 0;
     return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
+  }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Heladera heladera = (Heladera) o;
+    return getId() == heladera.getId();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId());
   }
 }
