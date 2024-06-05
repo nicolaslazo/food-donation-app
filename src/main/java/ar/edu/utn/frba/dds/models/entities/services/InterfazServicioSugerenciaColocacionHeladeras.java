@@ -12,6 +12,6 @@ public interface InterfazServicioSugerenciaColocacionHeladeras {
   Call<List<Coordenadas>> sugerencias(
       @Query("longitud") double longitud,
       @Query("latitud") double latitud,
-      @Query("radioAreaEnMetros") float radioAreaEnMetros
+      @Query("radioAreaEnMetros") double radioAreaEnMetros
   );
 }

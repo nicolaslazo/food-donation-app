@@ -28,4 +28,12 @@ public final class Coordenadas {
   public int hashCode() {
     return Objects.hash(getLongitud(), getLatitud());
   }
+
+  @Override
+  public String toString() {
+    return "Coordenadas{" +
+        "longitud=" + longitud +
+        ", latitud=" + latitud +
+        '}';
+  }
 }
