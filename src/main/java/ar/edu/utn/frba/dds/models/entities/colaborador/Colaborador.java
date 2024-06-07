@@ -31,6 +31,7 @@ public class Colaborador {
   @Getter
   private String apellido;
   private LocalDate fechaNacimiento;
+  @Getter
   private Ubicacion ubicacion;
 
   public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
