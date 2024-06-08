@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.models.entities.contacto;
 
-public class ContactoTelefono implements Contacto {
+public class Whatsapp implements Contacto {
 
   private String destinatario;
 
-  public ContactoTelefono() {
+  public Whatsapp() {
   }
 
   public void enviarMensaje(String mensaje) {
