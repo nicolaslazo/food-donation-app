@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.models.entities.colaborador;
 import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
 import ar.edu.utn.frba.dds.email.EnviadorDeMails;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
-import ar.edu.utn.frba.dds.models.entities.contacto.ContactoEmail;
+import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
@@ -33,7 +33,7 @@ public class Colaborador {
   private LocalDate fechaNacimiento;
   private Ubicacion ubicacion;
 
-  public Colaborador(Documento documento, String nombre, String apellido, ContactoEmail mail) {
+  public Colaborador(Documento documento, String nombre, String apellido, Email mail) {
     this.documento = documento;
     this.nombre = nombre;
     this.apellido = apellido;
