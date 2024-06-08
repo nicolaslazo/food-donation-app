@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
 import ar.edu.utn.frba.dds.email.EnviadorDeMails;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.ContactoEmail;
-import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import lombok.Getter;
@@ -14,21 +13,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Colaborador {
-  @NonNull
   @Getter
+  @NonNull
   private final Documento documento;
   @Getter
   private final List<Contacto> contactos = new ArrayList<>();
   @Getter
-  private final List<Contribucion> contribuciones = new ArrayList<>();
   @NonNull
-  @Getter
   private String nombre;
-  @NonNull
   @Getter
+  @NonNull
   private String apellido;
   private LocalDate fechaNacimiento;
   private Ubicacion ubicacion;
@@ -42,13 +38,6 @@ public class Colaborador {
     String contraseniaTemporaria = GeneradorDeContrasenias.generarContrasenia();
     EnviadorDeMails enviadorDeMails = new EnviadorDeMails();
     enviadorDeMails.enviarMail(mail.getEmail(), contraseniaTemporaria);
-  }
-
-  public <T extends Contribucion> List<T> getContribuciones(Class<T> tipo) {
-    return contribuciones.stream()
-        .filter(tipo::isInstance)
-        .map(tipo::cast)
-        .collect(Collectors.toList());
   }
 
   @Override
