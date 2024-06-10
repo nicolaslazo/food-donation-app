@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.email;
 
-import ar.edu.utn.frba.dds.models.entities.contacto.ContactoEmail;
+import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 
 import java.util.Scanner;
 
@@ -13,7 +13,7 @@ public class MailDemo {
     String email = scanner.nextLine();
 
     // Crear el contacto de email con la dirección ingresada por el usuario
-    ContactoEmail contactoEmail = new ContactoEmail(email);
+    Email contactoEmail = new Email(email);
 
     // El envío de email se realiza en el constructor del colaborador
     System.out.println("Se ha enviado un email a: " + contactoEmail.getEmail());

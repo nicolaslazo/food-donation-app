@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.migrations;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contacto.ContactoEmail;
+import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
@@ -59,7 +59,7 @@ class CargadorMasivoDeContribucionesTest {
         () -> assertEquals("Juan", colaborador.getNombre()),
         () -> assertEquals("Pérez", colaborador.getApellido()),
         () -> {
-          ContactoEmail email = (ContactoEmail) colaborador.getContactos().stream().findFirst().orElse(null);
+          Email email = (Email) colaborador.getContactos().stream().findFirst().orElse(null);
           assertEquals(
               "jperez@example.com",
               email.destinatario()

@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.models.entities.services;
+package ar.edu.utn.frba.dds.services;
 
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Coordenadas;
 import retrofit2.Call;
