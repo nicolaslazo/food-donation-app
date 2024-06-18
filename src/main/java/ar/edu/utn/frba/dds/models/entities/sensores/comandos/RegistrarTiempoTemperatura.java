@@ -1,9 +1,8 @@
-package ar.edu.utn.frba.dds.models.entities.sensores;
+package ar.edu.utn.frba.dds.models.entities.sensores.comandos;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 
-public class PonerInactivaHeladera implements ComandoHeladera{
-
+public class RegistrarUltimaTemperatura implements ComandoHeladera{
     @Override
     public void accionar(Heladera heladera) {
 
