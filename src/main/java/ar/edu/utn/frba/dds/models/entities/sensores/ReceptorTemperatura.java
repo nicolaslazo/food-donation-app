@@ -1,7 +1,10 @@
 package ar.edu.utn.frba.dds.models.entities.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import lombok.Builder;
+import lombok.Setter;
 
+@Builder
 public class ReceptorTemperatura {
     private Double temperaturaMinima;
     private Double temperaturaMaxima;

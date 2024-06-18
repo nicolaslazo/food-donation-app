@@ -1,11 +1,19 @@
 package ar.edu.utn.frba.dds.models.entities.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.sensores.comandos.ComandoHeladera;
+import lombok.Builder;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 public class AccionadorHeladera {
     private List<ComandoHeladera> comandosHeladeras;
+
+    public AccionadorHeladera() {
+        comandosHeladeras = new ArrayList<>();
+    }
 
     public AccionadorHeladera(List<ComandoHeladera> comandosHeladeras) {
         this.comandosHeladeras = comandosHeladeras;

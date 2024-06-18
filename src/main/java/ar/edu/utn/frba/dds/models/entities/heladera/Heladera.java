@@ -29,8 +29,7 @@ public class Heladera {
   private String nombre;
   @Getter
   private Ubicacion ubicacion;
-  private float temperaturaDeseadaCelsius;
-  private float ultimaTempRegistradaCelsius;
+  private double ultimaTempRegistradaCelsius;
   private ZonedDateTime momentoUltimaTempRegistrada;
   @Getter
   @Setter
@@ -40,22 +39,22 @@ public class Heladera {
                   Ubicacion ubicacion,
                   @NonNull Colaborador encargado,
                   int capacidadEnViandas,
-                  @NonNull ZonedDateTime fechaInstalacion,
-                  float temperaturaMinimaCelsius,
-                  float temperaturaMaximaCelsius,
-                  float temperaturaDeseadaCelsius) {
+                  @NonNull ZonedDateTime fechaInstalacion) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
     this.encargado = encargado;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
-    this.temperaturaDeseadaCelsius = temperaturaDeseadaCelsius;
 
     this.viandas = new ArrayList<>();
   }
 
-  public void setUltimaTempRegistradaCelsius(float temperatura) {
+  public void setUltimaTempRegistradaCelsius(double temperatura) {
     ultimaTempRegistradaCelsius = temperatura;
+    momentoUltimaTempRegistrada = ZonedDateTime.now();
+  }
+
+  public void setUltimaTempRegistradaCelsius() {
     momentoUltimaTempRegistrada = ZonedDateTime.now();
   }
 
