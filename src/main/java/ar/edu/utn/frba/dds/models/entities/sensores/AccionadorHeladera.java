@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.models.entities.sensores;
 
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+
 import java.util.List;
 
 public class AccionadorHeladera {
@@ -10,9 +12,9 @@ public class AccionadorHeladera {
     }
 
 
-    private void accionar() {
+    private void accionar(Heladera heladera) {
         //TODO ¿deberia de mandar la heladera?
-        this.comandosHeladeras.forEach(c -> c.accionar());
+        this.comandosHeladeras.forEach(c -> c.accionar(heladera));
     }
 
 
@@ -24,9 +26,9 @@ public class AccionadorHeladera {
     }
 
     //Es el metodo que se llama a la hora de detectar algun tipo de Incidente
-    public void sucedeIncidente(TipoAlertaHeladera tipoAlertaHeladera) {
+    public void sucedeIncidente(TipoAlertaHeladera tipoAlertaHeladera, Heladera heladera) {
         this.registrarIncidente(tipoAlertaHeladera);
-        this.accionar();
+        this.accionar(heladera);
     }
 
     public void agregarComando(ComandoHeladera comandoHeladera) {

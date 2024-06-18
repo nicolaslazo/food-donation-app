@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Heladera {
-  private final float temperaturaMinimaCelsius;
-  private final float temperaturaMaximaCelsius;
   private final int capacidadEnViandas;
   @NonNull
   private final ZonedDateTime fechaInstalacion;
@@ -34,6 +32,9 @@ public class Heladera {
   private float temperaturaDeseadaCelsius;
   private float ultimaTempRegistradaCelsius;
   private ZonedDateTime momentoUltimaTempRegistrada;
+  @Getter
+  @Setter
+  private EstadoFuncionamiento estadoFuncionamiento;
 
   public Heladera(@NonNull String nombre,
                   Ubicacion ubicacion,
@@ -48,8 +49,6 @@ public class Heladera {
     this.encargado = encargado;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
-    this.temperaturaMinimaCelsius = temperaturaMinimaCelsius;
-    this.temperaturaMaximaCelsius = temperaturaMaximaCelsius;
     this.temperaturaDeseadaCelsius = temperaturaDeseadaCelsius;
 
     this.viandas = new ArrayList<>();
@@ -65,32 +64,11 @@ public class Heladera {
     return momentoUltimaTempRegistrada.isBefore(haceCincoMinutos);
   }
 
-  private boolean temperaturaEstaDentroDeRangoDeModelo() {
-    return ultimaTempRegistradaCelsius > temperaturaMaximaCelsius || ultimaTempRegistradaCelsius < temperaturaMinimaCelsius;
-  }
-
-  private boolean temperaturaEstaDentroDeMargenDeTolerancia() {
-    return ultimaTempRegistradaCelsius < temperaturaDeseadaCelsius + 2 && ultimaTempRegistradaCelsius > temperaturaDeseadaCelsius - 2;
-  }
-
-  public EstadoDeFuncionamiento getEstado() {
-    if (momentoUltimaTempRegistrada == null) {
-      return EstadoDeFuncionamiento.EN_FALLA;
-    } else if (ultimaTemperaturaEsVieja()) {
-      return EstadoDeFuncionamiento.EN_FALLA;
-    } else if (temperaturaEstaDentroDeRangoDeModelo()) {
-      return EstadoDeFuncionamiento.DEFICIENTE;
-    } else if (temperaturaEstaDentroDeMargenDeTolerancia()) {
-      return EstadoDeFuncionamiento.REPOSANDO;
-    } else {
-      return EstadoDeFuncionamiento.ENFRIANDO;
-    }
-  }
-
   public int mesesActiva() {
-    if (getEstado() == EstadoDeFuncionamiento.EN_FALLA) return 0;
+    if (this.getEstadoFuncionamiento() == EstadoFuncionamiento.INACTIVA) return 0;
     return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
