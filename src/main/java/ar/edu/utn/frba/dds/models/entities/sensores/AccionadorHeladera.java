@@ -15,8 +15,12 @@ public class AccionadorHeladera {
         this.comandosHeladeras.forEach(c -> c.accionar());
     }
 
+
+    //TODO se me ocurre una sobre carga de este metodo para la opcion de que no sea una Alerta
+    // y quieras registrar una falla tecnica por un colaborador
     private void registrarIncidente(TipoAlertaHeladera tipoAlertaHeladera) {
         //TODO deberiamos de utilizar el repositorio de los Incidentes y guardarlo ahi
+        //TODO podriamos utilizar un Builder para crear el TipoIncidente
     }
 
     //Es el metodo que se llama a la hora de detectar algun tipo de Incidente

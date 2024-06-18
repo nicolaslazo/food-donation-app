@@ -7,10 +7,10 @@ public class ReceptorTemperatura {
 
     public void evaluarReceptor(Double temperaturaRecibida) {
         if (temperaturaRecibida < temperaturaMinima) {
-            //TODO
+            accionador.sucedeIncidente(TipoAlertaHeladera.BAJA_TEMPERATURA);
         }
         else if (temperaturaRecibida > temperaturaMaxima) {
-            //TODO
+            accionador.sucedeIncidente(TipoAlertaHeladera.BAJA_TEMPERATURA);
         }
     }
 }
