@@ -52,4 +52,20 @@ public class HeladerasRepository {
 
     return heladera.getId();
   }
+
+  public void updateHeladera(int id, Heladera nuevaHeladera) {
+    for (int i = 0; i < heladeras.size(); i++) {
+      if (heladeras.get(i).getId() == id) {
+        heladeras.set(i, nuevaHeladera);
+        nuevaHeladera.setId(id);  // Asegurarse de que la nueva heladera mantenga el mismo ID
+        return;
+      }
+    }
+    throw new IllegalArgumentException("No se encontró una heladera con el ID especificado");
+  }
+
+  public void updateHeladera(Heladera heladera) {
+    updateHeladera(heladera.getId(), heladera);
+  }
 }
+
