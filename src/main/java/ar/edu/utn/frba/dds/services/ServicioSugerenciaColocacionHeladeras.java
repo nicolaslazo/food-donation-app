@@ -31,7 +31,7 @@ public class ServicioSugerenciaColocacionHeladeras {
 
   public static void main(String[] args) {
     // Demo usando una mock API de Postman
-    Coordenadas obelisco = new Coordenadas(-58.381700, -34.6036152);
+    Coordenadas obelisco = new Coordenadas(-34.6036152, -58.381700);
     AreaGeografica alrededorDelObelisco = new AreaGeografica(obelisco, 50);
 
     ServicioSugerenciaColocacionHeladeras servicio = ServicioSugerenciaColocacionHeladeras.getInstancia();
