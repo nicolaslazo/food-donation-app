@@ -25,7 +25,7 @@ public class ConfiguracionSensores {
 		receptorTensionDeLuz.setAccionador(accionadorParaTensionBajaDeLuz);
 		....
 	}*/
-
+    /*
     List<ComandoHeladera> comandosParaTemperatura = new ArrayList<>();
 
 
@@ -41,5 +41,5 @@ public class ConfiguracionSensores {
             .build();
 
 
-
+    */
 }

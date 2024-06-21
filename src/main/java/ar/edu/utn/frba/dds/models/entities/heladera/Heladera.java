@@ -33,7 +33,7 @@ public class Heladera {
   private ZonedDateTime momentoUltimaTempRegistrada;
   @Getter
   @Setter
-  private EstadoFuncionamiento estadoFuncionamiento;
+  private Boolean heladeraActiva;
 
   public Heladera(@NonNull String nombre,
                   Ubicacion ubicacion,
@@ -64,7 +64,7 @@ public class Heladera {
   }
 
   public int mesesActiva() {
-    if (this.getEstadoFuncionamiento() == EstadoFuncionamiento.INACTIVA) return 0;
+    if (this.getHeladeraActiva() == false) return 0;
     return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
 

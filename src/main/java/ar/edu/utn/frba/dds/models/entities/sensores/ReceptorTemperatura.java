@@ -2,12 +2,14 @@ package ar.edu.utn.frba.dds.models.entities.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Setter;
 
-@Builder
 public class ReceptorTemperatura {
-    private Double temperaturaMinima;
-    private Double temperaturaMaxima;
+    @NonNull
+    private double temperaturaMinima;
+    @NonNull
+    private double temperaturaMaxima;
     private AccionadorHeladera accionador;
 
     public void evaluarReceptor(Double temperaturaRecibida, Heladera heladera) {
