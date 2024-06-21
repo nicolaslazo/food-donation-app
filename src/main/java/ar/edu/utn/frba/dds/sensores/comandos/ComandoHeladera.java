@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.models.entities.sensores.comandos;
+package ar.edu.utn.frba.dds.sensores.comandos;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 

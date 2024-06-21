@@ -1,9 +1,7 @@
-package ar.edu.utn.frba.dds.models.entities.sensores;
+package ar.edu.utn.frba.dds.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import lombok.Builder;
 import lombok.NonNull;
-import lombok.Setter;
 
 public class ReceptorTemperatura {
     @NonNull
@@ -20,4 +18,6 @@ public class ReceptorTemperatura {
             accionador.sucedeIncidente(TipoAlertaHeladera.BAJA_TEMPERATURA,heladera);
         }
     }
+
+
 }

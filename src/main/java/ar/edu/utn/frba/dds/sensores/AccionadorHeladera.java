@@ -1,8 +1,7 @@
-package ar.edu.utn.frba.dds.models.entities.sensores;
+package ar.edu.utn.frba.dds.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.sensores.comandos.ComandoHeladera;
-import lombok.Builder;
+import ar.edu.utn.frba.dds.sensores.comandos.ComandoHeladera;
 
 import java.util.ArrayList;
 import java.util.List;

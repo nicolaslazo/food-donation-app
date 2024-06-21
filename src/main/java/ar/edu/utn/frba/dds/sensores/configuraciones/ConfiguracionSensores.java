@@ -1,14 +1,4 @@
-package ar.edu.utn.frba.dds.models.entities.sensores.configuraciones;
-
-import ar.edu.utn.frba.dds.models.entities.sensores.AccionadorHeladera;
-import ar.edu.utn.frba.dds.models.entities.sensores.ReceptorTemperatura;
-import ar.edu.utn.frba.dds.models.entities.sensores.comandos.ComandoHeladera;
-import ar.edu.utn.frba.dds.models.entities.sensores.comandos.PonerInactivaHeladera;
-import ar.edu.utn.frba.dds.models.entities.sensores.comandos.RegistrarTiempoTemperatura;
-import lombok.Builder;
-
-import java.util.ArrayList;
-import java.util.List;
+package ar.edu.utn.frba.dds.sensores.configuraciones;
 
 public class ConfiguracionSensores {
     /*>> Bootstrap {
