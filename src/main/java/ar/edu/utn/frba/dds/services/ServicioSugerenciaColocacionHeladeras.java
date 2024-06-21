@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.services;
 import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Coordenadas;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -30,22 +29,9 @@ public class ServicioSugerenciaColocacionHeladeras {
     return instancia;
   }
 
-  public List<Coordenadas> solicitarSugerencias(AreaGeografica area) throws IOException {
-    Coordenadas coordenadas = area.centro().coordenadas();
-
-    InterfazServicioSugerenciaColocacionHeladeras interfaz =
-        this.retrofit.create(InterfazServicioSugerenciaColocacionHeladeras.class);
-    Call<List<Coordenadas>> request = interfaz.sugerencias(
-        coordenadas.getLongitud(), coordenadas.getLatitud(), area.radioEnMetros()
-    );
-    Response<List<Coordenadas>> response = request.execute();
-
-    return response.body();
-  }
-
   public static void main(String[] args) {
     // Demo usando una mock API de Postman
-    Ubicacion obelisco = new Ubicacion(new Coordenadas(-34.6036152, -58.381700));
+    Coordenadas obelisco = new Coordenadas(-58.381700, -34.6036152);
     AreaGeografica alrededorDelObelisco = new AreaGeografica(obelisco, 50);
 
     ServicioSugerenciaColocacionHeladeras servicio = ServicioSugerenciaColocacionHeladeras.getInstancia();
@@ -56,5 +42,18 @@ public class ServicioSugerenciaColocacionHeladeras {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public List<Coordenadas> solicitarSugerencias(AreaGeografica area) throws IOException {
+    Coordenadas coordenadas = area.centro();
+
+    InterfazServicioSugerenciaColocacionHeladeras interfaz =
+        this.retrofit.create(InterfazServicioSugerenciaColocacionHeladeras.class);
+    Call<List<Coordenadas>> request = interfaz.sugerencias(
+        coordenadas.getLongitud(), coordenadas.getLatitud(), area.radioEnMetros()
+    );
+    Response<List<Coordenadas>> response = request.execute();
+
+    return response.body();
   }
 }

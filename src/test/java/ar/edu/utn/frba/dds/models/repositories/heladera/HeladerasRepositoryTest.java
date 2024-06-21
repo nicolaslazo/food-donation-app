@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Coordenadas;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HeladerasRepositoryTest {
-  final Ubicacion obelisco = new Ubicacion(new Coordenadas(-34.5611745, -58.4287506));
+  final Ubicacion obelisco = new Ubicacion(-58.4287506, -34.5611745);
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
   final Heladera heladera = new Heladera("Heladera",
       obelisco,
@@ -29,7 +28,7 @@ class HeladerasRepositoryTest {
       10,
       5);
   final Heladera otraHeladera = new Heladera("Otra heladera",
-      new Ubicacion(new Coordenadas(-34.0, -58.0)),
+      new Ubicacion(-58.0, -34.0),
       colaboradorMock,
       60,
       ZonedDateTime.now(),
