@@ -1,0 +1,57 @@
+package ar.edu.utn.frba.dds.models.repositories.heladera;
+
+import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.heladera.Suscripcion;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class SuscripcionRepository {
+  static SuscripcionRepository instancia = null;
+  List<Suscripcion> suscripciones;
+
+  private SuscripcionRepository() {
+    suscripciones = new ArrayList<>();
+  }
+
+  public static SuscripcionRepository getInstancia() {
+    if (instancia == null) {
+      instancia = new SuscripcionRepository();
+    }
+
+    return instancia;
+  }
+
+  public Optional<Suscripcion> get(int id) {
+    return suscripciones.stream().filter(suscripcion -> suscripcion.getId() == id).findFirst();
+  }
+
+  public List<Suscripcion> get(Heladera heladera) {
+    return suscripciones.stream().filter(suscripcion -> suscripcion.getHeladera() == heladera).toList();
+  }
+
+  public Optional<Suscripcion> get(Heladera heladera, Colaborador colaborador) {
+    return suscripciones
+        .stream()
+        .filter(suscripcion -> suscripcion.getHeladera() == heladera && suscripcion.getColaborador() == colaborador)
+        .findFirst();
+  }
+
+  public int insert(Suscripcion suscripcion) throws RepositoryInsertException {
+    if (get(suscripcion.getHeladera(), suscripcion.getColaborador()).isPresent()) {
+      throw new RepositoryInsertException("Ese colaborador ya está inscrito a esa heladera");
+    }
+
+    suscripciones.add(suscripcion);
+    suscripcion.setId(suscripciones.size());
+
+    return suscripcion.getId();
+  }
+
+  public void deleteTodas() {
+    suscripciones.clear();
+  }
+}

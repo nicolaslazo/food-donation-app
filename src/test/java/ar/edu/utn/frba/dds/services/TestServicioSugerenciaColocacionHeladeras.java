@@ -1,8 +1,7 @@
-package ar.edu.utn.frba.dds.models.entities.services;
+package ar.edu.utn.frba.dds.services;
 
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Coordenadas;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import retrofit2.Call;
@@ -26,7 +25,7 @@ public class TestServicioSugerenciaColocacionHeladeras {
         new Coordenadas(-34.6036200, -58.381750)
     );
 
-    Ubicacion obelisco = new Ubicacion(new Coordenadas(-34.6036152, -58.3817700));
+    Coordenadas obelisco = new Coordenadas(-34.6036152, -58.3817700);
     AreaGeografica alrededorDelObelisco = new AreaGeografica(obelisco, 50);
 
     ServicioSugerenciaColocacionHeladeras servicio = ServicioSugerenciaColocacionHeladeras.getInstancia();
