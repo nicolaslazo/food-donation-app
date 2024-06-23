@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,17 +11,20 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TecnicosRepositoryTest {
-  TecnicoRepository repositorio;
+  final AreaGeografica areaGeografica = new AreaGeografica(new Ubicacion(-34, -58), 100f);
+  TecnicoRepository repositorio = TecnicoRepository.getInstancia();
   Tecnico tecnico;
 
   @BeforeEach
   void setUp() {
-    repositorio = new TecnicoRepository();
-    tecnico = new Tecnico("123456");
-    Tecnico tecnico1 = new Tecnico("401");
-    Tecnico tecnico2 = new Tecnico("402");
+    repositorio.deleteTodos();
+
+    tecnico = new Tecnico("123456", areaGeografica);
+    Tecnico tecnico1 = new Tecnico("401", areaGeografica);
+    Tecnico tecnico2 = new Tecnico("402", areaGeografica);
     repositorio.insertTecnico(tecnico1);
     repositorio.insertTecnico(tecnico2);
   }
@@ -72,5 +77,12 @@ class TecnicosRepositoryTest {
   void testDeleteTecnicoNoExistente() {
     boolean resultado = repositorio.deleteTecnico("999999");
     Assertions.assertFalse(resultado, "El técnico no debería haber sido eliminado porque no existe");
+  }
+
+  @Test
+  void testDeleteTodosLimpiaElRepositorio() {
+    repositorio.deleteTodos();
+
+    assertTrue(repositorio.getTecnico("401").isEmpty());
   }
 }
