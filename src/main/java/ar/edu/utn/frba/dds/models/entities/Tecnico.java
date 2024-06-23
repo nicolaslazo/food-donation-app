@@ -15,9 +15,10 @@ public class Tecnico {
   @Getter
   private final String cuil;
   private List<Contacto> contactos;
+  @Getter
   private AreaGeografica areaAsignada;
 
-  public Tecnico(String cuil) {
+  public Tecnico(String cuil, AreaGeografica areaAsignada) {
     this.cuil = cuil;
   }
 }
