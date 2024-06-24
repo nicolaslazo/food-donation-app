@@ -1,8 +1,9 @@
-package ar.edu.utn.frba.dds.models.repositories.heladera;
+package ar.edu.utn.frba.dds.models.repositories.contacto;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
+import ar.edu.utn.frba.dds.models.entities.contacto.TipoNotificacion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.heladera.Suscripcion;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,17 +20,17 @@ class SuscripcionRepositoryTest {
   final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final Suscripcion suscripcion = new Suscripcion(heladeraMock, colaboradorMock);
+  final Suscripcion suscripcion = new Suscripcion(heladeraMock, TipoNotificacion.FALLA_HELADERA, colaboradorMock);
 
   @BeforeEach
-  void setUp() {
+  void setUp() throws RepositoryInsertException {
     repositorio.deleteTodas();
+
+    repositorio.insert(suscripcion);
   }
 
   @Test
-  void testGetPorId() throws RepositoryInsertException {
-    repositorio.insert(suscripcion);
-
+  void testGetPorId() {
     Optional<Suscripcion> encontrada = repositorio.get(1);
 
     assertTrue(encontrada.isPresent());
@@ -39,8 +40,7 @@ class SuscripcionRepositoryTest {
   @Test
   void testGetPorHeladera() throws RepositoryInsertException {
     final Colaborador otroColaboradorMock = Mockito.mock(Colaborador.class);
-    repositorio.insert(suscripcion);
-    repositorio.insert(new Suscripcion(heladeraMock, otroColaboradorMock));
+    repositorio.insert(new Suscripcion(heladeraMock, TipoNotificacion.FALLA_HELADERA, otroColaboradorMock));
 
     List<Suscripcion> suscripciones = repositorio.get(heladeraMock);
 
@@ -48,34 +48,42 @@ class SuscripcionRepositoryTest {
   }
 
   @Test
-  void testGetPorHeladeraYColaborador() throws RepositoryInsertException {
-    repositorio.insert(suscripcion);
+  void testGetPorHeladeraYTipoDeNotificacion() {
+    List<Suscripcion> encontradas = repositorio.get(heladeraMock, TipoNotificacion.FALLA_HELADERA);
 
-    Optional<Suscripcion> encontrada = repositorio.get(heladeraMock, colaboradorMock);
-
-    assertTrue(encontrada.isPresent());
-    assertEquals(colaboradorMock, encontrada.get().getColaborador());
+    assertEquals(1, encontradas.size());
+    assertEquals(suscripcion, encontradas.get(0));
   }
 
   @Test
-  void testInsertarSuscripcion() throws RepositoryInsertException {
-    int id = repositorio.insert(suscripcion);
+  void testGetPorHeladeraYColaborador() {
+    List<Suscripcion> encontradas = repositorio.get(heladeraMock, colaboradorMock);
 
-    assertEquals(1, id);
+    assertEquals(1, encontradas.size());
+    assertEquals(colaboradorMock, encontradas.get(0).getColaborador());
+  }
+
+  @Test
+  void testGetPorTodosLosAtributos() {
+    Optional<Suscripcion> encontrada = repositorio.get(1);
+
+    assertTrue(encontrada.isPresent());
+    assertEquals(suscripcion, encontrada.get());
+  }
+
+  @Test
+  void testInsertarSuscripcion() {
     assertEquals(1, suscripcion.getId());
   }
 
   @Test
-  void testInsertarSuscripcionDuplicadaLanzaExcepcion() throws RepositoryInsertException {
-    repositorio.insert(suscripcion);
-
-    assertThrows(RepositoryInsertException.class, () -> repositorio.insert(new Suscripcion(heladeraMock, colaboradorMock)));
+  void testInsertarSuscripcionDuplicadaLanzaExcepcion() {
+    assertThrows(RepositoryInsertException.class,
+        () -> repositorio.insert(new Suscripcion(heladeraMock, TipoNotificacion.FALLA_HELADERA, colaboradorMock)));
   }
 
   @Test
-  void testEliminarTodas() throws RepositoryInsertException {
-    repositorio.insert(suscripcion);
-
+  void testEliminarTodas() {
     repositorio.deleteTodas();
 
     assertTrue(repositorio.get(1).isEmpty());
