@@ -28,7 +28,7 @@ public class CargarAlertaEnIncidentes {
                         TipoIncidenteHeladera.ALERTA,
                         null,
                         heladera,
-                        "Se detecto una falla en la heladera de tipo: " +
+                        "Se detecto una alerta en la heladera de tipo: " +
                                 tipoAlertaHeladera.toString(),
                         null
                 )

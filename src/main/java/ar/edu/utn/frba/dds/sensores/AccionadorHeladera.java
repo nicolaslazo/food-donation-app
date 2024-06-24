@@ -20,7 +20,6 @@ public class AccionadorHeladera {
     public CargarAlertaEnIncidentes cargadorAlertas;
 
     private void accionar(Heladera heladera) {
-        //TODO ¿deberia de mandar la heladera?
         this.comandosHeladeras.forEach(c -> c.accionar(heladera));
     }
 
