@@ -47,4 +47,9 @@ public class IncidenteRepository implements IIncidenteRepository {
         //TODO
         return false;
     }
+
+    //Lo necesito para generar un ID, despues se puede cambiar si no les gusta
+    public int getSize() {
+        return incidentesHeladeras.size();
+    }
 }

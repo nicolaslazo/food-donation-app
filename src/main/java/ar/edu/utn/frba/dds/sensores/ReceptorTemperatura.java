@@ -10,7 +10,7 @@ public class ReceptorTemperatura {
     private double temperaturaMaxima;
     private AccionadorHeladera accionador;
 
-    public void evaluarReceptor(Double temperaturaRecibida, Heladera heladera) {
+    public void evaluarReceptor(double temperaturaRecibida, Heladera heladera) {
         if (temperaturaRecibida < temperaturaMinima) {
             accionador.sucedeIncidente(TipoAlertaHeladera.BAJA_TEMPERATURA,heladera);
         }

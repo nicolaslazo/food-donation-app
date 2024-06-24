@@ -18,4 +18,7 @@ public interface IIncidenteRepository {
     boolean existsIncidenteHeladera(int id);
 
     boolean updateIncidenteHeladera(IncidenteHeladera incidenteHeladera);
+
+    int getSize();
+
 }
