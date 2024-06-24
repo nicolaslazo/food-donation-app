@@ -9,10 +9,19 @@ import java.util.Optional;
 
 @Getter
 public class TecnicoRepository implements ITecnicoRepository {
+  private static TecnicoRepository instancia = null;
   private final List<Tecnico> tecnicos;
 
   public TecnicoRepository() {
     tecnicos = new ArrayList<>();
+  }
+
+  public static TecnicoRepository getInstancia() {
+    if (instancia == null) {
+      instancia = new TecnicoRepository();
+    }
+
+    return instancia;
   }
 
   public Optional<Tecnico> getTecnico(String cuil) {
@@ -36,5 +45,7 @@ public class TecnicoRepository implements ITecnicoRepository {
     return true;
   }
 
-
+  public void deleteTodos() {
+    tecnicos.clear();
+  }
 }
