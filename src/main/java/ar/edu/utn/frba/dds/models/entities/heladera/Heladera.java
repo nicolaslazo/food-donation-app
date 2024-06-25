@@ -29,6 +29,7 @@ public class Heladera {
   private int id;
   @NonNull
   private String nombre;
+  @Getter
   private double ultimaTempRegistradaCelsius;
   private ZonedDateTime momentoUltimaTempRegistrada;
   @Getter

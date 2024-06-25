@@ -9,6 +9,11 @@ public class SensorTemperatura implements IMqttMessageListener {
     private ReceptorTemperatura receptorTemperatura;
     private Heladera heladera;
 
+    public SensorTemperatura(ReceptorTemperatura receptorTemperatura, Heladera heladera) {
+        this.receptorTemperatura = receptorTemperatura;
+        this.heladera = heladera;
+    }
+
     //TODO Como vamos a recibir los datos para parsearlos? lo dejo asi por ahora
     public void recibirDatos(String datos) {
         this.receptorTemperatura.evaluarReceptor(
