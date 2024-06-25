@@ -18,15 +18,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository.calcularViandasPorColaboradorSemanaAnterior;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class DonacionViandasRepositoryTest {
   final DonacionViandasRepository repositorio = DonacionViandasRepository.getInstancia();
-  final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final Vianda viandaMock = Mockito.mock(Vianda.class);
+  final Colaborador colaboradorMock = mock(Colaborador.class);
+  final Vianda viandaMock = mock(Vianda.class);
   final DonacionViandas donacion = new DonacionViandas(colaboradorMock,
       ZonedDateTime.now(),
       Collections.singletonList(viandaMock));
@@ -51,7 +53,7 @@ class DonacionViandasRepositoryTest {
   void testObtenerTotalPorColaborador() throws RepositoryInsertException {
     DonacionViandas otraDonacion = new DonacionViandas(colaboradorMock,
         ZonedDateTime.now(),
-        Arrays.asList(Mockito.mock(Vianda.class), Mockito.mock(Vianda.class)));
+        Arrays.asList(mock(Vianda.class), mock(Vianda.class)));
     repositorio.insert(donacion);
     repositorio.insert(otraDonacion);
 
@@ -82,6 +84,42 @@ class DonacionViandasRepositoryTest {
     repositorio.deleteTodo();
 
     assertTrue(repositorio.get(1).isEmpty());
+  }
+
+  // Mock de la lista de donaciones
+  private List<DonacionViandas> donaciones;
+
+  @BeforeEach
+  public void setUpNuevo() {
+    donaciones = new ArrayList<>();
+
+    // Mock de ZonedDateTime.now() para la fecha actual en el método
+    ZonedDateTime fechaHoy = ZonedDateTime.now();
+
+    // Mock de ZonedDateTime.minusWeeks(1) para la fecha de la semana anterior
+    ZonedDateTime fechaSemanaAnterior = fechaHoy.minusWeeks(1);
+
+    // Creación de objetos mock para Colaborador y Viandas
+    Colaborador colaboradorMock1 = mock(Colaborador.class);
+    when(colaboradorMock1.getNombre()).thenReturn("Juan");
+    when(colaboradorMock1.getApellido()).thenReturn("Perez");
+
+    Colaborador colaboradorMock2 = mock(Colaborador.class);
+    when(colaboradorMock2.getNombre()).thenReturn("Maria");
+    when(colaboradorMock2.getApellido()).thenReturn("Gomez");
+
+    Vianda viandaMock1 = mock(Vianda.class);
+    Vianda viandaMock2 = mock(Vianda.class);
+
+    // Creación de objetos DonacionViandas mock y su fecha
+    DonacionViandas donacion1 = new DonacionViandas(colaboradorMock1, fechaHoy.minusDays(2), List.of(viandaMock1));
+    DonacionViandas donacion2 = new DonacionViandas(colaboradorMock2, fechaHoy.minusDays(5), List.of(viandaMock1, viandaMock2));
+    DonacionViandas donacion3 = new DonacionViandas(colaboradorMock1, fechaHoy.minusWeeks(2), List.of(viandaMock2));
+
+    // Añadir donaciones a la lista mock
+    donaciones.add(donacion1);
+    donaciones.add(donacion2);
+    donaciones.add(donacion3);
   }
 
 }

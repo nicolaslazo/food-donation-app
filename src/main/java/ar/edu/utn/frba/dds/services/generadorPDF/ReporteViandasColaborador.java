@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.services.convertidorpdf;
+package ar.edu.utn.frba.dds.services.generadorPDF;
 
 import java.util.Map;
 
