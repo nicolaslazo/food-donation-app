@@ -11,55 +11,45 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 public class PdfGenerator {
 
-  public static void main(String[] args) {
-    String directoryPath = "src/main/reportes";
-    crearSiNoExiste(directoryPath);
+  public String nombreArchivo;
+  public String tituloTabla;
+  public String[] headersTabla;
+  public Map<String, Integer> data;
 
-    generatePdf(directoryPath + "/ReporteFallasHeladeras.pdf", "Cantidad de fallas por heladera", new String[]{"ID HELADERA", "CANTIDAD"},
-        new String[][]{
-            {"5675", "25"},
-            {"324", "30"}
-        });
-
-    generatePdf(directoryPath + "/ReporteMovimientoHeladeras.pdf", "Cantidad de movimientos por heladera", new String[]{"ID HELADERA", "CANTIDAD"},
-        new String[][]{
-            {"234", "2"},
-            {"2345", "15"}
-        });
-
-    generatePdf(directoryPath + "/ReporteCantidadViandasColaborador.pdf", "Cantidad de viandas donadas por colaborador", new String[]{"Nombre", "Cantidad"},
-        new String[][]{
-            {"Messi", "32"},
-            {"Merentiel", "45"}
-        });
+  public PdfGenerator(String nombreArchivo, String tituloTabla, String[] headersTabla, Map<String, Integer> data) {
+    this.nombreArchivo = nombreArchivo;
+    this.tituloTabla = tituloTabla;
+    this.headersTabla = headersTabla;
+    this.data = data;
   }
 
-  private static void generatePdf(String fileName, String tableTitle, String[] headers, String[][] data) {
+  private void generatePdf() {
     try {
+
       // Inicializar el documento PDF
-      PdfWriter writer = new PdfWriter(fileName);
+      PdfWriter writer = new PdfWriter(nombreArchivo);
       PdfDocument pdf = new PdfDocument(writer);
       Document document = new Document(pdf);
 
-      tituloYFecha(document, "Reporte");
+      tituloYFecha(document);
 
-      document.add(new Paragraph(tableTitle));
+      document.add(new Paragraph(tituloTabla));
 
-      Table table = new Table(headers.length);
+      Table table = new Table(headersTabla.length);
 
       // Encabezados de columna
-      for (String header : headers) {
+      for (String header : headersTabla) {
         table.addCell(header);
       }
 
       // Filas de datos
-      for (String[] row : data) {
-        for (String cell : row) {
-          table.addCell(cell);
-        }
+      for (Map.Entry<String, Integer> entry : data.entrySet()) {
+        table.addCell(entry.getKey()); // Nombre
+        table.addCell(String.valueOf(entry.getValue())); // Cantidad
       }
 
       document.add(table);
@@ -73,8 +63,8 @@ public class PdfGenerator {
     }
   }
 
-  private static void tituloYFecha(Document document, String titleText) {
-    Paragraph title = new Paragraph(titleText);
+  private static void tituloYFecha(Document document) {
+    Paragraph title = new Paragraph("Reporte");
     title.setTextAlignment(TextAlignment.CENTER);
     document.add(title);
 
@@ -85,11 +75,5 @@ public class PdfGenerator {
     date.setTextAlignment(TextAlignment.RIGHT);
     document.add(date);
   }
-
-  private static void crearSiNoExiste(String directoryPath) {
-    File directory = new File(directoryPath);
-    if (!directory.exists()) {
-      directory.mkdirs();
-    }
-  }
+  
 }
