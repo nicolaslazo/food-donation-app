@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.sensores.TipoAlertaHeladera;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
@@ -12,6 +13,7 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 public class IncidenteHeladera {
     @Getter
+    @Setter
     private int idIncidente;
     private ZonedDateTime fechaHora;
     private TipoAlertaHeladera tipoAlertaHeladera;

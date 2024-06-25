@@ -28,6 +28,7 @@ public class IncidenteRepository implements IIncidenteRepository {
 
     @Override
     public void insertIncidenteHeladera(IncidenteHeladera incidenteHeladera) {
+        incidenteHeladera.setIdIncidente(incidentesHeladeras.size()+1);
         incidentesHeladeras.add(incidenteHeladera);
     }
 

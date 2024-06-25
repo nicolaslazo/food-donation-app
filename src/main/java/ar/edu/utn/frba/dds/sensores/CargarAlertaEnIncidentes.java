@@ -22,7 +22,7 @@ public class CargarAlertaEnIncidentes {
     public void cargarIncidente(TipoAlertaHeladera tipoAlertaHeladera, Heladera heladera) {
         incidenteRepository.insertIncidenteHeladera(
                 new IncidenteHeladera(
-                        incidenteRepository.getSize() + 1,
+                        0,
                         ZonedDateTime.now(),
                         tipoAlertaHeladera,
                         TipoIncidenteHeladera.ALERTA,
