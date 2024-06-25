@@ -1,19 +1,17 @@
 package ar.edu.utn.frba.dds.models.entities.ubicacion;
 
 import lombok.Getter;
-import lombok.NonNull;
 
 import java.util.Objects;
 
-@SuppressWarnings("ClassCanBeRecord")
 @Getter
-public final class Coordenadas {
-  private final @NonNull Double longitud;
-  private final @NonNull Double latitud;
+public class Coordenadas {
+  private final double latitud;
+  private final double longitud;
 
-  public Coordenadas(@NonNull Double longitud, @NonNull Double latitud) {
-    this.longitud = longitud;
+  public Coordenadas(double latitud, double longitud) {
     this.latitud = latitud;
+    this.longitud = longitud;
   }
 
   @Override

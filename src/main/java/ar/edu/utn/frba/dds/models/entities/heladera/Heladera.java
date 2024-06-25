@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Heladera {
+  private final float temperaturaMinimaCelsius;
+  private final float temperaturaMaximaCelsius;
   private final int capacidadEnViandas;
   @NonNull
   private final ZonedDateTime fechaInstalacion;
@@ -23,12 +25,12 @@ public class Heladera {
   @NonNull
   private final Colaborador encargado;
   @Getter
+  private final Ubicacion ubicacion;
+  @Getter
   @Setter
   private int id;
   @NonNull
   private String nombre;
-  @Getter
-  private Ubicacion ubicacion;
   private double ultimaTempRegistradaCelsius;
   private ZonedDateTime momentoUltimaTempRegistrada;
   @Getter
