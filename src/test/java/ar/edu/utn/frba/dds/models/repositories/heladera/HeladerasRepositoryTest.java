@@ -24,17 +24,15 @@ class HeladerasRepositoryTest {
       colaboradorMock,
       50,
       ZonedDateTime.now().minusMonths(5),
-      0,
-      10,
-      5);
+      true
+  );
   final Heladera otraHeladera = new Heladera("Otra heladera",
       new Ubicacion(-34.0, -58.0),
       colaboradorMock,
       60,
       ZonedDateTime.now().minusMonths(7),
-      1,
-      12,
-      7);
+      true
+      );
   HeladerasRepository repository;
 
   @BeforeEach

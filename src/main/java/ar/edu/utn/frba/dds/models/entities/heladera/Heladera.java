@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Heladera {
-  private final float temperaturaMinimaCelsius;
-  private final float temperaturaMaximaCelsius;
   private final int capacidadEnViandas;
   @NonNull
   private final ZonedDateTime fechaInstalacion;
@@ -41,12 +39,14 @@ public class Heladera {
                   Ubicacion ubicacion,
                   @NonNull Colaborador encargado,
                   int capacidadEnViandas,
-                  @NonNull ZonedDateTime fechaInstalacion) {
+                  @NonNull ZonedDateTime fechaInstalacion,
+                  Boolean heladeraActiva) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
     this.encargado = encargado;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
+    this.heladeraActiva = heladeraActiva;
 
     this.viandas = new ArrayList<>();
   }
@@ -66,7 +66,7 @@ public class Heladera {
   }
 
   public int mesesActiva() {
-    if (this.getHeladeraActiva() == false) return 0;
+    if (!heladeraActiva) return 0;
     return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
 
