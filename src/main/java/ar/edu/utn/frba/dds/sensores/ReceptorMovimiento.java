@@ -2,7 +2,9 @@ package ar.edu.utn.frba.dds.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 
-public class ReceptorMovimiento {
+
+
+public class ReceptorMovimiento{
     private AccionadorHeladera accionadorHeladera;
 
     public void evaluarReceptor(String datos, Heladera heladera) {
