@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.entities.utils.permisos;
 
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
-import ar.edu.utn.frba.dds.models.repositories.IPermisosRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.IPermisosRepository;
 
 import java.util.Optional;
 

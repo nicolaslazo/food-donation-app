@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Optional;
 
@@ -22,10 +23,15 @@ class TecnicosRepositoryTest {
   void setUp() {
     repositorio.deleteTodos();
 
-    tecnico = new Tecnico("123456", areaGeografica);
-    Tecnico tecnico1 = new Tecnico("401", areaGeografica);
-    Tecnico tecnico2 = new Tecnico("402", areaGeografica);
+    tecnico = Mockito.mock(Tecnico.class);
+    Mockito.when(tecnico.getCuil()).thenReturn("123456");
+
+    Tecnico tecnico1 = Mockito.mock(Tecnico.class);
+    Mockito.when(tecnico1.getCuil()).thenReturn("1");
     repositorio.insertTecnico(tecnico1);
+
+    Tecnico tecnico2 = Mockito.mock(Tecnico.class);
+    Mockito.when(tecnico2.getCuil()).thenReturn("2");
     repositorio.insertTecnico(tecnico2);
   }
 

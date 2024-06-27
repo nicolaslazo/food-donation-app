@@ -1,13 +1,12 @@
 package ar.edu.utn.frba.dds.models.entities.users;
 
-import java.util.Collection;
+import java.util.Set;
 
 public class Rol {
   private String nombre;
-  private Collection<Permiso> permisos;
+  private Set<Permiso> permisos;
 
   public boolean tenesPermiso(Permiso permiso) {
-    return permisos
-        .stream().anyMatch(p -> p.equals(permiso));
+    return permisos.contains(permiso);
   }
 }

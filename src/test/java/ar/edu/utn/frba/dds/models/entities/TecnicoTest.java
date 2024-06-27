@@ -1,8 +1,11 @@
 package ar.edu.utn.frba.dds.models.entities;
 
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,16 +27,28 @@ class TecnicoTest {
   @Test
   void afirmaQueHeladeraEstaDentroDeRango() {
     assertTrue(
-        new Tecnico("123", new AreaGeografica(aCienMetrosDelObelisco, 200f))
-            .isDentroDeRango(heladeraMock)
+        new Tecnico("",
+            "",
+            new Documento(TipoDocumento.DNI, 123),
+            "123",
+            null,
+            new AreaGeografica(aCienMetrosDelObelisco, 200f),
+            Mockito.mock(Usuario.class)
+        ).isDentroDeRango(heladeraMock)
     );
   }
 
   @Test
   void afirmaQueHeladeraNoEstaDentroDeRango() {
     assertFalse(
-        new Tecnico("123", new AreaGeografica(aCienMetrosDelObelisco, 50f))
-            .isDentroDeRango(heladeraMock)
+        new Tecnico("",
+            "",
+            new Documento(TipoDocumento.DNI, 123),
+            "123",
+            null,
+            new AreaGeografica(aCienMetrosDelObelisco, 50f),
+            Mockito.mock(Usuario.class)
+        ).isDentroDeRango(heladeraMock)
     );
   }
 }
