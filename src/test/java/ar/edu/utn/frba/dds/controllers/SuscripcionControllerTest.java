@@ -1,14 +1,16 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
+import ar.edu.utn.frba.dds.models.entities.contacto.TipoNotificacion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.heladera.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
-import ar.edu.utn.frba.dds.models.repositories.heladera.SuscripcionRepository;
+import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.EnumSet;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -33,8 +35,12 @@ class SuscripcionControllerTest {
   void testCrearSuscripcion() {
     when(colaboradorMock.getUbicacion()).thenReturn(bibliotecaNacional);
 
-    SuscripcionController.suscribirAHeladera(heladeraMock, colaboradorMock);
-    Optional<Suscripcion> suscripcionOpcional = SuscripcionRepository.getInstancia().get(heladeraMock, colaboradorMock);
+    SuscripcionController.suscribirAHeladera(heladeraMock,
+        EnumSet.of(TipoNotificacion.FALLA_HELADERA),
+        colaboradorMock);
+    Optional<Suscripcion> suscripcionOpcional = SuscripcionRepository
+        .getInstancia()
+        .get(heladeraMock, TipoNotificacion.FALLA_HELADERA, colaboradorMock);
 
     assertTrue(suscripcionOpcional.isPresent());
 
@@ -51,6 +57,9 @@ class SuscripcionControllerTest {
   void testCrearSuscripcionFallaSiElUsuarioViveLejos() {
     when(colaboradorMock.getUbicacion()).thenReturn(centroCivicoBariloche);
 
-    assertThrows(RuntimeException.class, () -> SuscripcionController.suscribirAHeladera(heladeraMock, colaboradorMock));
+    assertThrows(RuntimeException.class,
+        () -> SuscripcionController.suscribirAHeladera(heladeraMock,
+            EnumSet.of(TipoNotificacion.FALLA_HELADERA),
+            colaboradorMock));
   }
 }

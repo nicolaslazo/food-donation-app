@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
-import ar.edu.utn.frba.dds.models.entities.TarjetaAlimentaria;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class EntregaTarjetasRepositoryTest {
   Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
   final EntregaTarjetas entrega = new EntregaTarjetas(colaboradorMock,
       ZonedDateTime.now(),
-      Collections.singletonList(Mockito.mock(TarjetaAlimentaria.class)));
+      Collections.singletonList(Mockito.mock(Tarjeta.class)));
 
   @BeforeEach
   void setUp() {
@@ -42,7 +42,7 @@ class EntregaTarjetasRepositoryTest {
   void testObtenerTotalPorColaborador() throws RepositoryInsertException {
     EntregaTarjetas otraEntrega = new EntregaTarjetas(colaboradorMock,
         ZonedDateTime.now(),
-        Arrays.asList(Mockito.mock(TarjetaAlimentaria.class), Mockito.mock(TarjetaAlimentaria.class)));
+        Arrays.asList(Mockito.mock(Tarjeta.class), Mockito.mock(Tarjeta.class)));
 
     repositorio.insert(entrega);
     repositorio.insert(otraEntrega);

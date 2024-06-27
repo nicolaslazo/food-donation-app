@@ -1,11 +1,11 @@
 package ar.edu.utn.frba.dds.models.entities.colaborador;
 
-import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
-import ar.edu.utn.frba.dds.email.EnviadorDeMails;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.users.Rol;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -16,29 +16,36 @@ import java.util.Objects;
 
 public class Colaborador {
   @Getter
-  @NonNull
-  private final Documento documento;
+  private final @NonNull Documento documento;
   @Getter
-  private final List<Contacto> contactos = new ArrayList<>();
+  private final @NonNull List<Contacto> contactos;
+  private final LocalDate fechaNacimiento;
+  private final @NonNull Usuario usuario;
   @Getter
-  @NonNull
-  private String nombre;
+  private @NonNull String nombre;
   @Getter
-  @NonNull
-  private String apellido;
-  private LocalDate fechaNacimiento;
+  private @NonNull String apellido;
   @Getter
   private Ubicacion ubicacion;
 
-  public Colaborador(Documento documento, String nombre, String apellido, Email mail) {
+  public Colaborador(@NonNull Documento documento,
+                     @NonNull Email mail,
+                     LocalDate fechaNacimiento,
+                     @NonNull String nombre,
+                     @NonNull String apellido,
+                     Ubicacion ubicacion) {
     this.documento = documento;
+    this.contactos = new ArrayList<>(List.of(mail));
+    this.usuario = new Usuario(mail, new Rol());
+    this.contribuciones = new ArrayList<>();
+    this.fechaNacimiento = fechaNacimiento;
     this.nombre = nombre;
     this.apellido = apellido;
-    this.contactos.add(mail);
+    this.ubicacion = ubicacion;
+  }
 
-    String contraseniaTemporaria = GeneradorDeContrasenias.generarContrasenia();
-    EnviadorDeMails enviadorDeMails = new EnviadorDeMails();
-    enviadorDeMails.enviarMail(mail.getEmail(), contraseniaTemporaria);
+  public <T extends Contribucion> List<T> getContribuciones(@NonNull Class<T> tipo) {
+    return contribuciones.stream().filter(tipo::isInstance).map(tipo::cast).collect(Collectors.toList());
   }
 
   @Override
@@ -57,9 +64,10 @@ public class Colaborador {
   @Override
   public String toString() {
     return "Colaborador{" +
-        "documento=" + documento +
-        ", nombre='" + nombre + '\'' +
-        ", apellido='" + apellido + '\'' +
+        "documento=" +
+        documento + ", nombre='" +
+        nombre + '\'' + ", apellido='" +
+        apellido + '\'' +
         '}';
   }
 }

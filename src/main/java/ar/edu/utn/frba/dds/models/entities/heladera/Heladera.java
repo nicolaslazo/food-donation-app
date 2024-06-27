@@ -25,12 +25,12 @@ public class Heladera {
   @NonNull
   private final Colaborador encargado;
   @Getter
+  private final Ubicacion ubicacion;
+  @Getter
   @Setter
   private int id;
   @NonNull
   private String nombre;
-  @Getter
-  private Ubicacion ubicacion;
   private float temperaturaDeseadaCelsius;
   private float ultimaTempRegistradaCelsius;
   private ZonedDateTime momentoUltimaTempRegistrada;
@@ -91,6 +91,7 @@ public class Heladera {
     if (getEstado() == EstadoDeFuncionamiento.EN_FALLA) return 0;
     return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
