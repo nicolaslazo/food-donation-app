@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
 import ar.edu.utn.frba.dds.models.entities.recompensas.ExcepcionDeCanjeDePuntos;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
+import ar.edu.utn.frba.dds.models.repositories.recompensas.CanjeosRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

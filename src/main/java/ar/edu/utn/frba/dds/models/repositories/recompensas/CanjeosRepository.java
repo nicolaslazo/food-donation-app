@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.models.repositories;
+package ar.edu.utn.frba.dds.models.repositories.recompensas;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;

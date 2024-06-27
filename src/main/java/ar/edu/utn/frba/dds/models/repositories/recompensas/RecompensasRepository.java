@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.models.repositories;
+package ar.edu.utn.frba.dds.models.repositories.recompensas;
 
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 
@@ -27,9 +27,5 @@ public class RecompensasRepository {
   public void insert(Recompensa recompensa) {
     recompensa.setId(recompensas.size() + 1);
     recompensas.add(recompensa);
-  }
-
-  public void update(Recompensa categoria) {
-    //DO NOTHING
   }
 }
