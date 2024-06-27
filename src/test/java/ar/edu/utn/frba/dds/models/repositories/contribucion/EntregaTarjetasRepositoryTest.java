@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
-import ar.edu.utn.frba.dds.models.entities.TarjetaAlimentaria;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TarjetaAlimentaria;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;

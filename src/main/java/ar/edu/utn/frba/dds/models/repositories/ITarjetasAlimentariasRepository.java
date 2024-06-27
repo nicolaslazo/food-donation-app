@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
-import ar.edu.utn.frba.dds.models.entities.TarjetaAlimentaria;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TarjetaAlimentaria;
 
 import java.util.Optional;
 

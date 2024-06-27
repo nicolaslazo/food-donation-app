@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
@@ -29,8 +30,12 @@ class CanjeosRepositoryTest {
   void setUp() {
     repositorio = new CanjeosRepository();
     colaboradorDummy = new Colaborador(
-        new Documento(TipoDocumento.DNI, 123), "nombre", "apellido", null
-    );
+        new Documento(TipoDocumento.DNI, 123),
+        new Email("juan@example.com"),
+        null,
+        "",
+        "",
+        null);
     recompensaDummy = new Recompensa(
         "Recompensa dummy", RubroRecompensa.OTROS, 10, 1, null
     );
@@ -38,6 +43,7 @@ class CanjeosRepositoryTest {
   }
 
   void registrarRedistribucionViandas(Colaborador colaborador, int cantidad) {
+    // TODO: Arreglar cuando tengamos establecido el formato de registro de contribuciones
     new RedistribucionViandas(
         colaborador,
         ZonedDateTime.now(),

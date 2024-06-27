@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.contribucion;
 
-import ar.edu.utn.frba.dds.models.entities.TarjetaAlimentaria;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TarjetaAlimentaria;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import lombok.Getter;
 import lombok.NonNull;

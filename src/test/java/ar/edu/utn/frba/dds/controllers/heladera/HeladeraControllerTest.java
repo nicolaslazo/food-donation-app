@@ -1,9 +1,12 @@
 package ar.edu.utn.frba.dds.controllers.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +40,13 @@ class HeladeraControllerTest {
   @Test
   void testDevuelveNadaSiLosTecnicosProximosNoLleganEnRango() {
     tecnicoRepository.insertTecnico(
-        new Tecnico("123", new AreaGeografica(aCienMetrosDelObelisco, 50f))
+        new Tecnico("",
+            "",
+            new Documento(TipoDocumento.DNI, 123),
+            "123",
+            null,
+            new AreaGeografica(aCienMetrosDelObelisco, 50f),
+            Mockito.mock(Usuario.class))
     );
     assertTrue(heladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
   }
@@ -46,13 +55,23 @@ class HeladeraControllerTest {
   void testPriorizaTecnicoMasCercanoEnCasoDeVariosDisponibles() {
     final Ubicacion aCincuentaMetrosDelObelisco = new Ubicacion(-34.603725171426916,
         -58.38211380719743);
-    Tecnico tecnicoDeseado = new Tecnico(
-        "123", new AreaGeografica(aCincuentaMetrosDelObelisco, 1000f)
-    );
+    Tecnico tecnicoDeseado = new Tecnico("",
+        "",
+        new Documento(TipoDocumento.DNI, 123),
+        "123",
+        null,
+        new AreaGeografica(aCincuentaMetrosDelObelisco, 1000f),
+        Mockito.mock(Usuario.class));
 
     tecnicoRepository.insertTecnico(tecnicoDeseado);
     tecnicoRepository.insertTecnico(
-        new Tecnico("456", new AreaGeografica(aCienMetrosDelObelisco, 1000f))
+        new Tecnico("",
+            "",
+            new Documento(TipoDocumento.DNI, 456),
+            "456",
+            null,
+            new AreaGeografica(aCienMetrosDelObelisco, 1000f),
+            Mockito.mock(Usuario.class))
     );
 
     assertEquals(Optional.of(tecnicoDeseado), heladeraController.encontrarTecnicoMasCercano(heladeraMock));

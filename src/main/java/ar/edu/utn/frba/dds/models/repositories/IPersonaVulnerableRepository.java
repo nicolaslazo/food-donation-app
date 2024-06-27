@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
-import ar.edu.utn.frba.dds.models.entities.personaVulnerable.PersonaVulnerable;
+import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 
 import java.util.Optional;
 
