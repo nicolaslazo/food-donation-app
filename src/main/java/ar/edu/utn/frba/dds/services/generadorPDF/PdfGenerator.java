@@ -6,6 +6,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
+import lombok.Setter;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -15,29 +16,22 @@ import java.util.Map;
 public class PdfGenerator {
 
   private String nombreArchivo;
-  private String tituloTabla;
+  private String titulo;
   private String[] headersTabla;
   private Map<String, Integer> data;
+
+  @Setter
   private PdfWriter writer;
+  @Setter
   private PdfDocument pdf;
+  @Setter
   private Document document;
 
   public PdfGenerator(String nombreArchivo, String tituloTabla, String[] headersTabla, Map<String, Integer> data) {
     this.nombreArchivo = nombreArchivo;
-    this.tituloTabla = tituloTabla;
+    this.titulo= tituloTabla;
     this.headersTabla = headersTabla;
     this.data = data;
-  }
-
-  // Constructor con inyeccion para tests
-  public PdfGenerator(String nombreArchivo, String tituloTabla, String[] headersTabla, Map<String, Integer> data, PdfWriter writer, PdfDocument pdf, Document document) {
-    this.nombreArchivo = nombreArchivo;
-    this.tituloTabla = tituloTabla;
-    this.headersTabla = headersTabla;
-    this.data = data;
-    this.writer = writer;
-    this.pdf = pdf;
-    this.document = document;
   }
 
   public boolean generatePdf() {
@@ -66,7 +60,7 @@ public class PdfGenerator {
   }
 
   public void agregarTitulo() {
-    Paragraph title = new Paragraph("Reporte");
+    Paragraph title = new Paragraph(titulo);
     title.setTextAlignment(TextAlignment.CENTER);
     document.add(title);
   }

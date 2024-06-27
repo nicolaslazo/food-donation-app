@@ -5,6 +5,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import lombok.Setter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,87 +18,100 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 
 public class PdfGeneratorTest {
+   @Setter
+   private PdfWriter writer;
+    @Setter private PdfDocument pdf;
+    @Setter private Document document;
 
-  private PdfWriter mockWriter;
-  private PdfDocument mockPdf;
-  private Document mockDocument;
+    @BeforeEach
+    public void setUp() {
+      writer = Mockito.mock(PdfWriter.class);
+      pdf = Mockito.mock(PdfDocument.class);
+      document = Mockito.mock(Document.class);
+    }
 
-  @BeforeEach
-  public void setUp() {
-    mockWriter = Mockito.mock(PdfWriter.class);
-    mockPdf = Mockito.mock(PdfDocument.class);
-    mockDocument = Mockito.mock(Document.class);
-  }
+    @Test
+    public void testInicializarPDF()  {
+      PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
+          new String[]{"Heladera", "Cantidad"}, new HashMap<>());
 
-  @Test
-  public void testInicializarPDF()  {
-    PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
-        new String[]{"Heladera", "Cantidad"}, new HashMap<>(), mockWriter, mockPdf, mockDocument);
+      pdfGenerator.setWriter(writer);
+      pdfGenerator.setPdf(pdf);
+      pdfGenerator.setDocument(document);
 
-    pdfGenerator.generatePdf();
+      pdfGenerator.generatePdf();
 
-    Mockito.verify(mockDocument).close();
-    assertTrue(pdfGenerator.generatePdf(), "generatePdf() retorna true");
-  }
+      Mockito.verify(document).close();
+      assertTrue(pdfGenerator.generatePdf(), "generatePdf() retorna true");
+    }
 
-  @Test
-  public void testAgregarTitulo() {
-    Document mockDocument = Mockito.mock(Document.class);
+    @Test
+    public void testAgregarTitulo() {
+      Document mockDocument = Mockito.mock(Document.class);
 
-    PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
-        new String[]{"Heladera", "Cantidad"}, new HashMap<>(), null, null, mockDocument);
+      PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
+          new String[]{"Heladera", "Cantidad"}, new HashMap<>());
 
-    pdfGenerator.agregarTitulo();
+      pdfGenerator.setDocument(mockDocument);
 
-    Mockito.verify(mockDocument, times(1)).add(Mockito.any(Paragraph.class));
-  }
+      pdfGenerator.agregarTitulo();
 
-  @Test
-  public void testAgregarFecha() {
-    Document mockDocument = Mockito.mock(Document.class);
+      Mockito.verify(mockDocument, times(1)).add(Mockito.any(Paragraph.class));
+    }
 
-    PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
-        new String[]{"Heladera", "Cantidad"}, new HashMap<>(), null, null, mockDocument);
+    @Test
+    public void testAgregarFecha() {
+      Document mockDocument = Mockito.mock(Document.class);
 
-    pdfGenerator.agregarFecha();
+      PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
+          new String[]{"Heladera", "Cantidad"}, new HashMap<>());
 
-    Mockito.verify(mockDocument, times(1)).add(Mockito.any(Paragraph.class));
-  }
+      pdfGenerator.setDocument(mockDocument);
 
-  @Test
-  public void testAgregarTabla() {
-    Document mockDocument = Mockito.mock(Document.class);
-    PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
-        new String[]{"Heladera", "Cantidad"}, new HashMap<>(), null, null, mockDocument);
+      pdfGenerator.agregarFecha();
 
-    pdfGenerator.agregarTabla();
+      Mockito.verify(mockDocument, times(1)).add(Mockito.any(Paragraph.class));
+    }
 
-    Mockito.verify(mockDocument).add(Mockito.any(Table.class));
-  }
+    @Test
+    public void testAgregarTabla() {
+      Document mockDocument = Mockito.mock(Document.class);
+      PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
+          new String[]{"Heladera", "Cantidad"}, new HashMap<>());
 
-  @Test
-  public void testGeneratePdf() {
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    PdfWriter pdfWriter = new PdfWriter(outputStream);
+      pdfGenerator.setDocument(mockDocument);
 
+      pdfGenerator.agregarTabla();
 
-    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-    Document document = new Document(pdfDocument);
+      Mockito.verify(mockDocument).add(Mockito.any(Table.class));
+    }
 
-    Map<String, Integer> data = new HashMap<>();
-    data.put("Heladera A", 10);
-    data.put("Heladera B", 20);
+    @Test
+    public void testGeneratePdf() {
+      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+      PdfWriter pdfWriter = new PdfWriter(outputStream);
 
-    PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
-        new String[]{"Heladera", "Cantidad"}, data, pdfWriter, pdfDocument, document);
+      PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+      Document doc = new Document(pdfDocument);
 
-    boolean result = pdfGenerator.generatePdf();
+      Map<String, Integer> data = new HashMap<>();
+      data.put("Heladera A", 10);
+      data.put("Heladera B", 20);
 
-    assertTrue(result, "generatePdf() retorna true");
+      PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
+          new String[]{"Heladera", "Cantidad"}, data);
 
-    assertTrue(outputStream.size() > 0, "Se esperaba que se escribiera contenido en el PDF");
+      pdfGenerator.setWriter(pdfWriter);
+      pdfGenerator.setPdf(pdfDocument);
+      pdfGenerator.setDocument(doc);
 
-    document.close();
-    pdfDocument.close();
+      boolean result = pdfGenerator.generatePdf();
+
+      assertTrue(result, "generatePdf() retorna true");
+
+      assertTrue(outputStream.size() > 0, "Se esperaba que se escribiera contenido en el PDF");
+
+      doc.close();
+      pdfDocument.close();
   }
 }
