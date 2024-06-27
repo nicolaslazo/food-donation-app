@@ -1,11 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.users;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NonNull;
 
-@Getter
-@Setter
-public class Permiso {
-  private String nombrePermiso;
-  private String descripcion;
+public record Permiso(@NonNull String nombre, String descripcion) {
 }
