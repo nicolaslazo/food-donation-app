@@ -16,8 +16,6 @@ public abstract class Contribucion {
   public Contribucion(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha) {
     this.colaborador = colaborador;
     this.fecha = fecha;
-
-    colaborador.getContribuciones().add(this);
   }
 
   @Override

@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.models.entities.colaborador;
 
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
-import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
@@ -14,15 +13,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Colaborador {
   @Getter
   private final @NonNull Documento documento;
   @Getter
   private final @NonNull List<Contacto> contactos;
-  @Getter
-  private final @NonNull List<Contribucion> contribuciones;
   private final LocalDate fechaNacimiento;
   private final @NonNull Usuario usuario;
   @Getter
