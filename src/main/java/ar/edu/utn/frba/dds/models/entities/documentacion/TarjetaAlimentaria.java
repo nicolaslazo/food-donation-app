@@ -1,7 +1,7 @@
-package ar.edu.utn.frba.dds.models.entities;
+package ar.edu.utn.frba.dds.models.entities.documentacion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.personaVulnerable.PersonaVulnerable;
+import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import lombok.Getter;
 import lombok.NonNull;
 
