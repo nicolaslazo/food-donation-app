@@ -2,26 +2,15 @@ package ar.edu.utn.frba.dds.models.entities.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Getter
-public class DonacionViandas extends Contribucion {
-  final @NonNull List<Vianda> viandas;
-  @Setter
-  private int id;
-
-  public DonacionViandas(@NonNull Colaborador colaborador, @NonNull List<Vianda> viandas) {
-    super(colaborador);
-    this.viandas = viandas;
-  }
-
-  public int getNumeroViandas() {
-    return viandas.size();
+public class DonacionViandas extends MovimientoViandas {
+  public DonacionViandas(Colaborador colaborador, List<Vianda> viandas, Heladera heladera) {
+    super(colaborador, viandas, heladera);
   }
 
   @Override

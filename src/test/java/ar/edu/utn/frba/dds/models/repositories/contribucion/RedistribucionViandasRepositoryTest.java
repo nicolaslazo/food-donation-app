@@ -17,10 +17,11 @@ class RedistribucionViandasRepositoryTest {
   final RedistribucionViandasRepository repositorio = RedistribucionViandasRepository.getInstancia();
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
   final RedistribucionViandas redistribucion = new RedistribucionViandas(colaboradorMock,
+      Collections.singletonList(null),
       null,
       null,
-      null,
-      Collections.singletonList(null));
+      null
+  );
 
   @BeforeEach
   void setUp() {
@@ -39,10 +40,11 @@ class RedistribucionViandasRepositoryTest {
   @Test
   void testGetTotalPorColaborador() {
     RedistribucionViandas otraRedistribucion = new RedistribucionViandas(colaboradorMock,
+        Arrays.asList(null, null),
         null,
         null,
-        null,
-        Arrays.asList(null, null));
+        null
+    );
 
     repositorio.insert(redistribucion);
     repositorio.insert(otraRedistribucion);

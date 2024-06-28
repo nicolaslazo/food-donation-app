@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudOperacion;
+import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class SolicitudOperacionRepository {
   static SolicitudOperacionRepository instancia = null;
-  final List<SolicitudOperacion> solicitudes;
+  final List<SolicitudAperturaPorContribucion> solicitudes;
 
   private SolicitudOperacionRepository() {
     solicitudes = new ArrayList<>();
@@ -25,7 +25,7 @@ public class SolicitudOperacionRepository {
     return instancia;
   }
 
-  public Optional<SolicitudOperacion> getSolicitudVigente(Colaborador colaborador, Heladera heladera) {
+  public Optional<SolicitudAperturaPorContribucion> getSolicitudVigente(Colaborador colaborador, Heladera heladera) {
     ZonedDateTime ahora = ZonedDateTime.now();
 
     return solicitudes
@@ -37,7 +37,7 @@ public class SolicitudOperacionRepository {
         .findFirst();
   }
 
-  public int insert(SolicitudOperacion solicitud) {
+  public int insert(SolicitudAperturaPorContribucion solicitud) {
     solicitudes.add(solicitud);
     solicitud.setId(solicitudes.size());
 

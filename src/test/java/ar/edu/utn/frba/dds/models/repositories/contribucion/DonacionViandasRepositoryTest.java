@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,8 @@ class DonacionViandasRepositoryTest {
   final DonacionViandasRepository repositorio = DonacionViandasRepository.getInstancia();
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
   final Vianda viandaMock = Mockito.mock(Vianda.class);
-  final DonacionViandas donacion = new DonacionViandas(colaboradorMock, Collections.singletonList(viandaMock));
+  final Heladera heladeraMock = Mockito.mock(Heladera.class);
+  final DonacionViandas donacion = new DonacionViandas(colaboradorMock, Collections.singletonList(viandaMock), heladeraMock);
 
   @BeforeEach
   void setUp() {
@@ -44,7 +46,8 @@ class DonacionViandasRepositoryTest {
   @Test
   void testObtenerTotalPorColaborador() throws RepositoryInsertException {
     DonacionViandas otraDonacion = new DonacionViandas(colaboradorMock,
-        Arrays.asList(Mockito.mock(Vianda.class), Mockito.mock(Vianda.class)));
+        Arrays.asList(Mockito.mock(Vianda.class), Mockito.mock(Vianda.class)),
+        heladeraMock);
     repositorio.insert(donacion);
     repositorio.insert(otraDonacion);
 

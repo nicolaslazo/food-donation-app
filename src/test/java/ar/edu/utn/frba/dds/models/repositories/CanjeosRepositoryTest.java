@@ -47,10 +47,10 @@ class CanjeosRepositoryTest {
     // TODO: Arreglar cuando tengamos establecido el formato de registro de contribuciones
     new RedistribucionViandas(
         colaborador,
+        Collections.nCopies(cantidad, null),
         null,
         null,
-        null,
-        Collections.nCopies(cantidad, null)
+        null
     );  // La instanciación se almacena sola en el colaborador (por ahora). 1 vianda = 1 punto
   }
 

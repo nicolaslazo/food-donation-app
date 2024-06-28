@@ -1,8 +1,9 @@
 package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudOperacion;
+import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SolicitudOperacionRepositoryTest {
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
+  final DonacionViandas contribucionMock = Mockito.mock(DonacionViandas.class);
   final SolicitudOperacionRepository repositorio = SolicitudOperacionRepository.getInstancia();
 
   @BeforeEach
@@ -26,10 +28,12 @@ class SolicitudOperacionRepositoryTest {
 
   @Test
   void testGetSolicitudVigente() {
-    SolicitudOperacion solicitud = new SolicitudOperacion(colaboradorMock, heladeraMock, ZonedDateTime.now());
+    SolicitudAperturaPorContribucion solicitud =
+        new SolicitudAperturaPorContribucion(colaboradorMock, heladeraMock, contribucionMock, ZonedDateTime.now());
     repositorio.insert(solicitud);
 
-    Optional<SolicitudOperacion> encontrada = repositorio.getSolicitudVigente(colaboradorMock, heladeraMock);
+    Optional<SolicitudAperturaPorContribucion> encontrada =
+        repositorio.getSolicitudVigente(colaboradorMock, heladeraMock);
 
     assertTrue(encontrada.isPresent());
     assertEquals(solicitud.getId(), encontrada.get().getId());
@@ -38,17 +42,20 @@ class SolicitudOperacionRepositoryTest {
   @Test
   void testGetSolicitudVieja() {
     ZonedDateTime ayer = ZonedDateTime.now().minusDays(1);
-    SolicitudOperacion solicitud = new SolicitudOperacion(colaboradorMock, heladeraMock, ayer);
+    SolicitudAperturaPorContribucion solicitud =
+        new SolicitudAperturaPorContribucion(colaboradorMock, heladeraMock, contribucionMock, ayer);
     repositorio.insert(solicitud);
 
-    Optional<SolicitudOperacion> encontrada = repositorio.getSolicitudVigente(colaboradorMock, heladeraMock);
+    Optional<SolicitudAperturaPorContribucion> encontrada =
+        repositorio.getSolicitudVigente(colaboradorMock, heladeraMock);
 
     assertFalse(encontrada.isPresent());
   }
 
   @Test
   void testInsertarSolicitud() {
-    SolicitudOperacion solicitud = new SolicitudOperacion(colaboradorMock, heladeraMock, ZonedDateTime.now());
+    SolicitudAperturaPorContribucion solicitud =
+        new SolicitudAperturaPorContribucion(colaboradorMock, heladeraMock, contribucionMock, ZonedDateTime.now());
 
     int id = repositorio.insert(solicitud);
 
@@ -58,9 +65,10 @@ class SolicitudOperacionRepositoryTest {
 
   @Test
   void testEliminarTodas() {
-    SolicitudOperacion solicitud = new SolicitudOperacion(colaboradorMock, heladeraMock, ZonedDateTime.now());
-    repositorio.insert(solicitud);
+    SolicitudAperturaPorContribucion solicitud =
+        new SolicitudAperturaPorContribucion(colaboradorMock, heladeraMock, contribucionMock, ZonedDateTime.now());
 
+    repositorio.insert(solicitud);
     repositorio.deleteTodas();
 
     assertTrue(repositorio.getSolicitudVigente(solicitud.getColaborador(), solicitud.getHeladera()).isEmpty());
