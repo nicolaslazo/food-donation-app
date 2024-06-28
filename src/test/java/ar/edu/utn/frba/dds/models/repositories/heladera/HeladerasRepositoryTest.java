@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -38,8 +38,8 @@ class HeladerasRepositoryTest {
   HeladerasRepository repository;
 
   @BeforeEach
-  void setUp() throws RepositoryInsertException {
-    repository = new HeladerasRepository();
+  void setUp() throws RepositoryException {
+    repository.deleteTodas();
 
     repository.insert(heladera);
   }
@@ -66,11 +66,11 @@ class HeladerasRepositoryTest {
 
   @Test
   void testFallaCuandoYaExisteHeladeraConEsaUbicacion() {
-    assertThrows(RepositoryInsertException.class, () -> repository.insert(heladera));
+    assertThrows(RepositoryException.class, () -> repository.insert(heladera));
   }
 
   @Test
-  void testGetTodasPorColaborador() throws RepositoryInsertException {
+  void testGetTodasPorColaborador() throws RepositoryException {
     repository.insert(otraHeladera);
 
     List<Heladera> heladerasDelColaborador = repository.getTodas(colaboradorMock);
@@ -81,7 +81,7 @@ class HeladerasRepositoryTest {
   }
 
   @Test
-  void testGetMesesActivosCumulativos() throws RepositoryInsertException {
+  void testGetMesesActivosCumulativos() throws RepositoryException {
     repository.insert(otraHeladera);
 
     // Las heladeras necesitan tener una temperatura registrada recientemente para contar para los meses activos

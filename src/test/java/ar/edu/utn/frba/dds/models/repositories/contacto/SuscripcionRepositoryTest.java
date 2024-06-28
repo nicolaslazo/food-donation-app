@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contacto.TipoNotificacion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,7 +23,7 @@ class SuscripcionRepositoryTest {
   final Suscripcion suscripcion = new Suscripcion(heladeraMock, TipoNotificacion.FALLA_HELADERA, colaboradorMock);
 
   @BeforeEach
-  void setUp() throws RepositoryInsertException {
+  void setUp() throws RepositoryException {
     repositorio.deleteTodas();
 
     repositorio.insert(suscripcion);
@@ -38,7 +38,7 @@ class SuscripcionRepositoryTest {
   }
 
   @Test
-  void testGetPorHeladera() throws RepositoryInsertException {
+  void testGetPorHeladera() throws RepositoryException {
     final Colaborador otroColaboradorMock = Mockito.mock(Colaborador.class);
     repositorio.insert(new Suscripcion(heladeraMock, TipoNotificacion.FALLA_HELADERA, otroColaboradorMock));
 
@@ -78,7 +78,7 @@ class SuscripcionRepositoryTest {
 
   @Test
   void testInsertarSuscripcionDuplicadaLanzaExcepcion() {
-    assertThrows(RepositoryInsertException.class,
+    assertThrows(RepositoryException.class,
         () -> repositorio.insert(new Suscripcion(heladeraMock, TipoNotificacion.FALLA_HELADERA, colaboradorMock)));
   }
 

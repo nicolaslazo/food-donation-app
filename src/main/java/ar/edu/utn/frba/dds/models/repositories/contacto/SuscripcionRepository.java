@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contacto.TipoNotificacion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +59,9 @@ public class SuscripcionRepository {
         ).findFirst();
   }
 
-  public int insert(Suscripcion suscripcion) throws RepositoryInsertException {
+  public int insert(Suscripcion suscripcion) throws RepositoryException {
     if (get(suscripcion.getHeladera(), suscripcion.getTipoNotificacion(), suscripcion.getColaborador()).isPresent()) {
-      throw new RepositoryInsertException("Ese colaborador ya está inscrito a esa heladera");
+      throw new RepositoryException("Ese colaborador ya está inscrito a esa heladera");
     }
 
     suscripciones.add(suscripcion);
