@@ -22,6 +22,10 @@ public abstract class Contribucion {
     this.fechaRealizada = fechaRealizada;
   }
 
+  public boolean isConcluida() {
+    return fechaRealizada != null;
+  }
+
   @Override
   public String toString() {
     return "Contribucion{" +
