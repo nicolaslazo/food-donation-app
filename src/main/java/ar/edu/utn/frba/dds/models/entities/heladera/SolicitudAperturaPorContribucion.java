@@ -15,6 +15,7 @@ public class SolicitudAperturaPorContribucion {
   final @NonNull MovimientoViandas razon;
   final @NonNull ZonedDateTime fechaCreacion;
   final @NonNull ZonedDateTime fechaVencimiento;
+  ZonedDateTime fechaUsada = null;
   @Setter
   int id;
 
@@ -28,5 +29,24 @@ public class SolicitudAperturaPorContribucion {
     this.razon = razon;
     this.fechaCreacion = fechaCreacion;
     this.fechaVencimiento = fechaCreacion.plusMinutes(tiempoSolicitudAperturaMinutos);
+  }
+
+  public void setFechaUsada(ZonedDateTime timestamp) throws SolicitudInvalidaException {
+    if (fechaUsada != null) throw new SolicitudInvalidaException("Esta solicitud ya fue usada en" + fechaUsada);
+    if (timestamp.isAfter(fechaVencimiento)) throw new SolicitudInvalidaException("Esta solicitud ya venció");
+    if (timestamp.isBefore(fechaCreacion))
+      throw new SolicitudInvalidaException("No se debería poder usar una solicitud antes de que entre en vigencia");
+
+    fechaUsada = timestamp;
+  }
+
+  public boolean isUsada() {
+    return fechaUsada != null;
+  }
+
+  public boolean isVigente() {
+    ZonedDateTime ahora = ZonedDateTime.now();
+
+    return !isUsada() && ahora.isAfter(fechaCreacion) && ahora.isBefore(fechaVencimiento);
   }
 }
