@@ -96,13 +96,14 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
   private Contribucion instanciarContribucion(EntradaDeCargaCSV entrada, Colaborador colaborador) {
     final Contribucion contribucion = switch (entrada.getTipoDeContribucion()) {
       case "DINERO" -> new Dinero(colaborador, entrada.getCantidad(), null);
-      case "DONACION_VIANDAS" -> new DonacionViandas(colaborador, listaDeNulls(entrada.getCantidad()));
+      case "DONACION_VIANDAS" -> new DonacionViandas(colaborador, listaDeNulls(entrada.getCantidad()), null);
       case "REDISTRIBUCION_VIANDAS" -> new RedistribucionViandas(
           colaborador,
+          listaDeNulls(entrada.getCantidad()),
           null,
           null,
-          null,
-          listaDeNulls(entrada.getCantidad()));
+          null
+      );
       case "ENTREGA_TARJETAS" -> new EntregaTarjetas(colaborador, listaDeNulls(entrada.getCantidad()));
       default -> throw new RuntimeException("Tipo de contribución no soportado");
     };
