@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class MovimientoViandas extends Contribucion {
   @Getter
@@ -26,5 +27,18 @@ public abstract class MovimientoViandas extends Contribucion {
 
   public int getNumeroViandas() {
     return viandas.size();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    MovimientoViandas that = (MovimientoViandas) o;
+    return getId() == that.getId();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getId());
   }
 }

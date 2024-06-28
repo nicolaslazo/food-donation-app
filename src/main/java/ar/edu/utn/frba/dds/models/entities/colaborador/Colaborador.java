@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
-import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
@@ -36,7 +35,9 @@ public class Colaborador {
                      Ubicacion ubicacion) {
     this.documento = documento;
     this.contactos = new ArrayList<>(List.of(mail));
-    this.usuario = new Usuario(mail, new Rol());
+    // TODO: Configurar el rol de colaborador
+    //    this.usuario = new Usuario(mail, new Rol());
+    this.usuario = new Usuario(mail, null);
     this.fechaNacimiento = fechaNacimiento;
     this.nombre = nombre;
     this.apellido = apellido;
