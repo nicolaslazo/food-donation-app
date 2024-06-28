@@ -8,21 +8,25 @@ import java.time.ZonedDateTime;
 
 @Getter
 public abstract class Contribucion {
-  @NonNull
-  private final Colaborador colaborador;
-  @NonNull
-  private final ZonedDateTime fecha;
+  final @NonNull Colaborador colaborador;
+  ZonedDateTime fechaRealizada = null;
 
-  public Contribucion(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha) {
+  public Contribucion(@NonNull Colaborador colaborador) {
     this.colaborador = colaborador;
-    this.fecha = fecha;
+  }
+
+  public void setFechaRealizada(@NonNull ZonedDateTime fechaRealizada) throws ContribucionYaRealizadaException {
+    if (this.fechaRealizada != null)
+      throw new ContribucionYaRealizadaException("Esta contribución ya fue realizada en" + this.fechaRealizada);
+
+    this.fechaRealizada = fechaRealizada;
   }
 
   @Override
   public String toString() {
     return "Contribucion{" +
         "colaborador=" + colaborador +
-        ", fecha=" + fecha +
+        ", fecha=" + fechaRealizada +
         '}';
   }
 }

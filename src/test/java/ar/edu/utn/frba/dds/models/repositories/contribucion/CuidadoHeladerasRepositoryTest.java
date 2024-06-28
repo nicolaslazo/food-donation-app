@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,9 +18,7 @@ import static org.mockito.Mockito.when;
 class CuidadoHeladerasRepositoryTest {
   final CuidadoHeladerasRepository repositorio = CuidadoHeladerasRepository.getInstancia();
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock,
-      ZonedDateTime.now(),
-      Mockito.mock(Heladera.class));
+  final CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock, Mockito.mock(Heladera.class));
 
   @BeforeEach
   void setUp() {
@@ -42,8 +39,8 @@ class CuidadoHeladerasRepositoryTest {
     final Heladera heladera = Mockito.mock(Heladera.class);
     final Heladera otraHeladera = Mockito.mock(Heladera.class);
 
-    CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock, ZonedDateTime.now(), heladera);
-    CuidadoHeladera otraContribucion = new CuidadoHeladera(colaboradorMock, ZonedDateTime.now(), otraHeladera);
+    CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock, heladera);
+    CuidadoHeladera otraContribucion = new CuidadoHeladera(colaboradorMock, otraHeladera);
 
     repositorio.insert(contribucion);
     repositorio.insert(otraContribucion);

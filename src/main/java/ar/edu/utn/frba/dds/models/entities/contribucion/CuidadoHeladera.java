@@ -8,19 +8,14 @@ import lombok.Setter;
 
 import java.time.ZonedDateTime;
 
+@Getter
 public class CuidadoHeladera extends Contribucion {
-  private final Colaborador colaborador;
-  private final ZonedDateTime fecha;
-  @Getter
-  private final Heladera heladera;
-  @Getter
+  final Heladera heladera;
   @Setter
-  private int id;
+  int id;
 
-  public CuidadoHeladera(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, Heladera heladera) {
-    super(colaborador, fecha);
-    this.colaborador = colaborador;
-    this.fecha = fecha;
+  public CuidadoHeladera(@NonNull Colaborador colaborador, Heladera heladera) {
+    super(colaborador);
     this.heladera = heladera;
   }
 }
