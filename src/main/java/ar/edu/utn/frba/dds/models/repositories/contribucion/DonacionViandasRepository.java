@@ -55,15 +55,15 @@ public class DonacionViandasRepository {
     return donacion.getId();
   }
 
-  public List<DonacionViandas> obtenerDonacionesSemanaAnterior(Colaborador colaborador) {
+  public List<DonacionViandas> obtenerDonacionesSemanaAnterior() {
     ZonedDateTime fechaActual = ZonedDateTime.now();
     ZonedDateTime inicioSemanaAnterior = fechaActual.minusWeeks(1);
 
     return donaciones.stream()
-        .filter(donacion -> donacion.getColaborador().equals(colaborador))
         .filter(donacion -> donacion.getFecha().isAfter(inicioSemanaAnterior) && donacion.getFecha().isBefore(fechaActual))
         .collect(Collectors.toList());
   }
+
   public void deleteTodo() {
     donaciones.clear();
   }

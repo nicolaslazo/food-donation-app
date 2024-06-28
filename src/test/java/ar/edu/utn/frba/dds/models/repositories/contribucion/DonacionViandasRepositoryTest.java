@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,57 +37,6 @@ public class DonacionViandasRepositoryTest {
 
   @Mock
   private Vianda viandaMock;
-
-  public void setUpTestDonacionSemanaAnterior() throws RepositoryInsertException {
-    // Simular datos de donaciones para pruebas
-    ZonedDateTime ahora = ZonedDateTime.now();
-
-    when(colaboradorMock.getNombre()).thenReturn("Colaborador Mock");
-
-    // Configurar colaboradorMock
-    List<Vianda> viandas1 = new ArrayList<>();
-    viandas1.add(viandaMock);
-
-    DonacionViandas donacion1 = new DonacionViandas(colaboradorMock, ahora.minusDays(2), viandas1); // Fecha hace 2 días
-
-    repository.insert(donacion1);
-
-  }
-
-  @Test
-  public void testHayDonacionesSemanaAnterior() throws RepositoryInsertException {
-    setUpTestDonacionSemanaAnterior();
-    // Obtener donaciones para el colaborador mock de la semana anterior a hoy
-    List<DonacionViandas> donacionesSemanaAnterior = repository.obtenerDonacionesSemanaAnterior(colaboradorMock);
-
-    // Verificar que se obtienen las donaciones correctas
-    assertEquals(1, donacionesSemanaAnterior.size());
-    assertEquals("Colaborador Mock", donacionesSemanaAnterior.get(0).getColaborador().getNombre());
-  }
-
-
-  public void setUpTestNOHayDonacionSemanaAnterior() throws RepositoryInsertException {
-    // Simular datos de donaciones para pruebas
-    ZonedDateTime ahora = ZonedDateTime.now();
-
-    // Configurar colaboradorMock
-    List<Vianda> viandas1 = new ArrayList<>();
-    viandas1.add(viandaMock);
-
-    DonacionViandas donacion1 = new DonacionViandas(colaboradorMock, ahora.minusDays(10), viandas1); // Fecha hace 2 días
-
-    repository.insert(donacion1);
-
-  }
-  @Test
-  public void testNOHayDonacionesSemanaAnterior() throws RepositoryInsertException {
-    setUpTestNOHayDonacionSemanaAnterior();
-    // Obtener donaciones para el colaborador mock de la semana anterior a hoy
-    List<DonacionViandas> donacionesSemanaAnterior = repository.obtenerDonacionesSemanaAnterior(colaboradorMock);
-
-    // Verificar que se obtienen las donaciones correctas
-    assertEquals(0, donacionesSemanaAnterior.size());
-  }
 
   @Test
   public void testObtenerPorId() throws RepositoryInsertException {
@@ -134,4 +82,48 @@ public class DonacionViandasRepositoryTest {
 
     assertTrue(repository.get(1).isEmpty());
   }
+
+  public void setUpTestDonacionSemanaAnterior() throws RepositoryInsertException {
+    ZonedDateTime ahora = ZonedDateTime.now();
+
+    when(colaboradorMock.getNombre()).thenReturn("Colaborador Mock");
+
+    List<Vianda> viandas1 = new ArrayList<>();
+    viandas1.add(viandaMock);
+
+    DonacionViandas donacion1 = new DonacionViandas(colaboradorMock, ahora.minusDays(2), viandas1); // Fecha hace 2 días
+
+    repository.insert(donacion1);
+
+  }
+
+  @Test
+  public void testHayDonacionesSemanaAnterior() throws RepositoryInsertException {
+    setUpTestDonacionSemanaAnterior();
+    List<DonacionViandas> donacionesSemanaAnterior = repository.obtenerDonacionesSemanaAnterior();
+
+    assertEquals(1, donacionesSemanaAnterior.size());
+    assertEquals("Colaborador Mock", donacionesSemanaAnterior.get(0).getColaborador().getNombre());
+  }
+
+
+  public void setUpTestNOHayDonacionSemanaAnterior() throws RepositoryInsertException {
+    ZonedDateTime ahora = ZonedDateTime.now();
+
+    List<Vianda> viandas1 = new ArrayList<>();
+    viandas1.add(viandaMock);
+
+    DonacionViandas donacion1 = new DonacionViandas(colaboradorMock, ahora.minusDays(10), viandas1); // Fecha hace 2 días
+
+    repository.insert(donacion1);
+
+  }
+  @Test
+  public void testNOHayDonacionesSemanaAnterior() throws RepositoryInsertException {
+    setUpTestNOHayDonacionSemanaAnterior();
+    List<DonacionViandas> donacionesSemanaAnterior = repository.obtenerDonacionesSemanaAnterior();
+
+    assertEquals(0, donacionesSemanaAnterior.size());
+  }
+
 }
