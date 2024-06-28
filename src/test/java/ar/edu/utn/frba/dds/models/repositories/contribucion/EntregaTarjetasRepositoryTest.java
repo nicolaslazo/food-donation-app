@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
@@ -20,9 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class EntregaTarjetasRepositoryTest {
   final EntregaTarjetasRepository repositorio = EntregaTarjetasRepository.getInstancia();
   Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final EntregaTarjetas entrega = new EntregaTarjetas(colaboradorMock,
-      ZonedDateTime.now(),
-      Collections.singletonList(Mockito.mock(Tarjeta.class)));
+  final EntregaTarjetas entrega =
+      new EntregaTarjetas(colaboradorMock, Collections.singletonList(Mockito.mock(Tarjeta.class)));
 
   @BeforeEach
   void setUp() {
@@ -40,9 +38,8 @@ class EntregaTarjetasRepositoryTest {
 
   @Test
   void testObtenerTotalPorColaborador() throws RepositoryInsertException {
-    EntregaTarjetas otraEntrega = new EntregaTarjetas(colaboradorMock,
-        ZonedDateTime.now(),
-        Arrays.asList(Mockito.mock(Tarjeta.class), Mockito.mock(Tarjeta.class)));
+    EntregaTarjetas otraEntrega =
+        new EntregaTarjetas(colaboradorMock, Arrays.asList(Mockito.mock(Tarjeta.class), Mockito.mock(Tarjeta.class)));
 
     repositorio.insert(entrega);
     repositorio.insert(otraEntrega);

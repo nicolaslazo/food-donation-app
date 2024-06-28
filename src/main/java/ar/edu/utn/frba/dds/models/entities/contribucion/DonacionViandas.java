@@ -9,22 +9,14 @@ import lombok.Setter;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+@Getter
 public class DonacionViandas extends Contribucion {
-  @NonNull
-  private final Colaborador colaborador;
-  @NonNull
-  private final ZonedDateTime fecha;
-  @NonNull
-  @Getter
-  private final List<Vianda> viandas;
-  @Getter
+  final @NonNull List<Vianda> viandas;
   @Setter
   private int id;
 
-  public DonacionViandas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, @NonNull List<Vianda> viandas) {
-    super(colaborador, fecha);
-    this.colaborador = colaborador;
-    this.fecha = fecha;
+  public DonacionViandas(@NonNull Colaborador colaborador, @NonNull List<Vianda> viandas) {
+    super(colaborador);
     this.viandas = viandas;
   }
 
@@ -36,7 +28,7 @@ public class DonacionViandas extends Contribucion {
   public String toString() {
     return "DonacionViandas{" +
         "colaborador=" + colaborador +
-        ", fecha=" + fecha +
+        ", fechaRealizada=" + fechaRealizada +
         ", cantidadViandas=" + viandas.size() +
         '}';
   }

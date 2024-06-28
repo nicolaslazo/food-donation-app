@@ -7,30 +7,22 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 public class RedistribucionViandas extends Contribucion {
-  @NonNull
-  private final Colaborador colaborador;
-  @NonNull
-  private final ZonedDateTime fecha;
-  private final MotivoDeDistribucion motivo;
-  private final Heladera origen;
-  private final Heladera destino;
-  @NonNull
+  // Algunos de estos se mantienen nulificables para el cargador masivo CSV
+  final MotivoDeDistribucion motivo;
+  final Heladera origen;
+  final Heladera destino;
   @Getter
-  private final List<Vianda> viandas;
+  final @NonNull List<Vianda> viandas;
   @Getter
   @Setter
-  private int id;
+  int id;
 
-  public RedistribucionViandas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
-                               MotivoDeDistribucion motivo, Heladera origen, Heladera destino,
-                               @NonNull List<Vianda> viandas) {
-    super(colaborador, fecha);
-    this.colaborador = colaborador;
-    this.fecha = fecha;
+  public RedistribucionViandas(Colaborador colaborador, MotivoDeDistribucion motivo, Heladera origen, Heladera destino,
+                               List<Vianda> viandas) {
+    super(colaborador);
     this.motivo = motivo;
     this.origen = origen;
     this.destino = destino;
@@ -45,7 +37,7 @@ public class RedistribucionViandas extends Contribucion {
   public String toString() {
     return "RedistribucionViandas{" +
         "colaborador=" + colaborador +
-        ", fecha=" + fecha +
+        ", fechaRealizada=" + fechaRealizada +
         ", cantidadViandas=" + viandas.size() +
         '}';
   }

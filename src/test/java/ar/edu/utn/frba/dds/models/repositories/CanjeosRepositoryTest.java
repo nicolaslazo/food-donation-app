@@ -47,7 +47,6 @@ class CanjeosRepositoryTest {
     // TODO: Arreglar cuando tengamos establecido el formato de registro de contribuciones
     new RedistribucionViandas(
         colaborador,
-        ZonedDateTime.now(),
         null,
         null,
         null,

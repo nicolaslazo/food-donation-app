@@ -6,23 +6,16 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
+@Getter
 public class EntregaTarjetas extends Contribucion {
-  private final @NonNull Colaborador colaborador;
-  private final @NonNull ZonedDateTime fecha;
-  @Getter
-  private final List<Tarjeta> tarjetasRepartidas;
-  @Getter
+  final List<Tarjeta> tarjetasRepartidas;
   @Setter
-  private int id;
+  int id;
 
-  public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
-                         @NonNull List<Tarjeta> tarjetas) {
-    super(colaborador, fecha);
-    this.colaborador = colaborador;
-    this.fecha = fecha;
+  public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull List<Tarjeta> tarjetas) {
+    super(colaborador);
     this.tarjetasRepartidas = tarjetas;
   }
 
@@ -30,7 +23,7 @@ public class EntregaTarjetas extends Contribucion {
   public String toString() {
     return "EntregaTarjetas{" +
         "colaborador=" + colaborador +
-        ", fecha=" + fecha +
+        ", fechaRealizada=" + fechaRealizada +
         '}';
   }
 

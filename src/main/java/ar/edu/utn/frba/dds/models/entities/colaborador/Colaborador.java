@@ -16,17 +16,17 @@ import java.util.Objects;
 
 public class Colaborador {
   @Getter
-  private final @NonNull Documento documento;
+  final @NonNull Documento documento;
   @Getter
-  private final @NonNull List<Contacto> contactos;
-  private final LocalDate fechaNacimiento;
-  private final @NonNull Usuario usuario;
+  final @NonNull List<Contacto> contactos;
+  final LocalDate fechaNacimiento;
+  final @NonNull Usuario usuario;
   @Getter
-  private @NonNull String nombre;
+  @NonNull String nombre;
   @Getter
-  private @NonNull String apellido;
+  @NonNull String apellido;
   @Getter
-  private Ubicacion ubicacion;
+  Ubicacion ubicacion;
 
   public Colaborador(@NonNull Documento documento,
                      @NonNull Email mail,
@@ -37,15 +37,10 @@ public class Colaborador {
     this.documento = documento;
     this.contactos = new ArrayList<>(List.of(mail));
     this.usuario = new Usuario(mail, new Rol());
-    this.contribuciones = new ArrayList<>();
     this.fechaNacimiento = fechaNacimiento;
     this.nombre = nombre;
     this.apellido = apellido;
     this.ubicacion = ubicacion;
-  }
-
-  public <T extends Contribucion> List<T> getContribuciones(@NonNull Class<T> tipo) {
-    return contribuciones.stream().filter(tipo::isInstance).map(tipo::cast).collect(Collectors.toList());
   }
 
   @Override
