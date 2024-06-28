@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
-import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 
 import java.time.ZonedDateTime;
