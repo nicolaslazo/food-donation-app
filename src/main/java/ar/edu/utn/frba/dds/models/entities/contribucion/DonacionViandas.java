@@ -21,7 +21,7 @@ public class DonacionViandas extends Contribucion {
   @Setter
   private int id;
 
-  public DonacionViandas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, @NonNull List<Vianda> viandas) {
+  public DonacionViandas(@NonNull Colaborador colaborador, ZonedDateTime fecha, @NonNull List<Vianda> viandas) {
     super(colaborador, fecha);
     this.colaborador = colaborador;
     this.fecha = fecha;

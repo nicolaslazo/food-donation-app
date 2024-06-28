@@ -5,6 +5,8 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,21 +55,15 @@ public class DonacionViandasRepository {
     return donacion.getId();
   }
 
-  public static Map<String, Integer> calcularViandasPorColaboradorSemanaAnterior() {
-    ZonedDateTime hoy = ZonedDateTime.now();
-    ZonedDateTime fechaSemanaAnterior = hoy.minusWeeks(1);
+  public List<DonacionViandas> obtenerDonacionesSemanaAnterior(Colaborador colaborador) {
+    ZonedDateTime fechaActual = ZonedDateTime.now();
+    ZonedDateTime inicioSemanaAnterior = fechaActual.minusWeeks(1);
 
-    Map<String, Integer> viandasPorColaborador = donaciones.stream()
-        .filter(donacion -> donacion.getFecha().isAfter(fechaSemanaAnterior))
-        .filter(donacion -> donacion.getFecha().isBefore(hoy))
-        .collect(Collectors.groupingBy(
-            donacion -> donacion.getColaborador().getNombre() + " " + donacion.getColaborador().getApellido(),
-            Collectors.summingInt(DonacionViandas::getNumeroViandas)
-        ));
-
-    return viandasPorColaborador;
+    return donaciones.stream()
+        .filter(donacion -> donacion.getColaborador().equals(colaborador))
+        .filter(donacion -> donacion.getFecha().isAfter(inicioSemanaAnterior) && donacion.getFecha().isBefore(fechaActual))
+        .collect(Collectors.toList());
   }
-
   public void deleteTodo() {
     donaciones.clear();
   }
