@@ -3,34 +3,22 @@ package ar.edu.utn.frba.dds.models.entities.contribucion;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
 import java.util.List;
 
-public class RedistribucionViandas extends Contribucion {
+public class RedistribucionViandas extends MovimientoViandas {
   // Algunos de estos se mantienen nulificables para el cargador masivo CSV
-  final MotivoDeDistribucion motivo;
   final Heladera origen;
-  final Heladera destino;
-  @Getter
-  final @NonNull List<Vianda> viandas;
-  @Getter
-  @Setter
-  int id;
+  final MotivoDeDistribucion motivo;
 
-  public RedistribucionViandas(Colaborador colaborador, MotivoDeDistribucion motivo, Heladera origen, Heladera destino,
-                               List<Vianda> viandas) {
-    super(colaborador);
-    this.motivo = motivo;
+  public RedistribucionViandas(Colaborador colaborador,
+                               List<Vianda> viandas,
+                               Heladera destino,
+                               Heladera origen,
+                               MotivoDeDistribucion motivo) {
+    super(colaborador, viandas, destino);
     this.origen = origen;
-    this.destino = destino;
-    this.viandas = viandas;
-  }
-
-  public int getNumeroViandas() {
-    return viandas.size();
+    this.motivo = motivo;
   }
 
   @Override
