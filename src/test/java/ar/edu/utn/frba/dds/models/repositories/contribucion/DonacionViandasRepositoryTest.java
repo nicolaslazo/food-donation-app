@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
@@ -24,9 +23,7 @@ class DonacionViandasRepositoryTest {
   final DonacionViandasRepository repositorio = DonacionViandasRepository.getInstancia();
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
   final Vianda viandaMock = Mockito.mock(Vianda.class);
-  final DonacionViandas donacion = new DonacionViandas(colaboradorMock,
-      ZonedDateTime.now(),
-      Collections.singletonList(viandaMock));
+  final DonacionViandas donacion = new DonacionViandas(colaboradorMock, Collections.singletonList(viandaMock));
 
   @BeforeEach
   void setUp() {
@@ -47,7 +44,6 @@ class DonacionViandasRepositoryTest {
   @Test
   void testObtenerTotalPorColaborador() throws RepositoryInsertException {
     DonacionViandas otraDonacion = new DonacionViandas(colaboradorMock,
-        ZonedDateTime.now(),
         Arrays.asList(Mockito.mock(Vianda.class), Mockito.mock(Vianda.class)));
     repositorio.insert(donacion);
     repositorio.insert(otraDonacion);

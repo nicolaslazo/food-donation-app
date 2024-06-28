@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.migrations;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
+import ar.edu.utn.frba.dds.models.entities.contribucion.ContribucionYaRealizadaException;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
@@ -14,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -94,21 +94,26 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
   }
 
   private Contribucion instanciarContribucion(EntradaDeCargaCSV entrada, Colaborador colaborador) {
-    final ZonedDateTime fecha = entrada.getFechaDeContribucion();
-
-    return switch (entrada.getTipoDeContribucion()) {
-      case "DINERO" -> new Dinero(colaborador, fecha, entrada.getCantidad(), null);
-      case "DONACION_VIANDAS" -> new DonacionViandas(colaborador, fecha, listaDeNulls(entrada.getCantidad()));
+    final Contribucion contribucion = switch (entrada.getTipoDeContribucion()) {
+      case "DINERO" -> new Dinero(colaborador, entrada.getCantidad(), null);
+      case "DONACION_VIANDAS" -> new DonacionViandas(colaborador, listaDeNulls(entrada.getCantidad()));
       case "REDISTRIBUCION_VIANDAS" -> new RedistribucionViandas(
           colaborador,
-          fecha,
           null,
           null,
           null,
           listaDeNulls(entrada.getCantidad()));
-      case "ENTREGA_TARJETAS" -> new EntregaTarjetas(colaborador, fecha, listaDeNulls(entrada.getCantidad()));
+      case "ENTREGA_TARJETAS" -> new EntregaTarjetas(colaborador, listaDeNulls(entrada.getCantidad()));
       default -> throw new RuntimeException("Tipo de contribución no soportado");
     };
+
+    try {
+      contribucion.setFechaRealizada(entrada.getFechaDeContribucion());
+    } catch (ContribucionYaRealizadaException e) {
+      throw new RuntimeException(e);
+    }
+
+    return contribucion;
   }
 
   @Override
