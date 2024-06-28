@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories.heladera;
 
-import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 
@@ -9,29 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SolicitudOperacionRepository {
-  static SolicitudOperacionRepository instancia = null;
+public class SolicitudAperturaPorContribucionRepository {
+  static SolicitudAperturaPorContribucionRepository instancia = null;
   final List<SolicitudAperturaPorContribucion> solicitudes;
 
-  private SolicitudOperacionRepository() {
+  private SolicitudAperturaPorContribucionRepository() {
     solicitudes = new ArrayList<>();
   }
 
-  public static SolicitudOperacionRepository getInstancia() {
+  public static SolicitudAperturaPorContribucionRepository getInstancia() {
     if (instancia == null) {
-      instancia = new SolicitudOperacionRepository();
+      instancia = new SolicitudAperturaPorContribucionRepository();
     }
 
     return instancia;
   }
 
-  public Optional<SolicitudAperturaPorContribucion> getSolicitudVigente(Colaborador colaborador, Heladera heladera) {
+  public Optional<SolicitudAperturaPorContribucion> getSolicitudVigente(Tarjeta tarjeta, MovimientoViandas contribucion) {
     ZonedDateTime ahora = ZonedDateTime.now();
 
     return solicitudes
         .stream()
-        .filter(solicitud -> solicitud.getColaborador() == colaborador &&
-            solicitud.getHeladera() == heladera &&
+        .filter(solicitud -> solicitud.getTarjeta() == tarjeta &&
+            solicitud.getRazon() == contribucion &&
             solicitud.getFechaCreacion().isBefore(ahora) &&
             solicitud.getFechaVencimiento().isAfter(ahora))
         .findFirst();

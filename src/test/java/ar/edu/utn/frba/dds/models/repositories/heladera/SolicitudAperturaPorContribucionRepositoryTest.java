@@ -1,8 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories.heladera;
 
-import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
-import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SolicitudOperacionRepositoryTest {
-  final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final Heladera heladeraMock = Mockito.mock(Heladera.class);
+class SolicitudAperturaPorContribucionRepositoryTest {
+  final Tarjeta tarjetaMock = Mockito.mock(Tarjeta.class);
   final DonacionViandas contribucionMock = Mockito.mock(DonacionViandas.class);
-  final SolicitudOperacionRepository repositorio = SolicitudOperacionRepository.getInstancia();
+  final SolicitudAperturaPorContribucionRepository repositorio = SolicitudAperturaPorContribucionRepository.getInstancia();
 
   @BeforeEach
   void setUp() {
@@ -29,11 +27,11 @@ class SolicitudOperacionRepositoryTest {
   @Test
   void testGetSolicitudVigente() {
     SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(colaboradorMock, heladeraMock, contribucionMock, ZonedDateTime.now());
-    repositorio.insert(solicitud);
+        new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, ZonedDateTime.now());
 
+    repositorio.insert(solicitud);
     Optional<SolicitudAperturaPorContribucion> encontrada =
-        repositorio.getSolicitudVigente(colaboradorMock, heladeraMock);
+        repositorio.getSolicitudVigente(tarjetaMock, contribucionMock);
 
     assertTrue(encontrada.isPresent());
     assertEquals(solicitud.getId(), encontrada.get().getId());
@@ -43,11 +41,11 @@ class SolicitudOperacionRepositoryTest {
   void testGetSolicitudVieja() {
     ZonedDateTime ayer = ZonedDateTime.now().minusDays(1);
     SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(colaboradorMock, heladeraMock, contribucionMock, ayer);
+        new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, ayer);
     repositorio.insert(solicitud);
 
     Optional<SolicitudAperturaPorContribucion> encontrada =
-        repositorio.getSolicitudVigente(colaboradorMock, heladeraMock);
+        repositorio.getSolicitudVigente(tarjetaMock, contribucionMock);
 
     assertFalse(encontrada.isPresent());
   }
@@ -55,7 +53,7 @@ class SolicitudOperacionRepositoryTest {
   @Test
   void testInsertarSolicitud() {
     SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(colaboradorMock, heladeraMock, contribucionMock, ZonedDateTime.now());
+        new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, ZonedDateTime.now());
 
     int id = repositorio.insert(solicitud);
 
@@ -66,11 +64,11 @@ class SolicitudOperacionRepositoryTest {
   @Test
   void testEliminarTodas() {
     SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(colaboradorMock, heladeraMock, contribucionMock, ZonedDateTime.now());
+        new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, ZonedDateTime.now());
 
     repositorio.insert(solicitud);
     repositorio.deleteTodas();
 
-    assertTrue(repositorio.getSolicitudVigente(solicitud.getColaborador(), solicitud.getHeladera()).isEmpty());
+    assertTrue(repositorio.getSolicitudVigente(solicitud.getTarjeta(), solicitud.getRazon()).isEmpty());
   }
 }
