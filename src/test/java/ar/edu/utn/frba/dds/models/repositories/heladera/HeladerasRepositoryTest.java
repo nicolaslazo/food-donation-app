@@ -19,23 +19,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class HeladerasRepositoryTest {
   final Ubicacion obelisco = new Ubicacion(-34.5611745, -58.4287506);
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final Heladera heladera = new Heladera("Heladera",
+  final Heladera heladera = new Heladera("Una heladera",
       obelisco,
       colaboradorMock,
-      50,
       ZonedDateTime.now().minusMonths(5),
+      50,
       0,
       10,
       5);
   final Heladera otraHeladera = new Heladera("Otra heladera",
-      new Ubicacion(-34.0, -58.0),
-      colaboradorMock,
-      60,
-      ZonedDateTime.now().minusMonths(7),
-      1,
-      12,
-      7);
-  HeladerasRepository repository;
+    new Ubicacion(-34, -58),
+    colaboradorMock,
+    ZonedDateTime.now().minusMonths(7),
+    60,
+    1,
+    12,
+    7);
+  HeladerasRepository repository = HeladerasRepository.getInstancia();
 
   @BeforeEach
   void setUp() throws RepositoryException {
