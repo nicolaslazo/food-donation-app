@@ -42,6 +42,10 @@ public class SolicitudAperturaPorContribucionRepository {
         .sum();
   }
 
+  public List<SolicitudAperturaPorContribucion> getTodas() {
+    return solicitudes;
+  }
+
   public int insert(SolicitudAperturaPorContribucion solicitud) {
     solicitudes.add(solicitud);
     solicitud.setId(solicitudes.size());
