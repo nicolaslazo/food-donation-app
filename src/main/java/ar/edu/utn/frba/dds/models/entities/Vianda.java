@@ -13,7 +13,8 @@ public class Vianda {
   final @NonNull ZonedDateTime fechaCaducidad;
   final @NonNull ZonedDateTime fechaDonacion;
   final @NonNull Colaborador colaborador;
-  final double pesoViandaEnGramos;
+  @Getter
+  final double pesoEnGramos;
   final int caloriasVianda;
   @Getter
   @Setter
@@ -26,13 +27,13 @@ public class Vianda {
                 @NonNull ZonedDateTime fechaCaducidad,
                 @NonNull ZonedDateTime fechaDonacion,
                 @NonNull Colaborador colaborador,
-                double pesoViandaEnGramos,
+                double pesoEnGramos,
                 int caloriasVianda) {
     this.descripcion = descripcion;
     this.fechaCaducidad = fechaCaducidad;
     this.fechaDonacion = fechaDonacion;
     this.colaborador = colaborador;
-    this.pesoViandaEnGramos = pesoViandaEnGramos;
+    this.pesoEnGramos = pesoEnGramos;
     this.caloriasVianda = caloriasVianda;
   }
 }
