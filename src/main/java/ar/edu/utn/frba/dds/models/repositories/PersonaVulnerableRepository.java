@@ -21,9 +21,9 @@ public class PersonaVulnerableRepository implements IPersonaVulnerableRepository
         .findFirst();
   }
 
-  public void insert(PersonaVulnerable personaVulnerable) throws RepositoryInsertException {
+  public void insert(PersonaVulnerable personaVulnerable) throws RepositoryException {
     if (get(personaVulnerable.getDocumento()).isPresent()) {
-      throw new RepositoryInsertException("Este documento ya está siendo usado");
+      throw new RepositoryException("Este documento ya está siendo usado");
     }
     personasVulnerables.add(personaVulnerable);
   }

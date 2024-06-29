@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.services.mensajeria;
 
 import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.models.entities.contacto.Telegram;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.contacto.TelegramRepository;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -25,7 +25,7 @@ public class TelegramService extends TelegramLongPollingBot {
     return instancia;
   }
 
-  public static void main(String[] args) throws TelegramApiException, RepositoryInsertException {
+  public static void main(String[] args) throws TelegramApiException, RepositoryException {
     TelegramRepository.getInstancia().insert(new Telegram("sawtooth_waves"));
     TelegramService servicio = TelegramService.getInstancia();
 
@@ -67,7 +67,7 @@ public class TelegramService extends TelegramLongPollingBot {
 
     try {
       TelegramRepository.getInstancia().updateChatId(username, id);
-    } catch (RepositoryInsertException e) {
+    } catch (RepositoryException e) {
       enviarMensaje(id, "Hubo un problema en el proceso de registro. Por favor intente más tarde");
     }
 

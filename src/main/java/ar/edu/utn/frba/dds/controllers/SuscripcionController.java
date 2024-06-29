@@ -6,7 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contacto.TipoNotificacion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CalculadoraDistancia;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 
 import java.util.Set;
@@ -27,7 +27,7 @@ public class SuscripcionController {
       SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
 
       for (TipoNotificacion tipo : notificaciones) repositorio.insert(new Suscripcion(heladera, tipo, colaborador));
-    } catch (RepositoryInsertException e) {
+    } catch (RepositoryException e) {
       throw new RuntimeException(e);
     }
   }

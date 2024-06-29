@@ -6,7 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import java.util.Optional;
 
 public interface IPersonaVulnerableRepository {
-  void insert(PersonaVulnerable personaVulnerable) throws RepositoryInsertException;
+  void insert(PersonaVulnerable personaVulnerable) throws RepositoryException;
 
   Optional<PersonaVulnerable> get(Documento documento);
 }

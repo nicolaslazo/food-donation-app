@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.documentacion;
 
 
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,9 @@ public class TarjetasRepository implements ITarjetasRepository {
     return tarjetas.stream().filter(ta -> ta.getIdentificador().equals(id)).findFirst();
   }
 
-  public void insert(Tarjeta tarjeta) throws RepositoryInsertException {
+  public void insert(Tarjeta tarjeta) throws RepositoryException {
     if (get(tarjeta.getIdentificador()).isPresent()) {
-      throw new RepositoryInsertException("Otra tarjeta alimentaria con este identificador ya existe");
+      throw new RepositoryException("Otra tarjeta alimentaria con este identificador ya existe");
     }
 
     tarjetas.add(tarjeta);

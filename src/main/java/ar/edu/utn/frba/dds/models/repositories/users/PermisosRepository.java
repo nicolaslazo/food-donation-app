@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories.users;
 
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ public class PermisosRepository implements IPermisosRepository {
     return permisos.stream().filter(permiso -> permiso.nombre().equalsIgnoreCase(nombre)).findFirst();
   }
 
-  public void insert(Permiso permiso) throws RepositoryInsertException {
-    if (get(permiso.nombre()).isPresent()) throw new RepositoryInsertException("Ya existe un permiso con ese nombre");
+  public void insert(Permiso permiso) throws RepositoryException {
+    if (get(permiso.nombre()).isPresent()) throw new RepositoryException("Ya existe un permiso con ese nombre");
 
     permisos.add(permiso);
   }

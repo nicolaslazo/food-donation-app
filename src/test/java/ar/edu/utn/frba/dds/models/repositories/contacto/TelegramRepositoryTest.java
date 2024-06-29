@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories.contacto;
 
 import ar.edu.utn.frba.dds.models.entities.contacto.Telegram;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ class TelegramRepositoryTest {
   }
 
   @Test
-  void testGetPorUsuario() throws RepositoryInsertException {
+  void testGetPorUsuario() throws RepositoryException {
     Telegram contacto = new Telegram("usuario");
     repositorio.insert(contacto);
 
@@ -31,7 +31,7 @@ class TelegramRepositoryTest {
   }
 
   @Test
-  void testInsertarContacto() throws RepositoryInsertException {
+  void testInsertarContacto() throws RepositoryException {
     Telegram contacto = new Telegram("usuario");
     repositorio.insert(contacto);
 
@@ -42,16 +42,16 @@ class TelegramRepositoryTest {
   }
 
   @Test
-  void testInsertarContactoDuplicadoLanzaExcepcion() throws RepositoryInsertException {
+  void testInsertarContactoDuplicadoLanzaExcepcion() throws RepositoryException {
     Telegram unContacto = new Telegram("duplicado");
     Telegram otroContacto = new Telegram("duplicado");
     repositorio.insert(unContacto);
 
-    assertThrows(RepositoryInsertException.class, () -> repositorio.insert(otroContacto));
+    assertThrows(RepositoryException.class, () -> repositorio.insert(otroContacto));
   }
 
   @Test
-  void testUpdateChatId() throws RepositoryInsertException {
+  void testUpdateChatId() throws RepositoryException {
     Telegram contacto = new Telegram("usuario");
     repositorio.insert(contacto);
 
@@ -64,11 +64,11 @@ class TelegramRepositoryTest {
 
   @Test
   void testActualizarChatIdUsuarioNoExistenteLanzaExcepcion() {
-    assertThrows(RepositoryInsertException.class, () -> repositorio.updateChatId("noexiste", 67890L));
+    assertThrows(RepositoryException.class, () -> repositorio.updateChatId("noexiste", 67890L));
   }
 
   @Test
-  void testEliminarTodos() throws RepositoryInsertException {
+  void testEliminarTodos() throws RepositoryException {
     Telegram contacto = new Telegram("usuario");
     repositorio.insert(contacto);
 

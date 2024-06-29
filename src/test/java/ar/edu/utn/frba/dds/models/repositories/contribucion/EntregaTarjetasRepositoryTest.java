@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -28,7 +28,7 @@ class EntregaTarjetasRepositoryTest {
   }
 
   @Test
-  void testGetPorId() throws RepositoryInsertException {
+  void testGetPorId() throws RepositoryException {
     repositorio.insert(entrega);
     Optional<EntregaTarjetas> encontrada = repositorio.get(1);
 
@@ -37,7 +37,7 @@ class EntregaTarjetasRepositoryTest {
   }
 
   @Test
-  void testObtenerTotalPorColaborador() throws RepositoryInsertException {
+  void testObtenerTotalPorColaborador() throws RepositoryException {
     EntregaTarjetas otraEntrega =
         new EntregaTarjetas(colaboradorMock, Arrays.asList(Mockito.mock(Tarjeta.class), Mockito.mock(Tarjeta.class)));
 
@@ -50,7 +50,7 @@ class EntregaTarjetasRepositoryTest {
   }
 
   @Test
-  void testInsertarEntrega() throws RepositoryInsertException {
+  void testInsertarEntrega() throws RepositoryException {
     int id = repositorio.insert(entrega);
 
     assertEquals(1, id);
@@ -58,14 +58,14 @@ class EntregaTarjetasRepositoryTest {
   }
 
   @Test
-  void testInsertarEntregaConTarjetasRepetidasLanzaExcepcion() throws RepositoryInsertException {
+  void testInsertarEntregaConTarjetasRepetidasLanzaExcepcion() throws RepositoryException {
     repositorio.insert(entrega);
 
-    assertThrows(RepositoryInsertException.class, () -> repositorio.insert(entrega));
+    assertThrows(RepositoryException.class, () -> repositorio.insert(entrega));
   }
 
   @Test
-  void testEliminarTodo() throws RepositoryInsertException {
+  void testEliminarTodo() throws RepositoryException {
     repositorio.insert(entrega);
     repositorio.deleteTodo();
 

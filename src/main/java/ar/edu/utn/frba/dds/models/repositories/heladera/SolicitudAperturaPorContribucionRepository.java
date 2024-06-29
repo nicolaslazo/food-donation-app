@@ -2,15 +2,15 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class SolicitudAperturaPorContribucionRepository {
-  static SolicitudAperturaPorContribucionRepository instancia = null;
+  private static SolicitudAperturaPorContribucionRepository instancia = null;
   final List<SolicitudAperturaPorContribucion> solicitudes;
 
   private SolicitudAperturaPorContribucionRepository() {
@@ -26,15 +26,20 @@ public class SolicitudAperturaPorContribucionRepository {
   }
 
   public Optional<SolicitudAperturaPorContribucion> getSolicitudVigente(Tarjeta tarjeta, MovimientoViandas contribucion) {
-    ZonedDateTime ahora = ZonedDateTime.now();
-
     return solicitudes
         .stream()
         .filter(solicitud -> solicitud.getTarjeta() == tarjeta &&
             solicitud.getRazon() == contribucion &&
-            solicitud.getFechaCreacion().isBefore(ahora) &&
-            solicitud.getFechaVencimiento().isAfter(ahora))
+            solicitud.isVigente())
         .findFirst();
+  }
+
+  public int getCantidadViandasPendientes(Heladera heladera) {
+    return solicitudes
+        .stream()
+        .filter(solicitud -> solicitud.getRazon().getDestino().getId() == heladera.getId())
+        .mapToInt(solicitud -> solicitud.getRazon().getViandas().size())
+        .sum();
   }
 
   public int insert(SolicitudAperturaPorContribucion solicitud) {
