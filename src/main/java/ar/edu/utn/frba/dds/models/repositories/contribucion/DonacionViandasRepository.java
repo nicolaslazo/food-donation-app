@@ -15,17 +15,15 @@ import java.util.stream.Collectors;
 
 public class DonacionViandasRepository {
   private static DonacionViandasRepository instancia = null;
-  private static List<DonacionViandas> donaciones;
+  private final List<DonacionViandas> donaciones;
 
-  public DonacionViandasRepository() {
-    donaciones = new ArrayList<>();
+    public DonacionViandasRepository() {
+      this.donaciones = new ArrayList<>();
   }
-
   public static DonacionViandasRepository getInstancia() {
     if (instancia == null) {
       instancia = new DonacionViandasRepository();
     }
-
     return instancia;
   }
 

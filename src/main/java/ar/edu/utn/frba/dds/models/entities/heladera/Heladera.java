@@ -27,7 +27,7 @@ public class Heladera {
   @Getter
   @Setter
   private int id;
-  @NonNull
+  @NonNull @Getter
   private String nombre;
   @Getter
   private Ubicacion ubicacion;
