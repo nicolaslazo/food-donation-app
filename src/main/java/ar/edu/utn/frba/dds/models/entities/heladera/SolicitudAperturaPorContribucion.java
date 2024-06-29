@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.models.entities.heladera;
 
 import ar.edu.utn.frba.dds.config.ConfigLoader;
+import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import lombok.Getter;
@@ -48,5 +49,9 @@ public class SolicitudAperturaPorContribucion {
     ZonedDateTime ahora = ZonedDateTime.now();
 
     return !isUsada() && ahora.isAfter(fechaCreacion) && ahora.isBefore(fechaVencimiento);
+  }
+
+  public double[] getPesosDeViandasEnGramos() {
+    return this.getRazon().getViandas().stream().mapToDouble(Vianda::getPesoEnGramos).toArray();
   }
 }
