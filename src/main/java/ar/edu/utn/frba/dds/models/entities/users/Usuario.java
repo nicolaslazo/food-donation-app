@@ -5,7 +5,6 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import lombok.Getter;
 import lombok.NonNull;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Usuario {
