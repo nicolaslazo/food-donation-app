@@ -5,23 +5,26 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import lombok.Getter;
 import lombok.NonNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Usuario {
   final @NonNull Email mail;
-  @NonNull String contrasenia;
   @Getter
-  @NonNull Rol rol;
+  final @NonNull Set<Rol> roles;
+  @NonNull String contrasenia;
 
-  public Usuario(Email mail, Rol rol) {
+  public Usuario(Email mail, Set<Rol> roles) {
     this.mail = mail;
     this.contrasenia = GeneradorDeContrasenias.generarContrasenia();
-    this.rol = rol;
+    this.roles = roles;
 
     // TODO: Terminar el setup de envío de mails y configurar que enviarMail sea un no-op durante tests
     // new EnviadorDeMails().enviarMail(mail.destinatario(), this.contrasenia);
   }
 
   public boolean tienePermiso(@NonNull Permiso permiso) {
-    return rol.tienePermiso(permiso);
+    return roles.stream().anyMatch(rol -> rol.tienePermiso(permiso));
   }
 
   public boolean tienePermiso(@NonNull String nombre) {
