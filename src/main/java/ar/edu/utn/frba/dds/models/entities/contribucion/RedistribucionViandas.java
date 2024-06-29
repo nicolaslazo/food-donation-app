@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 
-import java.util.List;
+import java.util.Collection;
 
 public class RedistribucionViandas extends MovimientoViandas {
   // Algunos de estos se mantienen nulificables para el cargador masivo CSV
@@ -12,7 +12,7 @@ public class RedistribucionViandas extends MovimientoViandas {
   final MotivoDeDistribucion motivo;
 
   public RedistribucionViandas(Colaborador colaborador,
-                               List<Vianda> viandas,
+                               Collection<Vianda> viandas,
                                Heladera destino,
                                Heladera origen,
                                MotivoDeDistribucion motivo) {
