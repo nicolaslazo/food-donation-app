@@ -38,7 +38,6 @@ class SolicitudAperturaPorContribucionControllerTest {
       Collections.singletonList(mock(Vianda.class)),
       mock(Heladera.class));
 
-
   @BeforeEach
   void setUp() {
     SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();

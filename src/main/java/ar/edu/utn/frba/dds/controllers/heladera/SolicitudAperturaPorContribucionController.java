@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.controllers.heladera;
 
 import ar.edu.utn.frba.dds.dtos.input.heladera.SolicitudAperturaPorContribucionInputDTO;
 import ar.edu.utn.frba.dds.dtos.output.heladera.SolicitudAperturaPorContribucionOutputDTO;
+import ar.edu.utn.frba.dds.models.entities.contribucion.ContribucionYaRealizadaException;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
@@ -55,7 +56,8 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
   }
 
   @Override
-  public void messageArrived(String topic, MqttMessage payload) throws SolicitudInvalidaException, RepositoryException {
+  public void messageArrived(String topic, MqttMessage payload)
+      throws SolicitudInvalidaException, RepositoryException, ContribucionYaRealizadaException {
     final SolicitudAperturaPorContribucionInputDTO confirmacion =
         SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
 
@@ -68,6 +70,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
     SolicitudAperturaPorContribucion solicitud = optionalSolicitud.get();
 
     repositorio.updateFechaUsada(solicitud.getId(), confirmacion.getFechaRealizada());
+    solicitud.getRazon().setFechaRealizada(confirmacion.getFechaRealizada());
     ViandasRepository
         .getInstancia()
         .updateUbicacion(solicitud.getRazon().getViandas(), solicitud.getRazon().getDestino());
