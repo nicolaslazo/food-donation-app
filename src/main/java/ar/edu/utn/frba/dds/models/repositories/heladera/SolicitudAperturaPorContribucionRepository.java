@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class SolicitudAperturaPorContribucionRepository {
     return solicitud.getId();
   }
 
-  public void updateFechaUsada(int id, ZonedDateTime fechaUsada) throws RepositoryException, SolicitudInvalidaException {
+  public void updateFechaUsada(int id, ZonedDateTime fechaUsada) throws SolicitudInvalidaException {
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud = getSolicitudVigenteAlMomento(id, fechaUsada);
 
     if (optionalSolicitud.isEmpty()) throw new SolicitudInvalidaException("No existe solicitud vigente con id " + id);

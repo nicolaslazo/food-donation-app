@@ -3,6 +3,8 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
+import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,12 +14,14 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SolicitudAperturaPorContribucionRepositoryTest {
   final Tarjeta tarjetaMock = Mockito.mock(Tarjeta.class);
   final DonacionViandas contribucionMock = Mockito.mock(DonacionViandas.class);
-  final SolicitudAperturaPorContribucionRepository repositorio = SolicitudAperturaPorContribucionRepository.getInstancia();
+  final SolicitudAperturaPorContribucionRepository repositorio =
+      SolicitudAperturaPorContribucionRepository.getInstancia();
 
   @BeforeEach
   void setUp() {
@@ -29,9 +33,9 @@ class SolicitudAperturaPorContribucionRepositoryTest {
     SolicitudAperturaPorContribucion solicitud =
         new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, ZonedDateTime.now());
 
-    repositorio.insert(solicitud);
+    int idSolicitud = repositorio.insert(solicitud);
     Optional<SolicitudAperturaPorContribucion> encontrada =
-        repositorio.getSolicitudVigente(tarjetaMock, contribucionMock);
+        repositorio.getSolicitudVigente(idSolicitud);
 
     assertTrue(encontrada.isPresent());
     assertEquals(solicitud.getId(), encontrada.get().getId());
@@ -42,10 +46,10 @@ class SolicitudAperturaPorContribucionRepositoryTest {
     ZonedDateTime ayer = ZonedDateTime.now().minusDays(1);
     SolicitudAperturaPorContribucion solicitud =
         new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, ayer);
-    repositorio.insert(solicitud);
+    int idSolicitud = repositorio.insert(solicitud);
 
     Optional<SolicitudAperturaPorContribucion> encontrada =
-        repositorio.getSolicitudVigente(tarjetaMock, contribucionMock);
+        repositorio.getSolicitudVigente(idSolicitud);
 
     assertFalse(encontrada.isPresent());
   }
@@ -62,13 +66,33 @@ class SolicitudAperturaPorContribucionRepositoryTest {
   }
 
   @Test
+  void testUpdateFechaUsadaFallaSiSolicitudVencio() {
+    final int idSolicitud = repositorio.insert(
+        new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, ZonedDateTime.now().minusYears(1)));
+
+    assertThrows(SolicitudInvalidaException.class, () -> repositorio.updateFechaUsada(idSolicitud, ZonedDateTime.now()));
+  }
+
+  @Test
+  void testUpdateFechaUsada() throws SolicitudInvalidaException, RepositoryException {
+    final ZonedDateTime haceUnAno = ZonedDateTime.now().minusYears(1);
+    final ZonedDateTime haceUnAnoYDiezMinutos = haceUnAno.plusMinutes(10);
+
+    final int idSolicitud =
+        repositorio.insert(new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, haceUnAno));
+    repositorio.updateFechaUsada(idSolicitud, haceUnAnoYDiezMinutos);
+
+    assertEquals(haceUnAnoYDiezMinutos, repositorio.get(idSolicitud).get().getFechaUsada());
+  }
+
+  @Test
   void testEliminarTodas() {
-    SolicitudAperturaPorContribucion solicitud =
+    final SolicitudAperturaPorContribucion solicitud =
         new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, ZonedDateTime.now());
 
-    repositorio.insert(solicitud);
+    int idSolicitud = repositorio.insert(solicitud);
     repositorio.deleteTodas();
 
-    assertTrue(repositorio.getSolicitudVigente(solicitud.getTarjeta(), solicitud.getRazon()).isEmpty());
+    assertTrue(repositorio.getSolicitudVigente(idSolicitud).isEmpty());
   }
 }
