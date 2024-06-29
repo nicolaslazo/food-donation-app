@@ -52,7 +52,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     final Tarjeta tarjetaInutil = new Tarjeta(randomUUID(), mock(Colaborador.class), duenoInutil);
 
     assertThrows(PermisoDenegadoException.class,
-        () -> SolicitudAperturaPorContribucionController.crear(tarjetaInutil, mock(MovimientoViandas.class)));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(MovimientoViandas.class)));
   }
 
   @Test
@@ -63,7 +63,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     when(tarjetaMock.getRecipiente()).thenReturn(mock(Usuario.class));
 
     assertThrows(PermisoDenegadoException.class,
-        () -> SolicitudAperturaPorContribucionController.crear(tarjetaMock, contribucionMock));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjetaMock, contribucionMock));
   }
 
   @Test
@@ -71,7 +71,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
       brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
 
-      SolicitudAperturaPorContribucionController.crear(tarjeta, contribucion);
+      new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion);
     }
 
     assertEquals(1, SolicitudAperturaPorContribucionRepository.getInstancia().getTodas().size());
@@ -82,7 +82,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
       brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
 
-      SolicitudAperturaPorContribucionController.crear(tarjeta, contribucion);
+      new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion);
     }
 
     verify(brokerServiceMock)

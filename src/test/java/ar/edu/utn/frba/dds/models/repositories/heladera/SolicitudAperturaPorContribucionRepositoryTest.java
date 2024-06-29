@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -74,7 +73,7 @@ class SolicitudAperturaPorContribucionRepositoryTest {
   }
 
   @Test
-  void testUpdateFechaUsada() throws SolicitudInvalidaException, RepositoryException {
+  void testUpdateFechaUsada() throws SolicitudInvalidaException {
     final ZonedDateTime haceUnAno = ZonedDateTime.now().minusYears(1);
     final ZonedDateTime haceUnAnoYDiezMinutos = haceUnAno.plusMinutes(10);
 
