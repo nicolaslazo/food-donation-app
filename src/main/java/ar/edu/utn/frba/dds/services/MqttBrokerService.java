@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.services;
 
 import ar.edu.utn.frba.dds.config.ConfigLoader;
 import lombok.Getter;
+import lombok.NonNull;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -10,6 +11,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import javax.net.ssl.SSLSocketFactory;
+import java.nio.charset.StandardCharsets;
 
 public class MqttBrokerService {
   private static MqttBrokerService instancia = null;
@@ -52,7 +54,11 @@ public class MqttBrokerService {
     MqttBrokerService.getInstancia().suscribir("demo", receptor);
   }
 
-  public void suscribir(String topic, IMqttMessageListener receptor) {
+  public void publicar(@NonNull String topic, @NonNull String contenido) throws MqttException {
+    mqttClient.publish(topic, contenido.getBytes(StandardCharsets.UTF_8), 1, false);
+  }
+
+  public void suscribir(@NonNull String topic, @NonNull IMqttMessageListener receptor) {
     try {
       mqttClient.subscribe(topic, receptor);
     } catch (MqttException e) {
