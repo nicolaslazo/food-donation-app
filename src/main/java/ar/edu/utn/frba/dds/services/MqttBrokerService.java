@@ -18,7 +18,7 @@ public class MqttBrokerService {
   @Getter
   private final MqttClient mqttClient;
 
-  public MqttBrokerService() throws MqttException {
+  private MqttBrokerService() throws MqttException {
     ConfigLoader configLoader = ConfigLoader.getInstancia();
 
     mqttClient = new MqttClient(configLoader.getProperty("mqtt.broker.cluster.url"),
@@ -58,11 +58,7 @@ public class MqttBrokerService {
     mqttClient.publish(topic, contenido.getBytes(StandardCharsets.UTF_8), 1, false);
   }
 
-  public void suscribir(@NonNull String topic, @NonNull IMqttMessageListener receptor) {
-    try {
-      mqttClient.subscribe(topic, receptor);
-    } catch (MqttException e) {
-      throw new RuntimeException(e);
-    }
+  public void suscribir(@NonNull String topic, @NonNull IMqttMessageListener receptor) throws MqttException {
+    mqttClient.subscribe(topic, receptor);
   }
 }
