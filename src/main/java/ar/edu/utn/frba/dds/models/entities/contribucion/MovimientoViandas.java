@@ -10,11 +10,10 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
 public abstract class MovimientoViandas extends Contribucion {
-  @Getter
   final @NonNull List<Vianda> viandas;
   final Heladera destino;
-  @Getter
   @Setter
   private int id;
 
