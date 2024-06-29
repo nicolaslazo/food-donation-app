@@ -18,6 +18,7 @@ import java.util.Objects;
 
 @Getter
 public class Colaborador {
+  private final static Rol ROL_DEFAULT = new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
   final @NonNull Documento documento;
   final @NonNull List<Contacto> contactos;
   final LocalDate fechaNacimiento;
@@ -26,17 +27,15 @@ public class Colaborador {
   @NonNull String apellido;
   Ubicacion ubicacion;
 
-  public Colaborador(Documento documento,
+  public Colaborador(@NonNull Documento documento,
                      @NonNull Email mail,
                      LocalDate fechaNacimiento,
-                     String nombre,
-                     String apellido,
+                     @NonNull String nombre,
+                     @NonNull String apellido,
                      Ubicacion ubicacion) {
     this.documento = documento;
     this.contactos = new ArrayList<>(List.of(mail));
-    this.usuario = new Usuario(mail,
-        new Rol("colaboradorFisico",
-            new HashSet<>(List.of(new Permiso("depositarViandas", null)))));
+    this.usuario = new Usuario(mail, new HashSet<>(List.of(ROL_DEFAULT)));
     this.fechaNacimiento = fechaNacimiento;
     this.nombre = nombre;
     this.apellido = apellido;
