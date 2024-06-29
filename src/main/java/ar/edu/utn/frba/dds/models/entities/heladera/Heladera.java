@@ -13,6 +13,7 @@ import java.util.Objects;
 public class Heladera {
   final double temperaturaMinimaCelsius;
   final double temperaturaMaximaCelsius;
+  @Getter
   final int capacidadEnViandas;
   final @NonNull ZonedDateTime fechaInstalacion;
   @Getter
