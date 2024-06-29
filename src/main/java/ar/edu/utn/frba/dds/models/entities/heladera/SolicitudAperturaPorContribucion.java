@@ -45,10 +45,12 @@ public class SolicitudAperturaPorContribucion {
     return fechaUsada != null;
   }
 
-  public boolean isVigente() {
-    ZonedDateTime ahora = ZonedDateTime.now();
+  public boolean isVigenteAlMomento(ZonedDateTime momento) {
+    return !isUsada() && momento.isAfter(fechaCreacion) && momento.isBefore(fechaVencimiento);
+  }
 
-    return !isUsada() && ahora.isAfter(fechaCreacion) && ahora.isBefore(fechaVencimiento);
+  public boolean isVigente() {
+    return isVigenteAlMomento(ZonedDateTime.now());
   }
 
   public double[] getPesosDeViandasEnGramos() {
