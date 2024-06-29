@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.models.entities.documentacion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
@@ -19,6 +20,14 @@ public class Tarjeta {
     this.id = id;
     this.proveedor = proveedor;
     this.recipiente = recipiente;
+  }
+
+  public void assertTienePermiso(@NonNull Permiso permiso, @NonNull String razon) {
+    recipiente.assertTienePermiso(permiso, razon);
+  }
+
+  public void assertTienePermiso(@NonNull String nombrePermiso, @NonNull String razon) {
+    recipiente.assertTienePermiso(nombrePermiso, razon);
   }
 
   @Override
