@@ -5,7 +5,6 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
-import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,8 +31,7 @@ class TecnicoTest {
             new Documento(TipoDocumento.DNI, 123),
             "123",
             null,
-            new AreaGeografica(aCienMetrosDelObelisco, 200f),
-            Mockito.mock(Usuario.class)
+            new AreaGeografica(aCienMetrosDelObelisco, 200f)
         ).isDentroDeRango(heladeraMock)
     );
   }
@@ -46,8 +44,7 @@ class TecnicoTest {
             new Documento(TipoDocumento.DNI, 123),
             "123",
             null,
-            new AreaGeografica(aCienMetrosDelObelisco, 50f),
-            Mockito.mock(Usuario.class)
+            new AreaGeografica(aCienMetrosDelObelisco, 50f)
         ).isDentroDeRango(heladeraMock)
     );
   }
