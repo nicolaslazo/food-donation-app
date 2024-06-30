@@ -14,9 +14,6 @@ public class AccionadorHeladera {
         comandosHeladeras = new ArrayList<>();
     }
 
-    public AccionadorHeladera(List<ComandoHeladera> comandosHeladeras) {
-        this.comandosHeladeras = comandosHeladeras;
-    }
 
     public CargarAlertaEnIncidentes cargadorAlertas;
 

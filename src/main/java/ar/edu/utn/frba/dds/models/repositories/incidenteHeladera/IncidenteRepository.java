@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class IncidenteRepository implements IIncidenteRepository {
+public class IncidenteRepository {
     IncidenteRepository instancia = null;
     private List<Incidente> incidentesHeladeras;
 
@@ -14,7 +14,7 @@ public class IncidenteRepository implements IIncidenteRepository {
         incidentesHeladeras = new ArrayList<Incidente>();
     }
 
-    @Override
+
     public Optional<Incidente> getIncidenteHeladera(int id) {
         return incidentesHeladeras
                 .stream()
@@ -29,32 +29,36 @@ public class IncidenteRepository implements IIncidenteRepository {
         return instancia;
     }
 
-    @Override
+
     public List<Incidente> getIncidenteHeladeras() {
         return incidentesHeladeras;
     }
 
-    @Override
+
     public void insertIncidenteHeladera(Incidente incidente) {
         incidente.setIdIncidente(incidentesHeladeras.size()+1);
         incidentesHeladeras.add(incidente);
     }
 
-    @Override
+
     public boolean deleteIncidenteHeladera(int id) {
         Optional<Incidente> incidenteHeladera = getIncidenteHeladera(id);
         return incidenteHeladera.map(incidentesHeladeras::remove).orElse(false);
     }
 
-    @Override
+
     public boolean existsIncidenteHeladera(int id) {
         return getIncidenteHeladera(id).isPresent();
     }
 
-    @Override
+
     public boolean updateIncidenteHeladera(Incidente incidenteHeladera) {
         //TODO
         return false;
+    }
+
+    public void deleteTodos() {
+        incidentesHeladeras.clear();
     }
 
 }
