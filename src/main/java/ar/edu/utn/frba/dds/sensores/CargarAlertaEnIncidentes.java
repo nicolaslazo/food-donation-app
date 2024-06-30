@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.incidente.Incidente;
-import ar.edu.utn.frba.dds.models.entities.incidente.TipoIncidente;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.repositories.incidenteHeladera.IncidenteRepository;
 
 import java.time.ZonedDateTime;
@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 //Insertamos el nuevo incidente en el repositorio
 public class CargarAlertaEnIncidentes {
     private static CargarAlertaEnIncidentes instancia = null;
-    private IncidenteRepository instanciaRepository = null;
+    private final IncidenteRepository instanciaRepository = null;
 
     public CargarAlertaEnIncidentes getIntancia() {
         if(instancia == null) {

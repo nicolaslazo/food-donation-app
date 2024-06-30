@@ -2,8 +2,8 @@ package ar.edu.utn.frba.dds.models.repositories.incidente;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.incidente.Incidente;
-import ar.edu.utn.frba.dds.models.entities.incidente.TipoIncidente;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.repositories.incidenteHeladera.IncidenteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -59,7 +59,9 @@ public class HeladerasRepository {
 
   public void updateTiempoHeladera(int id, Heladera nuevaHeladera) {
     Optional<Heladera> heladera = get(id);
-    heladera.ifPresent(Heladera::setUltimaTempRegistradaCelsius);
+    heladera.ifPresent(value -> value.setUltimaTempRegistradaCelsius(
+            nuevaHeladera.getUltimaTempRegistradaCelsius())
+    );
   }
 }
 

@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.models.entities.incidente;
+package ar.edu.utn.frba.dds.models.entities.heladera.incidente;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;

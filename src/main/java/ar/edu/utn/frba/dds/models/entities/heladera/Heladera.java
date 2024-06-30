@@ -56,11 +56,6 @@ public class Heladera {
     ultimaTempRegistradaCelsius = temperatura;
     momentoUltimaTempRegistrada = ZonedDateTime.now();
   }
-
-  public void setUltimaTempRegistradaCelsius() {
-    momentoUltimaTempRegistrada = ZonedDateTime.now();
-  }
-
   private boolean ultimaTemperaturaEsVieja() {
     ZonedDateTime haceCincoMinutos = ZonedDateTime.now().minusMinutes(5);
     return momentoUltimaTempRegistrada.isBefore(haceCincoMinutos);

@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.models.entities.incidente;
+package ar.edu.utn.frba.dds.models.entities.heladera.incidente;
 
 public enum TipoIncidente {
     FALLA_REPORTADA_POR_COLABORADOR,
