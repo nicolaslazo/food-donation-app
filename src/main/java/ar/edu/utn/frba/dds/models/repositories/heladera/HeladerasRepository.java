@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,15 @@ public class HeladerasRepository {
 
   public Optional<Heladera> get(Ubicacion ubicacion) {
     return heladeras.stream().filter(heladera -> heladera.getUbicacion() == ubicacion).findFirst();
+  }
+
+  public List<Heladera> getHeladerasConTemperaturaDesactualizada(int limiteEnMinutos) {
+    return heladeras
+        .stream()
+        .filter(heladera -> heladera
+            .getMomentoUltimaTempRegistrada()
+            .isBefore(ZonedDateTime.now().minusMinutes(limiteEnMinutos)))
+        .toList();
   }
 
   public List<Heladera> getTodas(Colaborador encargado) {

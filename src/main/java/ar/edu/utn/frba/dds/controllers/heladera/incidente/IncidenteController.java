@@ -18,14 +18,27 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class IncidenteController implements IMqttMessageListener {
+  private static IncidenteController instancia = null;
   final IncidentesRepository repositorio = IncidentesRepository.getInstancia();
   final MqttBrokerService brokerService = MqttBrokerService.getInstancia();
 
-  public IncidenteController() throws MqttException {
+  private IncidenteController() throws MqttException {
     brokerService.suscribir("heladeras/incidentes", this);
   }
 
-  private void crearAlerta(@NonNull Heladera heladera, @NonNull TipoIncidente tipo, @NonNull ZonedDateTime fecha) {
+  public static IncidenteController getInstancia() {
+    if (instancia == null) {
+      try {
+        instancia = new IncidenteController();
+      } catch (MqttException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
+    return instancia;
+  }
+
+  public void crearAlerta(@NonNull Heladera heladera, @NonNull TipoIncidente tipo, @NonNull ZonedDateTime fecha) {
     repositorio.insert(new Incidente(heladera, tipo, fecha));
   }
 
