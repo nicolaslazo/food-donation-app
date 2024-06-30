@@ -10,8 +10,10 @@ import java.time.ZonedDateTime;
 
 public class VisitaTecnica {
   final @NonNull Tecnico tecnico;
+  @Getter
   final @NonNull Incidente incidente;
   final @NonNull ZonedDateTime fecha;
+  @Getter
   final boolean incidenteResuelto;
   final String descripcion;
   final URL imagen;
