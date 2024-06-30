@@ -9,6 +9,5 @@ public class ActualizarRepositoryHeladera implements ComandoHeladera {
     @Override
     public void accionar(Heladera heladera) {
         heladerasRepository.updateTiempoHeladera(heladera.getId(),heladera);
-        heladerasRepository.updateEstadoHeladera(heladera.getId(),heladera);
     }
 }
