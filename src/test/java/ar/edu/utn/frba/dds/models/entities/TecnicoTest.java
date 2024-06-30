@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities;
 
+import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
@@ -30,7 +31,7 @@ class TecnicoTest {
             "",
             new Documento(TipoDocumento.DNI, 123),
             "123",
-            null,
+            new Email("tecnico@example.com"),
             new AreaGeografica(aCienMetrosDelObelisco, 200f)
         ).isDentroDeRango(heladeraMock)
     );
@@ -43,7 +44,7 @@ class TecnicoTest {
             "",
             new Documento(TipoDocumento.DNI, 123),
             "123",
-            null,
+            new Email("tecnico@example.com"),
             new AreaGeografica(aCienMetrosDelObelisco, 50f)
         ).isDentroDeRango(heladeraMock)
     );

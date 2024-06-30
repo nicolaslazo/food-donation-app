@@ -30,7 +30,7 @@ public final class Tecnico {
   @NonNull AreaGeografica areaAsignada;
 
   public Tecnico(@NonNull String nombre, @NonNull String apellido, @NonNull Documento documento,
-                 @NonNull String cuil, Email email, @NonNull AreaGeografica areaAsignada) {
+                 @NonNull String cuil, @NonNull Email email, @NonNull AreaGeografica areaAsignada) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.documento = documento;

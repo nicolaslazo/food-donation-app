@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.controllers.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
+import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
@@ -43,7 +44,7 @@ class HeladeraControllerTest {
             "",
             new Documento(TipoDocumento.DNI, 123),
             "123",
-            null,
+            new Email("tecnico@example.com"),
             new AreaGeografica(aCienMetrosDelObelisco, 50f))
     );
     assertTrue(heladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
@@ -57,7 +58,7 @@ class HeladeraControllerTest {
         "",
         new Documento(TipoDocumento.DNI, 123),
         "123",
-        null,
+        new Email("tecnico@example.com"),
         new AreaGeografica(aCincuentaMetrosDelObelisco, 1000f));
 
     tecnicoRepository.insertTecnico(tecnicoDeseado);
@@ -66,7 +67,7 @@ class HeladeraControllerTest {
             "",
             new Documento(TipoDocumento.DNI, 456),
             "456",
-            null,
+            new Email("tecnico@example.com"),
             new AreaGeografica(aCienMetrosDelObelisco, 1000f))
     );
 
