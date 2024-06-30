@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
-import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,8 +44,7 @@ class HeladeraControllerTest {
             new Documento(TipoDocumento.DNI, 123),
             "123",
             null,
-            new AreaGeografica(aCienMetrosDelObelisco, 50f),
-            Mockito.mock(Usuario.class))
+            new AreaGeografica(aCienMetrosDelObelisco, 50f))
     );
     assertTrue(heladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
   }
@@ -60,8 +58,7 @@ class HeladeraControllerTest {
         new Documento(TipoDocumento.DNI, 123),
         "123",
         null,
-        new AreaGeografica(aCincuentaMetrosDelObelisco, 1000f),
-        Mockito.mock(Usuario.class));
+        new AreaGeografica(aCincuentaMetrosDelObelisco, 1000f));
 
     tecnicoRepository.insertTecnico(tecnicoDeseado);
     tecnicoRepository.insertTecnico(
@@ -70,8 +67,7 @@ class HeladeraControllerTest {
             new Documento(TipoDocumento.DNI, 456),
             "456",
             null,
-            new AreaGeografica(aCienMetrosDelObelisco, 1000f),
-            Mockito.mock(Usuario.class))
+            new AreaGeografica(aCienMetrosDelObelisco, 1000f))
     );
 
     assertEquals(Optional.of(tecnicoDeseado), heladeraController.encontrarTecnicoMasCercano(heladeraMock));

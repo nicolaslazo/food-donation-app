@@ -7,17 +7,17 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 
 @Getter
 public abstract class MovimientoViandas extends Contribucion {
-  final @NonNull List<Vianda> viandas;
+  final Collection<Vianda> viandas;
   final Heladera destino;
   @Setter
   private int id;
 
-  public MovimientoViandas(@NonNull Colaborador colaborador, List<Vianda> viandas, Heladera heladera) {
+  public MovimientoViandas(@NonNull Colaborador colaborador, Collection<Vianda> viandas, Heladera heladera) {
     super(colaborador);
 
     this.viandas = viandas;

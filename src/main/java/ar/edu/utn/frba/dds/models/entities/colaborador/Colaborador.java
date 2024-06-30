@@ -4,27 +4,27 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.users.Permiso;
+import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
 public class Colaborador {
-  @Getter
+  private final static Rol ROL_DEFAULT = new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
   final @NonNull Documento documento;
-  @Getter
   final @NonNull List<Contacto> contactos;
   final LocalDate fechaNacimiento;
   final @NonNull Usuario usuario;
-  @Getter
   @NonNull String nombre;
-  @Getter
   @NonNull String apellido;
-  @Getter
   Ubicacion ubicacion;
 
   public Colaborador(@NonNull Documento documento,
@@ -35,9 +35,7 @@ public class Colaborador {
                      Ubicacion ubicacion) {
     this.documento = documento;
     this.contactos = new ArrayList<>(List.of(mail));
-    // TODO: Configurar el rol de colaborador
-    //    this.usuario = new Usuario(mail, new Rol());
-    this.usuario = new Usuario(mail, null);
+    this.usuario = new Usuario(mail, new HashSet<>(List.of(ROL_DEFAULT)));
     this.fechaNacimiento = fechaNacimiento;
     this.nombre = nombre;
     this.apellido = apellido;
