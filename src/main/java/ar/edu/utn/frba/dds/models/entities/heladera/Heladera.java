@@ -8,7 +8,6 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,22 +31,17 @@ public class Heladera {
   @Getter
   private double ultimaTempRegistradaCelsius;
   private ZonedDateTime momentoUltimaTempRegistrada;
-  @Getter
-  @Setter
-  private boolean heladeraActiva;
 
   public Heladera(@NonNull String nombre,
                   Ubicacion ubicacion,
                   @NonNull Colaborador encargado,
                   int capacidadEnViandas,
-                  @NonNull ZonedDateTime fechaInstalacion,
-                  boolean heladeraActiva) {
+                  @NonNull ZonedDateTime fechaInstalacion) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
     this.encargado = encargado;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
-    this.heladeraActiva = heladeraActiva;
 
     this.viandas = new ArrayList<>();
   }
@@ -59,11 +53,6 @@ public class Heladera {
   private boolean ultimaTemperaturaEsVieja() {
     ZonedDateTime haceCincoMinutos = ZonedDateTime.now().minusMinutes(5);
     return momentoUltimaTempRegistrada.isBefore(haceCincoMinutos);
-  }
-
-  public int mesesActiva() {
-    if (!heladeraActiva) return 0;
-    return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
 
   @Override
