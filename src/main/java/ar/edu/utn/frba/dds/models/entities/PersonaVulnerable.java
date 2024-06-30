@@ -12,15 +12,15 @@ import java.time.ZonedDateTime;
 
 public final class PersonaVulnerable {
   @Getter
-  private final @NonNull Documento documento;
-  private final @NonNull Colaborador reclutador;
-  private final @NonNull String nombre;
-  private final @NonNull String apellido;
-  private final @NonNull LocalDate fechaDeNacimiento;
-  private final @NonNull ZonedDateTime fechaRegistro;
-  private final @NonNull Usuario usuario;
-  private Ubicacion domicilio;
-  private int menoresACargo;
+  final @NonNull Documento documento;
+  final @NonNull Colaborador reclutador;
+  final @NonNull LocalDate fechaDeNacimiento;
+  final @NonNull ZonedDateTime fechaRegistro;
+  final @NonNull Usuario usuario;
+  @NonNull String nombre;
+  @NonNull String apellido;
+  Ubicacion domicilio;
+  int menoresACargo;
 
   public PersonaVulnerable(@NonNull Documento documento, @NonNull Colaborador reclutador, @NonNull String nombre,
                            @NonNull String apellido, @NonNull LocalDate fechaDeNacimiento,

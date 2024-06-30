@@ -5,7 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 class SuscripcionTest {
