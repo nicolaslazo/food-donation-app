@@ -51,12 +51,6 @@ public class IncidenteRepository {
         return getIncidenteHeladera(id).isPresent();
     }
 
-
-    public boolean updateIncidenteHeladera(Incidente incidenteHeladera) {
-        //TODO
-        return false;
-    }
-
     public void deleteTodos() {
         incidentesHeladeras.clear();
     }
