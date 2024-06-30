@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,21 +21,23 @@ import static org.mockito.Mockito.when;
 
 class HeladeraControllerTest {
   final TecnicoRepository tecnicoRepository = TecnicoRepository.getInstancia();
-  final HeladeraController heladeraController = new HeladeraController();
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
   final Ubicacion obelisco = new Ubicacion(-34.603706013664166, -58.3815728218273);
   final Ubicacion aCienMetrosDelObelisco = new Ubicacion(-34.60375463775254, -58.38264297552039);
 
   @BeforeEach
   void setUp() {
-    tecnicoRepository.deleteTodos();
-
     when(heladeraMock.getUbicacion()).thenReturn(obelisco);
+  }
+
+  @AfterEach
+  void tearDown() {
+    tecnicoRepository.deleteTodos();
   }
 
   @Test
   void testDevuelveNadaSiNoEncuentraTecnicosProximos() {
-    assertTrue(heladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
+    assertTrue(HeladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
   }
 
   @Test
@@ -47,7 +50,7 @@ class HeladeraControllerTest {
             new Email("tecnico@example.com"),
             new AreaGeografica(aCienMetrosDelObelisco, 50f))
     );
-    assertTrue(heladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
+    assertTrue(HeladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
   }
 
   @Test
@@ -71,6 +74,6 @@ class HeladeraControllerTest {
             new AreaGeografica(aCienMetrosDelObelisco, 1000f))
     );
 
-    assertEquals(Optional.of(tecnicoDeseado), heladeraController.encontrarTecnicoMasCercano(heladeraMock));
+    assertEquals(Optional.of(tecnicoDeseado), HeladeraController.encontrarTecnicoMasCercano(heladeraMock));
   }
 }
