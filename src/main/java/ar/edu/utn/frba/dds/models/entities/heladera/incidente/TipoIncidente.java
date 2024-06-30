@@ -16,9 +16,7 @@ public enum TipoIncidente {
       case "ALTA_TEMPERATURA" -> ALTA_TEMPERATURA;
       case "FALLA_CONEXION" -> FALLA_CONEXION;
       case "FRAUDE" -> FRAUDE;
-      default -> {
-        throw new Exception("Tipo de incidente no reconocido");
-      }
+      default -> throw new Exception("Tipo de incidente no reconocido");
     };
   }
 }
