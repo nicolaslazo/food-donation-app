@@ -22,7 +22,7 @@ public class IncidenteRepository implements IIncidenteRepository {
                 .findFirst();
     }
 
-    IncidenteRepository getInstancia() {
+    public IncidenteRepository getInstancia() {
         if (instancia == null) {
             instancia = new IncidenteRepository();
         }

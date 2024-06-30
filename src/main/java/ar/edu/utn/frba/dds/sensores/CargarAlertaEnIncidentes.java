@@ -3,14 +3,14 @@ package ar.edu.utn.frba.dds.sensores;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.incidente.TipoIncidente;
-import ar.edu.utn.frba.dds.models.repositories.incidenteHeladera.IIncidenteRepository;
+import ar.edu.utn.frba.dds.models.repositories.incidenteHeladera.IncidenteRepository;
 
 import java.time.ZonedDateTime;
 
 //Insertamos el nuevo incidente en el repositorio
 public class CargarAlertaEnIncidentes {
     private static CargarAlertaEnIncidentes instancia = null;
-    private IIncidenteRepository incidenteRepository;
+    private IncidenteRepository instanciaRepository = null;
 
     public CargarAlertaEnIncidentes getIntancia() {
         if(instancia == null) {
@@ -20,16 +20,16 @@ public class CargarAlertaEnIncidentes {
     }
 
     public void cargarIncidente(TipoIncidente tipoIncidente, Heladera heladera) {
-        incidenteRepository.insertIncidenteHeladera(
+        instanciaRepository.getInstancia().insertIncidenteHeladera(
                 new Incidente(
-                        0,
                         heladera,
                         tipoIncidente,
                         ZonedDateTime.now(),
                         null,
                         "Se detecto una alerta en la heladera de tipo: " +
                                 tipoIncidente.toString(),
-                        null
+                        null,
+                        0
                 )
         );
     }
