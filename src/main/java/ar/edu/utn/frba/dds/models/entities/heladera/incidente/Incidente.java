@@ -18,7 +18,7 @@ public class Incidente {
   final URL imagen;
   @Getter
   @Setter
-  int idIncidente;
+  int id;
 
   public Incidente(@NonNull Heladera heladera, @NonNull TipoIncidente tipo, @NonNull ZonedDateTime fecha, Colaborador colaborador, String descripcion, URL imagen) {
     this.heladera = heladera;
