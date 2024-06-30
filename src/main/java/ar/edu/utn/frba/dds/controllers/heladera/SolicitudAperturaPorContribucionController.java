@@ -32,6 +32,10 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
     tarjeta.assertTienePermiso("depositarViandas",
         "las viandas sólo pueden ser ingresadas o redistribuidas por colaboradores registrados");
 
+    if (contribucion.getColaborador().getUbicacion() == null)
+      throw new PermisoDenegadoException(
+          "El colaborador debe tener el domicilio registrado para hacer este tipo de contribuciones");
+
     if (tarjeta.getRecipiente() != contribucion.getColaborador().getUsuario())
       // Debería ser imposible que pase porque nosotros controlamos estas llamadas pero mejor estar seguros
       throw new PermisoDenegadoException("Un usuario no puede solicitar una apertura con la tarjeta de otro");

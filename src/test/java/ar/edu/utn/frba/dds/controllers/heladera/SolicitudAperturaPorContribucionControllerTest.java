@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
@@ -43,6 +44,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
 
     when(colaboradorMock.getUsuario()).thenReturn(usuarioMock);
+    when(colaboradorMock.getUbicacion()).thenReturn(mock(Ubicacion.class));
   }
 
   @Test
@@ -52,6 +54,14 @@ class SolicitudAperturaPorContribucionControllerTest {
 
     assertThrows(PermisoDenegadoException.class,
         () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(MovimientoViandas.class)));
+  }
+
+  @Test
+  void testCreacionFallaSiColaboradorSinDomicilio() {
+    when(colaboradorMock.getUbicacion()).thenReturn(null);
+
+    assertThrows(PermisoDenegadoException.class,
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion));
   }
 
   @Test
