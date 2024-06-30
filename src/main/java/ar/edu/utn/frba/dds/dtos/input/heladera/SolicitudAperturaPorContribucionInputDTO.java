@@ -9,8 +9,8 @@ public record SolicitudAperturaPorContribucionInputDTO(
     int id,
     @NonNull String fechaRealizadaSerializadaIso8601
 ) {
-  public static SolicitudAperturaPorContribucionInputDTO desdeJson(String rawJson) {
-    return new Gson().fromJson(rawJson, SolicitudAperturaPorContribucionInputDTO.class);
+  public static SolicitudAperturaPorContribucionInputDTO desdeJson(@NonNull String json) {
+    return new Gson().fromJson(json, SolicitudAperturaPorContribucionInputDTO.class);
   }
 
   public ZonedDateTime getFechaRealizada() {
