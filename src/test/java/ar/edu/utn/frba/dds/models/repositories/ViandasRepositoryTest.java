@@ -16,6 +16,7 @@ class ViandasRepositoryTest {
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
   final Vianda viandaMock = Mockito.mock(Vianda.class);
   final Vianda otraViandaMock = Mockito.mock(Vianda.class);  // .getHeladera() devuelve null por default
+
   @BeforeEach
   void setUp() {
     repositorio.deleteTodas();

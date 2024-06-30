@@ -28,13 +28,13 @@ class HeladerasRepositoryTest {
       10,
       5);
   final Heladera otraHeladera = new Heladera("Otra heladera",
-    new Ubicacion(-34, -58),
-    colaboradorMock,
-    ZonedDateTime.now().minusMonths(7),
-    60,
-    1,
-    12,
-    7);
+      new Ubicacion(-34, -58),
+      colaboradorMock,
+      ZonedDateTime.now().minusMonths(7),
+      60,
+      1,
+      12,
+      7);
   HeladerasRepository repository = HeladerasRepository.getInstancia();
 
   @BeforeEach

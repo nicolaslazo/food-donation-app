@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
-
 @Getter
 public class CuidadoHeladera extends Contribucion {
   final Heladera heladera;

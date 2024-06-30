@@ -95,7 +95,7 @@ public class ViandasRepository {
     assertViandasSonDeLaMismaHeladera(viandas);
     assertHeladeraTieneSuficienteEspacio(ubicacionNueva, viandas.size());
 
-    for (Vianda vianda: viandas) {
+    for (Vianda vianda : viandas) {
       updateUbicacion(vianda, ubicacionNueva);
     }
   }
