@@ -1,6 +1,9 @@
 package ar.edu.utn.frba.dds.models.entities.incidente;
 
-public enum TipoIncidenteHeladera {
-    FALLA_TECNICA,
-    ALERTA
+public enum TipoIncidente {
+    FALLA_REPORTADA_POR_COLABORADOR,
+    BAJA_TEMPERATURA,
+    ALTA_TEMPERATURA,
+    FALLA_CONEXION,
+    FRAUDE
 }

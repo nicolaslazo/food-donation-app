@@ -6,16 +6,11 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.sensores.comandos.ActualizarRepositoryHeladera;
-import ar.edu.utn.frba.dds.sensores.comandos.ComandoHeladera;
-import ar.edu.utn.frba.dds.sensores.comandos.PonerInactivaHeladera;
-import ar.edu.utn.frba.dds.sensores.comandos.RegistrarTiempoTemperatura;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -41,7 +36,7 @@ class SensorTemperaturaTest {
         heladerasRepository.insert(heladera);
 
         accionadorHeladera.agregarComando(
-                new RegistrarTiempoTemperatura()
+                new ActualizarRepositoryHeladera()
         );
     }
     //TODO Estoy bien encaminado?

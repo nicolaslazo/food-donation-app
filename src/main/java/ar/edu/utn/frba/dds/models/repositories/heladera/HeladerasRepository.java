@@ -22,7 +22,6 @@ public class HeladerasRepository {
     if (instancia == null) {
       instancia = new HeladerasRepository();
     }
-
     return instancia;
   }
 
@@ -53,19 +52,14 @@ public class HeladerasRepository {
     return heladera.getId();
   }
 
-  public void updateHeladera(int id, Heladera nuevaHeladera) {
-    for (int i = 0; i < heladeras.size(); i++) {
-      if (heladeras.get(i).getId() == id) {
-        heladeras.set(i, nuevaHeladera);
-        nuevaHeladera.setId(id);  // Asegurarse de que la nueva heladera mantenga el mismo ID
-        return;
-      }
-    }
-    throw new IllegalArgumentException("No se encontró una heladera con el ID especificado");
+  public void updateEstadoHeladera(int id, Heladera nuevaHeladera) {
+    Optional<Heladera> heladera = get(id);
+      heladera.ifPresent(value -> value.setHeladeraActiva(nuevaHeladera.isHeladeraActiva()));
   }
 
-  public void updateHeladera(Heladera heladera) {
-    updateHeladera(heladera.getId(), heladera);
+  public void updateTiempoHeladera(int id, Heladera nuevaHeladera) {
+    Optional<Heladera> heladera = get(id);
+    heladera.ifPresent(Heladera::setUltimaTempRegistradaCelsius);
   }
 }
 

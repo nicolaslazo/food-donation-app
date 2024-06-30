@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.sensores.comandos.ComandoHeladera;
 
 import java.util.ArrayList;
@@ -26,15 +27,15 @@ public class AccionadorHeladera {
 
     //TODO se me ocurre una sobre carga de este metodo para la opcion de que no sea una Alerta
     // y quieras registrar una falla tecnica por un colaborador
-    private void registrarIncidente(TipoAlertaHeladera tipoAlertaHeladera, Heladera heladera) {
+    private void registrarIncidente(TipoIncidente tipoIncidente, Heladera heladera) {
         cargadorAlertas.getIntancia().cargarIncidente(
-                tipoAlertaHeladera,heladera
+                tipoIncidente,heladera
         );
     }
 
     //Es el metodo que se llama a la hora de detectar algun tipo de Incidente
-    public void sucedeIncidente(TipoAlertaHeladera tipoAlertaHeladera, Heladera heladera) {
-        this.registrarIncidente(tipoAlertaHeladera,heladera);
+    public void sucedeIncidente(TipoIncidente tipoIncidente, Heladera heladera) {
+        this.registrarIncidente(tipoIncidente,heladera);
         this.accionar(heladera);
     }
 

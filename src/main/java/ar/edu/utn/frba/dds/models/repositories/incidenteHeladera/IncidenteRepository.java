@@ -1,40 +1,48 @@
 package ar.edu.utn.frba.dds.models.repositories.incidenteHeladera;
 
-import ar.edu.utn.frba.dds.models.entities.incidente.IncidenteHeladera;
+import ar.edu.utn.frba.dds.models.entities.incidente.Incidente;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class IncidenteRepository implements IIncidenteRepository {
-    private List<IncidenteHeladera> incidentesHeladeras;
+    IncidenteRepository instancia = null;
+    private List<Incidente> incidentesHeladeras;
 
     public IncidenteRepository() {
-        incidentesHeladeras = new ArrayList<IncidenteHeladera>();
+        incidentesHeladeras = new ArrayList<Incidente>();
     }
 
     @Override
-    public Optional<IncidenteHeladera> getIncidenteHeladera(int id) {
+    public Optional<Incidente> getIncidenteHeladera(int id) {
         return incidentesHeladeras
                 .stream()
                 .filter(inc -> inc.getIdIncidente() == id)
                 .findFirst();
     }
 
+    IncidenteRepository getInstancia() {
+        if (instancia == null) {
+            instancia = new IncidenteRepository();
+        }
+        return instancia;
+    }
+
     @Override
-    public List<IncidenteHeladera> getIncidenteHeladeras() {
+    public List<Incidente> getIncidenteHeladeras() {
         return incidentesHeladeras;
     }
 
     @Override
-    public void insertIncidenteHeladera(IncidenteHeladera incidenteHeladera) {
-        incidenteHeladera.setIdIncidente(incidentesHeladeras.size()+1);
-        incidentesHeladeras.add(incidenteHeladera);
+    public void insertIncidenteHeladera(Incidente incidente) {
+        incidente.setIdIncidente(incidentesHeladeras.size()+1);
+        incidentesHeladeras.add(incidente);
     }
 
     @Override
     public boolean deleteIncidenteHeladera(int id) {
-        Optional<IncidenteHeladera> incidenteHeladera = getIncidenteHeladera(id);
+        Optional<Incidente> incidenteHeladera = getIncidenteHeladera(id);
         return incidenteHeladera.map(incidentesHeladeras::remove).orElse(false);
     }
 
@@ -44,13 +52,9 @@ public class IncidenteRepository implements IIncidenteRepository {
     }
 
     @Override
-    public boolean updateIncidenteHeladera(IncidenteHeladera incidenteHeladera) {
+    public boolean updateIncidenteHeladera(Incidente incidenteHeladera) {
         //TODO
         return false;
     }
 
-    //Lo necesito para generar un ID, despues se puede cambiar si no les gusta
-    public int getSize() {
-        return incidentesHeladeras.size();
-    }
 }

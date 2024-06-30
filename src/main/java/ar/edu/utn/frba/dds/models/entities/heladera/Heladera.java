@@ -34,14 +34,14 @@ public class Heladera {
   private ZonedDateTime momentoUltimaTempRegistrada;
   @Getter
   @Setter
-  private Boolean heladeraActiva;
+  private boolean heladeraActiva;
 
   public Heladera(@NonNull String nombre,
                   Ubicacion ubicacion,
                   @NonNull Colaborador encargado,
                   int capacidadEnViandas,
                   @NonNull ZonedDateTime fechaInstalacion,
-                  Boolean heladeraActiva) {
+                  boolean heladeraActiva) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
     this.encargado = encargado;

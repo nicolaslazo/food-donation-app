@@ -4,10 +4,11 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 
 public class ActualizarRepositoryHeladera implements ComandoHeladera {
-    private HeladerasRepository heladerasRepository;
+    private final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
 
     @Override
     public void accionar(Heladera heladera) {
-        heladerasRepository.updateHeladera(heladera);
+        heladerasRepository.updateTiempoHeladera(heladera.getId(),heladera);
+        heladerasRepository.updateEstadoHeladera(heladera.getId(),heladera);
     }
 }
