@@ -12,7 +12,7 @@ public class CargarAlertaEnIncidentes {
     private static CargarAlertaEnIncidentes instancia = null;
     private final IncidenteRepository instanciaRepository = null;
 
-    public CargarAlertaEnIncidentes getIntancia() {
+    public static CargarAlertaEnIncidentes getInstancia() {
         if(instancia == null) {
             return new CargarAlertaEnIncidentes();
         }
