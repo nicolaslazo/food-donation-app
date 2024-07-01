@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.sensores;
 
+import ar.edu.utn.frba.dds.dtos.inputs.sensores.SensorInputDTO;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -15,21 +16,18 @@ public class SensorTemperatura implements IMqttMessageListener {
     }
 
     //TODO Como vamos a recibir los datos para parsearlos? lo dejo asi por ahora
-    public void recibirDatos(String datos) {
+    public void recibirDatos(double temperatura) {
         this.receptorTemperatura.evaluarReceptor(
-                this.obtenerTemperatura(datos),
+                temperatura,
                 this.heladera
         );
     }
 
-    public double obtenerTemperatura(String datos) {
-        //TODO obtengo del String recibido del MQTT la temperatura
-        return 0.0;
-    }
-
-
     @Override
-    public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-        this.recibirDatos(topic);
+    public void messageArrived(String topic, MqttMessage payload) throws Exception {
+        SensorInputDTO mensaje = SensorInputDTO.desdeJson(payload.toString());
+        this.recibirDatos(
+                mensaje.getTemperatura()
+        );
     }
 }
