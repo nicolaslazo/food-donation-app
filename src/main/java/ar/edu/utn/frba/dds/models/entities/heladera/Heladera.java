@@ -25,6 +25,7 @@ public class Heladera {
   private String nombre;
   @Getter
   private double ultimaTempRegistradaCelsius;
+  @Getter
   private ZonedDateTime momentoUltimaTempRegistrada;
 
   public Heladera(String nombre,

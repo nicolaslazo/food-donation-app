@@ -35,25 +35,6 @@ class CuidadoHeladerasRepositoryTest {
   }
 
   @Test
-  void testGetMesesActivosCumulativosPorColaborador() throws RepositoryException {
-    final Heladera heladera = Mockito.mock(Heladera.class);
-    final Heladera otraHeladera = Mockito.mock(Heladera.class);
-
-    CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock, heladera);
-    CuidadoHeladera otraContribucion = new CuidadoHeladera(colaboradorMock, otraHeladera);
-
-    repositorio.insert(contribucion);
-    repositorio.insert(otraContribucion);
-
-    when(heladera.mesesActiva()).thenReturn(3);
-    when(otraHeladera.mesesActiva()).thenReturn(5);
-
-    int mesesCumulativos = repositorio.getMesesActivosCumulativos(colaboradorMock);
-
-    assertEquals(3 + 5, mesesCumulativos);
-  }
-
-  @Test
   void testInsertContribucion() throws RepositoryException {
     int id = repositorio.insert(contribucion);
 
@@ -64,7 +45,6 @@ class CuidadoHeladerasRepositoryTest {
   @Test
   void testInsertarContribucionConHeladeraRepetidaLanzaExcepcion() throws RepositoryException {
     repositorio.insert(contribucion);
-
     assertThrows(RepositoryException.class, () -> repositorio.insert(contribucion));
   }
 

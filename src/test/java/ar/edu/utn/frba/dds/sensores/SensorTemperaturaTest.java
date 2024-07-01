@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.sensores;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.sensores.comandos.ActualizarRepositoryHeladera;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,15 +23,14 @@ class SensorTemperaturaTest {
             null,
             Mockito.mock(Colaborador.class),
             10,
-            ZonedDateTime.now().minusMonths(6),
-            true
+            ZonedDateTime.now().minusMonths(6)
     );
     HeladerasRepository heladerasRepository;
     final AccionadorHeladera accionadorHeladera = new AccionadorHeladera();
 
     @BeforeEach
-    void setUp() throws RepositoryInsertException {
-        heladerasRepository = new HeladerasRepository();
+    void setUp() throws RepositoryException {
+        heladerasRepository = HeladerasRepository.getInstancia();
 
         heladerasRepository.insert(heladera);
 
