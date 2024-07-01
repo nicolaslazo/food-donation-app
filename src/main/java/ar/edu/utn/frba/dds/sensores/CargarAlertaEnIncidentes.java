@@ -28,8 +28,7 @@ public class CargarAlertaEnIncidentes {
                         null,
                         "Se detecto una alerta en la heladera de tipo: " +
                                 tipoIncidente.toString(),
-                        null,
-                        0
+                        null
                 )
         );
     }

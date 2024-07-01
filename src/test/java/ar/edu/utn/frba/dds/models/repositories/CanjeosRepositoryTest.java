@@ -21,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/*TODO Hay que arreglar este test? Me parece que quedo obsoleto */
+
 class CanjeosRepositoryTest {
   CanjeosRepository repositorio;
   Colaborador colaboradorDummy;

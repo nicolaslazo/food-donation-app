@@ -36,7 +36,7 @@ public class IncidenteRepositoryTest {
     public void testInsertIncidenteHeladera() {
         incidenteRepository.insertIncidenteHeladera(incidente);
         assertEquals(1, incidenteRepository.getIncidenteHeladeras().size());
-        assertEquals(1, incidente.getIdIncidente());
+        assertEquals(1, incidente.getId());
     }
 
     @Test

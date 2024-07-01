@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Heladera {
@@ -46,6 +47,11 @@ public class Heladera {
   private boolean ultimaTemperaturaEsVieja() {
     ZonedDateTime haceCincoMinutos = ZonedDateTime.now().minusMinutes(5);
     return momentoUltimaTempRegistrada.isBefore(haceCincoMinutos);
+  }
+
+  public int mesesActiva() {
+    //if (!heladeraActiva) return 0;
+    return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
 
   @Override

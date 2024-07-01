@@ -14,6 +14,4 @@ class HeladeraTest {
       ZonedDateTime.now().minusMonths(6)
   );
 
-
-
 }
