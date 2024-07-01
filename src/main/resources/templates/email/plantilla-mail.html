@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gracias por inscribirse!</title>
     <style>
-        body { background-color: #d8890f; font-family: Arial, sans-serif; line-height: 1.6; }
+        body { background-color: #ff8000 ; font-family: Arial, sans-serif; line-height: 1.6; }
         .container { width: 80%; margin: auto; padding: 20px; background-color: #f2f2f2; }
-        .header { background-color: #d8890f; color: white; padding: 10px; text-align: center; }
+        .header { background-color: #ff8000 ; color: white; padding: 10px; text-align: center; }
         .content { margin-top: 20px; }
         .footer { margin-top: 20px; color: #444; text-align: left; }
         .credentials { padding: 15px; text-align: center; border-radius: 5px; margin-top: 20px; }
@@ -18,20 +18,16 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>Bienvenid@ al equipo!</h1>
+        <h1>Necesitamos tu ayuda <3</h1>
     </div>
     <div class="content">
-        <p>Muchas gracias por inscribirse a nuestro sistema de colaboración de viandas! Estas son las credenciales que va a necesitar para poder ingresar a su cuenta:</p>
-        <div class="credentials">
+        <p>Hola!</p>
+        <div class="mensaje">
             <ul>
-                <li>Email: <strong th:text="${email}">example@example.com</strong></li>
-                <li>Contraseña temporaria: <strong th:text="${contrasena_temporaria}">defaultpassword</strong></li>
+                <p><strong th:text="${mensaje}">Mensaje</strong></p>
             </ul>
         </div>
-        <p>Debe usar estas credenciales para ingresar al sistema por primera vez. Sugerimos cambiar la contraseña después de entrar.</p>
-        <p>Puede ingresar a su cuenta acá: <a href="https://google.com/">Cambiar después</a></p>
         <p>Si tiene dudas o necesita ayuda, por favor no dude de contactar a nuestro equipo de soporte.</p>
-        <p>Bienvenid@, y esperamos que tenga una experiencia agradable!</p>
     </div>
     <div class="footer">
         Saludos,<br>
