@@ -9,6 +9,8 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -29,8 +31,6 @@ import static org.mockito.Mockito.when;
 
 class SuscripcionControllerTest {
   final Ubicacion obelisco = new Ubicacion(-34.5609872, -58.501046);
-  final Ubicacion bibliotecaNacional = new Ubicacion(-34.5844291, -58.4164616);
-  final Ubicacion centroCivicoBariloche = new Ubicacion(-41.133496, -71.3127926);
   final Heladera heladeraMock = mock(Heladera.class);
   final Colaborador colaboradorMock = mock(Colaborador.class);
 
@@ -39,8 +39,15 @@ class SuscripcionControllerTest {
     when(heladeraMock.getUbicacion()).thenReturn(obelisco);
   }
 
+  @AfterEach
+  void tearDown() {
+    SuscripcionRepository.getInstancia().deleteTodas();
+    HeladerasRepository.getInstancia().deleteTodas();
+  }
+
   @Test
   void testCrearSuscripcion() throws RepositoryException {
+    final Ubicacion bibliotecaNacional = new Ubicacion(-34.5844291, -58.4164616);
     when(colaboradorMock.getUbicacion()).thenReturn(bibliotecaNacional);
 
     SuscripcionController
@@ -63,6 +70,7 @@ class SuscripcionControllerTest {
 
   @Test
   void testCrearSuscripcionFallaSiElUsuarioViveLejos() {
+    final Ubicacion centroCivicoBariloche = new Ubicacion(-41.133496, -71.3127926);
     when(colaboradorMock.getUbicacion()).thenReturn(centroCivicoBariloche);
 
     assertThrows(RuntimeException.class,
@@ -73,29 +81,41 @@ class SuscripcionControllerTest {
   }
 
   @Test
-  void testColaboradoresSonNotificadosDeIncidentes() {
+  void testColaboradoresSonNotificadosDeIncidentes() throws RepositoryException {
     Colaborador colaboradorMock = mock(Colaborador.class);
+
     final List<Heladera> heladeras = new ArrayList<>(3);
+    final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
 
     for (int i = 0; i < 3; i++) {
-      heladeras.add(new Heladera("Heladera " + (i + 1),
+      final Heladera heladeraNueva = new Heladera("Heladera " + (i + 1),
           new Ubicacion(-34, -58 - i),
           colaboradorMock,
           10,
-          ZonedDateTime.now()));
+          ZonedDateTime.now());
+
+      heladeras.add(heladeraNueva);
+      heladerasRepository.insert(heladeraNueva);
     }
 
+    // La ubicación mockeada ayuda a pasar el checkeo de distancia
+    when(colaboradorMock.getUbicacion()).thenReturn(new Ubicacion(-34, -58));
+    SuscripcionController.suscribirAHeladera(heladeras.get(0),
+        MotivoDeDistribucion.FALLA_HELADERA,
+        null,
+        colaboradorMock);
+
+    ArgumentCaptor<String> capturador = ArgumentCaptor.forClass(String.class);
 
     IncidenteController.getInstancia().crearAlerta(heladeras.get(0), TipoIncidente.FALLA_CONEXION, ZonedDateTime.now());
 
-    ArgumentCaptor<String> capturador = ArgumentCaptor.forClass(String.class);
     verify(colaboradorMock).enviarMensaje(capturador.capture());
 
     final String mensajeGenerado = capturador.getValue();
 
     assertTrue(mensajeGenerado.contains("Se detectó una falla en la heladera Heladera 1"));
-    assertFalse(mensajeGenerado.contains("* Heladera 1"));
-    assertTrue(mensajeGenerado.contains("* Heladera 2"));
     assertTrue(mensajeGenerado.contains("* Heladera 3"));
+    assertTrue(mensajeGenerado.contains("* Heladera 2"));
+    assertFalse(mensajeGenerado.contains("* Heladera 1"));
   }
 }
