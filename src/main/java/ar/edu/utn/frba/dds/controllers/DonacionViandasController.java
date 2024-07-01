@@ -23,7 +23,7 @@ public class DonacionViandasController {
   public List<DonacionViandas> obtenerDonacionesSemanaAnterior()
   {return donacionViandasRepository.obtenerDonacionesSemanaAnterior();}
 
-  public Map<String, Integer> obtenerDonacionesPorColaboradorSemanaAnterior(List<DonacionViandas> donaciones) {
+  public Map<String, Integer> MapDonacionesPorColaboradorSemanaAnterior(List<DonacionViandas> donaciones) {
     return donaciones.stream()
         .collect(Collectors.groupingBy(
             donacion -> donacion.getColaborador().getNombre() + " " + donacion.getColaborador().getApellido(),
@@ -31,9 +31,9 @@ public class DonacionViandasController {
         ));
   }
 
-  public Map<String, Integer> realizarCalculo()
+  public Map<String, Integer> obtenerDonacionesPorColaboradorSemanaAnterior()
   {List<DonacionViandas> donaciones = obtenerDonacionesSemanaAnterior();
-  return obtenerDonacionesPorColaboradorSemanaAnterior(donaciones);}
+  return MapDonacionesPorColaboradorSemanaAnterior(donaciones);}
 
 }
 

@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DonacionViandasControllerTest {
-
   @Mock
   private Vianda vianda1;
 
@@ -42,11 +41,8 @@ public class DonacionViandasControllerTest {
 
   @Test
   public void testObtenerDonacionesPorColaboradorSemanaAnterior() {
-    // Mock de donaciones de viandas para la semana anterior
     List<DonacionViandas> donacionesSemanaAnterior = new ArrayList<>();
 
-
-    // Simular donaciones para Juan Perez y Maria Lopez
     donacionesSemanaAnterior.add(new DonacionViandas(colaborador1, ZonedDateTime.now().minusDays(2),Arrays.asList(vianda1, vianda2)));
     donacionesSemanaAnterior.add(new DonacionViandas(colaborador2, ZonedDateTime.now().minusDays(3),Collections.singletonList(vianda3)));
 
@@ -58,16 +54,10 @@ public class DonacionViandasControllerTest {
 
     when(colaborador2.getNombre()).thenReturn("Maria");
 
-    // Configurar el comportamiento del servicio mock
-
-    // Llamar al método que quieres probar
-
-    // Crear el mapa esperado
     Map<String, Integer> expectedDonaciones = new HashMap<>();
-    expectedDonaciones.put("Juan Perez", 2); // Juan Perez donó 2 viandas
-    expectedDonaciones.put("Maria Lopez", 1); // Maria Lopez donó 1 vianda
+    expectedDonaciones.put("Juan Perez", 2);
+    expectedDonaciones.put("Maria Lopez", 1);
 
-    // Verificar que el mapa devuelto es igual al esperado
-    assertEquals(expectedDonaciones, DonacionViandasController.getInstance().obtenerDonacionesPorColaboradorSemanaAnterior(donacionesSemanaAnterior));
+    assertEquals(expectedDonaciones, DonacionViandasController.getInstance().MapDonacionesPorColaboradorSemanaAnterior(donacionesSemanaAnterior));
   }
 }

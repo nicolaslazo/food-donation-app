@@ -24,14 +24,14 @@ public class ServicePDFGenerator {
   }
 
   void GenerarReporteMovimientoHeladeras() {
-    Map<String, Integer> data = movimientosHeladeraController.obtenerCantidadMovimientosPorHeladeraSemanaAnterior();
+    Map<String, Integer> data = movimientosHeladeraController.obtenerCantidadMovimientosHeladeraSemanaAnterior();
     PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteMovimientosHeladera.pdf",
         "Cantidad de heladeras retiradas y colocadas por heladera", new String[]{"HELADERA", "CANTIDAD"}, data);
     generador.generatePdf();
   }
 
   void GenerarReporteViandasColaborador() {
-    Map<String, Integer> data = donacionViandasController.realizarCalculo();
+    Map<String, Integer> data = donacionViandasController.obtenerDonacionesPorColaboradorSemanaAnterior();
     PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteViandasPorColaborador.pdf",
         "Cantidad de viandas donadas por colaborador", new String[]{"COLABORADOR", "CANTIDAD"}, data);
     generador.generatePdf();

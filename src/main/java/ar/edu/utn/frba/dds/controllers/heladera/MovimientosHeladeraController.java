@@ -24,17 +24,25 @@ public class MovimientosHeladeraController {
     private static final MovimientosHeladeraController INSTANCE = new MovimientosHeladeraController();
   }
 
-  public Map<String, Integer> obtenerCantidadMovimientosPorHeladeraSemanaAnterior() {
-    List <EventoMovimiento> eventos = movimientosHeladeraRepository.obtenerMovimientosSemanaAnterior();
 
+  public  List<EventoMovimiento> obtenerMovimientosSemanaAnterior()
+  {
+    return movimientosHeladeraRepository.obtenerMovimientosSemanaAnterior();
+  }
+
+  public Map<String, Integer> MapCantidadMovimientosPorHeladeraSemanaAnterior(List<EventoMovimiento> eventos) {
     Map<String, Integer> cantidadMovimientos = new HashMap<>();
-
     for (EventoMovimiento evento : eventos) {
       Heladera heladera = evento.getHeladera();
       cantidadMovimientos.put(heladera.getNombre(), cantidadMovimientos.getOrDefault(heladera, 0) + 1);
     }
-
     return cantidadMovimientos;
   }
+
+  public Map<String, Integer>obtenerCantidadMovimientosHeladeraSemanaAnterior()
+  {
+    return MapCantidadMovimientosPorHeladeraSemanaAnterior(obtenerMovimientosSemanaAnterior());
+  }
+
 
 }
