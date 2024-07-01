@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 //Insertamos el nuevo incidente en el repositorio
 public class CargarAlertaEnIncidentes {
     private static CargarAlertaEnIncidentes instancia = null;
-    private final IncidenteRepository instanciaRepository = null;
+    private static IncidenteRepository instanciaRepository = null;
 
     public static CargarAlertaEnIncidentes getInstancia() {
         if(instancia == null) {

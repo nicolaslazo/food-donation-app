@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class TemperatureSensorChecker {
-    public static void checker(String[] args) throws CheckerException {
+    public static void main(String[] args) throws CheckerException {
         HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
         CargarAlertaEnIncidentes cargadorIncidente = CargarAlertaEnIncidentes.getInstancia();
 
