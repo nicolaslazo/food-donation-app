@@ -33,8 +33,26 @@ public class HeladerasRepository {
     return heladeras.stream().filter(heladera -> heladera.getUbicacion() == ubicacion).findFirst();
   }
 
-  public List<Heladera> getTodas(Colaborador colaborador) {
-    return heladeras.stream().filter(heladera -> heladera.getEncargado() == colaborador).toList();
+  public List<Heladera> getHeladerasConTemperaturaDesactualizada(int limiteEnMinutos) {
+    return heladeras
+        .stream()
+        .filter(heladera -> heladera
+            .getMomentoUltimaTempRegistrada()
+            .isBefore(ZonedDateTime.now().minusMinutes(limiteEnMinutos)))
+        .toList();
+  }
+
+  public List<Heladera> getTodas() {
+    return heladeras;
+  }
+
+  public List<Heladera> getTodas(Colaborador encargado) {
+    return heladeras.stream().filter(heladera -> heladera.getEncargado() == encargado).toList();
+  }
+
+  public int getMesesActivosCumulativos(Colaborador colaborador) {
+    // TODO: Actualizar en base a la fecha del último incidente resuelto
+    return getTodas(colaborador).stream().mapToInt(Heladera::mesesActiva).sum();
   }
 
   public int getCapacidadDisponible(Heladera heladera) {
