@@ -3,12 +3,11 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,9 +18,7 @@ import static org.mockito.Mockito.when;
 class CuidadoHeladerasRepositoryTest {
   final CuidadoHeladerasRepository repositorio = CuidadoHeladerasRepository.getInstancia();
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock,
-      ZonedDateTime.now(),
-      Mockito.mock(Heladera.class));
+  final CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock, Mockito.mock(Heladera.class));
 
   @BeforeEach
   void setUp() {
@@ -29,7 +26,7 @@ class CuidadoHeladerasRepositoryTest {
   }
 
   @Test
-  void testGetPorId() throws RepositoryInsertException {
+  void testGetPorId() throws RepositoryException {
     repositorio.insert(contribucion);
     Optional<CuidadoHeladera> encontrada = repositorio.get(1);
 
@@ -38,12 +35,12 @@ class CuidadoHeladerasRepositoryTest {
   }
 
   @Test
-  void testGetMesesActivosCumulativosPorColaborador() throws RepositoryInsertException {
+  void testGetMesesActivosCumulativosPorColaborador() throws RepositoryException {
     final Heladera heladera = Mockito.mock(Heladera.class);
     final Heladera otraHeladera = Mockito.mock(Heladera.class);
 
-    CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock, ZonedDateTime.now(), heladera);
-    CuidadoHeladera otraContribucion = new CuidadoHeladera(colaboradorMock, ZonedDateTime.now(), otraHeladera);
+    CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock, heladera);
+    CuidadoHeladera otraContribucion = new CuidadoHeladera(colaboradorMock, otraHeladera);
 
     repositorio.insert(contribucion);
     repositorio.insert(otraContribucion);
@@ -57,7 +54,7 @@ class CuidadoHeladerasRepositoryTest {
   }
 
   @Test
-  void testInsertContribucion() throws RepositoryInsertException {
+  void testInsertContribucion() throws RepositoryException {
     int id = repositorio.insert(contribucion);
 
     assertEquals(1, id);
@@ -65,14 +62,14 @@ class CuidadoHeladerasRepositoryTest {
   }
 
   @Test
-  void testInsertarContribucionConHeladeraRepetidaLanzaExcepcion() throws RepositoryInsertException {
+  void testInsertarContribucionConHeladeraRepetidaLanzaExcepcion() throws RepositoryException {
     repositorio.insert(contribucion);
 
-    assertThrows(RepositoryInsertException.class, () -> repositorio.insert(contribucion));
+    assertThrows(RepositoryException.class, () -> repositorio.insert(contribucion));
   }
 
   @Test
-  void testEliminarTodas() throws RepositoryInsertException {
+  void testEliminarTodas() throws RepositoryException {
     repositorio.insert(contribucion);
     repositorio.deleteTodas();
 

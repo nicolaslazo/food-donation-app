@@ -5,24 +5,16 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
-
 public class Dinero extends Contribucion {
-  @NonNull
-  private final Colaborador colaborador;
-  @NonNull
-  private final ZonedDateTime fecha;
   @Getter
-  private final float monto;
-  private final Integer frecuenciaEnDias;
+  final float monto;
+  final Integer frecuenciaEnDias;
   @Getter
   @Setter
-  private int id;
+  int id;
 
-  public Dinero(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha, float monto, Integer frecuenciaEnDias) {
-    super(colaborador, fecha);
-    this.colaborador = colaborador;
-    this.fecha = fecha;
+  public Dinero(@NonNull Colaborador colaborador, float monto, Integer frecuenciaEnDias) {
+    super(colaborador);
     this.monto = monto;
     this.frecuenciaEnDias = frecuenciaEnDias;
   }
@@ -31,7 +23,7 @@ public class Dinero extends Contribucion {
   public String toString() {
     return "Dinero{" +
         "colaborador=" + colaborador +
-        ", fecha=" + fecha +
+        ", fechaRealizada=" + fechaRealizada +
         ", monto=" + monto +
         '}';
   }

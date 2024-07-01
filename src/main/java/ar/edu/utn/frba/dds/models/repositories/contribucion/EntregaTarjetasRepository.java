@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +36,12 @@ public class EntregaTarjetasRepository {
         .sum();
   }
 
-  public int insert(EntregaTarjetas entrega) throws RepositoryInsertException {
+  public int insert(EntregaTarjetas entrega) throws RepositoryException {
     if (entregas
         .stream()
         .flatMap(entregaAnterior -> entregaAnterior.getTarjetasRepartidas().stream())
         .anyMatch(entrega.getTarjetasRepartidas()::contains)) {
-      throw new RepositoryInsertException("Al menos una de estas tarjetas ya fue entregada en el pasado");
+      throw new RepositoryException("Al menos una de estas tarjetas ya fue entregada en el pasado");
     }
 
     entregas.add(entrega);

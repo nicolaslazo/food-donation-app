@@ -3,49 +3,29 @@ package ar.edu.utn.frba.dds.models.entities.contribucion;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
-import java.time.ZonedDateTime;
-import java.util.List;
+import java.util.Collection;
 
-public class RedistribucionViandas extends Contribucion {
-  @NonNull
-  private final Colaborador colaborador;
-  @NonNull
-  private final ZonedDateTime fecha;
-  private final MotivoDeDistribucion motivo;
-  private final Heladera origen;
-  private final Heladera destino;
-  @NonNull
-  @Getter
-  private final List<Vianda> viandas;
-  @Getter
-  @Setter
-  private int id;
+public class RedistribucionViandas extends MovimientoViandas {
+  // Algunos de estos se mantienen nulificables para el cargador masivo CSV
+  final Heladera origen;
+  final MotivoDeDistribucion motivo;
 
-  public RedistribucionViandas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
-                               MotivoDeDistribucion motivo, Heladera origen, Heladera destino,
-                               @NonNull List<Vianda> viandas) {
-    super(colaborador, fecha);
-    this.colaborador = colaborador;
-    this.fecha = fecha;
-    this.motivo = motivo;
+  public RedistribucionViandas(Colaborador colaborador,
+                               Collection<Vianda> viandas,
+                               Heladera destino,
+                               Heladera origen,
+                               MotivoDeDistribucion motivo) {
+    super(colaborador, viandas, destino);
     this.origen = origen;
-    this.destino = destino;
-    this.viandas = viandas;
-  }
-
-  public int getNumeroViandas() {
-    return viandas.size();
+    this.motivo = motivo;
   }
 
   @Override
   public String toString() {
     return "RedistribucionViandas{" +
         "colaborador=" + colaborador +
-        ", fecha=" + fecha +
+        ", fechaRealizada=" + fechaRealizada +
         ", cantidadViandas=" + viandas.size() +
         '}';
   }

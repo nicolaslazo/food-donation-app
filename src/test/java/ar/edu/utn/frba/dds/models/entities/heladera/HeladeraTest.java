@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.entities.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import org.junit.jupiter.api.BeforeEach;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -11,19 +11,14 @@ import java.time.ZonedDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HeladeraTest {
-  private Heladera heladera;
-
-  @BeforeEach
-  void setUp() {
-    heladera = new Heladera("Heladera Test",
-        null,
-        Mockito.mock(Colaborador.class),
-        10,
-        ZonedDateTime.now().minusMonths(6),
-        0,
-        10,
-        5);
-  }
+  final Heladera heladera = new Heladera("Una heladera",
+      Mockito.mock(Ubicacion.class),
+      Mockito.mock(Colaborador.class),
+      ZonedDateTime.now().minusMonths(6),
+      10,
+      0,
+      10,
+      5);
 
   @Test
   public void heladeraCalculaSusMesesActiva() {

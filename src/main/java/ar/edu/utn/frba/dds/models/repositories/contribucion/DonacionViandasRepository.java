@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -39,12 +39,12 @@ public class DonacionViandasRepository {
         .sum();
   }
 
-  public int insert(DonacionViandas donacion) throws RepositoryInsertException {
+  public int insert(DonacionViandas donacion) throws RepositoryException {
     if (donaciones
         .stream()
         .flatMap(donacionPrevia -> donacionPrevia.getViandas().stream())
         .anyMatch(donacion.getViandas()::contains)) {
-      throw new RepositoryInsertException("Al menos una de las viandas a insertar ya fue registrada en una donación previa");
+      throw new RepositoryException("Al menos una de las viandas a insertar ya fue registrada en una donación previa");
     }
 
     donaciones.add(donacion);

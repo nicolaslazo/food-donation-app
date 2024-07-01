@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
@@ -18,11 +17,11 @@ class RedistribucionViandasRepositoryTest {
   final RedistribucionViandasRepository repositorio = RedistribucionViandasRepository.getInstancia();
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
   final RedistribucionViandas redistribucion = new RedistribucionViandas(colaboradorMock,
-      ZonedDateTime.now(),
+      Collections.singletonList(null),
       null,
       null,
-      null,
-      Collections.singletonList(null));
+      null
+  );
 
   @BeforeEach
   void setUp() {
@@ -41,11 +40,11 @@ class RedistribucionViandasRepositoryTest {
   @Test
   void testGetTotalPorColaborador() {
     RedistribucionViandas otraRedistribucion = new RedistribucionViandas(colaboradorMock,
-        ZonedDateTime.now(),
+        Arrays.asList(null, null),
         null,
         null,
-        null,
-        Arrays.asList(null, null));
+        null
+    );
 
     repositorio.insert(redistribucion);
     repositorio.insert(otraRedistribucion);
