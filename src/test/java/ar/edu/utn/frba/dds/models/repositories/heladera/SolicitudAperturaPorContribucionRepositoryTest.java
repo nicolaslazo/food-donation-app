@@ -27,6 +27,11 @@ class SolicitudAperturaPorContribucionRepositoryTest {
     repositorio.deleteTodas();
   }
 
+  /*
+  TODO no se pq cuando ejecutas todo junto se ejecuta mal,
+   pero cuando la ejecutas individualmente funciona.
+   creo que es algo del timestamp
+   */
   @Test
   void testGetSolicitudVigente() {
     SolicitudAperturaPorContribucion solicitud =

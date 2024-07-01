@@ -32,7 +32,7 @@ public class SolicitudAperturaPorContribucionRepository {
   public Optional<SolicitudAperturaPorContribucion> getSolicitudVigenteAlMomento(int id, ZonedDateTime momento) {
     return solicitudes
         .stream()
-        .filter(solicitud -> solicitud.getId() == id && solicitud.isVigenteAlMomento(momento))
+        .filter(solicitud -> (solicitud.getId() == id) && (solicitud.isVigenteAlMomento(momento)))
         .findFirst();
   }
 
