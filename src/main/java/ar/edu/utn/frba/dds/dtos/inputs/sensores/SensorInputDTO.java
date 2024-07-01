@@ -4,8 +4,12 @@ import com.google.gson.Gson;
 import lombok.NonNull;
 
 //TODO no sabria como seguir
-public record SensorInputDTO() {
+public record SensorInputDTO(@NonNull String temperatura) {
     public static SensorInputDTO desdeJson(@NonNull String json) {
         return new Gson().fromJson(json, SensorInputDTO.class);
     }
+
+    // Seria algo asi? o estoy perdido
+    public double getTemperatura() { return (double) Double.parseDouble(temperatura);}
+
 }
