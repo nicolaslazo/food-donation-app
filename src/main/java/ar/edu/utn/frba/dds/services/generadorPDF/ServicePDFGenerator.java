@@ -1,19 +1,19 @@
 package ar.edu.utn.frba.dds.services.generadorPDF;
 
-import ar.edu.utn.frba.dds.models.internalServices.DonacionViandasService;
-import ar.edu.utn.frba.dds.models.internalServices.MovimientosHeladeraService;
+import ar.edu.utn.frba.dds.controllers.DonacionViandasController;
+import ar.edu.utn.frba.dds.controllers.heladera.MovimientosHeladeraController;
 
 import java.util.Map;
 
 public class ServicePDFGenerator {
 
-  private final DonacionViandasService donacionViandasService;
+  private final DonacionViandasController donacionViandasController;
 
-  private final MovimientosHeladeraService movimientosHeladeraService;
+  private final MovimientosHeladeraController movimientosHeladeraController;
 
-  public ServicePDFGenerator(DonacionViandasService donacionViandasService, MovimientosHeladeraService movimientosHeladeraService) {
-    this.donacionViandasService = donacionViandasService;
-    this.movimientosHeladeraService = movimientosHeladeraService;
+  public ServicePDFGenerator(DonacionViandasController donacionViandasService, MovimientosHeladeraController movimientosHeladeraService) {
+    this.donacionViandasController = donacionViandasService;
+    this.movimientosHeladeraController = movimientosHeladeraService;
   }
 
   void GenerarReporteFallasHeladeras() {
@@ -24,25 +24,25 @@ public class ServicePDFGenerator {
   }
 
   void GenerarReporteMovimientoHeladeras() {
-    Map<String, Integer> data = movimientosHeladeraService.obtenerCantidadMovimientosPorHeladeraSemanaAnterior();
+    Map<String, Integer> data = movimientosHeladeraController.obtenerCantidadMovimientosPorHeladeraSemanaAnterior();
     PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteMovimientosHeladera.pdf",
         "Cantidad de heladeras retiradas y colocadas por heladera", new String[]{"HELADERA", "CANTIDAD"}, data);
     generador.generatePdf();
   }
 
   void GenerarReporteViandasColaborador() {
-    Map<String, Integer> data = donacionViandasService.obtenerDonacionesPorColaboradorSemanaAnterior();
+    Map<String, Integer> data = donacionViandasController.realizarCalculo();
     PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteViandasPorColaborador.pdf",
         "Cantidad de viandas donadas por colaborador", new String[]{"COLABORADOR", "CANTIDAD"}, data);
     generador.generatePdf();
   }
   public static void main(String[] args) {
     // Crear instancias de los servicios necesarios
-    DonacionViandasService donacionViandasService = new DonacionViandasService();
-    MovimientosHeladeraService movimientosHeladeraService = new MovimientosHeladeraService();
+    DonacionViandasController donacionViandas = new DonacionViandasController();
+    MovimientosHeladeraController movimientosHeladera = new MovimientosHeladeraController();
 
     // Crear instancia del generador de PDF
-    ServicePDFGenerator pdfGenerator = new ServicePDFGenerator(donacionViandasService, movimientosHeladeraService);
+    ServicePDFGenerator pdfGenerator = new ServicePDFGenerator(donacionViandas, movimientosHeladera);
 
     // Generar cada reporte llamando a los métodos correspondientes
     pdfGenerator.GenerarReporteFallasHeladeras();

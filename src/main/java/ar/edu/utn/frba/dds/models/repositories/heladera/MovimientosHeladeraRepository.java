@@ -30,7 +30,7 @@ public class MovimientosHeladeraRepository {
     ZonedDateTime inicioSemanaAnterior = fechaActual.minusWeeks(1);
 
     return movimientos.stream()
-        .filter(movimiento -> movimiento.getFecha().isAfter(inicioSemanaAnterior) && movimiento.getFecha().isBefore(fechaActual))
+        .filter(movimiento -> movimiento.getFecha().isAfter(inicioSemanaAnterior))
         .collect(Collectors.toList());
   }
 

@@ -29,7 +29,7 @@ public class PdfGenerator {
 
   public PdfGenerator(String nombreArchivo, String tituloTabla, String[] headersTabla, Map<String, Integer> data) {
     this.nombreArchivo = nombreArchivo;
-    this.titulo= tituloTabla;
+    this.titulo = tituloTabla;
     this.headersTabla = headersTabla;
     this.data = data;
   }
@@ -84,8 +84,8 @@ public class PdfGenerator {
 
     // Filas de datos
     for (Map.Entry<String, Integer> entry : data.entrySet()) {
-      table.addCell(entry.getKey()); // Nombre
-      table.addCell(String.valueOf(entry.getValue())); // Cantidad
+      table.addCell(entry.getKey()); // Nombre del producto
+      table.addCell(entry.getValue().toString()); // Cantidad vendida
     }
 
     document.add(table);
