@@ -16,7 +16,7 @@ public class MailDemo {
     Email contactoEmail = new Email(email);
 
     // El envío de email se realiza en el constructor del colaborador
-    System.out.println("Se ha enviado un email a: " + contactoEmail.getEmail());
+    System.out.println("Se ha enviado un email a: " + contactoEmail.destinatario());
 
     // Cerrar el scanner
     scanner.close();

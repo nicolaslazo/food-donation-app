@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
+import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

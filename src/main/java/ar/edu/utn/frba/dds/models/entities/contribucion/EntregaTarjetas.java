@@ -1,38 +1,29 @@
 package ar.edu.utn.frba.dds.models.entities.contribucion;
 
-import ar.edu.utn.frba.dds.models.entities.TarjetaAlimentaria;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
+@Getter
 public class EntregaTarjetas extends Contribucion {
-  @NonNull
-  private final Colaborador colaborador;
-  @NonNull
-  private final ZonedDateTime fecha;
-  @Getter
-  private final List<TarjetaAlimentaria> tarjetasRepartidas;
-  @Getter
+  final List<Tarjeta> tarjetasRepartidas;
   @Setter
-  private int id;
+  int id;
 
-  public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull ZonedDateTime fecha,
-                         @NonNull List<TarjetaAlimentaria> tarjetaAlimentarias) {
-    super(colaborador, fecha);
-    this.colaborador = colaborador;
-    this.fecha = fecha;
-    this.tarjetasRepartidas = tarjetaAlimentarias;
+  public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull List<Tarjeta> tarjetas) {
+    super(colaborador);
+    this.tarjetasRepartidas = tarjetas;
   }
 
   @Override
   public String toString() {
     return "EntregaTarjetas{" +
         "colaborador=" + colaborador +
-        ", fecha=" + fecha +
+        ", fechaRealizada=" + fechaRealizada +
         '}';
   }
 

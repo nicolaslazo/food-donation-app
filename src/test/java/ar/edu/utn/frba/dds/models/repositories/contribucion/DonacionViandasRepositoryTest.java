@@ -5,12 +5,12 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
@@ -24,9 +24,8 @@ class DonacionViandasRepositoryTest {
   final DonacionViandasRepository repositorio = DonacionViandasRepository.getInstancia();
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
   final Vianda viandaMock = Mockito.mock(Vianda.class);
-  final DonacionViandas donacion = new DonacionViandas(colaboradorMock,
-      ZonedDateTime.now(),
-      Collections.singletonList(viandaMock));
+  final Heladera heladeraMock = Mockito.mock(Heladera.class);
+  final DonacionViandas donacion = new DonacionViandas(colaboradorMock, Collections.singletonList(viandaMock), heladeraMock);
 
   @BeforeEach
   void setUp() {
@@ -36,7 +35,7 @@ class DonacionViandasRepositoryTest {
   }
 
   @Test
-  void testObtenerPorId() throws RepositoryInsertException {
+  void testObtenerPorId() throws RepositoryException {
     repositorio.insert(donacion);
     Optional<DonacionViandas> encontrada = repositorio.get(1);
 
@@ -45,10 +44,10 @@ class DonacionViandasRepositoryTest {
   }
 
   @Test
-  void testObtenerTotalPorColaborador() throws RepositoryInsertException {
+  void testObtenerTotalPorColaborador() throws RepositoryException {
     DonacionViandas otraDonacion = new DonacionViandas(colaboradorMock,
-        ZonedDateTime.now(),
-        Arrays.asList(Mockito.mock(Vianda.class), Mockito.mock(Vianda.class)));
+        Arrays.asList(Mockito.mock(Vianda.class), Mockito.mock(Vianda.class)),
+        heladeraMock);
     repositorio.insert(donacion);
     repositorio.insert(otraDonacion);
 
@@ -58,7 +57,7 @@ class DonacionViandasRepositoryTest {
   }
 
   @Test
-  void testInsertarDonacion() throws RepositoryInsertException {
+  void testInsertarDonacion() throws RepositoryException {
     int id = repositorio.insert(donacion);
 
     assertEquals(1, id);
@@ -66,14 +65,14 @@ class DonacionViandasRepositoryTest {
   }
 
   @Test
-  void testInsertarDonacionConViandasRepetidasLanzaExcepcion() throws RepositoryInsertException {
+  void testInsertarDonacionConViandasRepetidasLanzaExcepcion() throws RepositoryException {
     repositorio.insert(donacion);
 
-    assertThrows(RepositoryInsertException.class, () -> repositorio.insert(donacion));
+    assertThrows(RepositoryException.class, () -> repositorio.insert(donacion));
   }
 
   @Test
-  void testEliminarTodo() throws RepositoryInsertException {
+  void testEliminarTodo() throws RepositoryException {
     repositorio.insert(donacion);
 
     repositorio.deleteTodo();

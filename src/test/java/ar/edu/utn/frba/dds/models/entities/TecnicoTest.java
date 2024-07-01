@@ -1,5 +1,8 @@
 package ar.edu.utn.frba.dds.models.entities;
 
+import ar.edu.utn.frba.dds.models.entities.contacto.Email;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
@@ -24,16 +27,26 @@ class TecnicoTest {
   @Test
   void afirmaQueHeladeraEstaDentroDeRango() {
     assertTrue(
-        new Tecnico("123", new AreaGeografica(aCienMetrosDelObelisco, 200f))
-            .isDentroDeRango(heladeraMock)
+        new Tecnico("",
+            "",
+            new Documento(TipoDocumento.DNI, 123),
+            "123",
+            new Email("tecnico@example.com"),
+            new AreaGeografica(aCienMetrosDelObelisco, 200f)
+        ).isDentroDeRango(heladeraMock)
     );
   }
 
   @Test
   void afirmaQueHeladeraNoEstaDentroDeRango() {
     assertFalse(
-        new Tecnico("123", new AreaGeografica(aCienMetrosDelObelisco, 50f))
-            .isDentroDeRango(heladeraMock)
+        new Tecnico("",
+            "",
+            new Documento(TipoDocumento.DNI, 123),
+            "123",
+            new Email("tecnico@example.com"),
+            new AreaGeografica(aCienMetrosDelObelisco, 50f)
+        ).isDentroDeRango(heladeraMock)
     );
   }
 }

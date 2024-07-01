@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories.contacto;
 
 import ar.edu.utn.frba.dds.models.entities.contacto.Telegram;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +27,19 @@ public class TelegramRepository {
     return contactos.stream().filter(contacto -> contacto.getUsuario().equals(username)).findFirst();
   }
 
-  public void insert(Telegram contacto) throws RepositoryInsertException {
+  public void insert(Telegram contacto) throws RepositoryException {
     if (get(contacto.getUsuario()).isPresent()) {
-      throw new RepositoryInsertException("Otro contacto con ese usuario ya existe");
+      throw new RepositoryException("Otro contacto con ese usuario ya existe");
     }
 
     contactos.add(contacto);
   }
 
-  public void updateChatId(String username, long chatId) throws RepositoryInsertException {
+  public void updateChatId(String username, long chatId) throws RepositoryException {
     Optional<Telegram> contacto = get(username);
 
     if (contacto.isEmpty()) {
-      throw new RepositoryInsertException("No existe un contacto con ese usuario");
+      throw new RepositoryException("No existe un contacto con ese usuario");
     }
 
     contacto.get().setChatId(chatId);

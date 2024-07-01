@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.models.entities.heladera;
 
-import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import lombok.Getter;
@@ -8,16 +7,12 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Heladera {
-  private final int capacidadEnViandas;
-  @NonNull
-  private final ZonedDateTime fechaInstalacion;
-  @NonNull
-  private final List<Vianda> viandas;
+  @Getter
+  final int capacidadEnViandas;
+  final @NonNull ZonedDateTime fechaInstalacion;
   @Getter
   @NonNull
   private final Colaborador encargado;
@@ -32,18 +27,16 @@ public class Heladera {
   private double ultimaTempRegistradaCelsius;
   private ZonedDateTime momentoUltimaTempRegistrada;
 
-  public Heladera(@NonNull String nombre,
+  public Heladera(String nombre,
                   Ubicacion ubicacion,
-                  @NonNull Colaborador encargado,
+                  Colaborador encargado,
                   int capacidadEnViandas,
-                  @NonNull ZonedDateTime fechaInstalacion) {
+                  ZonedDateTime fechaInstalacion) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
     this.encargado = encargado;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
-
-    this.viandas = new ArrayList<>();
   }
 
   public void setUltimaTempRegistradaCelsius(double temperatura) {

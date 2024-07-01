@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryInsertException;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +36,9 @@ public class CuidadoHeladerasRepository {
         .sum();
   }
 
-  public int insert(CuidadoHeladera contribucion) throws RepositoryInsertException {
+  public int insert(CuidadoHeladera contribucion) throws RepositoryException {
     if (contribuciones.stream().map(CuidadoHeladera::getHeladera).anyMatch(heladera -> heladera == contribucion.getHeladera())) {
-      throw new RepositoryInsertException("Esa heladera ya fue insertada en otra contribución");
+      throw new RepositoryException("Esa heladera ya fue insertada en otra contribución");
     }
 
     contribuciones.add(contribucion);

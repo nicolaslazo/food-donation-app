@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
+import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
-import ar.edu.utn.frba.dds.models.entities.personaVulnerable.PersonaVulnerable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.Optional;
 public class PersonaVulnerableRepository implements IPersonaVulnerableRepository {
   private final List<PersonaVulnerable> personasVulnerables;
 
-  public PersonaVulnerableRepository() {
+  private PersonaVulnerableRepository() {
     personasVulnerables = new ArrayList<>();
   }
 
@@ -21,9 +21,9 @@ public class PersonaVulnerableRepository implements IPersonaVulnerableRepository
         .findFirst();
   }
 
-  public void insert(PersonaVulnerable personaVulnerable) throws RepositoryInsertException {
+  public void insert(PersonaVulnerable personaVulnerable) throws RepositoryException {
     if (get(personaVulnerable.getDocumento()).isPresent()) {
-      throw new RepositoryInsertException("Este documento ya está siendo usado");
+      throw new RepositoryException("Este documento ya está siendo usado");
     }
     personasVulnerables.add(personaVulnerable);
   }

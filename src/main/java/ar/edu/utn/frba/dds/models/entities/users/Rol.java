@@ -1,13 +1,16 @@
 package ar.edu.utn.frba.dds.models.entities.users;
 
-import java.util.Collection;
+import lombok.NonNull;
 
-public class Rol {
-  private String nombre;
-  private Collection<Permiso> permisos;
+import java.util.HashSet;
+import java.util.Set;
 
-  public boolean tenesPermiso(Permiso permiso) {
-    return permisos
-        .stream().anyMatch(p -> p.equals(permiso));
+public record Rol(@NonNull String nombre, @NonNull Set<Permiso> permisos) {
+  public Rol(String nombre) {
+    this(nombre, new HashSet<>());
+  }
+
+  public boolean tienePermiso(@NonNull Permiso permiso) {
+    return permisos.contains(permiso);
   }
 }

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.when;
 class DineroRepositoryTest {
   final DineroRepository repositorio = DineroRepository.getInstancia();
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final Dinero donacion = new Dinero(colaboradorMock, ZonedDateTime.now(), 1000, null);
+  final Dinero donacion = new Dinero(colaboradorMock, 1000, null);
 
   @BeforeEach
   void setUp() {
@@ -38,7 +37,7 @@ class DineroRepositoryTest {
 
   @Test
   void testObtenerTotalPorColaborador() {
-    Dinero otraDonacion = new Dinero(colaboradorMock, ZonedDateTime.now(), 500, null);
+    Dinero otraDonacion = new Dinero(colaboradorMock, 500, null);
     repositorio.insert(donacion);
     repositorio.insert(otraDonacion);
 

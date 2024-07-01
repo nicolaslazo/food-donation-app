@@ -1,55 +1,45 @@
 package ar.edu.utn.frba.dds.models.entities.colaborador;
 
-import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
-import ar.edu.utn.frba.dds.email.EnviadorDeMails;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
-import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.users.Permiso;
+import ar.edu.utn.frba.dds.models.entities.users.Rol;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
+@Getter
 public class Colaborador {
-  @NonNull
-  @Getter
-  private final Documento documento;
-  @Getter
-  private final List<Contacto> contactos = new ArrayList<>();
-  @Getter
-  private final List<Contribucion> contribuciones = new ArrayList<>();
-  @NonNull
-  @Getter
-  private String nombre;
-  @NonNull
-  @Getter
-  private String apellido;
-  private LocalDate fechaNacimiento;
-  @Getter
-  private Ubicacion ubicacion;
+  private final static Rol ROL_DEFAULT = new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
+  final @NonNull Documento documento;
+  final @NonNull List<Contacto> contactos;
+  final LocalDate fechaNacimiento;
+  final @NonNull Usuario usuario;
+  @NonNull String nombre;
+  @NonNull String apellido;
+  Ubicacion ubicacion;
 
-  public Colaborador(Documento documento, String nombre, String apellido, Email mail) {
+  public Colaborador(@NonNull Documento documento,
+                     @NonNull Email mail,
+                     LocalDate fechaNacimiento,
+                     @NonNull String nombre,
+                     @NonNull String apellido,
+                     Ubicacion ubicacion) {
     this.documento = documento;
+    this.contactos = new ArrayList<>(List.of(mail));
+    this.usuario = new Usuario(mail, new HashSet<>(List.of(ROL_DEFAULT)));
+    this.fechaNacimiento = fechaNacimiento;
     this.nombre = nombre;
     this.apellido = apellido;
-    this.contactos.add(mail);
-
-    String contraseniaTemporaria = GeneradorDeContrasenias.generarContrasenia();
-    EnviadorDeMails enviadorDeMails = new EnviadorDeMails();
-    enviadorDeMails.enviarMail(mail.getEmail(), contraseniaTemporaria);
-  }
-
-  public <T extends Contribucion> List<T> getContribuciones(Class<T> tipo) {
-    return contribuciones.stream()
-        .filter(tipo::isInstance)
-        .map(tipo::cast)
-        .collect(Collectors.toList());
+    this.ubicacion = ubicacion;
   }
 
   @Override
@@ -68,9 +58,10 @@ public class Colaborador {
   @Override
   public String toString() {
     return "Colaborador{" +
-        "documento=" + documento +
-        ", nombre='" + nombre + '\'' +
-        ", apellido='" + apellido + '\'' +
+        "documento=" +
+        documento + ", nombre='" +
+        nombre + '\'' + ", apellido='" +
+        apellido + '\'' +
         '}';
   }
 }
