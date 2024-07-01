@@ -23,7 +23,7 @@ public class EnviadorMail {
   private final MailServer mailServer;
   private static final String asunto = "Nueva Notificación";
   private static final String templateName = "email/plantilla-mail";
-  private static TemplateEngine templateEngine = TemplateEngineConfig.createTemplateEngine();
+  public static TemplateEngine templateEngine = TemplateEngineConfig.createTemplateEngine();
 
   public EnviadorMail(MailServer mailServer) {
     this.mailServer = mailServer;
