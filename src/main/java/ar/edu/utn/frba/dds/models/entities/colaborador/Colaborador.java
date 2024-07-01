@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.colaborador;
 
+import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
@@ -40,6 +41,9 @@ public class Colaborador {
     this.nombre = nombre;
     this.apellido = apellido;
     this.ubicacion = ubicacion;
+    String contraseniaTemporaria = GeneradorDeContrasenias.generarContrasenia();
+    String mensaje = "Para acceder al sitio debe el mail con el que se registró y la siguiente contraseña: \n " + contraseniaTemporaria;
+    // Contacto.enviarMensaje(mensaje); ??
   }
 
   @Override
