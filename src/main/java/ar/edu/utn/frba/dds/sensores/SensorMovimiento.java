@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.sensores;
 
-import ar.edu.utn.frba.dds.dtos.inputs.sensores.SensorInputDTO;
+import ar.edu.utn.frba.dds.dtos.inputs.sensores.SensorMovimientoInputDTO;
+import ar.edu.utn.frba.dds.dtos.inputs.sensores.SensorTemperaturaInputDTO;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -16,9 +17,8 @@ public class SensorMovimiento implements IMqttMessageListener {
 
     @Override
     public void messageArrived(String topic, MqttMessage payload) throws Exception {
-        SensorInputDTO mensaje = SensorInputDTO.desdeJson(payload.toString());
-        //TODO primero quiero implementar el de Temperatura
-        this.recibirDatos(payload.toString());
+        SensorMovimientoInputDTO mensaje = SensorMovimientoInputDTO.desdeJson(payload.toString());
+        //TODO
+        this.recibirDatos(mensaje.msg());
     }
-
 }
