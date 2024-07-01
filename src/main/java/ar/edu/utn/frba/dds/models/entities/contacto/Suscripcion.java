@@ -7,15 +7,12 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+@Getter
 public class Suscripcion {
-  @Getter
   final @NonNull Heladera heladera;
-  @Getter
   final @NonNull MotivoDeDistribucion tipo;
   final Integer parametro;
-  @Getter
   final @NonNull Colaborador colaborador;
-  @Getter
   @Setter
   int id;
 
