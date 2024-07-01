@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.sensores.comandos.ActualizarRepositoryHeladera;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -40,7 +41,7 @@ class SensorTemperaturaTest {
     }
     //TODO Estoy bien encaminado?
     @Test
-    void recibirDatosCorrectos() {
+    void recibirDatosCorrectos() throws MqttException {
         SensorTemperatura sensor = new SensorTemperatura(
                 receptorTemperaturaMock,
                 heladera
