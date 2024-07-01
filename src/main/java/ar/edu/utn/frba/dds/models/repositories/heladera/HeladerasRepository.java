@@ -81,15 +81,6 @@ public class HeladerasRepository {
     );
   }
 
-  public List<Heladera> getHeladerasConTemperaturaDesactualizada(int limiteEnMinutos) {
-    return heladeras
-            .stream()
-            .filter(heladera -> heladera
-                    .getMomentoUltimaTempRegistrada()
-                    .isBefore(ZonedDateTime.now().minusMinutes(limiteEnMinutos)))
-            .toList();
-  }
-
   public void deleteTodas() {
     heladeras.clear();
   }
