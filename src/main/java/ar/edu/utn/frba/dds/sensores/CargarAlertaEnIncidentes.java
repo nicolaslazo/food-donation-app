@@ -14,7 +14,7 @@ public class CargarAlertaEnIncidentes {
 
     public static CargarAlertaEnIncidentes getInstancia() {
         if(instancia == null) {
-            return new CargarAlertaEnIncidentes();
+            instancia = new CargarAlertaEnIncidentes();
         }
         return instancia;
     }
