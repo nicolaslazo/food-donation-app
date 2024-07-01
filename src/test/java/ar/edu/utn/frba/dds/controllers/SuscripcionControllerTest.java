@@ -2,15 +2,15 @@ package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
-import ar.edu.utn.frba.dds.models.entities.contacto.TipoNotificacion;
+import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.EnumSet;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -32,15 +32,15 @@ class SuscripcionControllerTest {
   }
 
   @Test
-  void testCrearSuscripcion() {
+  void testCrearSuscripcion() throws RepositoryException {
     when(colaboradorMock.getUbicacion()).thenReturn(bibliotecaNacional);
 
-    SuscripcionController.suscribirAHeladera(heladeraMock,
-        EnumSet.of(TipoNotificacion.FALLA_HELADERA),
-        colaboradorMock);
+    SuscripcionController
+        .suscribirAHeladera(heladeraMock, MotivoDeDistribucion.FALLA_HELADERA, null, colaboradorMock);
+
     Optional<Suscripcion> suscripcionOpcional = SuscripcionRepository
         .getInstancia()
-        .get(heladeraMock, TipoNotificacion.FALLA_HELADERA, colaboradorMock);
+        .get(heladeraMock, MotivoDeDistribucion.FALLA_HELADERA, colaboradorMock);
 
     assertTrue(suscripcionOpcional.isPresent());
 
@@ -59,7 +59,8 @@ class SuscripcionControllerTest {
 
     assertThrows(RuntimeException.class,
         () -> SuscripcionController.suscribirAHeladera(heladeraMock,
-            EnumSet.of(TipoNotificacion.FALLA_HELADERA),
+            MotivoDeDistribucion.FALLA_HELADERA,
+            null,
             colaboradorMock));
   }
 }

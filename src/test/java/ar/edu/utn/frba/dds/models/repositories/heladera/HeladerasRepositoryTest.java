@@ -22,19 +22,15 @@ class HeladerasRepositoryTest {
   final Heladera heladera = new Heladera("Una heladera",
       obelisco,
       colaboradorMock,
-      ZonedDateTime.now().minusMonths(5),
       50,
-      0,
-      10,
-      5);
+      ZonedDateTime.now().minusMonths(5)
+  );
   final Heladera otraHeladera = new Heladera("Otra heladera",
       new Ubicacion(-34, -58),
       colaboradorMock,
-      ZonedDateTime.now().minusMonths(7),
       60,
-      1,
-      12,
-      7);
+      ZonedDateTime.now().minusMonths(7)
+  );
   HeladerasRepository repository = HeladerasRepository.getInstancia();
 
   @BeforeEach
@@ -78,19 +74,5 @@ class HeladerasRepositoryTest {
     assertEquals(2, heladerasDelColaborador.size());
     assertTrue(heladerasDelColaborador.contains(heladera));
     assertTrue(heladerasDelColaborador.contains(otraHeladera));
-  }
-
-  @Test
-  void testGetMesesActivosCumulativos() throws RepositoryException {
-    repository.insert(otraHeladera);
-
-    // Las heladeras necesitan tener una temperatura registrada recientemente para contar para los meses activos
-    heladera.setUltimaTempRegistradaCelsius(6);
-    otraHeladera.setUltimaTempRegistradaCelsius(6);
-
-
-    int mesesActivos = repository.getMesesActivosCumulativos(colaboradorMock);
-
-    assertEquals(5 + 7, mesesActivos);
   }
 }

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.colaborador;
 
+import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
