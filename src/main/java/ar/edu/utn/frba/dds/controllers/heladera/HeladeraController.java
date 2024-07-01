@@ -12,7 +12,9 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 
 import java.time.ZonedDateTime;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -47,6 +49,19 @@ public class HeladeraController {
         .stream()
         .reduce((una, otra) -> una.getValue() < otra.getValue() ? una : otra)
         .map(Map.Entry::getKey);
+  }
+
+  public List<Heladera> encontrarHeladerasCercanas(Heladera target) {
+    Ubicacion ubicacionTarget = target.getUbicacion();
+
+    return repositorio
+        .getTodas()
+        .stream()
+        .sorted(Comparator.comparing(unaHeladera ->
+            CalculadoraDistancia.calcular(unaHeladera.getUbicacion(), ubicacionTarget)))
+        .skip(1) // Para eliminar al target en sí
+        .limit(3)
+        .toList();
   }
 
   public Collection<Heladera> getHeladerasConFallaDeConexion() {

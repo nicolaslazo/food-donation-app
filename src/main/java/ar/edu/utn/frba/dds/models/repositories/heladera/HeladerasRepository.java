@@ -42,11 +42,16 @@ public class HeladerasRepository {
         .toList();
   }
 
+  public List<Heladera> getTodas() {
+    return heladeras;
+  }
+
   public List<Heladera> getTodas(Colaborador encargado) {
     return heladeras.stream().filter(heladera -> heladera.getEncargado() == encargado).toList();
   }
 
   public int getMesesActivosCumulativos(Colaborador colaborador) {
+    // TODO: Actualizar en base a la fecha del último incidente resuelto
     return getTodas(colaborador).stream().mapToInt(Heladera::mesesActiva).sum();
   }
 
