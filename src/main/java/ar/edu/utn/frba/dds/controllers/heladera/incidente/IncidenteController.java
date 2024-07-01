@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.heladera.incidente;
 
+import ar.edu.utn.frba.dds.controllers.SuscripcionController;
 import ar.edu.utn.frba.dds.dtos.input.heladera.incidente.IncidenteInputDTO;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
@@ -40,6 +41,8 @@ public class IncidenteController implements IMqttMessageListener {
 
   public void crearAlerta(@NonNull Heladera heladera, @NonNull TipoIncidente tipo, @NonNull ZonedDateTime fecha) {
     repositorio.insert(new Incidente(heladera, tipo, fecha));
+
+    SuscripcionController.notificarIncidente(heladera, fecha);
   }
 
   public void crearReporteDeFalla(@NonNull Heladera heladera,
@@ -49,6 +52,8 @@ public class IncidenteController implements IMqttMessageListener {
                                   URL foto) {
     repositorio.insert(
         new Incidente(heladera, TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR, fecha, colaborador, descripcion, foto));
+
+    SuscripcionController.notificarIncidente(heladera, fecha);
   }
 
   @Override
