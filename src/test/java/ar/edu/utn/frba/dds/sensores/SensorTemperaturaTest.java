@@ -45,7 +45,7 @@ class SensorTemperaturaTest {
                 receptorTemperaturaMock,
                 heladera
         );
-        sensor.recibirDatos("0.0");
+        sensor.recibirDatos(0.0);
         assertEquals(0.0, heladera.getUltimaTempRegistradaCelsius());
     }
 
