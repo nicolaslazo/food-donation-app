@@ -7,81 +7,46 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Heladera {
-  final double temperaturaMinimaCelsius;
-  final double temperaturaMaximaCelsius;
   @Getter
   final int capacidadEnViandas;
   final @NonNull ZonedDateTime fechaInstalacion;
   @Getter
-  final @NonNull Colaborador encargado;
+  @NonNull
+  private final Colaborador encargado;
   @Getter
-  final @NonNull Ubicacion ubicacion;
+  private final Ubicacion ubicacion;
   @Getter
   @Setter
-  int id;
-  @NonNull String nombre;
-  double temperaturaDeseadaCelsius;
-  Double ultimaTempRegistradaCelsius;
+  private int id;
+  @NonNull
+  private String nombre;
   @Getter
-  ZonedDateTime momentoUltimaTempRegistrada;
+  private double ultimaTempRegistradaCelsius;
+  @Getter
+  private ZonedDateTime momentoUltimaTempRegistrada;
 
   public Heladera(String nombre,
                   Ubicacion ubicacion,
                   Colaborador encargado,
-                  ZonedDateTime fechaInstalacion,
                   int capacidadEnViandas,
-                  double temperaturaMinimaCelsius,
-                  double temperaturaMaximaCelsius,
-                  double temperaturaDeseadaCelsius) {
+                  ZonedDateTime fechaInstalacion) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
     this.encargado = encargado;
-    this.fechaInstalacion = fechaInstalacion;
     this.capacidadEnViandas = capacidadEnViandas;
-    this.temperaturaMinimaCelsius = temperaturaMinimaCelsius;
-    this.temperaturaMaximaCelsius = temperaturaMaximaCelsius;
-    this.temperaturaDeseadaCelsius = temperaturaDeseadaCelsius;
+    this.fechaInstalacion = fechaInstalacion;
   }
 
   public void setUltimaTempRegistradaCelsius(double temperatura) {
     ultimaTempRegistradaCelsius = temperatura;
     momentoUltimaTempRegistrada = ZonedDateTime.now();
   }
-
   private boolean ultimaTemperaturaEsVieja() {
     ZonedDateTime haceCincoMinutos = ZonedDateTime.now().minusMinutes(5);
     return momentoUltimaTempRegistrada.isBefore(haceCincoMinutos);
-  }
-
-  private boolean temperaturaEstaDentroDeRangoDeModelo() {
-    return ultimaTempRegistradaCelsius > temperaturaMaximaCelsius || ultimaTempRegistradaCelsius < temperaturaMinimaCelsius;
-  }
-
-  private boolean temperaturaEstaDentroDeMargenDeTolerancia() {
-    return ultimaTempRegistradaCelsius < temperaturaDeseadaCelsius + 2 && ultimaTempRegistradaCelsius > temperaturaDeseadaCelsius - 2;
-  }
-
-  public EstadoDeFuncionamiento getEstado() {
-    if (momentoUltimaTempRegistrada == null) {
-      return EstadoDeFuncionamiento.EN_FALLA;
-    } else if (ultimaTemperaturaEsVieja()) {
-      return EstadoDeFuncionamiento.EN_FALLA;
-    } else if (temperaturaEstaDentroDeRangoDeModelo()) {
-      return EstadoDeFuncionamiento.DEFICIENTE;
-    } else if (temperaturaEstaDentroDeMargenDeTolerancia()) {
-      return EstadoDeFuncionamiento.REPOSANDO;
-    } else {
-      return EstadoDeFuncionamiento.ENFRIANDO;
-    }
-  }
-
-  public int mesesActiva() {
-    if (getEstado() == EstadoDeFuncionamiento.EN_FALLA) return 0;
-    return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }
 
   @Override

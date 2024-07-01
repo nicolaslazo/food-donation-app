@@ -74,7 +74,24 @@ public class HeladerasRepository {
     return heladera.getId();
   }
 
+  public void updateTiempoHeladera(int id, Heladera nuevaHeladera) {
+    Optional<Heladera> heladera = get(id);
+    heladera.ifPresent(value -> value.setUltimaTempRegistradaCelsius(
+            nuevaHeladera.getUltimaTempRegistradaCelsius())
+    );
+  }
+
+  public List<Heladera> getHeladerasConTemperaturaDesactualizada(int limiteEnMinutos) {
+    return heladeras
+            .stream()
+            .filter(heladera -> heladera
+                    .getMomentoUltimaTempRegistrada()
+                    .isBefore(ZonedDateTime.now().minusMinutes(limiteEnMinutos)))
+            .toList();
+  }
+
   public void deleteTodas() {
     heladeras.clear();
   }
 }
+
