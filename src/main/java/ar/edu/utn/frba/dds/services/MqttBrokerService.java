@@ -43,15 +43,15 @@ public class MqttBrokerService {
   }
 
   public static void main(String[] args) throws MqttException {
-    class DemoReceptor implements IMqttMessageListener {
+    class DemoSensor implements IMqttMessageListener {
       @Override
       public void messageArrived(String topic, MqttMessage message) {
         System.out.println("Topic: " + topic + ", mensaje: " + message.toString());
       }
     }
-    DemoReceptor receptor = new DemoReceptor();
+    DemoSensor sensor = new DemoSensor();
 
-    MqttBrokerService.getInstancia().suscribir("demo", receptor);
+    MqttBrokerService.getInstancia().suscribir("demo", sensor);
   }
 
   public void publicar(@NonNull String topic, @NonNull String contenido) throws MqttException {
