@@ -25,7 +25,7 @@ public class AccionadorHeladera {
     //TODO se me ocurre una sobre carga de este metodo para la opcion de que no sea una Alerta
     // y quieras registrar una falla tecnica por un colaborador
     private void registrarIncidente(TipoIncidente tipoIncidente, Heladera heladera) {
-        cargadorAlertas.getIntancia().cargarIncidente(
+        cargadorAlertas.getInstancia().cargarIncidente(
                 tipoIncidente,heladera
         );
     }
