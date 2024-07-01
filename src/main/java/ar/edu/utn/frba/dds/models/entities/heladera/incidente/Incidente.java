@@ -10,8 +10,11 @@ import java.net.URL;
 import java.time.ZonedDateTime;
 
 public class Incidente {
+  @Getter
   final @NonNull Heladera heladera;
+  @Getter
   final @NonNull TipoIncidente tipo;
+  @Getter
   final @NonNull ZonedDateTime fecha;
   final Colaborador colaborador;
   final String descripcion;

@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.controllers;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -34,6 +35,9 @@ public class DonacionViandasControllerTest {
   @Mock
   private Colaborador colaborador2;
 
+  @Mock
+  private Heladera heladera;
+
   @BeforeEach
   public void setUp() {
     MockitoAnnotations.initMocks(this);
@@ -43,8 +47,14 @@ public class DonacionViandasControllerTest {
   public void testObtenerDonacionesPorColaboradorSemanaAnterior() {
     List<DonacionViandas> donacionesSemanaAnterior = new ArrayList<>();
 
-    donacionesSemanaAnterior.add(new DonacionViandas(colaborador1, ZonedDateTime.now().minusDays(2),Arrays.asList(vianda1, vianda2)));
-    donacionesSemanaAnterior.add(new DonacionViandas(colaborador2, ZonedDateTime.now().minusDays(3),Collections.singletonList(vianda3)));
+    DonacionViandas donacion1 = new DonacionViandas(colaborador1, Arrays.asList(vianda1, vianda2),heladera);
+    DonacionViandas donacion2 = new DonacionViandas(colaborador2, Collections.singletonList(vianda3),heladera);
+
+    donacionesSemanaAnterior.add(donacion1);
+    donacionesSemanaAnterior.add(donacion2);
+
+    when(donacion1.getFechaRealizada()).thenReturn(ZonedDateTime.now().minusDays(1));
+    when(donacion2.getFechaRealizada()).thenReturn(ZonedDateTime.now().minusDays(5));
 
     when(colaborador1.getApellido()).thenReturn("Perez");
 

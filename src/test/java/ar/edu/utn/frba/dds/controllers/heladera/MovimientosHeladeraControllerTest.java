@@ -48,6 +48,6 @@ public class MovimientosHeladeraControllerTest {
     expected.put("Heladera 1", 1);
     expected.put("Heladera 2", 1);
 
-    assertEquals(expected, MovimientosHeladeraController.getInstance().MapCantidadMovimientosPorHeladeraSemanaAnterior(eventos));
+    assertEquals(expected, MovimientosHeladeraController.getInstance().MapCantidadMovimientosPorHeladera(eventos));
   }
 }

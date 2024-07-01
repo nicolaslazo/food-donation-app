@@ -58,7 +58,7 @@ public class DonacionViandasRepository {
     ZonedDateTime inicioSemanaAnterior = fechaActual.minusWeeks(1);
 
     return donaciones.stream()
-        .filter(donacion -> donacion.getFecha().isAfter(inicioSemanaAnterior))
+        .filter(donacion -> donacion.getFechaRealizada().isAfter(inicioSemanaAnterior))
         .collect(Collectors.toList());
   }
 

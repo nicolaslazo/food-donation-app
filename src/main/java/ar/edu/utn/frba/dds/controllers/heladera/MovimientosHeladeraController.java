@@ -30,7 +30,7 @@ public class MovimientosHeladeraController {
     return movimientosHeladeraRepository.obtenerMovimientosSemanaAnterior();
   }
 
-  public Map<String, Integer> MapCantidadMovimientosPorHeladeraSemanaAnterior(List<EventoMovimiento> eventos) {
+  public Map<String, Integer> MapCantidadMovimientosPorHeladera(List<EventoMovimiento> eventos) {
     Map<String, Integer> cantidadMovimientos = new HashMap<>();
     for (EventoMovimiento evento : eventos) {
       Heladera heladera = evento.getHeladera();
@@ -41,7 +41,7 @@ public class MovimientosHeladeraController {
 
   public Map<String, Integer>obtenerCantidadMovimientosHeladeraSemanaAnterior()
   {
-    return MapCantidadMovimientosPorHeladeraSemanaAnterior(obtenerMovimientosSemanaAnterior());
+    return MapCantidadMovimientosPorHeladera(obtenerMovimientosSemanaAnterior());
   }
 
 
