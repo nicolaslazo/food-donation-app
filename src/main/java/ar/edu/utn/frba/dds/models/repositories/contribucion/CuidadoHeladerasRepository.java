@@ -39,6 +39,15 @@ public class CuidadoHeladerasRepository {
     return contribucion.getId();
   }
 
+  public int getMesesActivosCumulativos(Colaborador colaborador) {
+    return contribuciones
+            .stream()
+            .filter(contribucion -> contribucion.getColaborador() == colaborador)
+            .mapToInt(contribucion -> contribucion.getHeladera().mesesActiva())
+            .sum();
+  }
+
+
   public void deleteTodas() {
     contribuciones.clear();
   }

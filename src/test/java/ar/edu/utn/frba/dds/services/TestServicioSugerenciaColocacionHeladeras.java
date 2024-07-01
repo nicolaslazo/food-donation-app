@@ -22,8 +22,8 @@ public class TestServicioSugerenciaColocacionHeladeras {
   @Test
   public void testPuedeSolicitarSugerencias() throws IOException, NoSuchFieldException, IllegalAccessException {
     List<Coordenadas> esperadas = Arrays.asList(
-        new Coordenadas(-34.6036150, -58.381700),
-        new Coordenadas(-34.6036200, -58.381750)
+            new Coordenadas(-34.6036150, -58.381700),
+            new Coordenadas(-34.6036200, -58.381750)
     );
 
     Coordenadas obelisco = new Coordenadas(-34.6036152, -58.3817700);
@@ -31,15 +31,19 @@ public class TestServicioSugerenciaColocacionHeladeras {
 
     ServicioSugerenciaColocacionHeladeras servicio = ServicioSugerenciaColocacionHeladeras.getInstancia();
 
+    //Mock retrofit
     Retrofit retrofitMock = Mockito.mock(Retrofit.class);
 
+    //Mock campo
     Field campoInstancia = ServicioSugerenciaColocacionHeladeras.class.getDeclaredField("retrofit");
     campoInstancia.setAccessible(true);
     campoInstancia.set(servicio, retrofitMock);
 
+    //Mock interfaz
     InterfazServicioSugerenciaColocacionHeladeras mockInterfaz = mock(InterfazServicioSugerenciaColocacionHeladeras.class);
     when(retrofitMock.create(InterfazServicioSugerenciaColocacionHeladeras.class)).thenReturn(mockInterfaz);
 
+    //Mock call
     Call<List<Coordenadas>> mockCall = Mockito.mock(Call.class);
     when(mockInterfaz.sugerencias(-34.6036152, -58.3817700, 50.0)).thenReturn(mockCall);
 
@@ -51,3 +55,4 @@ public class TestServicioSugerenciaColocacionHeladeras {
     assertEquals(esperadas, sugerencias);
   }
 }
+
