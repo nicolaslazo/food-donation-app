@@ -28,11 +28,11 @@ class TecnicosRepositoryTest {
 
     Tecnico tecnico1 = Mockito.mock(Tecnico.class);
     Mockito.when(tecnico1.getCuil()).thenReturn("1");
-    repositorio.insertTecnico(tecnico1);
+    repositorio.insert(tecnico1);
 
     Tecnico tecnico2 = Mockito.mock(Tecnico.class);
     Mockito.when(tecnico2.getCuil()).thenReturn("2");
-    repositorio.insertTecnico(tecnico2);
+    repositorio.insert(tecnico2);
   }
 
 
@@ -43,45 +43,45 @@ class TecnicosRepositoryTest {
 
   @Test
   void insertarTecnicoSinFallar() {
-    repositorio.insertTecnico(tecnico);
+    repositorio.insert(tecnico);
     Assertions.assertTrue(repositorio.getTecnicos().contains(tecnico));
   }
 
   @Test
   void obtenerTodosLostecnicos() {
-    repositorio.insertTecnico(tecnico);
+    repositorio.insert(tecnico);
 
     assertEquals(3, repositorio.getTecnicos().size());
   }
 
   @Test
   void testGetTecnicoNoExistente() {
-    Optional<Tecnico> encontrado = repositorio.getTecnico("999999");
+    Optional<Tecnico> encontrado = repositorio.get("999999");
     Assertions.assertFalse(encontrado.isPresent(), "El técnico no existe");
   }
 
   @Test
   void testGetTecnicoExistente() {
-    repositorio.insertTecnico(tecnico);
+    repositorio.insert(tecnico);
 
 
-    Optional<Tecnico> encontrado = repositorio.getTecnico("123456");
+    Optional<Tecnico> encontrado = repositorio.get("123456");
     Assertions.assertTrue(encontrado.isPresent(), "El técnico debería estar presente");
     assertEquals(tecnico, encontrado.get(), "técnico encontrado");
   }
 
   @Test
   void testDeleteTecnicoExistente() {
-    repositorio.insertTecnico(tecnico);
-    boolean resultado = repositorio.deleteTecnico("123456");
+    repositorio.insert(tecnico);
+    boolean resultado = repositorio.delete("123456");
     Assertions.assertTrue(resultado, "El técnico debería haber sido eliminado");
-    Optional<Tecnico> encontrado = repositorio.getTecnico("123456");
+    Optional<Tecnico> encontrado = repositorio.get("123456");
     Assertions.assertFalse(encontrado.isPresent(), "El técnico no debería estar presente después de ser eliminado");
   }
 
   @Test
   void testDeleteTecnicoNoExistente() {
-    boolean resultado = repositorio.deleteTecnico("999999");
+    boolean resultado = repositorio.delete("999999");
     Assertions.assertFalse(resultado, "El técnico no debería haber sido eliminado porque no existe");
   }
 
@@ -89,6 +89,6 @@ class TecnicosRepositoryTest {
   void testDeleteTodosLimpiaElRepositorio() {
     repositorio.deleteTodos();
 
-    assertTrue(repositorio.getTecnico("401").isEmpty());
+    assertTrue(repositorio.get("401").isEmpty());
   }
 }
