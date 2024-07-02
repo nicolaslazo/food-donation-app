@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.controllers.heladera;
 import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
+import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CalculadoraDistancia;
@@ -49,6 +50,22 @@ public class HeladeraController {
         .stream()
         .reduce((una, otra) -> una.getValue() < otra.getValue() ? una : otra)
         .map(Map.Entry::getKey);
+  }
+
+  public static void notificarTecnicoMasCercanoDeIncidente(Heladera heladera, ZonedDateTime fecha) {
+    final String mensaje =
+        String.format(
+            "[ALERTA] la heladera \"%s\" tuvo un incidente el %s. Por favor acercarse a la brevedad",
+            heladera.getNombre(),
+            fecha);
+
+    HeladeraController.encontrarTecnicoMasCercano(heladera).ifPresent(tecnico -> {
+      try {
+        tecnico.enviarMensaje(mensaje);
+      } catch (MensajeAContactoException e) {
+        throw new RuntimeException(e);
+      }
+    });
   }
 
   public List<Heladera> encontrarHeladerasCercanas(Heladera target) {

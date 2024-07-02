@@ -9,8 +9,8 @@ import java.util.Optional;
 
 @Getter
 public class TecnicoRepository implements ITecnicoRepository {
-  private static TecnicoRepository instancia = null;
-  private final List<Tecnico> tecnicos;
+  static TecnicoRepository instancia = null;
+  final List<Tecnico> tecnicos;
 
   public TecnicoRepository() {
     tecnicos = new ArrayList<>();
@@ -24,25 +24,17 @@ public class TecnicoRepository implements ITecnicoRepository {
     return instancia;
   }
 
-  public Optional<Tecnico> getTecnico(String cuil) {
-    return tecnicos
-        .stream()
-        .filter(tecnico -> tecnico.getCuil().equals(cuil))
-        .findFirst();
+  public Optional<Tecnico> get(String cuil) {
+    return tecnicos.stream().filter(tecnico -> tecnico.getCuil().equals(cuil)).findFirst();
   }
 
-  public void insertTecnico(Tecnico tecnico) {
+  public void insert(Tecnico tecnico) {
     tecnicos.add(tecnico);
   }
 
-  public boolean deleteTecnico(String cuil) {
-    Optional<Tecnico> tecnicoOptional = getTecnico(cuil);
+  public boolean delete(String cuil) {
+    Optional<Tecnico> tecnicoOptional = get(cuil);
     return tecnicoOptional.map(tecnicos::remove).orElse(false);
-  }
-
-  public boolean updateTecnico(Tecnico tecnico) {
-    //TODO
-    return true;
   }
 
   public void deleteTodos() {
