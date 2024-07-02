@@ -8,6 +8,8 @@ import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.time.ZonedDateTime;
+
 public class SensorMovimiento implements IMqttMessageListener {
     private ReceptorMovimiento receptorMovimiento;
     private Heladera heladera;
@@ -18,13 +20,13 @@ public class SensorMovimiento implements IMqttMessageListener {
         MqttBrokerService.getInstancia().suscribir("heladera/movimiento", this);
     }
 
-    public void recibirDatos(String datos) {
-        receptorMovimiento.evaluarReceptor(datos, heladera);
+    public void recibirDatos(ZonedDateTime momentoEvento) {
+        receptorMovimiento.evaluarReceptor(momentoEvento, heladera);
     }
 
     @Override
     public void messageArrived(String topic, MqttMessage payload) throws Exception {
         SensorMovimientoInputDTO mensaje = SensorMovimientoInputDTO.desdeJson(new String(payload.getPayload()));
-        this.recibirDatos(mensaje.msg());
+        this.recibirDatos(mensaje.getTiempo());
     }
 }
