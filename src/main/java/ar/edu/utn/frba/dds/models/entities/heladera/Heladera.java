@@ -27,6 +27,7 @@ public class Heladera {
   private String nombre;
   @Getter
   private double ultimaTempRegistradaCelsius;
+  @Setter //Lo agrego para el TEST TemperatureSensorChecker
   @Getter
   private ZonedDateTime momentoUltimaTempRegistrada;
 
@@ -51,7 +52,7 @@ public class Heladera {
     return momentoUltimaTempRegistrada.isBefore(haceCincoMinutos);
   }
 
-  public int mesesActiva() {
+    public int mesesActiva() {
     //if (!heladeraActiva) return 0;
     return (int) ChronoUnit.MONTHS.between(fechaInstalacion, ZonedDateTime.now());
   }

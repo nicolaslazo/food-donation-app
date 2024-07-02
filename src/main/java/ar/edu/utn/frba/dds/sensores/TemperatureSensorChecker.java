@@ -10,9 +10,15 @@ import java.util.List;
 
 
 public class TemperatureSensorChecker {
+    private static CargarAlertaEnIncidentes cargadorIncidente;
+
+    //Esto es para el TEST, pq no me agarra el Cargador de incidentes mockeado.
+    public TemperatureSensorChecker(CargarAlertaEnIncidentes cargadorIncidente) {
+        TemperatureSensorChecker.cargadorIncidente = cargadorIncidente;
+    }
+
     public static void main(String[] args) throws CheckerException {
         HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
-        CargarAlertaEnIncidentes cargadorIncidente = CargarAlertaEnIncidentes.getInstancia();
 
         List<Heladera> heladeras = heladerasRepository.getHeladerasConTemperaturaDesactualizada(5);
 
