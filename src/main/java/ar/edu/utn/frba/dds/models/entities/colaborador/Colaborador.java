@@ -1,8 +1,8 @@
 package ar.edu.utn.frba.dds.models.entities.colaborador;
 
-import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
+import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
@@ -41,6 +41,16 @@ public class Colaborador {
     this.nombre = nombre;
     this.apellido = apellido;
     this.ubicacion = ubicacion;
+  }
+
+  public void enviarMensaje(String mensaje) {
+    contactos.forEach(contacto -> {
+      try {
+        contacto.enviarMensaje(mensaje);
+      } catch (MensajeAContactoException e) {
+        throw new RuntimeException(e);
+      }
+    });
   }
 
   @Override

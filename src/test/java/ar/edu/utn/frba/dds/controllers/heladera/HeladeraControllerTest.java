@@ -93,11 +93,8 @@ class HeladeraControllerTest {
       heladeras.add(new Heladera("",
           new Ubicacion(-34, -58 - i),
           mock(Colaborador.class),
-          ZonedDateTime.now(),
           10,
-          0,
-          10,
-          5));
+          ZonedDateTime.now()));
     }
 
     final Heladera heladeraTarget = heladeras.get(0);

@@ -15,19 +15,18 @@ public class Heladera {
   final int capacidadEnViandas;
   final @NonNull ZonedDateTime fechaInstalacion;
   @Getter
-  @NonNull
-  private final Colaborador encargado;
+  final @NonNull Colaborador encargado;
   @Getter
-  private final Ubicacion ubicacion;
+  final Ubicacion ubicacion;
   @Getter
   @Setter
-  private int id;
-  @NonNull
-  private String nombre;
+  int id;
   @Getter
-  private double ultimaTempRegistradaCelsius;
+  @NonNull String nombre;
   @Getter
-  private ZonedDateTime momentoUltimaTempRegistrada;
+  double ultimaTempRegistradaCelsius;
+  @Getter
+  ZonedDateTime momentoUltimaTempRegistrada;
 
   public Heladera(String nombre,
                   Ubicacion ubicacion,
