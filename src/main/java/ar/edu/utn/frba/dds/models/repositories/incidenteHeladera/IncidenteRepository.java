@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class IncidenteRepository {
-    IncidenteRepository instancia = null;
+    private static IncidenteRepository instancia = null;
     private List<Incidente> incidentesHeladeras;
 
     public IncidenteRepository() {
@@ -22,7 +22,7 @@ public class IncidenteRepository {
                 .findFirst();
     }
 
-    public IncidenteRepository getInstancia() {
+    public static IncidenteRepository getInstancia() {
         if (instancia == null) {
             instancia = new IncidenteRepository();
         }

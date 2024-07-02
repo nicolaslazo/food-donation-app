@@ -24,6 +24,7 @@ public class Heladera {
   @Getter
   @NonNull String nombre;
   @Getter
+  @Setter //Lo agrego para el TEST TemperatureSensorChecker
   double ultimaTempRegistradaCelsius;
   @Getter
   ZonedDateTime momentoUltimaTempRegistrada;
@@ -44,6 +45,7 @@ public class Heladera {
     ultimaTempRegistradaCelsius = temperatura;
     momentoUltimaTempRegistrada = ZonedDateTime.now();
   }
+
   private boolean ultimaTemperaturaEsVieja() {
     ZonedDateTime haceCincoMinutos = ZonedDateTime.now().minusMinutes(5);
     return momentoUltimaTempRegistrada.isBefore(haceCincoMinutos);
