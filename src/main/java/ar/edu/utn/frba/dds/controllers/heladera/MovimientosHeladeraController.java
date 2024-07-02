@@ -16,21 +16,12 @@ public class MovimientosHeladeraController {
     this.movimientosHeladeraRepository = MovimientosHeladeraRepository.getInstancia();
   }
 
-  public static MovimientosHeladeraController getInstance() {
-    return MovimientosHeladeraController.SingletonHelper.INSTANCE;
-  }
-
-  private static class SingletonHelper {
-    private static final MovimientosHeladeraController INSTANCE = new MovimientosHeladeraController();
-  }
-
-
   public  List<EventoMovimiento> obtenerMovimientosSemanaAnterior()
   {
     return movimientosHeladeraRepository.obtenerMovimientosSemanaAnterior();
   }
 
-  public Map<String, Integer> MapCantidadMovimientosPorHeladera(List<EventoMovimiento> eventos) {
+  public static Map<String, Integer> mapCantidadMovimientosPorHeladera(List<EventoMovimiento> eventos) {
     Map<String, Integer> cantidadMovimientos = new HashMap<>();
     for (EventoMovimiento evento : eventos) {
       Heladera heladera = evento.getHeladera();
@@ -41,7 +32,7 @@ public class MovimientosHeladeraController {
 
   public Map<String, Integer>obtenerCantidadMovimientosHeladeraSemanaAnterior()
   {
-    return MapCantidadMovimientosPorHeladera(obtenerMovimientosSemanaAnterior());
+    return mapCantidadMovimientosPorHeladera(obtenerMovimientosSemanaAnterior());
   }
 
 

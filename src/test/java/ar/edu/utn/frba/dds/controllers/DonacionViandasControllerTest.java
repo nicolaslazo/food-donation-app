@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -11,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -68,6 +68,6 @@ public class DonacionViandasControllerTest {
     expectedDonaciones.put("Juan Perez", 2);
     expectedDonaciones.put("Maria Lopez", 1);
 
-    assertEquals(expectedDonaciones, DonacionViandasController.getInstance().MapDonacionesPorColaboradorSemanaAnterior(donacionesSemanaAnterior));
+    assertEquals(expectedDonaciones, DonacionViandasController.mapDonacionesPorColaboradorSemanaAnterior(donacionesSemanaAnterior));
   }
 }

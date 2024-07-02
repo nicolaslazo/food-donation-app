@@ -1,13 +1,13 @@
-package ar.edu.utn.frba.dds.services.generadorPDF;
+package ar.edu.utn.frba.dds.controllers;
 
-import ar.edu.utn.frba.dds.controllers.DonacionViandasController;
 import ar.edu.utn.frba.dds.controllers.heladera.MovimientosHeladeraController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
+import ar.edu.utn.frba.dds.services.generadorPDF.PdfGenerator;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.util.Map;
 
-public class ServicePDFGenerator {
+public class PDFGeneratorController {
 
   private final DonacionViandasController donacionViandasController;
 
@@ -15,7 +15,7 @@ public class ServicePDFGenerator {
 
   private final IncidenteController incidenteController;
 
-  public ServicePDFGenerator(DonacionViandasController donacionViandasService, MovimientosHeladeraController movimientosHeladeraService, IncidenteController incidenteController) {
+  public PDFGeneratorController(DonacionViandasController donacionViandasService, MovimientosHeladeraController movimientosHeladeraService, IncidenteController incidenteController) {
     this.donacionViandasController = donacionViandasService;
     this.movimientosHeladeraController = movimientosHeladeraService;
     this.incidenteController = incidenteController;
@@ -53,7 +53,7 @@ public class ServicePDFGenerator {
     }
 
     // Crear instancia del generador de PDF
-    ServicePDFGenerator pdfGenerator = new ServicePDFGenerator(donacionViandas, movimientosHeladera, incidenteController);
+    PDFGeneratorController pdfGenerator = new PDFGeneratorController(donacionViandas, movimientosHeladera, incidenteController);
 
     // Generar cada reporte llamando a los métodos correspondientes
     pdfGenerator.GenerarReporteFallasHeladeras();

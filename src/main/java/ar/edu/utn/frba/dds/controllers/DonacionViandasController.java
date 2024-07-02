@@ -12,28 +12,20 @@ public class DonacionViandasController {
   public DonacionViandasController() {
     this.donacionViandasRepository = DonacionViandasRepository.getInstancia();
   }
-  public static DonacionViandasController getInstance() {
-    return SingletonHelper.INSTANCE;
-  }
-
-  private static class SingletonHelper {
-    private static final DonacionViandasController INSTANCE = new DonacionViandasController();
-  }
 
   public List<DonacionViandas> obtenerDonacionesSemanaAnterior()
   {return donacionViandasRepository.obtenerDonacionesSemanaAnterior();}
 
-  public Map<String, Integer> MapDonacionesPorColaboradorSemanaAnterior(List<DonacionViandas> donaciones) {
+  public static Map<String, Integer> mapDonacionesPorColaboradorSemanaAnterior(List<DonacionViandas> donaciones) {
     return donaciones.stream()
         .collect(Collectors.groupingBy(
             donacion -> donacion.getColaborador().getNombre() + " " + donacion.getColaborador().getApellido(),
             Collectors.summingInt(donacion -> donacion.getViandas().size())
         ));
   }
-
   public Map<String, Integer> obtenerDonacionesPorColaboradorSemanaAnterior()
   {List<DonacionViandas> donaciones = obtenerDonacionesSemanaAnterior();
-  return MapDonacionesPorColaboradorSemanaAnterior(donaciones);}
+  return mapDonacionesPorColaboradorSemanaAnterior(donaciones);}
 
 }
 
