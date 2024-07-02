@@ -49,9 +49,15 @@ public class ServicioSugerenciaColocacionHeladeras {
 
     InterfazServicioSugerenciaColocacionHeladeras interfaz =
         this.retrofit.create(InterfazServicioSugerenciaColocacionHeladeras.class);
+
+    /*TODO
+       aca esta el problema (creo) este Call<List> esta devolviendo nulo
+       request = null
+    */
     Call<List<Coordenadas>> request = interfaz.sugerencias(
         coordenadas.getLongitud(), coordenadas.getLatitud(), area.radioEnMetros()
     );
+
     Response<List<Coordenadas>> response = request.execute();
 
     return response.body();

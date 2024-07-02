@@ -18,7 +18,7 @@ public class IncidenteRepository {
     public Optional<Incidente> getIncidenteHeladera(int id) {
         return incidentesHeladeras
                 .stream()
-                .filter(inc -> inc.getIdIncidente() == id)
+                .filter(inc -> inc.getId() == id)
                 .findFirst();
     }
 
@@ -36,7 +36,7 @@ public class IncidenteRepository {
 
 
     public void insertIncidenteHeladera(Incidente incidente) {
-        incidente.setIdIncidente(incidentesHeladeras.size()+1);
+        incidente.setId(incidentesHeladeras.size()+1);
         incidentesHeladeras.add(incidente);
     }
 

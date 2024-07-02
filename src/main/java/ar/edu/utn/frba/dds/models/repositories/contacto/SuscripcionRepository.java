@@ -40,6 +40,13 @@ public class SuscripcionRepository {
         ).findFirst();
   }
 
+  public List<Suscripcion> getTodas(Heladera heladera, MotivoDeDistribucion tipo) {
+    return suscripciones
+        .stream()
+        .filter(suscripcion -> suscripcion.getHeladera() == heladera && suscripcion.getTipo() == tipo)
+        .toList();
+  }
+
   public int insert(Suscripcion suscripcion) throws RepositoryException {
     if (get(suscripcion.getHeladera(), suscripcion.getTipo(), suscripcion.getColaborador()).isPresent()) {
       throw new RepositoryException("Ese colaborador ya está inscrito a esa heladera para eso");
