@@ -7,7 +7,10 @@ import lombok.Setter;
 import java.time.ZonedDateTime;
 
 public final class EventoMovimiento {
+  @Getter
   private final @NonNull Heladera heladera;
+
+  @Getter
   private final @NonNull ZonedDateTime fecha;
   @Getter
   @Setter
