@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.models.entities;
 
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
+
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
@@ -38,6 +39,12 @@ public final class Tecnico {
     this.areaAsignada = areaAsignada;
     this.contactos = new ArrayList<>(List.of(email));
     this.usuario = new Usuario(email, new HashSet<>(List.of(ROL_DEFAULT)));  // TODO: Agregar permisos
+  }
+
+  public void enviarMensaje(String mensaje) throws MensajeAContactoException {
+    for (Contacto contacto : contactos) {
+      contacto.enviarMensaje(mensaje);
+    }
   }
 
   public boolean isDentroDeRango(Heladera heladera) {
