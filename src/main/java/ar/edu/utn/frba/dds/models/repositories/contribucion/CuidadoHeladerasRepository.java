@@ -28,14 +28,6 @@ public class CuidadoHeladerasRepository {
     return contribuciones.stream().filter(contribucion -> contribucion.getId() == id).findFirst();
   }
 
-  public int getMesesActivosCumulativos(Colaborador colaborador) {
-    return contribuciones
-        .stream()
-        .filter(contribucion -> contribucion.getColaborador() == colaborador)
-        .mapToInt(contribucion -> contribucion.getHeladera().mesesActiva())
-        .sum();
-  }
-
   public int insert(CuidadoHeladera contribucion) throws RepositoryException {
     if (contribuciones.stream().map(CuidadoHeladera::getHeladera).anyMatch(heladera -> heladera == contribucion.getHeladera())) {
       throw new RepositoryException("Esa heladera ya fue insertada en otra contribución");
