@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.dds.controllers.heladera.incidente;
 
+import ar.edu.utn.frba.dds.controllers.SuscripcionController;
+import ar.edu.utn.frba.dds.controllers.heladera.HeladeraController;
 import ar.edu.utn.frba.dds.dtos.input.heladera.incidente.IncidenteInputDTO;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
@@ -15,14 +17,17 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class IncidenteController implements IMqttMessageListener {
   private static IncidenteController instancia = null;
   final IncidentesRepository repositorio = IncidentesRepository.getInstancia();
   final MqttBrokerService brokerService = MqttBrokerService.getInstancia();
 
-  private IncidenteController() throws MqttException {
+  public IncidenteController() throws MqttException {
     brokerService.suscribir("heladeras/incidentes", this);
   }
 
@@ -38,8 +43,15 @@ public class IncidenteController implements IMqttMessageListener {
     return instancia;
   }
 
+  private void notificarAInteresados(Heladera heladera, ZonedDateTime fecha) {
+    SuscripcionController.notificarIncidente(heladera, fecha);
+    HeladeraController.notificarTecnicoMasCercanoDeIncidente(heladera, fecha);
+  }
+
   public void crearAlerta(@NonNull Heladera heladera, @NonNull TipoIncidente tipo, @NonNull ZonedDateTime fecha) {
     repositorio.insert(new Incidente(heladera, tipo, fecha));
+
+    notificarAInteresados(heladera, fecha);
   }
 
   public void crearReporteDeFalla(@NonNull Heladera heladera,
@@ -49,6 +61,8 @@ public class IncidenteController implements IMqttMessageListener {
                                   URL foto) {
     repositorio.insert(
         new Incidente(heladera, TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR, fecha, colaborador, descripcion, foto));
+
+    notificarAInteresados(heladera, fecha);
   }
 
   @Override
@@ -60,4 +74,22 @@ public class IncidenteController implements IMqttMessageListener {
 
     crearAlerta(optionalHeladera.get(), TipoIncidente.fromString(mensaje.tipoIncidente()), mensaje.getFecha());
   }
+
+  public List<Incidente> obtenerMovimientosSemanaAnterior()
+  {return repositorio.filtrarIncidentesDesdeSemanaPasada();}
+
+  public Map<String, Integer> MapIncidentesPorHeladera(List<Incidente> incidentes) {
+    return incidentes.stream()
+        .collect(Collectors.groupingBy(
+            incidente -> incidente.getHeladera().getNombre(),
+            Collectors.collectingAndThen(Collectors.counting(), Long::intValue)
+        ));}
+
+  public Map<String,Integer> obtenerFallasHeladeraSemanaAnterior()
+  {
+    return MapIncidentesPorHeladera(obtenerMovimientosSemanaAnterior());
+  }
+
+
+
 }

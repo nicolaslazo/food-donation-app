@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ITecnicoRepository {
-  Optional<Tecnico> getTecnico(String cuil);
+  Optional<Tecnico> get(String cuil);
 
   List<Tecnico> getTecnicos();
 
-  void insertTecnico(Tecnico tecnico);
+  void insert(Tecnico tecnico);
 
-  boolean deleteTecnico(String cuil);
+  boolean delete(String cuil);
 
-  boolean updateTecnico(Tecnico tecnico);
 }
