@@ -20,13 +20,13 @@ import java.util.Objects;
 @Getter
 public class Colaborador {
   private final static Rol ROL_DEFAULT = new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
-  final @NonNull Documento documento;
-  final @NonNull List<Contacto> contactos;
-  final LocalDate fechaNacimiento;
-  final @NonNull Usuario usuario;
-  @NonNull String nombre;
-  @NonNull String apellido;
-  Ubicacion ubicacion;
+  private @NonNull Documento documento;
+  private @NonNull List<Contacto> contactos;
+  private LocalDate fechaNacimiento;
+  private @NonNull Usuario usuario;
+  private @NonNull String nombre;
+  private @NonNull String apellido;
+  private Ubicacion ubicacion;
 
   public Colaborador(@NonNull Documento documento,
                      @NonNull Email mail,
