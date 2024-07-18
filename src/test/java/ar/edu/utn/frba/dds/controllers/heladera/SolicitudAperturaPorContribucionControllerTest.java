@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
-import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
@@ -53,7 +52,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     final Tarjeta tarjetaInutil = new Tarjeta(randomUUID(), mock(Colaborador.class), duenoInutil);
 
     assertThrows(PermisoDenegadoException.class,
-        () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(MovimientoViandas.class)));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(DonacionViandas.class)));
   }
 
   @Test
@@ -66,7 +65,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
   @Test
   void testNoSePuedeCrearConTarjetaDeOtro() {
-    final MovimientoViandas contribucionMock = mock(MovimientoViandas.class);
+    final DonacionViandas contribucionMock = mock(DonacionViandas.class);
     final Tarjeta tarjetaMock = mock(Tarjeta.class);
     when(contribucionMock.getColaborador()).thenReturn(mock(Colaborador.class));
     when(tarjetaMock.getRecipiente()).thenReturn(mock(Usuario.class));

@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.controllers.heladera;
 import ar.edu.utn.frba.dds.dtos.input.heladera.SolicitudAperturaPorContribucionInputDTO;
 import ar.edu.utn.frba.dds.dtos.output.heladera.SolicitudAperturaPorContribucionOutputDTO;
 import ar.edu.utn.frba.dds.models.entities.contribucion.ContribucionYaRealizadaException;
+import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
@@ -42,7 +43,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
   }
 
   public void crear(@NonNull Tarjeta tarjeta,
-                    @NonNull MovimientoViandas contribucion) throws MqttException {
+                    @NonNull DonacionViandas contribucion) throws MqttException {
     checkearPrecondicionesCreacion(tarjeta, contribucion);
 
     SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(
