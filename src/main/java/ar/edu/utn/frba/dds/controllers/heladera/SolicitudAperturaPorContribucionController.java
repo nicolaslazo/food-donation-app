@@ -9,8 +9,6 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
-import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import lombok.NonNull;
@@ -24,9 +22,6 @@ import java.util.Optional;
 public class SolicitudAperturaPorContribucionController implements IMqttMessageListener {
   final SolicitudAperturaPorContribucionRepository repositorio =
       SolicitudAperturaPorContribucionRepository.getInstancia();
-
-  public SolicitudAperturaPorContribucionController() throws MqttException {
-  }
 
   private void checkearPrecondicionesCreacion(Tarjeta tarjeta, MovimientoViandas contribucion) {
     tarjeta.assertTienePermiso("depositarViandas",
