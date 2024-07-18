@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -26,6 +27,12 @@ public abstract class MovimientoViandas extends Contribucion {
 
   public int getNumeroViandas() {
     return viandas.size();
+  }
+
+  public void setFechaRealizada(ZonedDateTime timestamp) {
+    viandas.forEach(vianda -> vianda.setHeladera(destino));
+
+    fechaRealizada = timestamp;
   }
 
   @Override
