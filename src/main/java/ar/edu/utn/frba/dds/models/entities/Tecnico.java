@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.entities;
 
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
-
+import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
