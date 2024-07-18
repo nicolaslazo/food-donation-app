@@ -22,7 +22,6 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class SolicitudAperturaPorContribucionController implements IMqttMessageListener {
-  final MqttBrokerService brokerService = MqttBrokerService.getInstancia();
   final SolicitudAperturaPorContribucionRepository repositorio =
       SolicitudAperturaPorContribucionRepository.getInstancia();
 
@@ -55,9 +54,13 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
 
     String topicDeSolicitudes = "heladeras/" + contribucion.getDestino().getId() + "/solicitudes";
 
-    brokerService.publicar(topicDeSolicitudes,
+    // TODO: Checkear que esto puede enviar y recibir mensajes
+    // Este broker era un atributo de instancia y lo movimos acá para poder instanciar sin contactarnos con internet
+    MqttBrokerService broker = MqttBrokerService.getInstancia();
+
+    broker.publicar(topicDeSolicitudes,
         new SolicitudAperturaPorContribucionOutputDTO(solicitud).aJson());
-    brokerService.suscribir(topicDeSolicitudes + "/confirmadas", this);
+    broker.suscribir(topicDeSolicitudes + "/confirmadas", this);
   }
 
   @Override
