@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.models.entities.heladera;
 
 import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
+import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.NonNull;
 import lombok.Setter;
 
 import java.time.ZonedDateTime;
+import java.util.Collection;
 
 @Getter
 public class SolicitudAperturaPorContribucion {
@@ -21,7 +23,7 @@ public class SolicitudAperturaPorContribucion {
   int id;
 
   public SolicitudAperturaPorContribucion(Tarjeta tarjeta,
-                                          MovimientoViandas razon,
+                                          DonacionViandas razon,
                                           ZonedDateTime fechaCreacion) {
     int tiempoSolicitudAperturaMinutos =
         Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
@@ -38,6 +40,7 @@ public class SolicitudAperturaPorContribucion {
     if (timestamp.isBefore(fechaCreacion))
       throw new SolicitudInvalidaException("No se debería poder usar una solicitud antes de que entre en vigencia");
 
+    razon.setFechaRealizada(timestamp);
     fechaUsada = timestamp;
   }
 
@@ -53,7 +56,16 @@ public class SolicitudAperturaPorContribucion {
     return isVigenteAlMomento(ZonedDateTime.now());
   }
 
+  public Collection<Vianda> getViandas() {
+    return this.getRazon().getViandas();
+  }
+
   public double[] getPesosDeViandasEnGramos() {
-    return this.getRazon().getViandas().stream().mapToDouble(Vianda::getPesoEnGramos).toArray();
+    return this.getViandas().stream().mapToDouble(Vianda::getPesoEnGramos).toArray();
+  }
+
+  public Heladera getHeladera() {
+    // TODO: eventualmente va a tener que ser un origen y no un destino
+    return this.getRazon().getDestino();
   }
 }
