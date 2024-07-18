@@ -60,12 +60,12 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
 
   @Override
   public void messageArrived(String topic, MqttMessage payload)
-      throws SolicitudInvalidaException, RepositoryException, ContribucionYaRealizadaException {
+      throws SolicitudInvalidaException, ContribucionYaRealizadaException {
     final SolicitudAperturaPorContribucionInputDTO confirmacion =
         SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
 
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
-        repositorio.getSolicitudVigenteAlMomento(confirmacion.id(), confirmacion.getFechaRealizada());
+        repositorio.getSolicitudVigenteAlMomento(confirmacion.getId(), confirmacion.getFechaRealizada());
 
     if (optionalSolicitud.isEmpty())
       throw new SolicitudInvalidaException("La optionalSolicitud especificada no está vigente");
@@ -73,9 +73,5 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
     SolicitudAperturaPorContribucion solicitud = optionalSolicitud.get();
 
     repositorio.updateFechaUsada(solicitud.getId(), confirmacion.getFechaRealizada());
-    solicitud.getRazon().setFechaRealizada(confirmacion.getFechaRealizada());
-    ViandasRepository
-        .getInstancia()
-        .updateUbicacion(solicitud.getRazon().getViandas(), solicitud.getRazon().getDestino());
   }
 }
