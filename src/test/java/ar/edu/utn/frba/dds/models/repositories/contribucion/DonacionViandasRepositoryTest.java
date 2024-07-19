@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contribucion.ContribucionYaRealizadaException;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -63,13 +65,25 @@ class DonacionViandasRepositoryTest {
   }
 
   @Test
-  void testCuentaDonacionesPorColaborador() throws RepositoryException {
+  void testCuentaDonacionesPorColaborador() {
     Colaborador unColaboradorMock = mock(Colaborador.class);
     Colaborador otroColaboradorMock = mock(Colaborador.class);
 
-    repositorio.insert(new DonacionViandas(unColaboradorMock, List.of(mock(Vianda.class)), mock(Heladera.class)));
-    repositorio.insert(new DonacionViandas(otroColaboradorMock, List.of(mock(Vianda.class)), mock(Heladera.class)));
-    repositorio.insert(new DonacionViandas(otroColaboradorMock, List.of(mock(Vianda.class)), mock(Heladera.class)));
+    List<DonacionViandas> donaciones = List.of(
+        new DonacionViandas(unColaboradorMock, List.of(mock(Vianda.class)), mock(Heladera.class)),
+        new DonacionViandas(otroColaboradorMock, List.of(mock(Vianda.class)), mock(Heladera.class)),
+        new DonacionViandas(otroColaboradorMock, List.of(mock(Vianda.class)), mock(Heladera.class))
+    );
+
+    donaciones.forEach(donacion -> {
+      try {
+        donacion.setFechaRealizada(ZonedDateTime.now());
+
+        repositorio.insert(donacion);
+      } catch (ContribucionYaRealizadaException | RepositoryException e) {
+        throw new RuntimeException(e);
+      }
+    });
 
     Map<Colaborador, Integer> cantidades = repositorio.getCantidadDonacionesPorColaboradorSemanaAnterior();
 
