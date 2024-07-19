@@ -12,13 +12,17 @@ import lombok.Setter;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 
-@Getter
 public class SolicitudAperturaPorContribucion {
+  @Getter
   final @NonNull Tarjeta tarjeta;
   final @NonNull MovimientoViandas razon;
+  @Getter
   final @NonNull ZonedDateTime fechaCreacion;
+  @Getter
   final @NonNull ZonedDateTime fechaVencimiento;
+  @Getter
   ZonedDateTime fechaUsada = null;
+  @Getter
   @Setter
   int id;
 
@@ -57,7 +61,7 @@ public class SolicitudAperturaPorContribucion {
   }
 
   public Collection<Vianda> getViandas() {
-    return this.getRazon().getViandas();
+    return razon.getViandas();
   }
 
   public double[] getPesosDeViandasEnGramos() {
@@ -66,6 +70,6 @@ public class SolicitudAperturaPorContribucion {
 
   public Heladera getHeladera() {
     // TODO: eventualmente va a tener que ser un origen y no un destino
-    return this.getRazon().getDestino();
+    return razon.getDestino();
   }
 }
