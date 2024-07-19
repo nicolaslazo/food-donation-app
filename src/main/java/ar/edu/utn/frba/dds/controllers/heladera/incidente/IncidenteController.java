@@ -17,17 +17,14 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class IncidenteController implements IMqttMessageListener {
-  private static IncidenteController instancia = null;
-  final IncidentesRepository repositorio = IncidentesRepository.getInstancia();
-  final MqttBrokerService brokerService = MqttBrokerService.getInstancia();
+  static IncidenteController instancia = null;
+  IncidentesRepository repositorio = IncidentesRepository.getInstancia();
+  MqttBrokerService brokerService = MqttBrokerService.getInstancia();
 
-  public IncidenteController() throws MqttException {
+  private IncidenteController() throws MqttException {
     brokerService.suscribir("heladeras/incidentes", this);
   }
 
@@ -74,22 +71,4 @@ public class IncidenteController implements IMqttMessageListener {
 
     crearAlerta(optionalHeladera.get(), TipoIncidente.fromString(mensaje.tipoIncidente()), mensaje.getFecha());
   }
-
-  public List<Incidente> obtenerMovimientosSemanaAnterior()
-  {return repositorio.filtrarIncidentesDesdeSemanaPasada();}
-
-  public Map<String, Integer> MapIncidentesPorHeladera(List<Incidente> incidentes) {
-    return incidentes.stream()
-        .collect(Collectors.groupingBy(
-            incidente -> incidente.getHeladera().getNombre(),
-            Collectors.collectingAndThen(Collectors.counting(), Long::intValue)
-        ));}
-
-  public Map<String,Integer> obtenerFallasHeladeraSemanaAnterior()
-  {
-    return MapIncidentesPorHeladera(obtenerMovimientosSemanaAnterior());
-  }
-
-
-
 }
