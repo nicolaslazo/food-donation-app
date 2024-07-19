@@ -53,6 +53,10 @@ public class Colaborador {
     });
   }
 
+  public String getNombreCompleto() {
+    return nombre + " " + apellido;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
