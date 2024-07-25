@@ -44,8 +44,8 @@ public class SolicitudAperturaPorContribucionRepository {
     return solicitudes
         .stream()
         .filter(SolicitudAperturaPorContribucion::isVigente)
-        .filter(solicitud -> solicitud.getRazon().getDestino().getId() == heladera.getId())
-        .mapToInt(solicitud -> solicitud.getRazon().getViandas().size())
+        .filter(solicitud -> solicitud.getHeladera().getId() == heladera.getId())
+        .mapToInt(solicitud -> solicitud.getViandas().size())
         .sum();
   }
 

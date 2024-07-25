@@ -3,13 +3,12 @@ package ar.edu.utn.frba.dds.controllers.heladera;
 import ar.edu.utn.frba.dds.dtos.input.heladera.SolicitudAperturaPorContribucionInputDTO;
 import ar.edu.utn.frba.dds.dtos.output.heladera.SolicitudAperturaPorContribucionOutputDTO;
 import ar.edu.utn.frba.dds.models.entities.contribucion.ContribucionYaRealizadaException;
+import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
-import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import lombok.NonNull;
@@ -21,12 +20,8 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class SolicitudAperturaPorContribucionController implements IMqttMessageListener {
-  final MqttBrokerService brokerService = MqttBrokerService.getInstancia();
   final SolicitudAperturaPorContribucionRepository repositorio =
       SolicitudAperturaPorContribucionRepository.getInstancia();
-
-  public SolicitudAperturaPorContribucionController() throws MqttException {
-  }
 
   private void checkearPrecondicionesCreacion(Tarjeta tarjeta, MovimientoViandas contribucion) {
     tarjeta.assertTienePermiso("depositarViandas",
@@ -42,7 +37,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
   }
 
   public void crear(@NonNull Tarjeta tarjeta,
-                    @NonNull MovimientoViandas contribucion) throws MqttException {
+                    @NonNull DonacionViandas contribucion) throws MqttException {
     checkearPrecondicionesCreacion(tarjeta, contribucion);
 
     SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(
@@ -54,19 +49,23 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
 
     String topicDeSolicitudes = "heladeras/" + contribucion.getDestino().getId() + "/solicitudes";
 
-    brokerService.publicar(topicDeSolicitudes,
+    // TODO: Checkear que esto puede enviar y recibir mensajes
+    // Este broker era un atributo de instancia y lo movimos acá para poder instanciar sin contactarnos con internet
+    MqttBrokerService broker = MqttBrokerService.getInstancia();
+
+    broker.publicar(topicDeSolicitudes,
         new SolicitudAperturaPorContribucionOutputDTO(solicitud).aJson());
-    brokerService.suscribir(topicDeSolicitudes + "/confirmadas", this);
+    broker.suscribir(topicDeSolicitudes + "/confirmadas", this);
   }
 
   @Override
   public void messageArrived(String topic, MqttMessage payload)
-      throws SolicitudInvalidaException, RepositoryException, ContribucionYaRealizadaException {
+      throws SolicitudInvalidaException, ContribucionYaRealizadaException {
     final SolicitudAperturaPorContribucionInputDTO confirmacion =
         SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
 
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
-        repositorio.getSolicitudVigenteAlMomento(confirmacion.id(), confirmacion.getFechaRealizada());
+        repositorio.getSolicitudVigenteAlMomento(confirmacion.getId(), confirmacion.getFechaRealizada());
 
     if (optionalSolicitud.isEmpty())
       throw new SolicitudInvalidaException("La optionalSolicitud especificada no está vigente");
@@ -74,9 +73,5 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
     SolicitudAperturaPorContribucion solicitud = optionalSolicitud.get();
 
     repositorio.updateFechaUsada(solicitud.getId(), confirmacion.getFechaRealizada());
-    solicitud.getRazon().setFechaRealizada(confirmacion.getFechaRealizada());
-    ViandasRepository
-        .getInstancia()
-        .updateUbicacion(solicitud.getRazon().getViandas(), solicitud.getRazon().getDestino());
   }
 }
