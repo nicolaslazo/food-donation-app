@@ -10,8 +10,8 @@ import java.util.List;
 public interface InterfazServicioSugerenciaColocacionHeladeras {
   @GET("sugerencias")
   Call<List<Coordenadas>> sugerencias(
-      @Query("longitud") double longitud,
       @Query("latitud") double latitud,
+      @Query("longitud") double longitud,
       @Query("radioAreaEnMetros") double radioAreaEnMetros
   );
 }

@@ -3,10 +3,8 @@ package ar.edu.utn.frba.dds.services;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Coordenadas;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -17,13 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-// TODO: Arreglar
 public class TestServicioSugerenciaColocacionHeladeras {
   @Test
   public void testPuedeSolicitarSugerencias() throws IOException, NoSuchFieldException, IllegalAccessException {
     List<Coordenadas> esperadas = Arrays.asList(
-            new Coordenadas(-34.6036150, -58.381700),
-            new Coordenadas(-34.6036200, -58.381750)
+        new Coordenadas(-34.6036150, -58.381700),
+        new Coordenadas(-34.6036200, -58.381750)
     );
 
     Coordenadas obelisco = new Coordenadas(-34.6036152, -58.3817700);
@@ -31,24 +28,16 @@ public class TestServicioSugerenciaColocacionHeladeras {
 
     ServicioSugerenciaColocacionHeladeras servicio = ServicioSugerenciaColocacionHeladeras.getInstancia();
 
-    //Mock retrofit
-    Retrofit retrofitMock = Mockito.mock(Retrofit.class);
+    Call<List<Coordenadas>> mockCall = mock(Call.class);
+    when(mockCall.execute()).thenReturn(Response.success(esperadas));
 
-    //Mock campo
-    Field campoInstancia = ServicioSugerenciaColocacionHeladeras.class.getDeclaredField("retrofit");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(servicio, retrofitMock);
+    InterfazServicioSugerenciaColocacionHeladeras interfazMock =
+        mock(InterfazServicioSugerenciaColocacionHeladeras.class);
+    when(interfazMock.sugerencias(-34.6036152, -58.3817700, 50.0)).thenReturn(mockCall);
 
-    //Mock interfaz
-    InterfazServicioSugerenciaColocacionHeladeras mockInterfaz = mock(InterfazServicioSugerenciaColocacionHeladeras.class);
-    when(retrofitMock.create(InterfazServicioSugerenciaColocacionHeladeras.class)).thenReturn(mockInterfaz);
-
-    //Mock call
-    Call<List<Coordenadas>> mockCall = Mockito.mock(Call.class);
-    when(mockInterfaz.sugerencias(-34.6036152, -58.3817700, 50.0)).thenReturn(mockCall);
-
-    Response<List<Coordenadas>> mockResponse = Response.success(esperadas);
-    when(mockCall.execute()).thenReturn(mockResponse);
+    Field campoInterfaz = ServicioSugerenciaColocacionHeladeras.class.getDeclaredField("interfaz");
+    campoInterfaz.setAccessible(true);
+    campoInterfaz.set(servicio, interfazMock);
 
     List<Coordenadas> sugerencias = servicio.solicitarSugerencias(alrededorDelObelisco);
 
