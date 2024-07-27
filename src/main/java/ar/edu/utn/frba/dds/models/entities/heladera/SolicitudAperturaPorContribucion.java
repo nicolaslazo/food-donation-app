@@ -21,13 +21,15 @@ public class SolicitudAperturaPorContribucion {
   @Getter
   final @NonNull ZonedDateTime fechaVencimiento;
   @Getter
-  ZonedDateTime fechaUsada = null;
+  ZonedDateTime fechaAperturaEnOrigen = null;
+  @Getter
+  ZonedDateTime fechaAperturaEnDestino = null;
   @Getter
   @Setter
   int id;
 
   public SolicitudAperturaPorContribucion(Tarjeta tarjeta,
-                                          DonacionViandas razon,
+                                          MovimientoViandas razon,
                                           ZonedDateTime fechaCreacion) {
     int tiempoSolicitudAperturaMinutos =
         Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
@@ -38,18 +40,34 @@ public class SolicitudAperturaPorContribucion {
     this.fechaVencimiento = fechaCreacion.plusMinutes(tiempoSolicitudAperturaMinutos);
   }
 
-  public void setFechaUsada(ZonedDateTime timestamp) throws SolicitudInvalidaException {
-    if (fechaUsada != null) throw new SolicitudInvalidaException("Esta solicitud ya fue usada en" + fechaUsada);
+  // Cubre los casos comunes entre las donaciones y las redistribuciones
+  void verificarPrecondicionesApertura(ZonedDateTime timestamp) throws SolicitudInvalidaException {
+    if (fechaAperturaEnDestino != null)
+      throw new SolicitudInvalidaException("Esta solicitud ya fue usada en" + fechaAperturaEnDestino);
     if (timestamp.isAfter(fechaVencimiento)) throw new SolicitudInvalidaException("Esta solicitud ya venció");
     if (timestamp.isBefore(fechaCreacion))
       throw new SolicitudInvalidaException("No se debería poder usar una solicitud antes de que entre en vigencia");
+  }
+
+  public void setFechaAperturaEnOrigen(ZonedDateTime timestamp) throws SolicitudInvalidaException {
+    if (razon instanceof DonacionViandas)
+      throw new SolicitudInvalidaException("Una donación de viandas no puede tomar viandas de una heladera origen");
+    if (fechaAperturaEnOrigen != null)
+      throw new SolicitudInvalidaException("Esta solicitud ya fue usada en " + fechaAperturaEnOrigen);
+    verificarPrecondicionesApertura(timestamp);
+
+    fechaAperturaEnOrigen = timestamp;
+  }
+
+  public void setFechaAperturaEnDestino(ZonedDateTime timestamp) throws SolicitudInvalidaException {
+    verificarPrecondicionesApertura(timestamp);
 
     razon.setFechaRealizada(timestamp);
-    fechaUsada = timestamp;
+    fechaAperturaEnDestino = timestamp;
   }
 
   public boolean isUsada() {
-    return fechaUsada != null;
+    return fechaAperturaEnDestino != null;
   }
 
   public boolean isVigenteAlMomento(ZonedDateTime momento) {
@@ -68,8 +86,7 @@ public class SolicitudAperturaPorContribucion {
     return this.getViandas().stream().mapToDouble(Vianda::getPesoEnGramos).toArray();
   }
 
-  public Heladera getHeladera() {
-    // TODO: eventualmente va a tener que ser un origen y no un destino
+  public Heladera getHeladeraDestino() {
     return razon.getDestino();
   }
 }

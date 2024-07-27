@@ -81,7 +81,7 @@ class SolicitudAperturaPorContribucionRepositoryTest {
         repositorio.insert(new SolicitudAperturaPorContribucion(tarjetaMock, contribucionMock, haceUnAno));
     repositorio.updateFechaUsada(idSolicitud, haceUnAnoYDiezMinutos);
 
-    assertEquals(haceUnAnoYDiezMinutos, repositorio.get(idSolicitud).get().getFechaUsada());
+    assertEquals(haceUnAnoYDiezMinutos, repositorio.get(idSolicitud).get().getFechaAperturaEnDestino());
   }
 
   @Test

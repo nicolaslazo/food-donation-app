@@ -44,7 +44,7 @@ public class SolicitudAperturaPorContribucionRepository {
     return solicitudes
         .stream()
         .filter(SolicitudAperturaPorContribucion::isVigente)
-        .filter(solicitud -> solicitud.getHeladera().getId() == heladera.getId())
+        .filter(solicitud -> solicitud.getHeladeraDestino().getId() == heladera.getId())
         .mapToInt(solicitud -> solicitud.getViandas().size())
         .sum();
   }
@@ -65,7 +65,7 @@ public class SolicitudAperturaPorContribucionRepository {
 
     if (optionalSolicitud.isEmpty()) throw new SolicitudInvalidaException("No existe solicitud vigente con id " + id);
 
-    optionalSolicitud.get().setFechaUsada(fechaUsada);
+    optionalSolicitud.get().setFechaAperturaEnDestino(fechaUsada);
   }
 
   public void deleteTodas() {

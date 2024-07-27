@@ -135,7 +135,7 @@ class SolicitudAperturaPorContribucionControllerTest {
             .getBytes()));
 
     ZonedDateTime fechaUsada =
-        SolicitudAperturaPorContribucionRepository.getInstancia().get(idSolicitud).get().getFechaUsada();
+        SolicitudAperturaPorContribucionRepository.getInstancia().get(idSolicitud).get().getFechaAperturaEnDestino();
 
     assertEquals(unSegundoDespuesDeEpoch, fechaUsada);
   }
