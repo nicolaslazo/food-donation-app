@@ -60,7 +60,14 @@ class CalculadoraDePuntosTest {
 
   @BeforeEach
   void setUp() throws NoSuchFieldException, IllegalAccessException {
-    // TODO: Hay alguna manera más elegante de hacer esto?
+    /* TODO: Hay alguna manera más elegante de hacer esto?
+     *  Capaz esto?
+     *  try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
+     *    brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
+     *    new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion);
+     *  }
+     */
+
     Field campoInstancia;
 
     campoInstancia = DineroRepository.class.getDeclaredField("instancia");
