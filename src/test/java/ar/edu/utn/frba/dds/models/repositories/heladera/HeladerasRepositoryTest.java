@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -35,9 +36,12 @@ class HeladerasRepositoryTest {
 
   @BeforeEach
   void setUp() throws RepositoryException {
-    repository.deleteTodas();
-
     repository.insert(heladera);
+  }
+
+  @AfterEach
+  void tearDown() {
+    repository.deleteTodas();
   }
 
   @Test

@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -22,16 +22,11 @@ class SolicitudAperturaPorContribucionRepositoryTest {
   final SolicitudAperturaPorContribucionRepository repositorio =
       SolicitudAperturaPorContribucionRepository.getInstancia();
 
-  @BeforeEach
-  void setUp() {
+  @AfterEach
+  void tearDown() {
     repositorio.deleteTodas();
   }
 
-  /*
-  TODO no se pq cuando ejecutas todo junto se ejecuta mal,
-   pero cuando la ejecutas individualmente funciona.
-   creo que es algo del timestamp
-   */
   @Test
   void testGetSolicitudVigente() {
     SolicitudAperturaPorContribucion solicitud =
