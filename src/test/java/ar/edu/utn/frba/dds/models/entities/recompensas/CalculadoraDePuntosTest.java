@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.repositories.contribucion.DineroRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.EntregaTarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.RedistribucionViandasRepository;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,8 +33,34 @@ class CalculadoraDePuntosTest {
   @Mock
   CuidadoHeladerasRepository repositorioCuidadoHeladerasMock;
 
+  @AfterAll
+  static void afterAll() throws NoSuchFieldException, IllegalAccessException {
+    Field campoInstancia;
+
+    campoInstancia = DineroRepository.class.getDeclaredField("instancia");
+    campoInstancia.setAccessible(true);
+    campoInstancia.set(null, null);
+
+    campoInstancia = RedistribucionViandasRepository.class.getDeclaredField("instancia");
+    campoInstancia.setAccessible(true);
+    campoInstancia.set(null, null);
+
+    campoInstancia = DonacionViandasRepository.class.getDeclaredField("instancia");
+    campoInstancia.setAccessible(true);
+    campoInstancia.set(null, null);
+
+    campoInstancia = EntregaTarjetasRepository.class.getDeclaredField("instancia");
+    campoInstancia.setAccessible(true);
+    campoInstancia.set(null, null);
+
+    campoInstancia = CuidadoHeladerasRepository.class.getDeclaredField("instancia");
+    campoInstancia.setAccessible(true);
+    campoInstancia.set(null, null);
+  }
+
   @BeforeEach
   void setUp() throws NoSuchFieldException, IllegalAccessException {
+    // TODO: Hay alguna manera más elegante de hacer esto?
     Field campoInstancia;
 
     campoInstancia = DineroRepository.class.getDeclaredField("instancia");
