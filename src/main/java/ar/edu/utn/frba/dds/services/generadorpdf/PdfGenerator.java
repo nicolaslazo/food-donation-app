@@ -1,10 +1,10 @@
-package ar.edu.utn.frba.dds.services.generadorPDF;
+package ar.edu.utn.frba.dds.services.generadorpdf;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 import lombok.Setter;
 
@@ -27,7 +27,10 @@ public class PdfGenerator {
   @Setter
   private Document document;
 
-  public PdfGenerator(String nombreArchivo, String tituloTabla, String[] headersTabla, Map<String, Integer> data) {
+  public PdfGenerator(String nombreArchivo,
+                      String tituloTabla,
+                      String[] headersTabla,
+                      Map<String, Integer> data) {
     this.nombreArchivo = nombreArchivo;
     this.titulo = tituloTabla;
     this.headersTabla = headersTabla;

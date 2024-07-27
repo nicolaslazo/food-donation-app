@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.dds.services.generadorPDF;
+package ar.edu.utn.frba.dds.services.generadorpdf;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;

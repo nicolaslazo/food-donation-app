@@ -5,7 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.MovimientosHeladeraRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidentesRepository;
-import ar.edu.utn.frba.dds.services.generadorPDF.PdfGenerator;
+import ar.edu.utn.frba.dds.services.generadorpdf.PdfGenerator;
 
 import java.util.HashMap;
 import java.util.Map;

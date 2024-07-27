@@ -19,7 +19,7 @@ public record SolicitudAperturaPorContribucionOutputDTO(
         solicitud.getPesosDeViandasEnGramos());
   }
 
-  public String aJson() {
+  public String enJson() {
     return new Gson().toJson(this);
   }
 }

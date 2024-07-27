@@ -10,29 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccionadorHeladera {
-    private List<ComandoHeladera> comandosHeladeras;
-    public AccionadorHeladera() {
-        comandosHeladeras = new ArrayList<>();
-    }
+  public IncidenteController instanciaController = IncidenteController.getInstancia();
+  private List<ComandoHeladera> comandosHeladeras;
 
-    public IncidenteController instanciaController = IncidenteController.getInstancia();
+  public AccionadorHeladera() {
+    comandosHeladeras = new ArrayList<>();
+  }
 
-    private void accionar(Heladera heladera) {
-        this.comandosHeladeras.forEach(c -> c.accionar(heladera));
-    }
+  private void accionar(Heladera heladera) {
+    this.comandosHeladeras.forEach(c -> c.accionar(heladera));
+  }
 
 
-    private void registrarIncidente(TipoIncidente tipoIncidente, Heladera heladera, ZonedDateTime momentoEvento) {
-        instanciaController.crearAlerta(heladera,tipoIncidente,momentoEvento);
-    }
+  private void registrarIncidente(TipoIncidente tipoIncidente, Heladera heladera, ZonedDateTime momentoEvento) {
+    instanciaController.crearAlerta(heladera, tipoIncidente, momentoEvento);
+  }
 
-    //Es el metodo que se llama a la hora de detectar algun tipo de Incidente
-    public void sucedeIncidente(TipoIncidente tipoIncidente, Heladera heladera, ZonedDateTime momentoEvento) {
-        this.registrarIncidente(tipoIncidente,heladera,momentoEvento);
-        this.accionar(heladera);
-    }
+  //Es el metodo que se llama a la hora de detectar algun tipo de Incidente
+  public void sucedeIncidente(TipoIncidente tipoIncidente, Heladera heladera, ZonedDateTime momentoEvento) {
+    this.registrarIncidente(tipoIncidente, heladera, momentoEvento);
+    this.accionar(heladera);
+  }
 
-    public void agregarComando(ComandoHeladera comandoHeladera) {
-        comandosHeladeras.add(comandoHeladera);
-    }
+  public void agregarComando(ComandoHeladera comandoHeladera) {
+    comandosHeladeras.add(comandoHeladera);
+  }
 }
