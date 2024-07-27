@@ -1,63 +1,66 @@
 package ar.edu.utn.frba.dds.controllers;
 
-import ar.edu.utn.frba.dds.controllers.heladera.MovimientosHeladeraController;
-import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
+import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.MovimientosHeladeraRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidentesRepository;
 import ar.edu.utn.frba.dds.services.generadorPDF.PdfGenerator;
-import org.eclipse.paho.client.mqttv3.MqttException;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class PDFGeneratorController {
-
-  private final DonacionViandasController donacionViandasController;
-
-  private final MovimientosHeladeraController movimientosHeladeraController;
-
-  private final IncidenteController incidenteController;
-
-  public PDFGeneratorController(DonacionViandasController donacionViandasService, MovimientosHeladeraController movimientosHeladeraService, IncidenteController incidenteController) {
-    this.donacionViandasController = donacionViandasService;
-    this.movimientosHeladeraController = movimientosHeladeraService;
-    this.incidenteController = incidenteController;
-  }
-
-  void GenerarReporteFallasHeladeras() {
-    Map<String,Integer> data = incidenteController.obtenerFallasHeladeraSemanaAnterior();
-     PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteFallasHeladera.pdf",
-       "Cantidad de fallas por heladera", new String[]{"HELADERA", "CANTIDAD"}, data) ;
-     generador.generatePdf();
-  }
-
-  void GenerarReporteMovimientoHeladeras() {
-    Map<String, Integer> data = movimientosHeladeraController.obtenerCantidadMovimientosHeladeraSemanaAnterior();
-    PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteMovimientosHeladera.pdf",
-        "Cantidad de heladeras retiradas y colocadas por heladera", new String[]{"HELADERA", "CANTIDAD"}, data);
-    generador.generatePdf();
-  }
-
-  void GenerarReporteViandasColaborador() {
-    Map<String, Integer> data = donacionViandasController.obtenerDonacionesPorColaboradorSemanaAnterior();
-    PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteViandasPorColaborador.pdf",
-        "Cantidad de viandas donadas por colaborador", new String[]{"COLABORADOR", "CANTIDAD"}, data);
-    generador.generatePdf();
-  }
   public static void main(String[] args) {
-    // Crear instancias de los servicios necesarios
-    DonacionViandasController donacionViandas = new DonacionViandasController();
-    MovimientosHeladeraController movimientosHeladera = new MovimientosHeladeraController();
-    IncidenteController incidenteController = null;
-    try {
-      incidenteController = new IncidenteController();
-    } catch (MqttException e) {
-      throw new RuntimeException(e);
-    }
+    PDFGeneratorController.generarReporteMovimientoHeladeras();
+    PDFGeneratorController.generarReporteFallasHeladeras();
+    PDFGeneratorController.generarReporteViandasColaborador();
+  }
 
-    // Crear instancia del generador de PDF
-    PDFGeneratorController pdfGenerator = new PDFGeneratorController(donacionViandas, movimientosHeladera, incidenteController);
+  static void generarReporteMovimientoHeladeras() {
+    MovimientosHeladeraRepository movimientosHeladeraRepository = MovimientosHeladeraRepository.getInstancia();
 
-    // Generar cada reporte llamando a los métodos correspondientes
-    pdfGenerator.GenerarReporteFallasHeladeras();
-    pdfGenerator.GenerarReporteMovimientoHeladeras();
-    pdfGenerator.GenerarReporteViandasColaborador();
+    Map<Heladera, Integer> cantidadPorHeladera =
+        movimientosHeladeraRepository.getCantidadMovimientosPorHeladeraSemanaAnterior();
+    Map<String, Integer> cantidadPorNombreDeHeladera = new HashMap<>();
+
+    for (Map.Entry<Heladera, Integer> entrada : cantidadPorHeladera.entrySet())
+      cantidadPorNombreDeHeladera.put(entrada.getKey().getNombre(), entrada.getValue());
+
+    PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteMovimientosHeladera.pdf",
+        "Cantidad de heladeras retiradas y colocadas por heladera",
+        new String[]{"HELADERA", "CANTIDAD"},
+        cantidadPorNombreDeHeladera);
+    generador.generatePdf();
+  }
+
+  static void generarReporteFallasHeladeras() {
+    Map<Heladera, Integer> cantidadPorHeladera =
+        IncidentesRepository.getInstancia().getCantidadIncidentesPorHeladeraSemanaPasada();
+    Map<String, Integer> cantidadPorNombreDeHeladera = new HashMap<>();
+
+    for (Map.Entry<Heladera, Integer> entrada : cantidadPorHeladera.entrySet())
+      cantidadPorNombreDeHeladera.put(entrada.getKey().getNombre(), entrada.getValue());
+
+    PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteFallasHeladera.pdf",
+        "Cantidad de fallas por heladera",
+        new String[]{"HELADERA", "CANTIDAD"},
+        cantidadPorNombreDeHeladera);
+    generador.generatePdf();
+  }
+
+  static void generarReporteViandasColaborador() {
+    Map<Colaborador, Integer> cantidadPorColaborador =
+        DonacionViandasRepository.getInstancia().getCantidadDonacionesPorColaboradorSemanaAnterior();
+    Map<String, Integer> cantidadPorNombreDeColaborador = new HashMap<>();
+
+    for (Map.Entry<Colaborador, Integer> entrada : cantidadPorColaborador.entrySet())
+      cantidadPorNombreDeColaborador.put(entrada.getKey().getNombreCompleto(), entrada.getValue());
+
+    PdfGenerator generador = new PdfGenerator("src/main/reportes/ReporteViandasPorColaborador.pdf",
+        "Cantidad de viandas donadas por colaborador",
+        new String[]{"COLABORADOR", "CANTIDAD"},
+        cantidadPorNombreDeColaborador);
+    generador.generatePdf();
   }
 }

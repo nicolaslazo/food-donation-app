@@ -12,15 +12,17 @@ import java.io.IOException;
 import java.util.List;
 
 public class ServicioSugerenciaColocacionHeladeras {
-  private static final String urlApi = ConfigLoader
+  static final String urlApi = ConfigLoader
       .getInstancia()
       .getProperty("servicios.sugerenciasUbicacionDeHeladerasAPI.url");
-  private static ServicioSugerenciaColocacionHeladeras instancia = null;
+  static ServicioSugerenciaColocacionHeladeras instancia = null;
 
-  private final Retrofit retrofit;
+  Retrofit retrofit;
+  InterfazServicioSugerenciaColocacionHeladeras interfaz;
 
   private ServicioSugerenciaColocacionHeladeras() {
     retrofit = new Retrofit.Builder().baseUrl(urlApi).addConverterFactory(GsonConverterFactory.create()).build();
+    interfaz = this.retrofit.create(InterfazServicioSugerenciaColocacionHeladeras.class);
   }
 
   public static ServicioSugerenciaColocacionHeladeras getInstancia() {
@@ -47,16 +49,8 @@ public class ServicioSugerenciaColocacionHeladeras {
   public List<Coordenadas> solicitarSugerencias(AreaGeografica area) throws IOException {
     Coordenadas coordenadas = area.centro();
 
-    InterfazServicioSugerenciaColocacionHeladeras interfaz =
-        this.retrofit.create(InterfazServicioSugerenciaColocacionHeladeras.class);
-
-    /*TODO
-       aca esta el problema (creo) este Call<List> esta devolviendo nulo
-       request = null
-    */
-    Call<List<Coordenadas>> request = interfaz.sugerencias(
-        coordenadas.getLongitud(), coordenadas.getLatitud(), area.radioEnMetros()
-    );
+    Call<List<Coordenadas>> request =
+        interfaz.sugerencias(coordenadas.getLatitud(), coordenadas.getLongitud(), area.radioEnMetros());
 
     Response<List<Coordenadas>> response = request.execute();
 
