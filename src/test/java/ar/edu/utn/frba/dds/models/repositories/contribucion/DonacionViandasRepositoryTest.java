@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contribucion.ContribucionYaRealizadaException;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
@@ -80,7 +79,7 @@ class DonacionViandasRepositoryTest {
         donacion.setFechaRealizada(ZonedDateTime.now());
 
         repositorio.insert(donacion);
-      } catch (ContribucionYaRealizadaException | RepositoryException e) {
+      } catch (RepositoryException e) {
         throw new RuntimeException(e);
       }
     });

@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -23,8 +23,8 @@ class RedistribucionViandasRepositoryTest {
       null
   );
 
-  @BeforeEach
-  void setUp() {
+  @AfterEach
+  void tearDown() {
     repositorio.deleteTodas();
   }
 
