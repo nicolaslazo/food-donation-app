@@ -1,8 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TecnicosRepositoryTest {
-  final AreaGeografica areaGeografica = new AreaGeografica(new Ubicacion(-34, -58), 100f);
   TecnicoRepository repositorio = TecnicoRepository.getInstancia();
   Tecnico tecnico;
 

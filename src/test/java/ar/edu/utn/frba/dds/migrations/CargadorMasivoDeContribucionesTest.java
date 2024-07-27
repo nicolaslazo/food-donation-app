@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.migrations;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.util.Iterator;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,7 +61,9 @@ class CargadorMasivoDeContribucionesTest {
         () -> assertEquals("Juan", colaborador.getNombre()),
         () -> assertEquals("Pérez", colaborador.getApellido()),
         () -> {
-          Email email = (Email) colaborador.getContactos().stream().findFirst().orElse(null);
+          Optional<Contacto> contacto = colaborador.getContactos().stream().findFirst();
+          Email email = (Email) contacto.get();
+
           assertEquals(
               "jperez@example.com",
               email.destinatario()
