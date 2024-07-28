@@ -5,13 +5,16 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
+import java.util.Objects;
 
 public class RedistribucionViandas extends MovimientoViandas {
   // Algunos de estos se mantienen nulificables para el cargador masivo CSV
   @Getter
   final Heladera origen;
   final MotivoDeDistribucion motivo;
+  ZonedDateTime fechaIniciada = null;
 
   public RedistribucionViandas(Colaborador colaborador,
                                Collection<Vianda> viandas,
@@ -26,9 +29,23 @@ public class RedistribucionViandas extends MovimientoViandas {
   @Override
   public String toString() {
     return "RedistribucionViandas{" +
-        "colaborador=" + colaborador +
+        "origen=" + origen +
+        ", destino=" + destino +
+        ", motivo=" + motivo +
+        ", colaborador=" + colaborador +
+        ", fechaIniciada=" + fechaIniciada +
         ", fechaRealizada=" + fechaRealizada +
-        ", cantidadViandas=" + viandas.size() +
         '}';
+  }
+
+  public void setFechaIniciada(ZonedDateTime timestamp) throws Exception {
+    if (fechaIniciada != null) throw new Exception("Esta contribución ya fue iniciada");
+
+    viandas
+        .stream()
+        .filter(Objects::nonNull)  // Caso especial por las contribuciones legacy
+        .forEach(vianda -> vianda.setHeladera(null));
+
+    fechaIniciada = timestamp;
   }
 }
