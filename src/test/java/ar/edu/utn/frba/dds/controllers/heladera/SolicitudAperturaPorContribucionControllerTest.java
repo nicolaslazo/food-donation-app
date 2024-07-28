@@ -158,7 +158,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
     controlador.messageArrived(
         "heladeras/1/solicitudes/confirmadas",
-        new MqttMessage("{\"id\":1,\"esExtraccion\":true,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
+        new MqttMessage("{\"id\":1,\"esExtraccion\":false,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
             .formatted(unSegundoDespuesDeEpoch.toString())
             .getBytes()));
 
