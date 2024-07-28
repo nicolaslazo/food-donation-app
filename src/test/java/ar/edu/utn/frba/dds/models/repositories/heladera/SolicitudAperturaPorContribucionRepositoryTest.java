@@ -75,7 +75,7 @@ class SolicitudAperturaPorContribucionRepositoryTest {
   }
 
   @Test
-  void testUpdateFechaUsada() throws SolicitudInvalidaException {
+  void testUpdateFechaUsada() throws Exception {
     final ZonedDateTime haceUnAno = ZonedDateTime.now().minusYears(1);
     final ZonedDateTime haceUnAnoYDiezMinutos = haceUnAno.plusMinutes(10);
 
@@ -99,7 +99,7 @@ class SolicitudAperturaPorContribucionRepositoryTest {
   }
 
   @Test
-  void testUpdateFechaUsadaActualizaFechaDeExtraccionEnRedistribucion() throws SolicitudInvalidaException {
+  void testUpdateFechaUsadaActualizaFechaDeExtraccionEnRedistribucion() throws Exception {
     SolicitudAperturaPorContribucion solicitud =
         new SolicitudAperturaPorContribucion(tarjetaMock, mock(RedistribucionViandas.class), ZonedDateTime.now());
     int idSolicitud = repositorio.insert(solicitud);
