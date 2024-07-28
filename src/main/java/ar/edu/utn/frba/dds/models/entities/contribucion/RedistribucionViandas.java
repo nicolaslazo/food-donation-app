@@ -3,11 +3,13 @@ package ar.edu.utn.frba.dds.models.entities.contribucion;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import lombok.Getter;
 
 import java.util.Collection;
 
 public class RedistribucionViandas extends MovimientoViandas {
   // Algunos de estos se mantienen nulificables para el cargador masivo CSV
+  @Getter
   final Heladera origen;
   final MotivoDeDistribucion motivo;
 
