@@ -64,12 +64,14 @@ class SolicitudAperturaPorContribucionTest {
 
     solicitud.setFechaAperturaEnDestino(ZonedDateTime.now());
 
-    assertTrue(solicitud.isUsada());
+    assertTrue(solicitud.isUsada(false));
   }
 
   @Test
   void testSolicitudFrescaEstaVigente() {
-    assertTrue(new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now()).isVigente());
+    assertTrue(
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now())
+            .isVigente(false));
   }
 
   @Test
@@ -79,13 +81,14 @@ class SolicitudAperturaPorContribucionTest {
 
     solicitud.setFechaAperturaEnDestino(ZonedDateTime.now());
 
-    assertFalse(solicitud.isVigente());
+    assertFalse(solicitud.isVigente(false));
   }
 
   @Test
   void testSolicitudVencidaNoEstaVigente() {
     assertFalse(
-        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now().minusMonths(1)).isVigente()
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now().minusMonths(1))
+            .isVigente(false)
     );
   }
 

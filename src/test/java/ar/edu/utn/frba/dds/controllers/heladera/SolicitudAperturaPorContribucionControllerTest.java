@@ -4,6 +4,8 @@ import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
+import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
+import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
@@ -24,6 +26,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 import static java.util.UUID.randomUUID;
@@ -40,7 +43,7 @@ class SolicitudAperturaPorContribucionControllerTest {
   final Usuario usuarioMock = mock(Usuario.class);
   final Colaborador colaboradorMock = mock(Colaborador.class);
   final Tarjeta tarjeta = new Tarjeta(randomUUID(), mock(Colaborador.class), usuarioMock);
-  final DonacionViandas contribucion = new DonacionViandas(colaboradorMock,
+  final DonacionViandas donacion = new DonacionViandas(colaboradorMock,
       Collections.singletonList(mock(Vianda.class)),
       mock(Heladera.class));
 
@@ -69,7 +72,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     when(colaboradorMock.getUbicacion()).thenReturn(null);
 
     assertThrows(PermisoDenegadoException.class,
-        () -> new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjeta, donacion));
   }
 
   @Test
@@ -88,18 +91,18 @@ class SolicitudAperturaPorContribucionControllerTest {
     try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
       brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
 
-      new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion);
+      new SolicitudAperturaPorContribucionController().crear(tarjeta, donacion);
     }
 
     assertEquals(1, SolicitudAperturaPorContribucionRepository.getInstancia().getTodas().size());
   }
 
   @Test
-  void testPublicaCreacionPorMqtt() throws MqttException {
+  void testPublicaCreacionPorMqttParaDonacion() throws MqttException {
     try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
       brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
 
-      new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion);
+      new SolicitudAperturaPorContribucionController().crear(tarjeta, donacion);
     }
 
     verify(brokerServiceMock)
@@ -130,7 +133,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
     controlador.messageArrived(
         "heladeras/1/solicitudes/confirmadas",
-        new MqttMessage("{\"id\":1,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
+        new MqttMessage("{\"id\":1,\"esExtraccion\":true,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
             .formatted(unSegundoDespuesDeEpoch.toString())
             .getBytes()));
 
