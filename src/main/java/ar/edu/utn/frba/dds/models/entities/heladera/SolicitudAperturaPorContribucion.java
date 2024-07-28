@@ -31,12 +31,13 @@ public class SolicitudAperturaPorContribucion {
   public SolicitudAperturaPorContribucion(Tarjeta tarjeta,
                                           MovimientoViandas razon,
                                           ZonedDateTime fechaCreacion) {
-    int tiempoSolicitudAperturaMinutos =
-        Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
-
     this.tarjeta = tarjeta;
     this.razon = razon;
     this.fechaCreacion = fechaCreacion;
+
+    int tiempoSolicitudAperturaMinutos =
+        Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
+
     this.fechaVencimiento = fechaCreacion.plusMinutes(tiempoSolicitudAperturaMinutos);
   }
 

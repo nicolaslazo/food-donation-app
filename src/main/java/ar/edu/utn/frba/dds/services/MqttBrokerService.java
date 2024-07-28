@@ -49,6 +49,7 @@ public class MqttBrokerService {
         System.out.println("Topic: " + topic + ", mensaje: " + message.toString());
       }
     }
+
     DemoSensor sensor = new DemoSensor();
 
     MqttBrokerService.getInstancia().suscribir("demo", sensor);

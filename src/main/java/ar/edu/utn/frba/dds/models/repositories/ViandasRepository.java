@@ -55,15 +55,6 @@ public class ViandasRepository {
               capacidadDisponible);
   }
 
-  public int insert(Vianda vianda) throws RepositoryException {
-    if (vianda.getHeladera() != null) assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
-
-    viandas.add(vianda);
-    vianda.setId(viandas.size());
-
-    return vianda.getId();
-  }
-
   private void assertViandasSonDeLaMismaHeladera(Collection<Vianda> viandas) throws RepositoryException {
     final Set<Heladera> heladerasInvolucradas = new HashSet<>(viandas.stream().map(Vianda::getHeladera).toList());
     if (heladerasInvolucradas.size() > 1)
@@ -83,12 +74,22 @@ public class ViandasRepository {
     }
   }
 
+  public int insert(Vianda vianda) throws RepositoryException {
+    if (vianda.getHeladera() != null) assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
+
+    viandas.add(vianda);
+    vianda.setId(viandas.size());
+
+    return vianda.getId();
+  }
+
   public void updateUbicacion(Vianda vianda, Heladera ubicacionNueva) throws RepositoryException {
     assertHeladeraTieneSuficienteEspacio(ubicacionNueva, 1);
 
     vianda.setHeladera(ubicacionNueva);
   }
 
+  // TODO: Necesitamos este método? Lo podemos aplicar en las concretizaciones de contribuciones?
   public void updateUbicacion(Collection<Vianda> viandas, Heladera ubicacionNueva) throws RepositoryException {
     // No hay ninguna razón por la que podamos mover viandas de una heladera a otra
     // afuera del marco de las contribuciones, donde todas las viandas tienen el mismo origen
