@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.EntregaTarjetas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -22,8 +22,8 @@ class EntregaTarjetasRepositoryTest {
   final EntregaTarjetas entrega =
       new EntregaTarjetas(colaboradorMock, Collections.singletonList(Mockito.mock(Tarjeta.class)));
 
-  @BeforeEach
-  void setUp() {
+  @AfterEach
+  void tearDown() {
     repositorio.deleteTodo();
   }
 

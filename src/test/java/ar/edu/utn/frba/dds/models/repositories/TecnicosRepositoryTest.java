@@ -1,8 +1,7 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,14 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TecnicosRepositoryTest {
-  final AreaGeografica areaGeografica = new AreaGeografica(new Ubicacion(-34, -58), 100f);
   TecnicoRepository repositorio = TecnicoRepository.getInstancia();
   Tecnico tecnico;
 
   @BeforeEach
   void setUp() {
-    repositorio.deleteTodos();
-
     tecnico = Mockito.mock(Tecnico.class);
     Mockito.when(tecnico.getCuil()).thenReturn("123456");
 
@@ -35,6 +31,10 @@ class TecnicosRepositoryTest {
     repositorio.insert(tecnico2);
   }
 
+  @AfterEach
+  void tearDown() {
+    repositorio.deleteTodos();
+  }
 
   @Test
   void repositorioSeInstancia() {

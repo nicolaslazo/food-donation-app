@@ -30,7 +30,10 @@ public abstract class MovimientoViandas extends Contribucion {
   }
 
   public void setFechaRealizada(ZonedDateTime timestamp) {
-    viandas.forEach(vianda -> vianda.setHeladera(destino));
+    viandas
+        .stream()
+        .filter(Objects::nonNull)  // Caso especial por las contribuciones legacy
+        .forEach(vianda -> vianda.setHeladera(destino));
 
     fechaRealizada = timestamp;
   }
