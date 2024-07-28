@@ -10,32 +10,32 @@ import java.util.List;
 
 
 public class TemperatureSensorChecker {
-    private static CargarAlertaEnIncidentes cargadorIncidente;
+  private static CargarAlertaEnIncidentes cargadorIncidente;
 
-    //Esto es para el TEST, pq no me agarra el Cargador de incidentes mockeado.
-    public TemperatureSensorChecker(CargarAlertaEnIncidentes cargadorIncidente) {
-        TemperatureSensorChecker.cargadorIncidente = cargadorIncidente;
+  //Esto es para el TEST, pq no me agarra el Cargador de incidentes mockeado.
+  public TemperatureSensorChecker(CargarAlertaEnIncidentes cargadorIncidente) {
+    TemperatureSensorChecker.cargadorIncidente = cargadorIncidente;
+  }
+
+  public static void main(String[] args) throws CheckerException {
+    HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
+
+    List<Heladera> heladeras = heladerasRepository.getHeladerasConTemperaturaDesactualizada(5);
+
+    if (heladeras.isEmpty()) {
+      throw new CheckerException("No hay heladeras disponibles para realizar el chequeo");
     }
 
-    public static void main(String[] args) throws CheckerException {
-        HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
+    for (Heladera heladera : heladeras) {
+      ZonedDateTime now = ZonedDateTime.now();
+      ZonedDateTime lastTemperatureUpdate = heladera.getMomentoUltimaTempRegistrada();
 
-        List<Heladera> heladeras = heladerasRepository.getHeladerasConTemperaturaDesactualizada(5);
+      if (lastTemperatureUpdate != null && ChronoUnit.MINUTES.between(lastTemperatureUpdate, now) > 5) {
+        cargadorIncidente.cargarIncidente(
+            TipoIncidente.FALLA_CONEXION, heladera
+        );
 
-        if(heladeras.isEmpty()) {
-            throw new CheckerException("No hay heladeras disponibles para realizar el chequeo");
-        }
-
-        for (Heladera heladera : heladeras) {
-            ZonedDateTime now = ZonedDateTime.now();
-            ZonedDateTime lastTemperatureUpdate = heladera.getMomentoUltimaTempRegistrada();
-
-            if (lastTemperatureUpdate != null && ChronoUnit.MINUTES.between(lastTemperatureUpdate, now) > 5) {
-                cargadorIncidente.cargarIncidente(
-                        TipoIncidente.FALLA_CONEXION, heladera
-                );
-
-            }
-        }
+      }
     }
+  }
 }

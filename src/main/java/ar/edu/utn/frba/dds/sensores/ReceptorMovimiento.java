@@ -6,10 +6,10 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import java.time.ZonedDateTime;
 
 
-public class ReceptorMovimiento{
-    private AccionadorHeladera accionadorHeladera;
+public class ReceptorMovimiento {
+  AccionadorHeladera accionadorHeladera;
 
-    public void evaluarReceptor(ZonedDateTime momentoEvento, Heladera heladera) {
-        accionadorHeladera.sucedeIncidente(TipoIncidente.FRAUDE,heladera,momentoEvento);
-    }
+  public void evaluarReceptor(ZonedDateTime momentoEvento, Heladera heladera) {
+    accionadorHeladera.sucedeIncidente(TipoIncidente.FRAUDE, heladera, momentoEvento);
+  }
 }

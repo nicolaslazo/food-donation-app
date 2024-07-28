@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.controllers.heladera;
 
 import ar.edu.utn.frba.dds.dtos.input.heladera.SolicitudAperturaPorContribucionInputDTO;
 import ar.edu.utn.frba.dds.dtos.output.heladera.SolicitudAperturaPorContribucionOutputDTO;
-import ar.edu.utn.frba.dds.models.entities.contribucion.ContribucionYaRealizadaException;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
@@ -54,13 +53,13 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
     MqttBrokerService broker = MqttBrokerService.getInstancia();
 
     broker.publicar(topicDeSolicitudes,
-        new SolicitudAperturaPorContribucionOutputDTO(solicitud).aJson());
+        new SolicitudAperturaPorContribucionOutputDTO(solicitud).enJson());
     broker.suscribir(topicDeSolicitudes + "/confirmadas", this);
   }
 
   @Override
   public void messageArrived(String topic, MqttMessage payload)
-      throws SolicitudInvalidaException, ContribucionYaRealizadaException {
+      throws SolicitudInvalidaException {
     final SolicitudAperturaPorContribucionInputDTO confirmacion =
         SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
 

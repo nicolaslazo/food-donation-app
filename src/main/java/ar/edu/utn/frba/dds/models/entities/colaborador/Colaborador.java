@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @Getter
 public class Colaborador {
-  private final static Rol ROL_DEFAULT = new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
+  static final Rol ROL_DEFAULT = new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
   @NonNull Documento documento;
   @NonNull List<Contacto> contactos;
   LocalDate fechaNacimiento;

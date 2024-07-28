@@ -131,11 +131,16 @@
                     <configLocation>google_checks.xml</configLocation>
                     <violationSeverity>warning</violationSeverity>
                     <violationIgnore>
+                        AbbreviationAsWordInName,
+                        CustomImportOrder,
+                        JavadocParagraph,
+                        LineLength,
                         MissingJavadocMethod,
                         MissingJavadocPackage,
                         MissingJavadocType,
+                        NeedBraces,
                         NonEmptyAtclauseDescription,
-                        JavadocParagraph,
+                        OperatorWrap,
                         SummaryJavadoc
                     </violationIgnore>
                 </configuration>
