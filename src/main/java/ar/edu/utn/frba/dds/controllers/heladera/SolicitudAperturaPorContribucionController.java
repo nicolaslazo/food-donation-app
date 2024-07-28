@@ -52,7 +52,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
     // Este broker era un atributo de instancia y lo movimos acá para poder instanciar sin contactarnos con internet
     MqttBrokerService broker = MqttBrokerService.getInstancia();
 
-    String dtoSolicitud = new SolicitudAperturaPorContribucionOutputDTO(solicitud).aJson();
+    String dtoSolicitud = new SolicitudAperturaPorContribucionOutputDTO(solicitud).enJson();
 
     if (contribucion instanceof RedistribucionViandas) {
       String topicDeSolicitudesHeladeraOrigen =
