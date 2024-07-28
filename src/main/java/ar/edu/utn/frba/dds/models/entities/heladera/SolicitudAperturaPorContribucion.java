@@ -66,16 +66,18 @@ public class SolicitudAperturaPorContribucion {
     fechaAperturaEnDestino = timestamp;
   }
 
-  public boolean isUsada() {
-    return fechaAperturaEnDestino != null;
+  public boolean isUsada(boolean paraExtraccion) {
+    return (paraExtraccion && fechaAperturaEnOrigen != null) || fechaAperturaEnDestino != null;
   }
 
-  public boolean isVigenteAlMomento(ZonedDateTime momento) {
-    return !isUsada() && momento.isAfter(fechaCreacion) && momento.isBefore(fechaVencimiento);
+  public boolean isVigenteAlMomento(ZonedDateTime momento, boolean paraExtraccion) {
+    if (paraExtraccion && razon instanceof DonacionViandas) return false;
+
+    return !isUsada(paraExtraccion) && momento.isAfter(fechaCreacion) && momento.isBefore(fechaVencimiento);
   }
 
-  public boolean isVigente() {
-    return isVigenteAlMomento(ZonedDateTime.now());
+  public boolean isVigente(boolean paraExtraccion) {
+    return isVigenteAlMomento(ZonedDateTime.now(), paraExtraccion);
   }
 
   public Collection<Vianda> getViandas() {

@@ -29,21 +29,23 @@ public class SolicitudAperturaPorContribucionRepository {
     return solicitudes.stream().filter(solicitud -> solicitud.getId() == id).findFirst();
   }
 
-  public Optional<SolicitudAperturaPorContribucion> getSolicitudVigenteAlMomento(int id, ZonedDateTime momento) {
+  public Optional<SolicitudAperturaPorContribucion> getSolicitudVigenteAlMomento(int id,
+                                                                                 boolean paraExtraccion,
+                                                                                 ZonedDateTime momento) {
     return solicitudes
         .stream()
-        .filter(solicitud -> (solicitud.getId() == id) && (solicitud.isVigenteAlMomento(momento)))
+        .filter(solicitud -> (solicitud.getId() == id) && (solicitud.isVigenteAlMomento(momento, paraExtraccion)))
         .findFirst();
   }
 
-  public Optional<SolicitudAperturaPorContribucion> getSolicitudVigente(int id) {
-    return getSolicitudVigenteAlMomento(id, ZonedDateTime.now());
+  public Optional<SolicitudAperturaPorContribucion> getSolicitudVigente(int id, boolean paraExtraccion) {
+    return getSolicitudVigenteAlMomento(id, paraExtraccion, ZonedDateTime.now());
   }
 
   public int getCantidadViandasPendientes(Heladera heladera) {
     return solicitudes
         .stream()
-        .filter(SolicitudAperturaPorContribucion::isVigente)
+        .filter(solicitud -> solicitud.isVigente(true) || solicitud.isVigente(false))
         .filter(solicitud -> solicitud.getHeladeraDestino().getId() == heladera.getId())
         .mapToInt(solicitud -> solicitud.getViandas().size())
         .sum();
@@ -60,12 +62,23 @@ public class SolicitudAperturaPorContribucionRepository {
     return solicitud.getId();
   }
 
-  public void updateFechaUsada(int id, ZonedDateTime fechaUsada) throws SolicitudInvalidaException {
-    Optional<SolicitudAperturaPorContribucion> optionalSolicitud = getSolicitudVigenteAlMomento(id, fechaUsada);
+  public void updateFechaUsada(int id, boolean paraExtraccion, ZonedDateTime fechaUsada)
+      throws SolicitudInvalidaException {
+    Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
+        getSolicitudVigenteAlMomento(id, paraExtraccion, fechaUsada);
 
-    if (optionalSolicitud.isEmpty()) throw new SolicitudInvalidaException("No existe solicitud vigente con id " + id);
+    if (optionalSolicitud.isEmpty()) {
+      String operacion = paraExtraccion ? "extracción" : "depósito";
 
-    optionalSolicitud.get().setFechaAperturaEnDestino(fechaUsada);
+      throw new SolicitudInvalidaException(
+          "No existe solicitud vigente con id %d para %s de viandas".formatted(id, operacion));
+    }
+
+    if (paraExtraccion) {
+      optionalSolicitud.get().setFechaAperturaEnOrigen(fechaUsada);
+    } else {
+      optionalSolicitud.get().setFechaAperturaEnDestino(fechaUsada);
+    }
   }
 
   public void deleteTodas() {
