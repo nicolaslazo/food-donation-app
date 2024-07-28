@@ -87,6 +87,32 @@ class SolicitudAperturaPorContribucionRepositoryTest {
   }
 
   @Test
+  void testUpdateFechaUsadaFallaEnExtraccionDeDonacion() {
+    /* Verifica que una excepción sea lanzada si se intenta marcar que una solicitud de apertura por donación
+     * fue usada para una extracción de viandas para redistribución
+     */
+    int idSolicitud =
+        repositorio.insert(new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now()));
+
+    assertThrows(SolicitudInvalidaException.class,
+        () -> repositorio.updateFechaUsada(idSolicitud, true, ZonedDateTime.now()));
+  }
+
+  @Test
+  void testUpdateFechaUsadaActualizaFechaDeExtraccionEnRedistribucion() throws SolicitudInvalidaException {
+    SolicitudAperturaPorContribucion solicitud =
+        new SolicitudAperturaPorContribucion(tarjetaMock, mock(RedistribucionViandas.class), ZonedDateTime.now());
+    int idSolicitud = repositorio.insert(solicitud);
+
+    ZonedDateTime ahora = ZonedDateTime.now();
+    repositorio.updateFechaUsada(idSolicitud, true, ahora);
+
+    assertTrue(solicitud.isUsada(true));
+    assertTrue(solicitud.isVigente(false));
+    assertEquals(ahora, solicitud.getFechaAperturaEnOrigen());
+  }
+
+  @Test
   void testEliminarTodas() {
     final SolicitudAperturaPorContribucion solicitud =
         new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now());

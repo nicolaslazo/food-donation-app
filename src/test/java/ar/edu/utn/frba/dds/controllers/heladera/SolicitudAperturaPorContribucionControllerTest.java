@@ -35,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -106,6 +107,30 @@ class SolicitudAperturaPorContribucionControllerTest {
     }
 
     verify(brokerServiceMock)
+        .publicar(argThat(topic -> Objects.equals(topic, "heladeras/0/solicitudes")),
+            argThat(payload -> payload.startsWith("{") &&
+                payload.endsWith("}") &&
+                payload.contains("identificadorTarjeta") &&
+                payload.contains("idSolicitud") &&
+                payload.contains("fechaVencimientoSerializadaIso8601") &&
+                payload.contains("pesosViandasEnGramos")));
+  }
+
+  @Test
+  void testSolicitudDeAperturaParaRedistribucionMandaDosMensajes() throws MqttException {
+    RedistribucionViandas redistribucion = new RedistribucionViandas(colaboradorMock,
+        List.of(mock(Vianda.class)),
+        mock(Heladera.class),
+        mock(Heladera.class),
+        mock(MotivoDeDistribucion.class));
+
+    try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
+      brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
+
+      new SolicitudAperturaPorContribucionController().crear(tarjeta, redistribucion);
+    }
+
+    verify(brokerServiceMock, times(2))
         .publicar(argThat(topic -> Objects.equals(topic, "heladeras/0/solicitudes")),
             argThat(payload -> payload.startsWith("{") &&
                 payload.endsWith("}") &&
