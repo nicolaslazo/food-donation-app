@@ -35,6 +35,6 @@ class SolicitudAperturaPorContribucionOutputDTOTest {
             "\"idSolicitud\":0," +
             "\"fechaVencimientoSerializadaIso8601\":\"1970-01-01T00:00Z\"," +
             "\"pesosViandasEnGramos\":[1.0,10.0,100.0]}",
-        new SolicitudAperturaPorContribucionOutputDTO(solicitudMock).enJson());
+        new SolicitudAperturaPorContribucionOutputDTO(solicitudMock).aJson());
   }
 }
