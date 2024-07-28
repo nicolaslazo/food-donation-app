@@ -69,7 +69,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
   }
 
   @Override
-  public void messageArrived(String topic, MqttMessage payload) throws SolicitudInvalidaException {
+  public void messageArrived(String topic, MqttMessage payload) throws Exception {
     final SolicitudAperturaPorContribucionInputDTO confirmacion =
         SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
 
