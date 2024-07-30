@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../static/Logo_viandas_donation.png">
+    <link rel="stylesheet" href="styles.css">
+    <title>Register</title>
+</head>
+<body>
+    <header>
+        <div class="container-logo">
+            <a class="img-logo" href=""> 
+                <img src="../static/Logo_viandas_donation.png" alt="Logo">
+                <h2 class="name-logo"> Viandas Donation </h2>
+            </a>
+            <button class="btn-contribuir"> 
+                <a href="../inicioSesion/index.html">Contribuir Ya</a>
+            </button>
+        </div>
+        <nav class="navbar">
+                <a href="#" class="navbar-item">INICIO</a>
+                <a href="#" class="navbar-item">QUIENES SOMOS</a>
+                <a href="#" class="navbar-item">CONTACTO</a>
+                <a href="#" class="navbar-item">QUIERO AYUDAR</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="title">REGISTRAR USUARIO</div>
+
+            <form action="" class="form-container">
+
+                <div class="user-details-container">
+                    <!-- 12 LABELS -->
+                    <label class="input-box">
+                        Nombre
+                        <input type="text" placeholder="Manolo" required>
+                    </label>
+
+                    <label for="" class="input-box">
+                        Apellido
+                        <input type="text" placeholder="Enrique" required>
+                    </label>
+
+                    <label class="input-box">
+                        Correo Electronico
+                        <input type="email" placeholder="example@gmail.com" required>
+                    </label>
+
+                    <label class="input-box">
+                        Fecha de Nacimiento
+                        <input type="date" required>
+                    </label>
+
+                    <label for="" class="input-box">
+                        Contraseña
+                        <input type="password" placeholder="*****" required>
+                    </label>
+
+                    <label for="" class="input-box">
+                        Confirme Contraseña
+                        <input type="password" placeholder="*****" required>
+                    </label>
+                    
+                    <label for="" class="input-box">
+                        Tipo Documento
+                        <select name="" id="">
+                            <option value="dni">DNI</option>
+                            <option value="lc">LIBRETA CIVICA</option>
+                            <option value="le">LIBRETA DE ENROLAMIENTO</option>
+                        </select>
+                    </label>
+
+                    <label for="" class="input-box">
+                        Numero de Documento
+                        <input type="text" placeholder="Enrique" required>
+                    </label>
+
+                    <label class="input-box">
+                        Numero Celular
+                        <input type="number" placeholder="11 22334455" required>
+                    </label>
+
+                    <label class="input-box">
+                        Provincia
+                        <input type="text" placeholder="Buenos Aires">
+                    </label>
+
+                    <label class="input-box">
+                        Localidad
+                        <input type="text" placeholder="Lanus">
+                    </label>
+
+                    <label class="input-box">
+                        Calle
+                        <input type="text" placeholder="Hipolito Yrigoyen 1777">
+                    </label>
+                </div>
+
+                <div class="submit-register">
+                    <input type="submit" value="REGISTRAR">
+                </div>
+
+            </form>
+        </div>
+        
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p> 
+                Haciendo clic en alguno de los botones de registro de 
+                arriba, aceptas nuestros <a href="../terminosYcondiciones/terminos.html">Términos</a> y <a href="../terminosYcondiciones/terminos.html">Política de Privacidad</a>.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
