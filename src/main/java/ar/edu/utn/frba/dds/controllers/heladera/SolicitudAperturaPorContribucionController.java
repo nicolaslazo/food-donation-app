@@ -2,8 +2,8 @@ package ar.edu.utn.frba.dds.controllers.heladera;
 
 import ar.edu.utn.frba.dds.dtos.input.heladera.SolicitudAperturaPorContribucionInputDTO;
 import ar.edu.utn.frba.dds.dtos.output.heladera.SolicitudAperturaPorContribucionOutputDTO;
-import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
+import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
@@ -22,7 +22,8 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
   final SolicitudAperturaPorContribucionRepository repositorio =
       SolicitudAperturaPorContribucionRepository.getInstancia();
 
-  private void checkearPrecondicionesCreacion(Tarjeta tarjeta, MovimientoViandas contribucion) {
+  private void checkearPrecondicionesCreacion(Tarjeta tarjeta, MovimientoViandas contribucion)
+      throws PermisoDenegadoException {
     tarjeta.assertTienePermiso("depositarViandas",
         "las viandas sólo pueden ser ingresadas o redistribuidas por colaboradores registrados");
 
@@ -46,15 +47,26 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
 
     SolicitudAperturaPorContribucionRepository.getInstancia().insert(solicitud);
 
-    String topicDeSolicitudes = "heladeras/" + contribucion.getDestino().getId() + "/solicitudes";
+    String formatoTopicDeSolicitudes = "heladeras/%d/solicitudes";
 
     // TODO: Checkear que esto puede enviar y recibir mensajes
     // Este broker era un atributo de instancia y lo movimos acá para poder instanciar sin contactarnos con internet
     MqttBrokerService broker = MqttBrokerService.getInstancia();
 
-    broker.publicar(topicDeSolicitudes,
-        new SolicitudAperturaPorContribucionOutputDTO(solicitud).enJson());
-    broker.suscribir(topicDeSolicitudes + "/confirmadas", this);
+    String dtoSolicitud = new SolicitudAperturaPorContribucionOutputDTO(solicitud).enJson();
+
+    if (contribucion instanceof RedistribucionViandas) {
+      String topicDeSolicitudesHeladeraOrigen =
+          formatoTopicDeSolicitudes.formatted(((RedistribucionViandas) contribucion).getOrigen().getId());
+
+      broker.publicar(topicDeSolicitudesHeladeraOrigen, dtoSolicitud);
+    }
+
+    String topicDeSolicitudesHeladeraDestino = formatoTopicDeSolicitudes.formatted(contribucion.getDestino().getId());
+
+    broker.publicar(topicDeSolicitudesHeladeraDestino,
+        dtoSolicitud);
+    broker.suscribir(topicDeSolicitudesHeladeraDestino + "/confirmadas", this);
   }
 
   @Override
@@ -64,13 +76,15 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
         SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
 
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
-        repositorio.getSolicitudVigenteAlMomento(confirmacion.getId(), confirmacion.getFechaRealizada());
+        repositorio.getSolicitudVigenteAlMomento(confirmacion.getId(),
+            confirmacion.getEsExtraccion(),
+            confirmacion.getFechaRealizada());
 
     if (optionalSolicitud.isEmpty())
       throw new SolicitudInvalidaException("La optionalSolicitud especificada no está vigente");
 
     SolicitudAperturaPorContribucion solicitud = optionalSolicitud.get();
 
-    repositorio.updateFechaUsada(solicitud.getId(), confirmacion.getFechaRealizada());
+    repositorio.updateFechaUsada(solicitud.getId(), confirmacion.getEsExtraccion(), confirmacion.getFechaRealizada());
   }
 }
