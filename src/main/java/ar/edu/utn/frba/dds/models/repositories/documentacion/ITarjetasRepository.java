@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ITarjetasRepository {
-  void insert(Tarjeta tarjeta) throws RepositoryException;
+  UUID insert(Tarjeta tarjeta) throws RepositoryException;
 
   Optional<Tarjeta> get(UUID id);
 }
