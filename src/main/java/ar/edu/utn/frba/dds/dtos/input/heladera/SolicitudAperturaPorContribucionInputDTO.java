@@ -9,14 +9,18 @@ import java.util.Objects;
 
 public final class SolicitudAperturaPorContribucionInputDTO {
   @Getter
-  @NonNull Integer id;
+  @NonNull Integer id;  // Tiene que ser un @NonNull Integer, no int, para mantener compatibilidad con JSON
+  @Getter
+  @NonNull Boolean esExtraccion;
   @NonNull String fechaRealizadaSerializadaIso8601;
 
   public SolicitudAperturaPorContribucionInputDTO(
-      @NonNull Integer id,  // Tiene que ser un Integer para mantener compatibilidad con JSON
+      int id,
+      boolean esExtraccion,
       @NonNull String fechaRealizadaSerializadaIso8601
   ) {
     this.id = id;
+    this.esExtraccion = esExtraccion;
     this.fechaRealizadaSerializadaIso8601 = fechaRealizadaSerializadaIso8601;
   }
 

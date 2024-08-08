@@ -1,46 +1,47 @@
 package ar.edu.utn.frba.dds.models.entities.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
+import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 class SolicitudAperturaPorContribucionTest {
-  final Tarjeta tarjetaMock = Mockito.mock(Tarjeta.class);
-  final DonacionViandas razonMock = Mockito.mock(DonacionViandas.class);
+  final Tarjeta tarjetaMock = mock(Tarjeta.class);
+  final DonacionViandas donacionMock = mock(DonacionViandas.class);
 
   @Test
   void testNoSePuedeUsarSolicitudDosVeces() throws SolicitudInvalidaException {
     final SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(tarjetaMock, razonMock, ZonedDateTime.now());
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now());
 
-    solicitud.setFechaUsada(ZonedDateTime.now());
+    solicitud.setFechaAperturaEnDestino(ZonedDateTime.now());
 
-    assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaUsada(ZonedDateTime.now()));
+    assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaAperturaEnDestino(ZonedDateTime.now()));
   }
 
   @Test
   void testNoSePuedeUsarSolicitudVencida() {
     final SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(tarjetaMock, razonMock, ZonedDateTime.now().minusMonths(1));
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now().minusMonths(1));
 
-    assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaUsada(ZonedDateTime.now()));
+    assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaAperturaEnDestino(ZonedDateTime.now()));
   }
 
   @Test
   void testNoSePuedeUsarSolicitudAntesDeSuVigencia() {
     final SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(tarjetaMock, razonMock, ZonedDateTime.now().plusMinutes(10));
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now().plusMinutes(10));
 
-    assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaUsada(ZonedDateTime.now()));
+    assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaAperturaEnDestino(ZonedDateTime.now()));
   }
 
   @Test
@@ -49,42 +50,63 @@ class SolicitudAperturaPorContribucionTest {
     ZonedDateTime ahora = ZonedDateTime.now();
 
     SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(tarjetaMock, razonMock, ahora.minusMinutes(1));
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ahora.minusMinutes(1));
 
-    solicitud.setFechaUsada(ahora);
+    solicitud.setFechaAperturaEnDestino(ahora);
 
-    verify(razonMock, times(1)).setFechaRealizada(ahora);
+    verify(donacionMock, times(1)).setFechaRealizada(ahora);
   }
 
   @Test
   void testSolicitudUsadaSeDeclaraAsi() throws SolicitudInvalidaException {
     SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(tarjetaMock, razonMock, ZonedDateTime.now());
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now());
 
-    solicitud.setFechaUsada(ZonedDateTime.now());
+    solicitud.setFechaAperturaEnDestino(ZonedDateTime.now());
 
-    assertTrue(solicitud.isUsada());
+    assertTrue(solicitud.isUsada(false));
   }
 
   @Test
   void testSolicitudFrescaEstaVigente() {
-    assertTrue(new SolicitudAperturaPorContribucion(tarjetaMock, razonMock, ZonedDateTime.now()).isVigente());
+    assertTrue(
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now())
+            .isVigente(false));
   }
 
   @Test
   void testSolicitudUsadaNoEstaVigente() throws SolicitudInvalidaException {
     final SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(tarjetaMock, razonMock, ZonedDateTime.now());
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now());
 
-    solicitud.setFechaUsada(ZonedDateTime.now());
+    solicitud.setFechaAperturaEnDestino(ZonedDateTime.now());
 
-    assertFalse(solicitud.isVigente());
+    assertFalse(solicitud.isVigente(false));
   }
 
   @Test
   void testSolicitudVencidaNoEstaVigente() {
     assertFalse(
-        new SolicitudAperturaPorContribucion(tarjetaMock, razonMock, ZonedDateTime.now().minusMonths(1)).isVigente()
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now().minusMonths(1))
+            .isVigente(false)
     );
+  }
+
+  @Test
+  void testSolicitudPorDonacionNoPuedeSetearAperturaOrigen() {
+    SolicitudAperturaPorContribucion solicitud =
+        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now());
+
+    assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaAperturaEnOrigen(ZonedDateTime.now()));
+  }
+
+  @Test
+  void testSolicitudNoPuedeAbrirOrigenDosVeces() throws SolicitudInvalidaException {
+    SolicitudAperturaPorContribucion solicitud =
+        new SolicitudAperturaPorContribucion(tarjetaMock, mock(RedistribucionViandas.class), ZonedDateTime.now());
+
+    solicitud.setFechaAperturaEnOrigen(ZonedDateTime.now());
+
+    assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaAperturaEnOrigen(ZonedDateTime.now()));
   }
 }
