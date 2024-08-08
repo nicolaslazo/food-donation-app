@@ -22,7 +22,8 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
   final SolicitudAperturaPorContribucionRepository repositorio =
       SolicitudAperturaPorContribucionRepository.getInstancia();
 
-  private void checkearPrecondicionesCreacion(Tarjeta tarjeta, MovimientoViandas contribucion) {
+  private void checkearPrecondicionesCreacion(Tarjeta tarjeta, MovimientoViandas contribucion)
+      throws PermisoDenegadoException {
     tarjeta.assertTienePermiso("depositarViandas",
         "las viandas sólo pueden ser ingresadas o redistribuidas por colaboradores registrados");
 
@@ -36,7 +37,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
   }
 
   public void crear(@NonNull Tarjeta tarjeta,
-                    @NonNull DonacionViandas contribucion) throws MqttException {
+                    @NonNull DonacionViandas contribucion) throws MqttException, PermisoDenegadoException {
     checkearPrecondicionesCreacion(tarjeta, contribucion);
 
     SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(

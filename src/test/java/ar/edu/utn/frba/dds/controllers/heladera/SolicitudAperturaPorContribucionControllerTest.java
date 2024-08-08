@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.controllers.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
@@ -23,7 +22,6 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
 
 import static java.util.UUID.randomUUID;
@@ -39,13 +37,15 @@ class SolicitudAperturaPorContribucionControllerTest {
   final MqttBrokerService brokerServiceMock = mock(MqttBrokerService.class);
   final Usuario usuarioMock = mock(Usuario.class);
   final Colaborador colaboradorMock = mock(Colaborador.class);
-  final Tarjeta tarjeta = new Tarjeta(randomUUID(), mock(Colaborador.class), usuarioMock);
+  final Tarjeta tarjeta = new Tarjeta(randomUUID());
   final DonacionViandas contribucion = new DonacionViandas(colaboradorMock,
       Collections.singletonList(mock(Vianda.class)),
       mock(Heladera.class));
 
   @BeforeEach
-  void setUp() {
+  void setUp() throws PermisoDenegadoException {
+    tarjeta.setEnAlta(usuarioMock, colaboradorMock, ZonedDateTime.now());
+
     when(colaboradorMock.getUsuario()).thenReturn(usuarioMock);
     when(colaboradorMock.getUbicacion()).thenReturn(mock(Ubicacion.class));
   }
@@ -57,8 +57,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
   @Test
   void testCreacionFallaSiTarjetaNoTienePermiso() {
-    Usuario duenoInutil = new Usuario(new Email(""), new HashSet<>());
-    final Tarjeta tarjetaInutil = new Tarjeta(randomUUID(), mock(Colaborador.class), duenoInutil);
+    final Tarjeta tarjetaInutil = new Tarjeta(randomUUID());
 
     assertThrows(PermisoDenegadoException.class,
         () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(DonacionViandas.class)));
@@ -84,7 +83,7 @@ class SolicitudAperturaPorContribucionControllerTest {
   }
 
   @Test
-  void testCreacionExitosaSeGuardaEnRepositorio() throws MqttException {
+  void testCreacionExitosaSeGuardaEnRepositorio() throws MqttException, PermisoDenegadoException {
     try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
       brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
 
@@ -95,7 +94,7 @@ class SolicitudAperturaPorContribucionControllerTest {
   }
 
   @Test
-  void testPublicaCreacionPorMqtt() throws MqttException {
+  void testPublicaCreacionPorMqtt() throws MqttException, PermisoDenegadoException {
     try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
       brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
 
