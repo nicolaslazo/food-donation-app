@@ -63,7 +63,7 @@ public class SolicitudAperturaPorContribucionRepository {
   }
 
   public void updateFechaUsada(int id, boolean paraExtraccion, ZonedDateTime fechaUsada)
-      throws SolicitudInvalidaException {
+      throws Exception {
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
         getSolicitudVigenteAlMomento(id, paraExtraccion, fechaUsada);
 

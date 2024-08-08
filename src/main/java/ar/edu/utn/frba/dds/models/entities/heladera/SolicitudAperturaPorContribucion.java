@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
+import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import lombok.Getter;
 import lombok.NonNull;
@@ -50,13 +51,14 @@ public class SolicitudAperturaPorContribucion {
       throw new SolicitudInvalidaException("No se debería poder usar una solicitud antes de que entre en vigencia");
   }
 
-  public void setFechaAperturaEnOrigen(ZonedDateTime timestamp) throws SolicitudInvalidaException {
+  public void setFechaAperturaEnOrigen(ZonedDateTime timestamp) throws Exception {
     if (razon instanceof DonacionViandas)
       throw new SolicitudInvalidaException("Una donación de viandas no puede tomar viandas de una heladera origen");
     if (fechaAperturaEnOrigen != null)
       throw new SolicitudInvalidaException("Esta solicitud ya fue usada en " + fechaAperturaEnOrigen);
     verificarPrecondicionesApertura(timestamp);
 
+    ((RedistribucionViandas) razon).setFechaIniciada(timestamp);
     fechaAperturaEnOrigen = timestamp;
   }
 
