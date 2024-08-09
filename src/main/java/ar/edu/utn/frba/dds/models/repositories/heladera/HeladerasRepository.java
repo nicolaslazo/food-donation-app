@@ -55,12 +55,18 @@ public class HeladerasRepository {
     return getTodas(colaborador).stream().mapToInt(Heladera::mesesActiva).sum();
   }
 
+  /* Este método concierne a la cantidad de viandas ahora mismo depositadas en la heladera, independientemente de las
+   * Solicitudes de apertura. Para saber el espacio disponible, reservando los espacios de las solicitudes de apertura
+   */
+  public int getCantidadViandasDepositadas(Heladera heladera) {
+    return ViandasRepository.getInstancia().getAlmacenadas(heladera).size();
+  }
+
   public int getCapacidadDisponible(Heladera heladera) {
-    final int viandasActualmenteDepositadas = ViandasRepository.getInstancia().getAlmacenadas(heladera).size();
     final int viandasEnContribucionesVigentes =
         SolicitudAperturaPorContribucionRepository.getInstancia().getCantidadViandasPendientes(heladera);
 
-    return heladera.getCapacidadEnViandas() - viandasActualmenteDepositadas - viandasEnContribucionesVigentes;
+    return heladera.getCapacidadEnViandas() - getCantidadViandasDepositadas(heladera) - viandasEnContribucionesVigentes;
   }
 
   public int insert(Heladera heladera) throws RepositoryException {
