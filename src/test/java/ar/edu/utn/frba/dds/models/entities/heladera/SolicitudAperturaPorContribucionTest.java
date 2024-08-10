@@ -101,7 +101,7 @@ class SolicitudAperturaPorContribucionTest {
   }
 
   @Test
-  void testSolicitudNoPuedeAbrirOrigenDosVeces() throws SolicitudInvalidaException {
+  void testSolicitudNoPuedeAbrirOrigenDosVeces() throws Exception {
     SolicitudAperturaPorContribucion solicitud =
         new SolicitudAperturaPorContribucion(tarjetaMock, mock(RedistribucionViandas.class), ZonedDateTime.now());
 
