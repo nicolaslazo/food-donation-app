@@ -1,0 +1,269 @@
+*{
+    padding: 0px;
+    margin:0px;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3,auto);
+}
+
+/*-- HEADER -- */
+
+header {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    background-color: #C0392B;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+/* PARTE SUPERIOR DEL HEADER */
+.container-logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #fff;
+    padding: 5px 20px;
+}
+
+.img-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+}
+
+.btn-contribuir:hover {
+    background-color: #B0392B;
+}
+
+.img-logo img {
+    width: 45px;
+    height: 100%;
+}
+
+.name-logo {
+    margin-left: 10px;
+    display: flex;
+    font-size: 22px;
+    font-weight: bolder;
+    color:black;
+}
+
+.btn-contribuir {
+    padding: 10px;
+    background-color: #C0392B; 
+    color: #fff; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.btn-contribuir a {
+    color: #fff;
+}
+
+/* NAV BAR */
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    gap: 20px;
+}
+
+.navbar-item{
+    font-weight: bold;
+    color: #fff;
+    padding: 10px;
+}
+
+.navbar-item:hover {
+    background-color: #B0392B;
+    color: #fff;
+    border-radius: 20px;
+}
+
+main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 50%;
+    height: auto;
+    box-shadow: 0 0 20px #0007;
+    border-radius: 20px;
+}
+
+.form-container {
+    background-color: #f2f2f2;
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #C0392B;
+    padding: 10px;
+    border-radius: 20px 20px 0 0;
+}
+
+.user-details-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+#direccion {
+    grid-column: 1 / -1; /* Ocupa toda la fila en el grid */
+    display: none; /* Inicialmente oculto */
+    flex-direction: column; /* Coloca los elementos en columna */
+    align-items: center; /* Centra los elementos dentro del div */
+    gap: 20px; /* Espacio entre los elementos */
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+}
+
+#posee-documento {
+    grid-column: 1 / -1; /* Ocupa toda la fila en el grid */
+    display: none; /* Inicialmente oculto */
+    flex-direction: column; /* Coloca los elementos en columna */
+    align-items: center; /* Centra los elementos dentro del div */
+    gap: 20px; /* Espacio entre los elementos */
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+}
+
+#posee-documento.show {
+    display: flex; /* Mostrar el div cuando se añade la clase 'show' */
+}
+
+#direccion.show {
+    display: flex; /* Mostrar el div cuando se añade la clase 'show' */
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box label {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.input-box input {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+}
+
+.input-box input:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+.input-box select {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+}
+
+.input-box select:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+/* SUBMIT BUTTON */
+
+.submit-register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    min-width: 100%;
+}
+
+.submit-register input {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.submit-register input:hover {
+    background-color: #2074A3;
+    color: #fff;
+    border-radius: 20px;
+}
+
+/* FOOTER */
+
+footer {
+    background-color: #9F9D9D;
+    grid-column: 1/1;
+    grid-row: 3;
+    margin-top: 40px;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.footer-container p {
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+}
+
+.footer-container p a{
+    color: #2980B9;
+}
+
+
