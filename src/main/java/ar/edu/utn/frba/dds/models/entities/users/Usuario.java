@@ -31,11 +31,7 @@ public class Usuario {
     return tienePermiso(new Permiso(nombre, null));
   }
 
-  public void assertTienePermiso(@NonNull Permiso permiso, @NonNull String razon) {
-    if (!tienePermiso(permiso)) throw new PermisoDenegadoException(razon);
-  }
-
-  public void assertTienePermiso(@NonNull String nombrePermiso, @NonNull String razon) {
+  public void assertTienePermiso(@NonNull String nombrePermiso, @NonNull String razon) throws PermisoDenegadoException {
     if (!tienePermiso(nombrePermiso)) throw new PermisoDenegadoException(razon);
   }
 }
