@@ -1,0 +1,263 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+header {
+    background-color: #C0392B;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.container-logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #fff;
+    padding: 5px 20px;
+}
+
+.img-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.img-logo img {
+    width: 45px;
+    height: 100%;
+}
+
+.name-logo {
+    margin-left: 10px;
+    display: flex;
+    font-size: 22px;
+    font-weight: bolder;
+    color: black;
+}
+
+.btn-contribuir {
+    padding: 10px;
+    background-color: #C0392B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.btn-contribuir:hover {
+    background-color: #B0392B;
+}
+
+.btn-contribuir a {
+    text-decoration: none;
+    color: #fff;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    gap: 20px;
+}
+
+.navbar-item {
+    font-weight: bold;
+    color: #fff;
+    padding: 10px;
+}
+
+.navbar-item:hover {
+    background-color: #B0392B;
+    color: #fff;
+    border-radius: 20px;
+}
+
+
+.points-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.services-list {
+    margin-top: 20px;
+    max-height: 300px; /* Altura máxima para el scroll */
+    overflow-y: auto;  /* Activación del scroll */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.service-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.service-item img {
+    width: 100px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.service-info h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #C0392B;
+}
+
+.service-info p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.btn-canjear {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-canjear:hover {
+    background-color: #2574A9;
+}
+
+
+footer {
+    background-color: #9F9D9D;
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-container p {
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+}
+
+.footer-container p a {
+    color: #2980B9;
+}
+
+/* Fondo desenfocado */
+.blur-background {
+    filter: blur(5px);
+    pointer-events: none; /* Evita la interacción con el fondo cuando el modal está activo */
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    display: none; /* Oculto por defecto */
+}
+
+.modal-content {
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #C0392B;
+}
+
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.btn-canjear {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.btn-canjear:hover {
+    background-color: #2574A9;
+}
+
+.btn-close {
+    padding: 10px 20px;
+    background-color: #C0392B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-close:hover {
+    background-color: #B0392B;
+}
