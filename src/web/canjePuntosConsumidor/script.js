@@ -24,7 +24,6 @@ function filtrarPorCategoria() {
 }
 
 window.onload = function() {
-    mostrarModal();
 };
 
 function canjearServicio(serviceId) {
