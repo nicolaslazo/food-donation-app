@@ -261,3 +261,8 @@ footer {
 .btn-close:hover {
     background-color: #B0392B;
 }
+
+.blur-background {
+    filter: blur(5px);
+    pointer-events: none; /* Evita la interacción con el fondo cuando el modal está activo */
+}

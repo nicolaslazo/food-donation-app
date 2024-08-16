@@ -82,11 +82,15 @@
     </div>
 </footer>
 
-<script>
-    function canjearServicio(serviceId) {
-        // Aquí puedes agregar la lógica para redirigir al usuario a la página de canje
-        window.location.href = `canje.html?service=${serviceId}`;
-    }
-</script>
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h2>Confirmar Canje</h2>
+        <p>Puntos necesarios: <span id="required-points">300</span></p>
+        <p>Puntos restantes: <span id="remaining-points">900</span></p>
+        <p>Producto: <span id="product-info">Descripción del producto</span></p>
+        <button class="btn-canjear" onclick="confirmarCanje()">Canjear</button>
+        <button class="btn-close" onclick="cerrarModal()">Cancelar</button>
+    </div>
+</div>
 </body>
 </html>
