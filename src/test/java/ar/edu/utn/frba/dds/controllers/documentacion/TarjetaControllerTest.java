@@ -81,6 +81,17 @@ class TarjetaControllerTest {
   }
 
   @Test
+  void testAltaFallaSiRecipienteYaTieneTarjeta() throws PermisoDenegadoException, RepositoryException {
+    Tarjeta unaTarjeta = TarjetaController.crear(UUID.randomUUID(), usuario);
+    Tarjeta otraTarjeta = TarjetaController.crear(UUID.randomUUID(), usuario);
+
+    TarjetaController.darDeAlta(unaTarjeta, usuario, colaboradorMock);
+
+    assertThrows(PermisoDenegadoException.class,
+        () -> TarjetaController.darDeAlta(otraTarjeta, usuario, colaboradorMock));
+  }
+
+  @Test
   void testBajaDeTarjetaEsTrazable() throws PermisoDenegadoException {
     TarjetaController.darDeAlta(tarjeta, usuario, colaboradorMock);
     TarjetaController.darDeBaja(tarjeta, usuario);
