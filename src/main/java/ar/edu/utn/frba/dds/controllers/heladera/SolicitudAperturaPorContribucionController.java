@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.heladera;
 
+import ar.edu.utn.frba.dds.controllers.SuscripcionController;
 import ar.edu.utn.frba.dds.dtos.input.heladera.SolicitudAperturaPorContribucionInputDTO;
 import ar.edu.utn.frba.dds.dtos.output.heladera.SolicitudAperturaPorContribucionOutputDTO;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
@@ -66,7 +67,11 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
 
     broker.publicar(topicDeSolicitudesHeladeraDestino,
         dtoSolicitud);
+
+    // Para marcar las solicitudes de apertura como usadas
     broker.suscribir(topicDeSolicitudesHeladeraDestino + "/confirmadas", this);
+    // Para mandar las notificaciones necesarias a los suscriptos
+    broker.suscribir(topicDeSolicitudesHeladeraDestino + "/confirmadas", SuscripcionController.getInstancia());
   }
 
   @Override
