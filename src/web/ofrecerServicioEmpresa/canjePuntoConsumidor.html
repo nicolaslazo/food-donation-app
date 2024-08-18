@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="../static/Logo_viandas_donation.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="../styles.css">
-    <title>Canje Puntos</title>
+    <title>Ofrecer Servicios</title>
     <script src="script.js"></script>
 </head>
 <body>
@@ -32,7 +32,7 @@
 </header>
 
 <div class="points-container">
-    <h1>Puntos Disponibles: <span id="points">1200</span></h1>
+    <h1>Servicios Ofrecidos</h1>
 
     <label for="category-filter">Filtrar por Categoría:</label>
     <select id="category-filter" onchange="filtrarPorCategoria()">
@@ -54,7 +54,6 @@
     </select>
 
     <div class="services-list">
-        <h2>Servicios Disponibles para Canjear</h2>
         <p id="no-services-message">No hay servicios de este rubro :(</p>
         <div id="services-container">
         <div class="service-item" data-categoria="gastronomia">
@@ -64,7 +63,7 @@
                 <p>Valor en Puntos: xxx</p>
                 <p>Categoría: Gastronomía</p>
             </div>
-            <button class="btn-canjear" onclick="canjearServicio(1)">Canjear</button>
+            <button class="btn-admin" onclick="canjearServicio(1)">Administrar</button>
         </div>
         <div class="service-item" data-categoria="viajes">
             <img src="https://via.placeholder.com/100" alt="Servicio 2">
@@ -73,7 +72,7 @@
                 <p>Valor en Puntos: xxx</p>
                 <p>Categoría: Viajes</p>
             </div>
-            <button class="btn-canjear" onclick="canjearServicio(2)">Canjear</button>
+            <button class="btn-admin" onclick="canjearServicio(2)">Administrar</button>
         </div>
         <div class="service-item" data-categoria="educacion">
             <img src="https://via.placeholder.com/100" alt="Servicio 3">
@@ -82,7 +81,7 @@
                 <p>Valor en Puntos: xxx</p>
                 <p>Categoría: Educación</p>
             </div>
-            <button class="btn-canjear" onclick="canjearServicio(3)">Canjear</button>
+            <button class="btn-admin" onclick="canjearServicio(3)">Administrar</button>
         </div>
         <div class="service-item" data-categoria="salud">
             <img src="https://via.placeholder.com/100" alt="Servicio 3">
@@ -91,7 +90,7 @@
                 <p>Valor en Puntos: xxx</p>
                 <p>Categoría: Salud y Bienestar</p>
             </div>
-            <button class="btn-canjear" onclick="canjearServicio(4)">Canjear</button>
+            <button class="btn-admin" onclick="canjearServicio(4)">Administrar</button>
         </div>
         <div class="service-item" data-categoria="educacion">
             <img src="https://via.placeholder.com/100" alt="Servicio 3">
@@ -100,7 +99,7 @@
                 <p>Valor en Puntos: xxx</p>
                 <p>Categoría: Educación</p>
             </div>
-            <button class="btn-canjear" onclick="canjearServicio(5)">Canjear</button>
+            <button class="btn-admin" onclick="canjearServicio(5)">Administrar</button>
         </div>
     </div>
 </div>
@@ -116,7 +115,7 @@
 
 <div class="modal" id="modal">
     <div class="modal-content">
-        <h2>Confirmar Canje</h2>
+        <h2>Administrar Servicio</h2>
         <p>Puntos necesarios: <span id="required-points">xxx</span></p>
         <p>Puntos restantes: <span id="remaining-points">xxx</span></p>
         <p>Producto: <span id="product-info">Nombre Producto</span></p>
@@ -124,5 +123,4 @@
         <button class="btn-close" onclick="cerrarModal()">Cancelar</button>
     </div>
 </div>
-</body>
 </html>
