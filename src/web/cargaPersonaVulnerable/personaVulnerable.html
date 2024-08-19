@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="../static/Logo_viandas_donation.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="script.js"></script>
     <title>Carga Persona Vulnerable</title>
 </head>
 <body>
@@ -52,11 +54,15 @@
                         <input type="date" id="dob" required>
                     </label>
 
-                    <label for="" class ="input-box">Situación
-                    <select id="situacion" name="situacion" required>
-                        <option value="calle">SITUACION CALLE</option>
-                        <option value="domicilio">DOMICILIO</option>
-                    </select>
+                    <p>¿Posee Domicilio?</p>
+                    <label for="tiene-domicilio-si">
+                        <input type="radio" id="tiene-domicilio-si" name="tiene-domicilio" value="yes" required>
+                        Sí
+                    </label>
+
+                    <label for="tiene-domicilio-no">
+                        <input type="radio" id="tiene-domicilio-no" name="tiene-domicilio" value="no" required>
+                        No
                     </label>
 
                     <div id="direccion" class="hidden">
@@ -76,12 +82,15 @@
                         </label>
                     </div>
 
-                    <label for="" class="input-box">
-                        ¿Posee DNI?
-                    <select id="tiene-dni" name="tiene-dni" required>
-                        <option value="no">No</option>
-                        <option value="yes">Sí</option>
-                    </select>
+                    <p>¿Posee DNI?</p>
+                    <label for="tiene-dni-si">
+                        <input type="radio" id="tiene-dni-si" name="tiene-dni" value="yes" required>
+                        Sí
+                    </label>
+
+                    <label for="tiene-dni-no">
+                        <input type="radio" id="tiene-dni-no" name="tiene-dni" value="no" required>
+                        No
                     </label>
 
                     <div id="posee-documento" class="hidden">
@@ -120,7 +129,5 @@
             </p>
         </div>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
