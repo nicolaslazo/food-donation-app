@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.time.ZonedDateTime;
 import java.util.Collection;
+import java.util.Optional;
 
 public class SolicitudAperturaPorContribucion {
   @Getter
@@ -89,6 +90,12 @@ public class SolicitudAperturaPorContribucion {
 
   public double[] getPesosDeViandasEnGramos() {
     return this.getViandas().stream().mapToDouble(Vianda::getPesoEnGramos).toArray();
+  }
+
+  public Optional<Heladera> getHeladeraOrigen() {
+    if (razon instanceof RedistribucionViandas) return Optional.of(((RedistribucionViandas) razon).getOrigen());
+
+    return Optional.empty();
   }
 
   public Heladera getHeladeraDestino() {
