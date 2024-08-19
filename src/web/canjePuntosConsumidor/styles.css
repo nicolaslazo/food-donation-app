@@ -1,14 +1,13 @@
-
 .points-container {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     text-align: center;
     max-width: 700px;
     width: 100%;
-    margin: 0 auto;
-    height: calc(100vh - 242px);
+    margin: 20px auto;
+    height: auto;
 }
 
 h1 {
@@ -32,6 +31,10 @@ h1 {
     gap: 20px;
     padding: 10px;
     border-bottom: 1px solid #ccc;
+}
+
+.service-item:last-child {
+    border-bottom: none;
 }
 
 .service-item img {
@@ -69,9 +72,6 @@ h1 {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
     z-index: 100;
     display: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .modal-content {
@@ -89,7 +89,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-.btn-canjear {
+.btn-admin {
     margin-left: auto;
     padding: 10px 20px;
     background-color: #2980B9;
@@ -100,8 +100,22 @@ h1 {
     font-size: 16px;
 }
 
-.btn-canjear:hover {
+.btn-admin:hover {
     background-color: #2574A9;
+}
+
+.btn-canjear {
+    padding: 10px 20px;
+    background-color: #C0392B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-canjear:hover {
+    background-color: #B0392B;
 }
 
 .btn-close {
@@ -129,8 +143,4 @@ h1 {
     font-size: 18px;
     color: #C0392B;
     margin-top: 20px;
-}
-
-.modal {
-    display: none;
 }
