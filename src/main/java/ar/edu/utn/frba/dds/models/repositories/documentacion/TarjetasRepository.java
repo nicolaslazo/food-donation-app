@@ -10,22 +10,34 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class TarjetasRepository implements ITarjetasRepository {
-  // TODO: testear
-  private final List<Tarjeta> tarjetas;
+  static TarjetasRepository instancia = null;
+  List<Tarjeta> tarjetas;
 
-  public TarjetasRepository() {
+  TarjetasRepository() {
     tarjetas = new ArrayList<>();
+  }
+
+  public static TarjetasRepository getInstancia() {
+    if (instancia == null) instancia = new TarjetasRepository();
+
+    return instancia;
   }
 
   public Optional<Tarjeta> get(UUID id) {
     return tarjetas.stream().filter(ta -> ta.getId().equals(id)).findFirst();
   }
 
-  public void insert(Tarjeta tarjeta) throws RepositoryException {
+  public UUID insert(Tarjeta tarjeta) throws RepositoryException {
     if (get(tarjeta.getId()).isPresent()) {
-      throw new RepositoryException("Otra tarjeta alimentaria con este identificador ya existe");
+      throw new RepositoryException("Otra tarjeta con este identificador ya existe");
     }
 
     tarjetas.add(tarjeta);
+
+    return tarjeta.getId();
+  }
+
+  public void deleteTodas() {
+    tarjetas.clear();
   }
 }
