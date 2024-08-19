@@ -2,17 +2,17 @@ package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
-import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
-import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 import ar.edu.utn.frba.dds.models.repositories.recompensas.CanjeosRepository;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.Collections;
+
+import static org.mockito.Mockito.mock;
 
 class CanjeosRepositoryTest {
   CanjeosRepository repositorio;
@@ -24,18 +24,20 @@ class CanjeosRepositoryTest {
   void setUp() {
     repositorio = new CanjeosRepository();
     colaboradorDummy = new Colaborador(
-        new Documento(TipoDocumento.DNI, 123),
-        new Email("juan@example.com"),
-        null,
+        new Email("colaborador@example.com"),
+        mock(Documento.class),
         "",
         "",
-        null);
+        LocalDate.now(),
+        null
+    );
     recompensaDummy = new Recompensa(
         "Recompensa dummy", RubroRecompensa.OTROS, 10, 1, null
     );
     canjeo = new Canjeo(colaboradorDummy, recompensaDummy, ZonedDateTime.now());
   }
 
+  /*  TODO: Arreglar en la entrega de persistencia
   void registrarRedistribucionViandas(Colaborador colaborador, int cantidad) {
     // TODO: Arreglar cuando tengamos establecido el formato de registro de contribuciones
     new RedistribucionViandas(
@@ -47,7 +49,6 @@ class CanjeosRepositoryTest {
     );  // La instanciación se almacena sola en el colaborador (por ahora). 1 vianda = 1 punto
   }
 
-  /*  TODO: Arreglar en la entrega de persistencia
   @Test
   void repositorioSeInstancia() {
     assertInstanceOf(CanjeosRepository.class, repositorio);

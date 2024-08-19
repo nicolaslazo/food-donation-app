@@ -74,23 +74,25 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
   }
 
   private Colaborador crearColaborador(EntradaDeCargaCSV entrada) {
-    Colaborador colaboradorNuevo = new Colaborador(entrada.getDocumento(),
-        entrada.getMail(),
-        null,
+    Colaborador colaboradorNuevo = new Colaborador(entrada.getMail(),
+        entrada.getDocumento(),
         entrada.getNombre(),
         entrada.getApellido(),
+        null,
         null);
     this.colaboradores.add(colaboradorNuevo);
 
     return colaboradorNuevo;
   }
 
+  // Checkear igualdad por documentos no es ideal, pero es lo que tenemos
   private Colaborador encontrarOCrearColaborador(EntradaDeCargaCSV entrada) {
     return this.colaboradores
         .stream()
-        .filter(colaborador -> colaborador.getDocumento().equals(entrada.getDocumento()))
+        .filter(colaborador -> colaborador.getUsuario().getDocumento().equals(entrada.getDocumento()))
         .findAny()
-        .orElse(crearColaborador(entrada));
+        // orElseGet nos da evaluación diferida (crearColaborador tiene efecto)
+        .orElseGet(() -> crearColaborador(entrada));
   }
 
   private Contribucion instanciarContribucion(EntradaDeCargaCSV entrada, Colaborador colaborador) {

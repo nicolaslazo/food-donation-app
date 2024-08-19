@@ -56,10 +56,10 @@ class CargadorMasivoDeContribucionesTest {
 
     assertAll("Campos leídos",
         () -> assertInstanceOf(Dinero.class, contribucion),
-        () -> assertEquals(TipoDocumento.DNI, colaborador.getDocumento().tipo()),
-        () -> assertEquals(30123456, colaborador.getDocumento().valor()),
-        () -> assertEquals("Juan", colaborador.getNombre()),
-        () -> assertEquals("Pérez", colaborador.getApellido()),
+        () -> assertEquals(TipoDocumento.DNI, colaborador.getUsuario().getDocumento().tipo()),
+        () -> assertEquals(30123456, colaborador.getUsuario().getDocumento().valor()),
+        () -> assertEquals("Juan", colaborador.getUsuario().getPrimerNombre()),
+        () -> assertEquals("Pérez", colaborador.getUsuario().getApellido()),
         () -> {
           Optional<Contacto> contacto = colaborador.getContactos().stream().findFirst();
           Email email = (Email) contacto.get();
@@ -91,6 +91,6 @@ class CargadorMasivoDeContribucionesTest {
   void testReciclaColaboradoresYaCreados() {
     while (contribuciones.hasNext()) contribuciones.next();
 
-    assertEquals(7, contribuciones.getColaboradores().toArray().length);
+    assertEquals(7, contribuciones.getColaboradores().size());
   }
 }
