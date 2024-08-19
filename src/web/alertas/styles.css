@@ -1,0 +1,72 @@
+body {
+    display: flex;
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+}
+
+main {
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/*MAPA*/
+#map {
+    flex: 2;
+    height: 100%;
+    margin-right: 20px;
+    height: 80vh;
+    background-color: #e0e0e0; /* Color de fondo del mapa */
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 1.5em;
+    pointer-events: none;
+    margin: 5px 0;
+}
+
+/*PANEL*/
+#infoPanel {
+    flex: 1;
+    background-color: #f5f5f5;
+    padding: 20px;
+    height: 80vh;
+    overflow-y: auto;
+}
+
+.rounded-box {
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra opcional */
+    height: calc(100vh - 60px); /* Ajusta el tamaño para tener en cuenta los márgenes */
+}
+
+.form__container {
+    grid-column: 1/2;
+    background-color: #f2f2f2;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    align-content: center;
+    border-radius: 20px;
+    width: 40%;
+    justify-self: center;
+    box-shadow: 0 0 10px #0006;
+}
+
+.form-title {
+    font-weight: bold;
+    padding: 10px 20px;
+    background: #C0392B;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
