@@ -81,7 +81,6 @@ input[type="file"] {
     background-color: #2074A3;
 }
 
-/* Estilo para mostrar el nombre del archivo seleccionado */
 #file-name {
     display: block;
     margin-top: 10px;
@@ -89,10 +88,11 @@ input[type="file"] {
     font-style: italic;
 }
 
-/* Estilo para el mensaje de éxito */
 .success-message {
     margin-top: 20px;
     color: green;
     font-weight: bold;
     text-align: center;
 }
+
+
