@@ -1,0 +1,98 @@
+.container {
+    width: 30%;
+    height: auto;
+    box-shadow: 0 0 20px #0007;
+    border-radius: 20px; /* Asegurando que todo el contenedor tenga bordes redondeados */
+    overflow: hidden; /* Evita que los hijos sobrepasen los bordes redondeados */
+    background-color: #f2f2f2; /* Fondo gris */
+}
+
+.form-container {
+    background-color: #f2f2f2;
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 20px; /* Borde redondeado */
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #C0392B;
+    padding: 10px;
+    border-radius: 20px 20px 0 0; /* Bordes redondeados para la parte superior */
+}
+
+.info-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #C0392B;
+    color: #fff;
+    padding: 10px;
+    min-height: 40px;
+    border-radius: 0 0 20px 20px; /* Bordes redondeados en la parte inferior */
+    text-align: center;
+}
+
+.submit-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    min-width: 100%;
+}
+
+.submit-register input {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.submit-register input:hover {
+    background-color: #2074A3;
+    color: #fff;
+    border-radius: 20px;
+}
+
+input[type="file"] {
+    display: none; /* Ocultamos el botón original */
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #2980B9;
+    color: #fff;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.custom-file-upload:hover {
+    background-color: #2074A3;
+}
+
+/* Estilo para mostrar el nombre del archivo seleccionado */
+#file-name {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Estilo para el mensaje de éxito */
+.success-message {
+    margin-top: 20px;
+    color: green;
+    font-weight: bold;
+    text-align: center;
+}
