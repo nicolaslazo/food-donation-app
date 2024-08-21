@@ -3,7 +3,6 @@ body {
     margin: 0;
     height: 100vh;
     font-family: Arial, sans-serif;
-    height: 100vh;
 }
 
 main {
@@ -68,6 +67,7 @@ main {
     padding: 20px;
     font-size: 16px;
     color: #000000;
+    margin-bottom:0;
 }
 
 .fridge-info .details p {
@@ -80,10 +80,24 @@ main {
     border: 1px solid #ccc;
     border-radius: 10px;
     margin: 10px 20px;
+    margin-top: 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height:250px;
+    flex-direction: column;
+    height:150px;
+}
+
+.alert div {
+    width: 100%;
+    text-align: left; /* Alinea los textos a la izquierda */
+}
+
+.fridge-info .alert .alert-title {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 5px;
+    margin-top:3;
 }
 
 .fridge-info .previous-alert {
@@ -95,7 +109,7 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 150px;
+    height: 100px;
 }
 
 .fridge-info .alert img, .fridge-info .previous-alert img {
@@ -106,9 +120,17 @@ main {
     margin-right: 10px;
 }
 
-.fridge-info .alert p, .fridge-info .previous-alert p {
+.fridge-info .alert p {
     margin: 0;
     font-size: 14px;
+    text-align:left;
+
+}
+
+
+.fridge-info .previous-alert p {
+   margin: 0;
+   font-size: 14px;
 }
 
 .fridge-info .previous-alert {
