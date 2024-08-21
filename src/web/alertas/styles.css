@@ -8,7 +8,8 @@ body {
 main {
     display: flex;
     width: 100%;
-    padding: 20px;
+    height: calc(100vh - 60px);
+    padding: 10px;
     box-sizing: border-box;
 }
 
@@ -21,12 +22,14 @@ main {
     pointer-events: none;
     margin: 5px 0;
 }
+
 #map {
     width: 50%;
-    height: 80vh;
     margin-right: 20px;
     background-color: #e0e0e0;
-     z-index: 1;
+    z-index: 1;
+    flex: 1;
+    height: 100%;
 }
 
 /*HELADERA*/
