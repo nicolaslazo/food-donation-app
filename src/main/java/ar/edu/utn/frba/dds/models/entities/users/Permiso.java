@@ -2,11 +2,34 @@ package ar.edu.utn.frba.dds.models.entities.users;
 
 import lombok.NonNull;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
-public record Permiso(@NonNull String nombre, String descripcion) {
+@Entity
+@Table(name = "permisos")
+public record Permiso(
+    @Column(unique = true, nullable = false, updatable = false)
+    @Id
+    @NonNull UUID id,
+
+    @Column(unique = true, nullable = false, updatable = false)
+    @NonNull String nombre,
+
+    @Column(columnDefinition = "text")
+    String descripcion,
+
+
+    @ManyToMany(mappedBy = "permisos")
+    @NonNull Set<Rol> rolesQueUsan) {
   public Permiso(String nombre) {
-    this(nombre, null);
+    this(UUID.randomUUID(), nombre, null, new HashSet<>());
   }
 
   @Override
