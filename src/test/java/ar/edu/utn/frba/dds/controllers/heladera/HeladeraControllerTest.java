@@ -22,6 +22,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -61,11 +62,12 @@ class HeladeraControllerTest {
   @Test
   void testDevuelveNadaSiLosTecnicosProximosNoLleganEnRango() {
     tecnicoRepository.insert(
-        new Tecnico("",
+        new Tecnico(new Email("tecnico@example.com"),
+            new Documento(TipoDocumento.DNI, 1),
             "",
-            new Documento(TipoDocumento.DNI, 123),
+            "",
+            LocalDate.now(),
             "123",
-            new Email("tecnico@example.com"),
             new AreaGeografica(aCienMetrosDelObelisco, 50f))
     );
     assertTrue(HeladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
@@ -75,20 +77,22 @@ class HeladeraControllerTest {
   void testPriorizaTecnicoMasCercanoEnCasoDeVariosDisponibles() {
     final Ubicacion aCincuentaMetrosDelObelisco = new Ubicacion(-34.603725171426916,
         -58.38211380719743);
-    Tecnico tecnicoDeseado = new Tecnico("",
+    Tecnico tecnicoDeseado = new Tecnico(new Email("tecnico@example.com"),
+        new Documento(TipoDocumento.DNI, 1),
         "",
-        new Documento(TipoDocumento.DNI, 123),
+        "",
+        LocalDate.now(),
         "123",
-        new Email("tecnico@example.com"),
         new AreaGeografica(aCincuentaMetrosDelObelisco, 1000f));
 
     tecnicoRepository.insert(tecnicoDeseado);
     tecnicoRepository.insert(
-        new Tecnico("",
+        new Tecnico(new Email("tecnico@example.com"),
+            new Documento(TipoDocumento.DNI, 1),
             "",
-            new Documento(TipoDocumento.DNI, 456),
+            "",
+            LocalDate.now(),
             "456",
-            new Email("tecnico@example.com"),
             new AreaGeografica(aCienMetrosDelObelisco, 1000f))
     );
 

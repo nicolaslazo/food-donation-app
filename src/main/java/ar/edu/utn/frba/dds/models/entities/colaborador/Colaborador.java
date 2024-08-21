@@ -16,30 +16,28 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 public class Colaborador {
   static final Rol ROL_DEFAULT = new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
-  @NonNull Documento documento;
   @NonNull List<Contacto> contactos;
-  LocalDate fechaNacimiento;
   @NonNull Usuario usuario;
-  @NonNull String nombre;
-  @NonNull String apellido;
   Ubicacion ubicacion;
 
-  public Colaborador(@NonNull Documento documento,
-                     @NonNull Email mail,
-                     LocalDate fechaNacimiento,
-                     @NonNull String nombre,
+  public Colaborador(@NonNull Email mail,
+                     @NonNull Documento documento,
+                     @NonNull String primerNombre,
                      @NonNull String apellido,
+                     LocalDate fechaNacimiento,
                      Ubicacion ubicacion) {
-    this.documento = documento;
     this.contactos = new ArrayList<>(List.of(mail));
-    this.usuario = new Usuario(mail, new HashSet<>(List.of(ROL_DEFAULT)));
-    this.fechaNacimiento = fechaNacimiento;
-    this.nombre = nombre;
-    this.apellido = apellido;
+    this.usuario = new Usuario(mail,
+        documento,
+        primerNombre,
+        apellido,
+        fechaNacimiento,
+        new HashSet<>(List.of(ROL_DEFAULT)));
     this.ubicacion = ubicacion;
   }
 
@@ -53,8 +51,12 @@ public class Colaborador {
     });
   }
 
+  public UUID getId() {
+    return usuario.getId();
+  }
+
   public String getNombreCompleto() {
-    return nombre + " " + apellido;
+    return usuario.getPrimerNombre() + " " + usuario.getApellido();
   }
 
   @Override
@@ -62,21 +64,11 @@ public class Colaborador {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Colaborador that = (Colaborador) o;
-    return Objects.equals(getDocumento(), that.getDocumento());
+    return Objects.equals(getUsuario(), that.getUsuario());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getDocumento());
-  }
-
-  @Override
-  public String toString() {
-    return "Colaborador{" +
-        "documento=" +
-        documento + ", nombre='" +
-        nombre + '\'' + ", apellido='" +
-        apellido + '\'' +
-        '}';
+    return Objects.hash(getUsuario());
   }
 }
