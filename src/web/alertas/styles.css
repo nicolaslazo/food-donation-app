@@ -65,7 +65,7 @@ main {
 }
 
 .fridge-info .details {
-    padding: 20px;
+    padding: 15px;
     font-size: 16px;
     color: #000000;
     margin-bottom:0;
@@ -77,7 +77,6 @@ main {
 
 .fridge-info .alert {
     background-color: #fff;
-    padding: 15px;
     border: 1px solid #ccc;
     border-radius: 10px;
     margin: 10px 20px;
@@ -87,6 +86,21 @@ main {
     align-items: center;
     flex-direction: column;
     height:150px;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 320px;
+    box-sizing: border-box;
+    padding: 10px;
+    min-height: 150px;
+    overflow: auto;
+}
+
+.alert-description {
+    flex-grow: 1;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    margin-right: 10px;
 }
 
 .alert div {
@@ -102,40 +116,48 @@ main {
 }
 
 .fridge-info .previous-alert {
+    overflow: auto;
+    min-height: 150px;
     background-color: #fff;
-    padding: 15px;
     border: 1px solid #ccc;
     border-radius: 10px;
     margin: 10px 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 320px;
+    box-sizing: border-box;
+    padding: 10px;
     height: 100px;
+    overflow: auto;
 }
 
 .fridge-info .alert img, .fridge-info .previous-alert img {
     width: 60px;
     height: 60px;
     object-fit: cover;
-    border-radius: 10px;
-    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .fridge-info .alert p {
     margin: 0;
     font-size: 14px;
     text-align:left;
+    padding: 0;
 
 }
-
 
 .fridge-info .previous-alert p {
    margin: 0;
    font-size: 14px;
+   padding: 0;
 }
 
 .fridge-info .previous-alert {
-    margin-top: 20px;
+    overflow: auto;
+    min-height: 150px;
+    margin-top: 5px;
     background-color: #f9f9f9;
     padding: 15px;
     border-radius: 10px;
