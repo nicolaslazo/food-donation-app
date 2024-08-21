@@ -85,3 +85,27 @@ heladeras.forEach(heladera => {
         actualizarInfoHeladera(heladera);
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("imgModal");
+    const closeBtn = document.getElementById("close");
+
+    document.querySelectorAll('.alert img, .previous-alert img').forEach(img => {
+        img.addEventListener('click', function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        });
+    });
+
+    closeBtn.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    modal.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+});
