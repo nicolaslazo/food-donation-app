@@ -51,9 +51,31 @@
 
 <main>
     <div id="map" class="rounded-box"></div>
-    <div id="infoPanel" class="form__container">
-        <div class="form-title"> HELADERA X </div>
-        <p>Haz clic en una heladera en el mapa para ver los detalles aquí.</p>
+    <div class="fridge-info">
+        <div class="title">NOMBRE HELADERA</div>
+        <div class="details">
+            <p><strong>Fecha Instalación:</strong> <span id="installDate">(fecha)</span></p>
+            <p><strong>Encargado:</strong> <span id="managerName">(nombre)</span></p>
+            <p><strong>Capacidad:</strong> <span id="capacity">(cantidad viandas)</span></p>
+            <p><strong>Dirección:</strong> <span id="address">(dirección)</span></p>
+        </div>
+        <div class="alert">
+            <img src="ruta-a-imagen.jpg" alt="Imagen de la alerta">
+            <div>
+                <p><strong>ALERTA:</strong> <span id="alertType">Tipo ALERTA</span></p>
+                <p>Fecha: <span id="alertDate">(fecha)</span></p>
+                <p>Descripción: <span id="alertDescription">(descripción)</span></p>
+            </div>
+        </div>
+        <p class="previous-alert-title">Alerta previa</p>
+        <div class="previous-alert">
+            <img src="ruta-a-imagen.jpg" alt="Imagen de la alerta">
+            <div>
+                <p><strong>ALERTA:</strong> <span id="prevAlertType">Tipo ALERTA</span></p>
+                <p>Fecha: <span id="prevAlertDate">(fecha)</span></p>
+                <p>Descripción: <span id="prevAlertDescription">(descripción)</span></p>
+            </div>
+        </div>
     </div>
 </main>
 
