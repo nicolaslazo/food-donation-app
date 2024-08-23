@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 import java.time.ZonedDateTime;
 
 public class TemperatureSensorCheckerTest {
-  final Ubicacion obelisco = new Ubicacion(-34.5611745, -58.4287506);
+  final CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
   final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
 
   //Heladera en perfecto funcionamiento
@@ -25,7 +25,7 @@ public class TemperatureSensorCheckerTest {
 
   //Heladera defectuosa
   final Heladera otraHeladera = new Heladera("Otra heladera",
-      new Ubicacion(-34, -58),
+      new CoordenadasGeograficas(-34d, -58d),
       colaboradorMock,
       60,
       ZonedDateTime.now().minusMonths(7)

@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
@@ -23,14 +23,14 @@ public class Colaborador {
   static final Rol ROL_DEFAULT = new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
   @NonNull List<Contacto> contactos;
   @NonNull Usuario usuario;
-  Ubicacion ubicacion;
+  CoordenadasGeograficas ubicacion;
 
   public Colaborador(@NonNull Email mail,
                      @NonNull Documento documento,
                      @NonNull String primerNombre,
                      @NonNull String apellido,
                      LocalDate fechaNacimiento,
-                     Ubicacion ubicacion) {
+                     CoordenadasGeograficas ubicacion) {
     this.contactos = new ArrayList<>(List.of(mail));
     this.usuario = new Usuario(mail,
         documento,

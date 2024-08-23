@@ -9,11 +9,10 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
-
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -38,7 +37,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class SuscripcionControllerTest {
-  final Ubicacion obelisco = new Ubicacion(-34.5609872, -58.501046);
+  final CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5609872, -58.501046);
   final Heladera heladeraMock = mock(Heladera.class);
   final Colaborador colaboradorMock = mock(Colaborador.class);
   final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
@@ -60,7 +59,8 @@ class SuscripcionControllerTest {
 
   @Test
   void testCrearSuscripcion() throws RepositoryException {
-    final Ubicacion bibliotecaNacional = new Ubicacion(-34.5844291, -58.4164616);
+    final CoordenadasGeograficas bibliotecaNacional =
+        new CoordenadasGeograficas(-34.5844291, -58.4164616);
     when(colaboradorMock.getUbicacion()).thenReturn(bibliotecaNacional);
 
     SuscripcionController
@@ -82,7 +82,8 @@ class SuscripcionControllerTest {
 
   @Test
   void testCrearSuscripcionFallaSiElUsuarioViveLejos() {
-    final Ubicacion centroCivicoBariloche = new Ubicacion(-41.133496, -71.3127926);
+    final CoordenadasGeograficas centroCivicoBariloche =
+        new CoordenadasGeograficas(-41.133496, -71.3127926);
     when(colaboradorMock.getUbicacion()).thenReturn(centroCivicoBariloche);
 
     assertThrows(RuntimeException.class,
@@ -101,7 +102,7 @@ class SuscripcionControllerTest {
 
     for (int i = 0; i < 3; i++) {
       final Heladera heladeraNueva = new Heladera("Heladera " + (i + 1),
-          new Ubicacion(-34, -58 - i),
+          new CoordenadasGeograficas(-34d, -58d - i),
           colaboradorMock,
           10,
           ZonedDateTime.now());
@@ -111,7 +112,7 @@ class SuscripcionControllerTest {
     }
 
     // La ubicación mockeada ayuda a pasar el checkeo de distancia
-    when(colaboradorMock.getUbicacion()).thenReturn(new Ubicacion(-34, -58));
+    when(colaboradorMock.getUbicacion()).thenReturn(new CoordenadasGeograficas(-34d, -58d));
     SuscripcionController.suscribirAHeladera(heladeras.get(0),
         MotivoDeDistribucion.FALLA_HELADERA,
         null,

@@ -8,7 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
@@ -52,7 +52,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     tarjeta.setEnAlta(usuarioMock, colaboradorMock, ZonedDateTime.now());
 
     when(colaboradorMock.getUsuario()).thenReturn(usuarioMock);
-    when(colaboradorMock.getUbicacion()).thenReturn(mock(Ubicacion.class));
+    when(colaboradorMock.getUbicacion()).thenReturn(new CoordenadasGeograficas(-34d, -58d));
   }
 
   @AfterEach

@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.entities;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.Direccion;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
@@ -14,13 +14,13 @@ public final class PersonaVulnerable {
   @NonNull Colaborador reclutador;
   @NonNull ZonedDateTime fechaRegistro;
   @NonNull Usuario usuario;
-  Ubicacion domicilio;
+  Direccion domicilio;
   int menoresACargo;
 
   public PersonaVulnerable(@NonNull Colaborador reclutador,
                            @NonNull ZonedDateTime fechaRegistro,
                            @NonNull Usuario usuario,
-                           @NonNull Ubicacion domicilio,
+                           @NonNull Direccion domicilio,
                            int menoresACargo) {
     this.reclutador = reclutador;
     this.fechaRegistro = fechaRegistro;
