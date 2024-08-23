@@ -3,7 +3,7 @@ package ar.edu.utn.frba.dds.models.entities.ubicacion;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.NonNull;
 
-public record Direccion(
+public record DireccionResidencia(
     @NonNull Usuario usuario,
     String unidad,
     String piso,
