@@ -10,8 +10,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Coordenadas;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
@@ -40,8 +39,10 @@ class HeladeraControllerTest {
   final TecnicoRepository tecnicoRepository = TecnicoRepository.getInstancia();
   final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
-  final Ubicacion obelisco = new Ubicacion(-34.603706013664166, -58.3815728218273);
-  final Ubicacion aCienMetrosDelObelisco = new Ubicacion(-34.60375463775254, -58.38264297552039);
+  final CoordenadasGeograficas obelisco =
+      new CoordenadasGeograficas(-34.603706013664166, -58.3815728218273);
+  final CoordenadasGeograficas aCienMetrosDelObelisco =
+      new CoordenadasGeograficas(-34.60375463775254, -58.38264297552039);
 
   @BeforeEach
   void setUp() {
@@ -75,8 +76,8 @@ class HeladeraControllerTest {
 
   @Test
   void testPriorizaTecnicoMasCercanoEnCasoDeVariosDisponibles() {
-    final Ubicacion aCincuentaMetrosDelObelisco = new Ubicacion(-34.603725171426916,
-        -58.38211380719743);
+    final CoordenadasGeograficas aCincuentaMetrosDelObelisco =
+        new CoordenadasGeograficas(-34.603725171426916, -58.38211380719743);
     Tecnico tecnicoDeseado = new Tecnico(new Email("tecnico@example.com"),
         new Documento(TipoDocumento.DNI, 1),
         "",
@@ -101,9 +102,9 @@ class HeladeraControllerTest {
 
   @Test
   void testNotificaTecnicoMasCercanoDeIncidentes() throws RepositoryException, MensajeAContactoException {
-    final Coordenadas coordenadas = new Coordenadas(-34, -58);
+    final CoordenadasGeograficas coordenadas = new CoordenadasGeograficas(-34d, -58d);
     final Heladera heladera = new Heladera("Heladera a testear",
-        new Ubicacion(coordenadas.getLatitud(), coordenadas.getLongitud()),
+        new CoordenadasGeograficas(coordenadas.latitud(), coordenadas.longitud()),
         mock(Colaborador.class),
         10,
         ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC));
@@ -138,7 +139,7 @@ class HeladeraControllerTest {
 
     for (int i = 0; i < 5; i++) {
       heladeras.add(new Heladera("",
-          new Ubicacion(-34, -58 - i),
+          new CoordenadasGeograficas(-34d, -58d - i),
           mock(Colaborador.class),
           10,
           ZonedDateTime.now()));
@@ -151,8 +152,8 @@ class HeladeraControllerTest {
     for (Heladera heladera : heladeras) HeladerasRepository.getInstancia().insert(heladera);
 
     final List<Heladera> sugerencias = new HeladeraController().encontrarHeladerasCercanas(heladeraTarget);
-    final int[] longitudes =
-        sugerencias.stream().mapToInt(sugerencia -> (int) sugerencia.getUbicacion().getLongitud()).toArray();
+    final double[] longitudes =
+        sugerencias.stream().mapToDouble(sugerencia -> sugerencia.getUbicacion().longitud()).toArray();
 
     assertEquals(-59, longitudes[0]);
     assertEquals(-60, longitudes[1]);
