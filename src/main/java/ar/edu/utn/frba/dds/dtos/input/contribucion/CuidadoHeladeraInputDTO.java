@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.dds.dtos.input.contribucion;
 
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.NonNull;
@@ -38,7 +38,7 @@ public final class CuidadoHeladeraInputDTO {
     return UUID.fromString(idColaboradorSerializado);
   }
 
-  public Ubicacion getUbicacion() {
-    return new Ubicacion(latitud, longitud);
+  public CoordenadasGeograficas getUbicacion() {
+    return new CoordenadasGeograficas(latitud, longitud);
   }
 }
