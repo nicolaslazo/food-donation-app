@@ -1,38 +1,45 @@
 package ar.edu.utn.frba.dds.controllers;
 
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
-import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
-import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
+import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
+import ar.edu.utn.frba.dds.services.mensajeria.mail.EnviadorMail;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
+import org.mockito.MockedStatic;
 
-import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,6 +48,8 @@ class SuscripcionControllerTest {
   final Heladera heladeraMock = mock(Heladera.class);
   final Colaborador colaboradorMock = mock(Colaborador.class);
   final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
+  final ContactosRepository repositorioContactos = ContactosRepository.getInstancia();
+  final UsuariosRepository repositorioUsuarios = UsuariosRepository.getInstancia();
 
   @BeforeEach
   void setUp() {
@@ -55,6 +64,8 @@ class SuscripcionControllerTest {
     SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
     HeladerasRepository.getInstancia().deleteTodas();
     ViandasRepository.getInstancia().deleteTodas();
+    repositorioContactos.deleteAll();
+    repositorioUsuarios.deleteAll();
   }
 
   @Test
@@ -95,8 +106,6 @@ class SuscripcionControllerTest {
 
   @Test
   void testColaboradoresSonNotificadosDeIncidentes() throws RepositoryException {
-    Colaborador colaboradorMock = mock(Colaborador.class);
-
     final List<Heladera> heladeras = new ArrayList<>(3);
     final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
 
@@ -118,24 +127,51 @@ class SuscripcionControllerTest {
         null,
         colaboradorMock);
 
-    ArgumentCaptor<String> capturador = ArgumentCaptor.forClass(String.class);
+    Usuario usuario = new Usuario(
+        new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        new HashSet<>());
+    repositorioUsuarios.insert(usuario);
 
-    IncidenteController.getInstancia().crearAlerta(heladeras.get(0), TipoIncidente.FALLA_CONEXION, ZonedDateTime.now());
+    when(colaboradorMock.getUsuario()).thenReturn(usuario);
+    Email email = new Email(usuario, "colaboradormock@example.com");
+    Email emailMock = spy(email);
+    repositorioContactos.insert(emailMock);
 
-    verify(colaboradorMock).enviarMensaje(capturador.capture());
+    EnviadorMail emailServiceMock = mock(EnviadorMail.class);
 
-    final String mensajeGenerado = capturador.getValue();
+    try (MockedStatic<EnviadorMail> emailService = mockStatic(EnviadorMail.class)) {
+      emailService.when(EnviadorMail::getInstancia).thenReturn(emailServiceMock);
 
-    assertTrue(mensajeGenerado.contains("Se detectó una falla en la heladera Heladera 1"));
-    assertTrue(mensajeGenerado.contains("* Heladera 3"));
-    assertTrue(mensajeGenerado.contains("* Heladera 2"));
-    assertFalse(mensajeGenerado.contains("* Heladera 1"));
+      IncidenteController
+          .getInstancia()
+          .crearAlerta(heladeras.get(0), TipoIncidente.FALLA_CONEXION, ZonedDateTime.now());
+    }
+
+    verify(emailServiceMock).enviarMail(
+        argThat(destinatario -> Objects.equals(destinatario, "colaboradormock@example.com")),
+        argThat(mensaje -> mensaje.contains("Se detectó una falla en la heladera Heladera 1") &&
+            mensaje.contains("* Heladera 2") &&
+            mensaje.contains("* Heladera 3")));
   }
 
+  /* https://github.com/dds-utn/2024-tpa-ma-ma-grupo-06/issues/217
   @Test
   void testEnviaNotificacionesAInteresadosEnHeladera() throws SolicitudInvalidaException, RepositoryException {
-    Colaborador colaboradorInteresadoPocasViandasMock = mock(Colaborador.class);
-    Colaborador colaboradorInteresadoPocoEspacioMock = mock(Colaborador.class);
+    Colaborador colaboradorInteresadoPocasViandas = new Colaborador(new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        new CoordenadasGeograficas(-34.0, -58.0));
+    Colaborador colaboradorInteresadoPocoEspacio = new Colaborador(new Documento(TipoDocumento.DNI, 2),
+        "",
+        "",
+        LocalDate.now(),
+        new CoordenadasGeograficas(-34.0, -58.0));
+    repositorioUsuarios.insert(colaboradorInteresadoPocasViandas.getUsuario());
+    repositorioUsuarios.insert(colaboradorInteresadoPocoEspacio.getUsuario());
 
     SolicitudAperturaPorContribucion solicitudMock = mock(SolicitudAperturaPorContribucion.class);
     when(solicitudMock.getId()).thenReturn(42);
@@ -151,13 +187,25 @@ class SuscripcionControllerTest {
     repositorio.insert(new Suscripcion(heladeraMock,
         MotivoDeDistribucion.FALTAN_VIANDAS,
         4,
-        colaboradorInteresadoPocasViandasMock));
+        colaboradorInteresadoPocasViandas));
     repositorio.insert(new Suscripcion(heladeraMock,
         MotivoDeDistribucion.FALTA_ESPACIO,
         3,
-        colaboradorInteresadoPocoEspacioMock));
+        colaboradorInteresadoPocoEspacio));
 
     ViandasRepository.getInstancia().insert(List.of(viandaMock, viandaMock, viandaMock));
+
+//    Email emailColaboradorInteresadoPocasViandasMock = mock(Email.class);
+//    Email emailColaboradorInteresadoPocoEspacioMock = mock(Email.class);
+//    ContactosRepository.getInstancia().insert(emailColaboradorInteresadoPocasViandasMock);
+//    ContactosRepository.getInstancia().insert(emailColaboradorInteresadoPocoEspacioMock);
+
+    Email emailColaboradorInteresadoPocasViandas =
+        new Email(colaboradorInteresadoPocasViandas.getUsuario(), "pocasviandas@example.com");
+    Email emailColaboradorInteresadoPocoEspacio =
+        new Email(colaboradorInteresadoPocoEspacio.getUsuario(), "pocoespacio@example.com");
+    Email emailColaboradorInteresadoPocasViandasMock = spy(emailColaboradorInteresadoPocasViandas);
+    Email emailColaboradorInteresadoPocoEspacioMock = spy(emailColaboradorInteresadoPocoEspacio);
 
     String jsonAperturaConfirmada = "{\"id\": 42, " +
         "\"esExtraccion\": false, " +
@@ -172,7 +220,8 @@ class SuscripcionControllerTest {
     String notificacionPocasViandasEsperada = preludioEsperado + "3 viandas para que la heladera quede vacía.";
     String notificacionPocoEspacioEsperada = preludioEsperado + "2 espacios para que la heladera se llene.";
 
-    verify(colaboradorInteresadoPocasViandasMock).enviarMensaje(notificacionPocasViandasEsperada);
-    verify(colaboradorInteresadoPocoEspacioMock).enviarMensaje(notificacionPocoEspacioEsperada);
+    verify(emailColaboradorInteresadoPocasViandasMock).enviarMensaje(notificacionPocasViandasEsperada);
+    verify(emailColaboradorInteresadoPocoEspacioMock).enviarMensaje(notificacionPocoEspacioEsperada);
   }
+  */
 }

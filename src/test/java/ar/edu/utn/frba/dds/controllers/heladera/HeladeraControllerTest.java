@@ -4,20 +4,23 @@ import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
-import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
+import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
+import ar.edu.utn.frba.dds.services.mensajeria.mail.EnviadorMail;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.time.Instant;
@@ -26,12 +29,14 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -53,6 +58,8 @@ class HeladeraControllerTest {
   void tearDown() {
     tecnicoRepository.deleteTodos();
     heladerasRepository.deleteTodas();
+    ContactosRepository.getInstancia().deleteAll();
+    UsuariosRepository.getInstancia().deleteAll();
   }
 
   @Test
@@ -63,7 +70,7 @@ class HeladeraControllerTest {
   @Test
   void testDevuelveNadaSiLosTecnicosProximosNoLleganEnRango() {
     tecnicoRepository.insert(
-        new Tecnico(new Email("tecnico@example.com"),
+        new Tecnico(
             new Documento(TipoDocumento.DNI, 1),
             "",
             "",
@@ -78,7 +85,7 @@ class HeladeraControllerTest {
   void testPriorizaTecnicoMasCercanoEnCasoDeVariosDisponibles() {
     final CoordenadasGeograficas aCincuentaMetrosDelObelisco =
         new CoordenadasGeograficas(-34.603725171426916, -58.38211380719743);
-    Tecnico tecnicoDeseado = new Tecnico(new Email("tecnico@example.com"),
+    Tecnico tecnicoDeseado = new Tecnico(
         new Documento(TipoDocumento.DNI, 1),
         "",
         "",
@@ -88,7 +95,7 @@ class HeladeraControllerTest {
 
     tecnicoRepository.insert(tecnicoDeseado);
     tecnicoRepository.insert(
-        new Tecnico(new Email("tecnico@example.com"),
+        new Tecnico(
             new Documento(TipoDocumento.DNI, 1),
             "",
             "",
@@ -101,7 +108,7 @@ class HeladeraControllerTest {
   }
 
   @Test
-  void testNotificaTecnicoMasCercanoDeIncidentes() throws RepositoryException, MensajeAContactoException {
+  void testNotificaTecnicoMasCercanoDeIncidentes() throws RepositoryException {
     final CoordenadasGeograficas coordenadas = new CoordenadasGeograficas(-34d, -58d);
     final Heladera heladera = new Heladera("Heladera a testear",
         new CoordenadasGeograficas(coordenadas.latitud(), coordenadas.longitud()),
@@ -115,22 +122,33 @@ class HeladeraControllerTest {
     heladerasRepository.insert(heladera);
     tecnicoRepository.insert(tecnicoMock);
 
-    ArgumentCaptor<String> capturador = ArgumentCaptor.forClass(String.class);
+    Usuario usuario = new Usuario(new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        new HashSet<>());
+    when(tecnicoMock.getUsuario()).thenReturn(usuario);
+    UsuariosRepository.getInstancia().insert(usuario);
 
-    IncidenteController
-        .getInstancia()
-        .crearAlerta(heladera,
-            TipoIncidente.FALLA_CONEXION,
-            ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC).plusMinutes(5));
+    Email email = new Email(usuario, "tecnicomock@example.com");
+    ContactosRepository.getInstancia().insert(email);
 
-    verify(tecnicoMock).enviarMensaje(capturador.capture());
+    EnviadorMail emailServiceMock = mock(EnviadorMail.class);
 
-    final String mensajeGenerado = capturador.getValue();
+    try (MockedStatic<EnviadorMail> emailService = mockStatic(EnviadorMail.class)) {
+      emailService.when(EnviadorMail::getInstancia).thenReturn(emailServiceMock);
 
-    assertEquals(
-        "[ALERTA] la heladera \"Heladera a testear\" tuvo un incidente el 1970-01-01T00:05Z. " +
-            "Por favor acercarse a la brevedad",
-        mensajeGenerado);
+      IncidenteController
+          .getInstancia()
+          .crearAlerta(heladera,
+              TipoIncidente.FALLA_CONEXION,
+              ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC).plusMinutes(5));
+    }
+
+    verify(emailServiceMock)
+        .enviarMail("tecnicomock@example.com",
+            "[ALERTA] la heladera \"Heladera a testear\" tuvo un incidente el 1970-01-01T00:05Z. " +
+                "Por favor acercarse a la brevedad");
   }
 
   @Test
