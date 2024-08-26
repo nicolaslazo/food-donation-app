@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.migrations;
 
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import com.opencsv.bean.CsvBindByPosition;
@@ -27,9 +26,9 @@ public class EntradaDeCargaCSV {
   @CsvBindByPosition(position = 3)
   @Getter
   private String apellido;
-  @CsvCustomBindByPosition(position = 4, converter = ContactoEmailConverter.class)
+  @CsvBindByPosition(position = 4)
   @Getter
-  private Email mail;
+  private String mail;
   @CsvCustomBindByPosition(position = 5, converter = FechaDeContribucionConverter.class)
   @CsvDate("dd/MM/yyyy")
   @Getter
