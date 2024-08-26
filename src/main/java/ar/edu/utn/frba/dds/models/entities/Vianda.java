@@ -6,29 +6,51 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.ZonedDateTime;
 
+@Entity
+@Table(name="Vianda")
 public class Vianda {
-  final @NonNull String descripcion;
-  final @NonNull ZonedDateTime fechaCaducidad;
-  final @NonNull ZonedDateTime fechaDonacion;
-  final @NonNull Colaborador colaborador;
   @Getter
-  final double pesoEnGramos;
-  final int caloriasVianda;
+  @Setter
+  @Id
+  @GeneratedValue
+  Long id;
+
+  @Column(name = "Descripcion", nullable = false, columnDefinition = "TEXT")
+  @NonNull String descripcion;
+
+  @Column(name = "FechaCaducidad", nullable = false, columnDefinition = "DATETIME")
+  @NonNull ZonedDateTime fechaCaducidad;
+
+  @Column(name = "FechaDonacion", nullable = false, columnDefinition = "DATETIME")
+  @NonNull ZonedDateTime fechaDonacion;
+
+  @ManyToMany
+  // La tabla intermedia capaz seria la misma contribucion de DonacionVianda
+  // Lo dejo asi, pq espero a la proxima clase para ver como se haria :)
+  @NonNull Colaborador colaborador;
+
+  @Getter
+  @Column(name = "PesoEnGramos")
+  Double pesoEnGramos;
+
+  @Column(name = "CaloriasTotales")
+  Integer caloriasVianda;
+
+  @ManyToMany
+  // Idem
   @Getter
   @Setter
   Heladera heladera;
-  @Getter
-  @Setter
-  int id;
 
   public Vianda(@NonNull String descripcion,
                 @NonNull ZonedDateTime fechaCaducidad,
                 @NonNull ZonedDateTime fechaDonacion,
                 @NonNull Colaborador colaborador,
-                double pesoEnGramos,
-                int caloriasVianda) {
+                Double pesoEnGramos,
+                Integer caloriasVianda) {
     this.descripcion = descripcion;
     this.fechaCaducidad = fechaCaducidad;
     this.fechaDonacion = fechaDonacion;
@@ -36,4 +58,6 @@ public class Vianda {
     this.pesoEnGramos = pesoEnGramos;
     this.caloriasVianda = caloriasVianda;
   }
+
+  protected Vianda() {}
 }
