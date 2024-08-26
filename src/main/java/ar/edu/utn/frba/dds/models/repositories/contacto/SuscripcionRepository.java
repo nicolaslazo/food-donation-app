@@ -64,11 +64,10 @@ public class SuscripcionRepository {
     return Stream.concat(porPocasViandas, porPocoEspacio);
   }
 
-  public List<Suscripcion> getTodas(Heladera heladera, MotivoDeDistribucion tipo) {
+  public Stream<Suscripcion> getTodas(Heladera heladera, MotivoDeDistribucion tipo) {
     return suscripciones
         .stream()
-        .filter(suscripcion -> suscripcion.getHeladera() == heladera && suscripcion.getTipo() == tipo)
-        .toList();
+        .filter(suscripcion -> suscripcion.getHeladera() == heladera && suscripcion.getTipo() == tipo);
   }
 
   public int insert(Suscripcion suscripcion) throws RepositoryException {

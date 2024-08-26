@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CalculadoraDistancia;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
+import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 
 import java.time.ZonedDateTime;
@@ -59,13 +60,17 @@ public class HeladeraController {
             heladera.getNombre(),
             fecha);
 
-    HeladeraController.encontrarTecnicoMasCercano(heladera).ifPresent(tecnico -> {
-      try {
-        tecnico.enviarMensaje(mensaje);
-      } catch (MensajeAContactoException e) {
-        throw new RuntimeException(e);
-      }
-    });
+    HeladeraController.encontrarTecnicoMasCercano(heladera).ifPresent(tecnico ->
+        ContactosRepository
+            .getInstancia()
+            .get(tecnico)
+            .forEach(contacto -> {
+              try {
+                contacto.enviarMensaje(mensaje);
+              } catch (MensajeAContactoException e) {
+                throw new RuntimeException(e);
+              }
+            }));
   }
 
   public List<Heladera> encontrarHeladerasCercanas(Heladera target) {

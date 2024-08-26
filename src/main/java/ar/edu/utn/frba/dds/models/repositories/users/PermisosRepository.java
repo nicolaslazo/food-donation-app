@@ -1,15 +1,16 @@
 package ar.edu.utn.frba.dds.models.repositories.users;
 
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Optional;
 
-public class PermisosRepository implements IPermisosRepository {
+public class PermisosRepository extends HibernateEntityManager<Permiso> {
   static PermisosRepository instancia = null;
-  final List<Permiso> permisos = new ArrayList<>();
 
   public PermisosRepository getInstancia() {
     if (instancia == null) instancia = new PermisosRepository();
@@ -18,12 +19,13 @@ public class PermisosRepository implements IPermisosRepository {
   }
 
   public Optional<Permiso> get(String nombre) {
-    return permisos.stream().filter(permiso -> permiso.nombre().equalsIgnoreCase(nombre)).findFirst();
-  }
+    EntityManager em = instanciarEntityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Permiso> query = cb.createQuery(Permiso.class);
+    Root<Permiso> root = query.from(Permiso.class);
 
-  public void insert(Permiso permiso) throws RepositoryException {
-    if (get(permiso.nombre()).isPresent()) throw new RepositoryException("Ya existe un permiso con ese nombre");
+    query.select(root).where(cb.equal(root.get("nombre"), nombre));
 
-    permisos.add(permiso);
+    return em.createQuery(query).getResultStream().findFirst();
   }
 }

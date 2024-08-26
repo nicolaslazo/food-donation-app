@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
@@ -20,10 +19,9 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 class CuidadoHeladeraControllerTest {
-  Colaborador colaborador = new Colaborador(mock(Email.class),
+  Colaborador colaborador = new Colaborador(
       new Documento(TipoDocumento.DNI, 1),
       "",
       "",

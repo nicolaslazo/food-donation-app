@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.models.entities;
 
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
@@ -31,7 +30,7 @@ class TecnicoTest {
   @Test
   void afirmaQueHeladeraEstaDentroDeRango() {
     assertTrue(
-        new Tecnico(new Email("tecnico@example.com"),
+        new Tecnico(
             new Documento(TipoDocumento.DNI, 1),
             "",
             "",
@@ -44,7 +43,7 @@ class TecnicoTest {
   @Test
   void afirmaQueHeladeraNoEstaDentroDeRango() {
     assertFalse(
-        new Tecnico(new Email("tecnico@example.com"),
+        new Tecnico(
             new Documento(TipoDocumento.DNI, 1),
             "",
             "",

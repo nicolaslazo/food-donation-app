@@ -1,18 +1,30 @@
 package ar.edu.utn.frba.dds.models.entities.contacto;
 
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.services.mensajeria.TelegramService;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-@Getter
-public class Telegram implements Contacto {
-  private final String usuario;
-  @Setter
-  private Long chatId = null;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-  public Telegram(String usuario) {
+@Entity
+@DiscriminatorValue("TELEGRAM")
+@Getter
+@Setter
+public class Telegram extends Contacto {
+  @Column(unique = true)
+  Long chatId = null;
+
+  public Telegram(@NonNull Usuario usuario, @NonNull String username) {
     this.usuario = usuario;
+    this.destinatario = username;
+  }
+
+  protected Telegram() {
   }
 
   public void enviarMensaje(String mensaje) throws MensajeAContactoException {
@@ -30,8 +42,9 @@ public class Telegram implements Contacto {
   @Override
   public String toString() {
     return "Telegram{" +
-        "usuario='" + usuario + '\'' +
-        ", chatId=" + chatId +
+        "chatId=" + chatId +
+        ", colaborador=" + usuario +
+        ", destinatario='" + destinatario + '\'' +
         '}';
   }
 }
