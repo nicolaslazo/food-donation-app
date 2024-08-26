@@ -22,9 +22,8 @@ public record Permiso(
     @Column(unique = true, nullable = false, updatable = false)
     @NonNull String nombre,
 
-    @Column(columnDefinition = "text")
+    @Column
     String descripcion,
-
 
     @ManyToMany(mappedBy = "permisos")
     @NonNull Set<Rol> rolesQueUsan) {
