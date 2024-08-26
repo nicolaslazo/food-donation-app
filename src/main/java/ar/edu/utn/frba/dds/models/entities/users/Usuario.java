@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.users;
 
 import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import lombok.Getter;
 import lombok.NonNull;
@@ -21,10 +20,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
-  @Column(unique = true, nullable = false)
-  @Embedded
-  @NonNull Email mail;
-
   @Column(unique = true, nullable = false, updatable = false)
   @Embedded
   @Getter
@@ -59,13 +54,11 @@ public class Usuario {
   @Column(nullable = false)
   @NonNull String contrasenia;
 
-  public Usuario(@NonNull Email mail,
-                 @NonNull Documento documento,
+  public Usuario(@NonNull Documento documento,
                  @NonNull String primerNombre,
                  @NonNull String apellido,
                  LocalDate fechaNacimiento,
                  @NonNull Set<Rol> roles) {
-    this.mail = mail;
     this.documento = documento;
     this.primerNombre = primerNombre;
     this.apellido = apellido;
