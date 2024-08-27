@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.models.repositories;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,30 +12,28 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class ViandasRepository {
-  static ViandasRepository instancia = null;
-  final List<Vianda> viandas;
+//TODO Este repo tiene mucha logica, capaz conviene trabajarlo directo en un controller
 
-  private ViandasRepository() {
-    viandas = new ArrayList<>();
+public class ViandasRepository implements WithSimplePersistenceUnit {
+
+  public Optional<Vianda> get(Long id) {
+    return Optional.ofNullable(entityManager().find(Vianda.class, id));
   }
 
-  public static ViandasRepository getInstancia() {
-    if (instancia == null) instancia = new ViandasRepository();
-
-    return instancia;
-  }
-
-  public Optional<Vianda> get(int id) {
-    return viandas.stream().filter(vianda -> vianda.getId() == id).findFirst();
-  }
-
+  @SuppressWarnings("unchecked")
   public List<Vianda> getTodas() {
-    return viandas;
+    return entityManager()
+            .createQuery("from " + Vianda.class.getName())
+            .getResultList();
   }
 
+  @SuppressWarnings("unchecked")
   public List<Vianda> getAlmacenadas(Heladera heladera) {
-    return viandas.stream().filter(vianda -> vianda.getHeladera() == heladera).toList();
+    //TODO: Cambiar el ID de Heladera en su issue
+    return entityManager()
+            .createQuery("from " + Vianda.class.getName() + " where heladera_id =:heladera_id")
+            .setParameter("heladera_id" = heladera.getId())
+            .getResultList();
   }
 
   private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) throws RepositoryException {
@@ -55,38 +54,58 @@ public class ViandasRepository {
               capacidadDisponible);
   }
 
-  private void assertViandasSonDeLaMismaHeladera(Collection<Vianda> viandas) throws RepositoryException {
-    final Set<Heladera> heladerasInvolucradas = new HashSet<>(viandas.stream().map(Vianda::getHeladera).toList());
-    if (heladerasInvolucradas.size() > 1)
-      throw new RepositoryException("No se pueden insertar viandas de heladeras distintas en la misma transacción");
-  }
-
   public void insert(Collection<Vianda> viandas) throws RepositoryException {
     // Diseñada para calcular la disponibilidad de espacio en una heladera sola.
     // No hay caso de uso que justifique complicarla
     assertViandasSonDeLaMismaHeladera(viandas);
 
+    //TODO: eventualmente cambiara
     final Heladera heladeraInvolucrada = viandas.iterator().next().getHeladera();
-    if (heladeraInvolucrada != null) assertHeladeraTieneSuficienteEspacio(heladeraInvolucrada, viandas.size());
+    assertHeladeraTieneSuficienteEspacio(heladeraInvolucrada, viandas.size());
 
-    for (Vianda vianda : viandas) {
-      insert(vianda);
-    }
+    withTransaction(()->{
+      for (Vianda vianda : viandas) {
+        entityManager().persist(vianda);
+      }
+    });
+
   }
 
-  public int insert(Vianda vianda) throws RepositoryException {
-    if (vianda.getHeladera() != null) assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
+  public void insert(Vianda vianda) throws RepositoryException {
+    assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
+    withTransaction(()-> {
+      entityManager().persist(vianda);
+    });
+  }
 
-    viandas.add(vianda);
-    vianda.setId(viandas.size());
-
-    return vianda.getId();
+  public void update(Vianda vianda) {
+    withTransaction(()->{
+      entityManager().merge(vianda);
+    });
   }
 
   public void updateUbicacion(Vianda vianda, Heladera ubicacionNueva) throws RepositoryException {
     assertHeladeraTieneSuficienteEspacio(ubicacionNueva, 1);
-
     vianda.setHeladera(ubicacionNueva);
+    update(vianda);
+  }
+
+  public void delete(Vianda vianda) {
+    withTransaction(()->{
+      entityManager().remove(vianda);
+    });
+  }
+
+  public void deleteTodas() {
+    withTransaction(()-> {
+      entityManager().createQuery("delete from " + Vianda.class.getName());
+    });
+  }
+
+  private void assertViandasSonDeLaMismaHeladera(Collection<Vianda> viandas) throws RepositoryException {
+    final Set<Heladera> heladerasInvolucradas = new HashSet<>(viandas.stream().map(Vianda::getHeladera).toList());
+    if (heladerasInvolucradas.size() > 1)
+      throw new RepositoryException("No se pueden insertar viandas de heladeras distintas en la misma transacción");
   }
 
   // TODO: Necesitamos este método? Lo podemos aplicar en las concretizaciones de contribuciones?
@@ -101,7 +120,4 @@ public class ViandasRepository {
     }
   }
 
-  public void deleteTodas() {
-    viandas.clear();
-  }
 }
