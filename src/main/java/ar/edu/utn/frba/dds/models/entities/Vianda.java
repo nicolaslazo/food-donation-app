@@ -27,9 +27,8 @@ public class Vianda {
   @Column(name = "FechaDonacion", nullable = false, columnDefinition = "DATETIME")
   @NonNull ZonedDateTime fechaDonacion;
 
-  @ManyToMany
-  // La tabla intermedia capaz seria la misma contribucion de DonacionVianda
-  // Lo dejo asi, pq espero a la proxima clase para ver como se haria :)
+  @ManyToOne
+  @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
   @NonNull Colaborador colaborador;
 
   @Getter
@@ -39,11 +38,12 @@ public class Vianda {
   @Column(name = "CaloriasTotales")
   Integer caloriasVianda;
 
-  @ManyToMany
-  // Idem
+  //TODO: ORMizar Heladera
+  @ManyToOne
+  @JoinColumn(name = "heladera_id", referencedColumnName = "id")
   @Getter
   @Setter
-  Heladera heladera;
+  @NonNull Heladera heladera;
 
   public Vianda(@NonNull String descripcion,
                 @NonNull ZonedDateTime fechaCaducidad,
