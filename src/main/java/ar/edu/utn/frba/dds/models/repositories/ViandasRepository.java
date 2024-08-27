@@ -15,6 +15,13 @@ import java.util.Set;
 //TODO Este repo tiene mucha logica, capaz conviene trabajarlo directo en un controller
 
 public class ViandasRepository implements WithSimplePersistenceUnit {
+  static ViandasRepository instancia = null;
+
+  public static ViandasRepository getInstancia() {
+    if (instancia == null) instancia = new ViandasRepository();
+
+    return instancia;
+  }
 
   public Optional<Vianda> get(Long id) {
     return Optional.ofNullable(entityManager().find(Vianda.class, id));
