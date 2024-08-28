@@ -26,7 +26,10 @@ import java.util.Optional;
 public class SuscripcionController implements IMqttMessageListener {
   static SuscripcionController instancia = null;
 
-  public static void suscribirAHeladera(Heladera heladera, MotivoDeDistribucion tipo, Integer parametro, Colaborador colaborador) throws RepositoryException {
+  public static void suscribirAHeladera(Heladera heladera,
+                                        MotivoDeDistribucion tipo,
+                                        Integer parametro,
+                                        Colaborador colaborador) throws RepositoryException {
     final double distanciaHabilitadaEnMetros =
         Double.parseDouble(ConfigLoader.getInstancia().getProperty("heladeras.suscripciones.radioHabilitadoEnMetros"));
     final double distancia = CalculadoraDistancia.calcular(heladera.getUbicacion(), colaborador.getUbicacion());
@@ -75,8 +78,13 @@ public class SuscripcionController implements IMqttMessageListener {
   }
 
   /* Convierte un input DTO de solicitud de apertura en una instancia, garantizando que es válida */
-  private static SolicitudAperturaPorContribucion verificarSolicitudEsProcesable(SolicitudAperturaPorContribucionInputDTO dtoSolicitudApertura) throws SolicitudInvalidaException {
-    Optional<SolicitudAperturaPorContribucion> optionalSolicitudReferida = SolicitudAperturaPorContribucionRepository.getInstancia().getSolicitudVigenteAlMomento(dtoSolicitudApertura.getId(), dtoSolicitudApertura.getEsExtraccion(), dtoSolicitudApertura.getFechaRealizada());
+  private static SolicitudAperturaPorContribucion verificarSolicitudEsProcesable(
+      SolicitudAperturaPorContribucionInputDTO dtoSolicitudApertura) throws SolicitudInvalidaException {
+    Optional<SolicitudAperturaPorContribucion> optionalSolicitudReferida = SolicitudAperturaPorContribucionRepository
+        .getInstancia()
+        .getSolicitudVigenteAlMomento(dtoSolicitudApertura.getId(),
+            dtoSolicitudApertura.getEsExtraccion(),
+            dtoSolicitudApertura.getFechaRealizada());
 
     if (optionalSolicitudReferida.isEmpty()) throw new SolicitudInvalidaException("Esto no debería pasar");
 
@@ -84,7 +92,8 @@ public class SuscripcionController implements IMqttMessageListener {
   }
 
   private String construirMensajeDeNotificacion(Suscripcion suscripcion) {
-    String formato = "Usted está siendo notificad@ porque está suscrit@ a la heladera \"%s\". " + "Se desea informarle que actualmente quedan %d %s.";
+    String formato = "Usted está siendo notificad@ porque está suscrit@ a la heladera \"%s\". " +
+        "Se desea informarle que actualmente quedan %d %s.";
 
     Heladera heladera = suscripcion.getHeladera();
     int viandasDepositadas = HeladerasRepository.getInstancia().getCantidadViandasDepositadas(heladera);
@@ -107,11 +116,13 @@ public class SuscripcionController implements IMqttMessageListener {
   /* Notifica a los interesados cuando el stock de una heladera sube o baja */
   @Override
   public void messageArrived(String topic, MqttMessage payload) throws SolicitudInvalidaException {
-    SolicitudAperturaPorContribucionInputDTO confirmacionCambioEnStock = SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
+    SolicitudAperturaPorContribucionInputDTO confirmacionCambioEnStock =
+        SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
 
     SolicitudAperturaPorContribucion solicitudReferida = verificarSolicitudEsProcesable(confirmacionCambioEnStock);
 
-    Heladera heladeraAfectada = confirmacionCambioEnStock.getEsExtraccion() ? solicitudReferida.getHeladeraOrigen().get() : solicitudReferida.getHeladeraDestino();
+    Heladera heladeraAfectada = confirmacionCambioEnStock.getEsExtraccion() ?
+        solicitudReferida.getHeladeraOrigen().get() : solicitudReferida.getHeladeraDestino();
 
     ContactosRepository repositorioContactos = ContactosRepository.getInstancia();
 
