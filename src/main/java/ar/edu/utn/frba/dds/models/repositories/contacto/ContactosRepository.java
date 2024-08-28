@@ -26,7 +26,7 @@ public class ContactosRepository extends HibernateEntityManager<Contacto> {
   }
 
   public <T extends Contacto> Optional<T> get(String username, Class<T> tipo) {
-    EntityManager em = instanciarEntityManager();
+    EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<T> query = cb.createQuery(tipo);
     Root<T> root = query.from(tipo);
@@ -37,7 +37,7 @@ public class ContactosRepository extends HibernateEntityManager<Contacto> {
   }
 
   public Stream<Contacto> get(@NonNull Usuario usuario) {
-    EntityManager em = instanciarEntityManager();
+    EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Contacto> query = cb.createQuery(Contacto.class);
     Root<Contacto> root = query.from(Contacto.class);
@@ -56,7 +56,7 @@ public class ContactosRepository extends HibernateEntityManager<Contacto> {
   }
 
   public void updateChatId(String username, long chatId) throws RepositoryException {
-    EntityManager em = instanciarEntityManager();
+    EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Telegram> query = cb.createQuery(Telegram.class);
     Root<Telegram> root = query.from(Telegram.class);
@@ -71,8 +71,6 @@ public class ContactosRepository extends HibernateEntityManager<Contacto> {
 
     encontrado.setChatId(chatId);
 
-    empezarTransaccion(em);
-    em.merge(encontrado);
-    committearTransaccion(em);
+    withTransaction(() -> em.merge(encontrado));
   }
 }

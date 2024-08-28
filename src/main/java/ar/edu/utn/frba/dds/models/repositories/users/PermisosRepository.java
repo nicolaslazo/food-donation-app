@@ -19,7 +19,7 @@ public class PermisosRepository extends HibernateEntityManager<Permiso> {
   }
 
   public Optional<Permiso> get(String nombre) {
-    EntityManager em = instanciarEntityManager();
+    EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Permiso> query = cb.createQuery(Permiso.class);
     Root<Permiso> root = query.from(Permiso.class);
