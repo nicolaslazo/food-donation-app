@@ -46,8 +46,8 @@ public class Usuario {
   @ManyToMany
   @JoinTable(
       name = "rolesAsignados",
-      joinColumns = @JoinColumn(name = "idRol"),
-      inverseJoinColumns = @JoinColumn(name = "idUsuario"))
+      joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "id"))
   @Getter
   @NonNull Set<Rol> roles;
 

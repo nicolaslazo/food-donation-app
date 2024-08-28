@@ -26,8 +26,8 @@ public record Rol(
     @ManyToMany
     @JoinTable(
         name = "permisosPorRol",
-        joinColumns = @JoinColumn(name = "rolId"),
-        inverseJoinColumns = @JoinColumn(name = "permisoId"))
+        joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "idPermiso", referencedColumnName = "id"))
     @NonNull Set<Permiso> permisos) {
   public Rol(String nombre) {
     this(UUID.randomUUID(), nombre, new HashSet<>());

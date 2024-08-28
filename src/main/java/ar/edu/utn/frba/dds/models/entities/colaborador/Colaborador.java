@@ -37,7 +37,7 @@ public class Colaborador {
 
   @OneToOne
   @MapsId
-  @JoinColumn(name = "idUsuario")
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id")
   @NonNull Usuario usuario;
 
   @Embedded

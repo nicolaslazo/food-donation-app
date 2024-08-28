@@ -31,7 +31,7 @@ public abstract class Contacto {
   @NonNull Long id;
 
   @ManyToOne(cascade = CascadeType.REMOVE)
-  @JoinColumn(name = "idUsuario")
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id")
   @NonNull Usuario usuario;
 
   @Column(name = "destinatario", nullable = false, updatable = false)
