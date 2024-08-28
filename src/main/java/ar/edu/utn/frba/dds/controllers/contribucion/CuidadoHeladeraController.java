@@ -18,7 +18,7 @@ public class CuidadoHeladeraController {
 
     Colaborador encargado = ColaboradorRepository
         .getInstancia()
-        .get(dtoCuidado.getIdColaborador())
+        .findById(dtoCuidado.getIdColaborador())
         .orElseThrow();
 
     Heladera heladeraNueva = new Heladera(dtoCuidado.getNombreHeladera(),

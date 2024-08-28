@@ -111,7 +111,7 @@ class HeladeraControllerTest {
   void testNotificaTecnicoMasCercanoDeIncidentes() throws RepositoryException {
     final CoordenadasGeograficas coordenadas = new CoordenadasGeograficas(-34d, -58d);
     final Heladera heladera = new Heladera("Heladera a testear",
-        new CoordenadasGeograficas(coordenadas.latitud(), coordenadas.longitud()),
+        new CoordenadasGeograficas(coordenadas.getLatitud(), coordenadas.getLongitud()),
         mock(Colaborador.class),
         10,
         ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC));
@@ -171,7 +171,7 @@ class HeladeraControllerTest {
 
     final List<Heladera> sugerencias = new HeladeraController().encontrarHeladerasCercanas(heladeraTarget);
     final double[] longitudes =
-        sugerencias.stream().mapToDouble(sugerencia -> sugerencia.getUbicacion().longitud()).toArray();
+        sugerencias.stream().mapToDouble(sugerencia -> sugerencia.getUbicacion().getLongitud()).toArray();
 
     assertEquals(-59, longitudes[0]);
     assertEquals(-60, longitudes[1]);
