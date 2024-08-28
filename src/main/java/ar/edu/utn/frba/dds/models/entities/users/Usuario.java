@@ -18,27 +18,27 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "usuario")
 public class Usuario {
-  @Column(unique = true, nullable = false, updatable = false)
+  @Column(name = "documento", unique = true, nullable = false, updatable = false)
   @Embedded
   @Getter
   @NonNull Documento documento;
 
-  @Column(nullable = false)
+  @Column(name = "primerNombre", nullable = false)
   @Getter
   @NonNull String primerNombre;
 
-  @Column(nullable = false)
+  @Column(name = "apellido", nullable = false)
   @Getter
   @NonNull String apellido;
 
-  @Column(updatable = false)
+  @Column(name = "fechaNacimiento", updatable = false)
   // Nulificable por el cargador CSV
   LocalDate fechaNacimiento;
 
   // Idealmente estaríamos usando números de trámite en vez de UUIDs pero el cargador CSV no los soporta
-  @Column(unique = true, nullable = false, updatable = false)
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   @Getter
   @NonNull UUID id;
@@ -51,7 +51,7 @@ public class Usuario {
   @Getter
   @NonNull Set<Rol> roles;
 
-  @Column(nullable = false)
+  @Column(name = "contrasenia", nullable = false)
   @NonNull String contrasenia;
 
   public Usuario(@NonNull Documento documento,
