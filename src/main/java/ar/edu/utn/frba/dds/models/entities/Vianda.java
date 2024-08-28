@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name="Vianda")
+@Table(name="vianda")
 public class Vianda {
   @Getter
   @Setter
@@ -18,13 +18,13 @@ public class Vianda {
   @GeneratedValue
   Long id;
 
-  @Column(name = "Descripcion", nullable = false, columnDefinition = "TEXT")
+  @Column(name = "descripcion", nullable = false, columnDefinition = "TEXT")
   @NonNull String descripcion;
 
-  @Column(name = "FechaCaducidad", nullable = false, columnDefinition = "DATETIME")
+  @Column(name = "fechaCaducidad", nullable = false, columnDefinition = "DATETIME")
   @NonNull ZonedDateTime fechaCaducidad;
 
-  @Column(name = "FechaDonacion", nullable = false, columnDefinition = "DATETIME")
+  @Column(name = "fechaDonacion", nullable = false, columnDefinition = "DATETIME")
   @NonNull ZonedDateTime fechaDonacion;
 
   @ManyToOne
@@ -32,10 +32,10 @@ public class Vianda {
   @NonNull Colaborador colaborador;
 
   @Getter
-  @Column(name = "PesoEnGramos")
+  @Column(name = "pesoEnGramos")
   Double pesoEnGramos;
 
-  @Column(name = "CaloriasTotales")
+  @Column(name = "caloriasTotales")
   Integer caloriasVianda;
 
   //TODO: ORMizar Heladera
