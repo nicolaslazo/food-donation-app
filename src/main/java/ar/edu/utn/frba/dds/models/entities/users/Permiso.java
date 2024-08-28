@@ -13,18 +13,17 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "permisos")
+@Table(name = "permiso")
 public record Permiso(
-    @Column(unique = true, nullable = false, updatable = false)
+    @Column(name = "id", unique = true, nullable = false, updatable = false)
     @Id
     @NonNull UUID id,
 
-    @Column(unique = true, nullable = false, updatable = false)
+    @Column(name = "nombre", unique = true, nullable = false, updatable = false)
     @NonNull String nombre,
 
-    @Column(columnDefinition = "text")
+    @Column(name = "descripcion")
     String descripcion,
-
 
     @ManyToMany(mappedBy = "permisos")
     @NonNull Set<Rol> rolesQueUsan) {

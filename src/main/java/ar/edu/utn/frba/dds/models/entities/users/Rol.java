@@ -14,13 +14,13 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "rol")
 public record Rol(
-    @Column(unique = true, nullable = false, updatable = false)
+    @Column(name = "id", unique = true, nullable = false, updatable = false)
     @Id
     @NonNull UUID id,
 
-    @Column(unique = true, nullable = false, updatable = false)
+    @Column(name = "nombre", unique = true, nullable = false, updatable = false)
     @NonNull String nombre,
 
     @ManyToMany
