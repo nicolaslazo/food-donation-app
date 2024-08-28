@@ -7,9 +7,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Optional;
 import java.util.stream.Stream;
 
-public abstract class HibernateEntityManager<T> implements WithSimplePersistenceUnit {
+/* T es el tipo de entidad, U el tipo de pkey que usa */
+public abstract class HibernateEntityManager<T, U> implements WithSimplePersistenceUnit {
   Class<T> claseDeEntidad = getClaseDeEntidad();
 
   private Class<T> getClaseDeEntidad() {
@@ -26,7 +28,11 @@ public abstract class HibernateEntityManager<T> implements WithSimplePersistence
     return entityManager().createQuery(query).getResultStream();
   }
 
-  public Stream<T> getAll() {
+  public Optional<T> findById(U id) {
+    return Optional.ofNullable(entityManager().find(claseDeEntidad, id));
+  }
+
+  public Stream<T> findAll() {
     return entityManager()
         .createQuery("SELECT e FROM " + claseDeEntidad.getSimpleName() + " e", claseDeEntidad)
         .getResultStream();

@@ -8,8 +8,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Optional;
+import java.util.UUID;
 
-public class PermisosRepository extends HibernateEntityManager<Permiso> {
+public class PermisosRepository extends HibernateEntityManager<Permiso, UUID> {
   static PermisosRepository instancia = null;
 
   public PermisosRepository getInstancia() {
