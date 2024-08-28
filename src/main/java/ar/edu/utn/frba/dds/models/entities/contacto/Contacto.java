@@ -25,7 +25,7 @@ import javax.persistence.UniqueConstraint;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoContacto")
 public abstract class Contacto {
-  @Column(name="id")
+  @Column(name = "id")
   @Id
   @GeneratedValue
   @NonNull Long id;
