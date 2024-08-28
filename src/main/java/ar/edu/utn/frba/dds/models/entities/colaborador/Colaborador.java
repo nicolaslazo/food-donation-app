@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,19 +24,20 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "colaboradores")
+@Table(name = "colaborador")
 @Getter
 public class Colaborador {
   @Transient
   static final Rol ROL_DEFAULT =
       new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
 
+  @Column(name = "id")
   @Id
   UUID id;
 
   @OneToOne
   @MapsId
-  @JoinColumn(name = "usuarioId")
+  @JoinColumn(name = "idUsuario")
   @NonNull Usuario usuario;
 
   @Embedded
