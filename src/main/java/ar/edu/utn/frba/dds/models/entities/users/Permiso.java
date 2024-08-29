@@ -13,22 +13,33 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "permisos")
-public record Permiso(
-    @Column(unique = true, nullable = false, updatable = false)
-    @Id
-    @NonNull UUID id,
+@Table(name = "permiso")
+public class Permiso {
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @Id
+  @NonNull UUID id;
 
-    @Column(unique = true, nullable = false, updatable = false)
-    @NonNull String nombre,
+  @Column(name = "nombre", unique = true, nullable = false, updatable = false)
+  @NonNull String nombre;
 
-    @Column
-    String descripcion,
+  @Column(name = "descripcion")
+  String descripcion;
 
-    @ManyToMany(mappedBy = "permisos")
-    @NonNull Set<Rol> rolesQueUsan) {
+  @ManyToMany(mappedBy = "permisos")
+  @NonNull Set<Rol> rolesQueUsan;
+
+  public Permiso(@NonNull UUID id, @NonNull String nombre, String descripcion, @NonNull Set<Rol> rolesQueUsan) {
+    this.id = id;
+    this.nombre = nombre;
+    this.descripcion = descripcion;
+    this.rolesQueUsan = rolesQueUsan;
+  }
+
   public Permiso(String nombre) {
     this(UUID.randomUUID(), nombre, null, new HashSet<>());
+  }
+
+  protected Permiso() {
   }
 
   @Override

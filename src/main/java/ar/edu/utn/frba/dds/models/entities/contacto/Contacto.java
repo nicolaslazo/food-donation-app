@@ -18,22 +18,23 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "contactos", uniqueConstraints = {
+@Table(name = "contacto", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"idUsuario", "destinatario"}),
     @UniqueConstraint(columnNames = {"tipoContacto", "destinatario"})
 })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoContacto")
 public abstract class Contacto {
+  @Column(name = "id")
   @Id
   @GeneratedValue
   @NonNull Long id;
 
   @ManyToOne(cascade = CascadeType.REMOVE)
-  @JoinColumn(name = "idUsuario")
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id")
   @NonNull Usuario usuario;
 
-  @Column(nullable = false, updatable = false)
+  @Column(name = "destinatario", nullable = false, updatable = false)
   @Getter
   @NonNull String destinatario;
 

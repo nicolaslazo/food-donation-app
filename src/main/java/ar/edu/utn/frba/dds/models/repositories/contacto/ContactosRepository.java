@@ -16,17 +16,9 @@ import javax.persistence.criteria.Root;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class ContactosRepository extends HibernateEntityManager<Contacto> {
-  static ContactosRepository instancia = null;
-
-  public static ContactosRepository getInstancia() {
-    if (instancia == null) instancia = new ContactosRepository();
-
-    return instancia;
-  }
-
+public class ContactosRepository extends HibernateEntityManager<Contacto, Long> {
   public <T extends Contacto> Optional<T> get(String username, Class<T> tipo) {
-    EntityManager em = instanciarEntityManager();
+    EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<T> query = cb.createQuery(tipo);
     Root<T> root = query.from(tipo);
@@ -37,7 +29,7 @@ public class ContactosRepository extends HibernateEntityManager<Contacto> {
   }
 
   public Stream<Contacto> get(@NonNull Usuario usuario) {
-    EntityManager em = instanciarEntityManager();
+    EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Contacto> query = cb.createQuery(Contacto.class);
     Root<Contacto> root = query.from(Contacto.class);
@@ -56,7 +48,7 @@ public class ContactosRepository extends HibernateEntityManager<Contacto> {
   }
 
   public void updateChatId(String username, long chatId) throws RepositoryException {
-    EntityManager em = instanciarEntityManager();
+    EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Telegram> query = cb.createQuery(Telegram.class);
     Root<Telegram> root = query.from(Telegram.class);
@@ -70,9 +62,6 @@ public class ContactosRepository extends HibernateEntityManager<Contacto> {
         .orElseThrow(() -> new RepositoryException("No existe un contacto con ese usuario"));
 
     encontrado.setChatId(chatId);
-
-    empezarTransaccion(em);
-    em.merge(encontrado);
-    committearTransaccion(em);
+    update(encontrado);
   }
 }

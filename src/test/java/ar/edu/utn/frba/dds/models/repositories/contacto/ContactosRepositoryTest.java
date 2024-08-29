@@ -21,9 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.spy;
 
 class ContactosRepositoryTest {
-  final ContactosRepository repositorio = ContactosRepository.getInstancia();
-  final UsuariosRepository repositorioUsuarios =
-      UsuariosRepository.getInstancia();
+  final ContactosRepository repositorio = new ContactosRepository();
+  final UsuariosRepository repositorioUsuarios = new UsuariosRepository();
 
 
   Usuario usuario = new Usuario(

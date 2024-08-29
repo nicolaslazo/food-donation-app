@@ -50,7 +50,7 @@ public class ServicioSugerenciaColocacionHeladeras {
     CoordenadasGeograficas coordenadas = area.centro();
 
     Call<List<CoordenadasGeograficas>> request =
-        interfaz.sugerencias(coordenadas.latitud(), coordenadas.longitud(), area.radioEnMetros());
+        interfaz.sugerencias(coordenadas.getLatitud(), coordenadas.getLongitud(), area.radioEnMetros());
 
     Response<List<CoordenadasGeograficas>> response = request.execute();
 

@@ -16,7 +16,7 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 public class Telegram extends Contacto {
-  @Column(unique = true)
+  @Column(name = "chatId", unique = true)
   Long chatId = null;
 
   public Telegram(@NonNull Usuario usuario, @NonNull String username) {

@@ -8,18 +8,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Optional;
+import java.util.UUID;
 
-public class PermisosRepository extends HibernateEntityManager<Permiso> {
-  static PermisosRepository instancia = null;
-
-  public PermisosRepository getInstancia() {
-    if (instancia == null) instancia = new PermisosRepository();
-
-    return instancia;
-  }
-
+public class PermisosRepository extends HibernateEntityManager<Permiso, UUID> {
   public Optional<Permiso> get(String nombre) {
-    EntityManager em = instanciarEntityManager();
+    EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Permiso> query = cb.createQuery(Permiso.class);
     Root<Permiso> root = query.from(Permiso.class);
