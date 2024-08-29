@@ -5,6 +5,10 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,33 +18,26 @@ import java.util.Set;
 
 //TODO Este repo tiene mucha logica, capaz conviene trabajarlo directo en un controller
 
-public class ViandasRepository implements WithSimplePersistenceUnit {
-  static ViandasRepository instancia = null;
-
-  public static ViandasRepository getInstancia() {
-    if (instancia == null) instancia = new ViandasRepository();
-
-    return instancia;
-  }
+public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
 
   public Optional<Vianda> get(Long id) {
-    return Optional.ofNullable(entityManager().find(Vianda.class, id));
+    return findById(id);
   }
 
-  @SuppressWarnings("unchecked")
   public List<Vianda> getTodas() {
-    return entityManager()
-            .createQuery("from " + Vianda.class.getName())
-            .getResultList();
+    return findAll().toList();
   }
 
-  @SuppressWarnings("unchecked")
   public List<Vianda> getAlmacenadas(Heladera heladera) {
     //TODO: Cambiar el ID de Heladera en su issue
-    return entityManager()
-            .createQuery("from " + Vianda.class.getName() + " where heladera_id =:heladera_id")
-            .setParameter("heladera_id" = heladera.getId())
-            .getResultList();
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Vianda> query = cb.createQuery(Vianda.class);
+    Root<Vianda> root = query.from(Vianda.class);
+
+    query.select(root).where(cb.equal(root.get("heladera"), heladera));
+
+    return em.createQuery(query).getResultList();
   }
 
   private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) throws RepositoryException {
@@ -70,25 +67,16 @@ public class ViandasRepository implements WithSimplePersistenceUnit {
     final Heladera heladeraInvolucrada = viandas.iterator().next().getHeladera();
     assertHeladeraTieneSuficienteEspacio(heladeraInvolucrada, viandas.size());
 
-    withTransaction(()->{
-      for (Vianda vianda : viandas) {
-        entityManager().persist(vianda);
-      }
-    });
-
+    insertAll(viandas);
   }
 
   public void insert(Vianda vianda) throws RepositoryException {
     assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
-    withTransaction(()-> {
-      entityManager().persist(vianda);
-    });
+    super.insert(vianda);
   }
 
   public void update(Vianda vianda) {
-    withTransaction(()->{
-      entityManager().merge(vianda);
-    });
+    super.update(vianda);
   }
 
   public void updateUbicacion(Vianda vianda, Heladera ubicacionNueva) throws RepositoryException {
@@ -98,15 +86,11 @@ public class ViandasRepository implements WithSimplePersistenceUnit {
   }
 
   public void delete(Vianda vianda) {
-    withTransaction(()->{
-      entityManager().remove(vianda);
-    });
+    super.delete(vianda);
   }
 
   public void deleteTodas() {
-    withTransaction(()-> {
-      entityManager().createQuery("delete from " + Vianda.class.getName());
-    });
+    deleteAll();
   }
 
   private void assertViandasSonDeLaMismaHeladera(Collection<Vianda> viandas) throws RepositoryException {
