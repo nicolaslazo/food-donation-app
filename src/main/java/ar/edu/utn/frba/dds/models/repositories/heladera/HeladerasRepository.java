@@ -14,6 +14,7 @@ import java.util.Optional;
 public class HeladerasRepository {
   static HeladerasRepository instancia = null;
   final List<Heladera> heladeras;
+  ViandasRepository viandasRepository = new ViandasRepository();
 
   private HeladerasRepository() {
     heladeras = new ArrayList<>();
@@ -59,7 +60,7 @@ public class HeladerasRepository {
    * Solicitudes de apertura. Para saber el espacio disponible, reservando los espacios de las solicitudes de apertura
    */
   public int getCantidadViandasDepositadas(Heladera heladera) {
-    return ViandasRepository.getInstancia().getAlmacenadas(heladera).size();
+    return viandasRepository.getAlmacenadas(heladera).size();
   }
 
   public int getCapacidadDisponible(Heladera heladera) {
