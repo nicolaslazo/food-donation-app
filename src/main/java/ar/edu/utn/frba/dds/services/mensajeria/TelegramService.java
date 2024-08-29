@@ -38,7 +38,7 @@ public class TelegramService extends TelegramLongPollingBot {
         "Lazo",
         LocalDate.now(),
         new HashSet<>());
-    ContactosRepository.getInstancia().insert(new Telegram(nicolas, "sawtooth_waves"));
+    new ContactosRepository().insert(new Telegram(nicolas, "sawtooth_waves"));
     TelegramService servicio = TelegramService.getInstancia();
 
     servicio.enviarMensaje(533241073L, "Corriendo bot");
@@ -78,7 +78,7 @@ public class TelegramService extends TelegramLongPollingBot {
     long id = mensaje.getChatId();
 
     try {
-      ContactosRepository.getInstancia().updateChatId(username, id);
+      new ContactosRepository().updateChatId(username, id);
     } catch (RepositoryException e) {
       enviarMensaje(id, "Hubo un problema en el proceso de registro. Por favor intente más tarde");
     }

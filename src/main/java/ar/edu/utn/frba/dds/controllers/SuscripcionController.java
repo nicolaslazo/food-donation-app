@@ -55,7 +55,7 @@ public class SuscripcionController implements IMqttMessageListener {
     for (Heladera sugerencia : destinosSugeridos)
       mensaje.append("\n\t* ").append(sugerencia.getNombre());
 
-    ContactosRepository contactosRepository = ContactosRepository.getInstancia();
+    ContactosRepository contactosRepository = new ContactosRepository();
 
     SuscripcionRepository
         .getInstancia()
@@ -124,7 +124,7 @@ public class SuscripcionController implements IMqttMessageListener {
     Heladera heladeraAfectada = confirmacionCambioEnStock.getEsExtraccion() ?
         solicitudReferida.getHeladeraOrigen().get() : solicitudReferida.getHeladeraDestino();
 
-    ContactosRepository repositorioContactos = ContactosRepository.getInstancia();
+    ContactosRepository repositorioContactos = new ContactosRepository();
 
     SuscripcionRepository
         .getInstancia()

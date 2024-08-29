@@ -48,8 +48,8 @@ class SuscripcionControllerTest {
   final Heladera heladeraMock = mock(Heladera.class);
   final Colaborador colaboradorMock = mock(Colaborador.class);
   final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
-  final ContactosRepository repositorioContactos = ContactosRepository.getInstancia();
-  final UsuariosRepository repositorioUsuarios = UsuariosRepository.getInstancia();
+  final ContactosRepository repositorioContactos = new ContactosRepository();
+  final UsuariosRepository repositorioUsuarios = new UsuariosRepository();
 
   @BeforeEach
   void setUp() {

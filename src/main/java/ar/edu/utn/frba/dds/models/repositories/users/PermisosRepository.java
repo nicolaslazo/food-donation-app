@@ -11,14 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class PermisosRepository extends HibernateEntityManager<Permiso, UUID> {
-  static PermisosRepository instancia = null;
-
-  public PermisosRepository getInstancia() {
-    if (instancia == null) instancia = new PermisosRepository();
-
-    return instancia;
-  }
-
   public Optional<Permiso> get(String nombre) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
