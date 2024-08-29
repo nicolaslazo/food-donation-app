@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.users;
 
 import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import lombok.Getter;
 import lombok.NonNull;
@@ -21,10 +20,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
-  @Column(name = "mail", unique = true, nullable = false)
-  @Embedded
-  @NonNull Email mail;
-
   @Column(name = "documento", unique = true, nullable = false, updatable = false)
   @Embedded
   @Getter
@@ -51,21 +46,19 @@ public class Usuario {
   @ManyToMany
   @JoinTable(
       name = "rolesAsignados",
-      joinColumns = @JoinColumn(name = "idRol"),
-      inverseJoinColumns = @JoinColumn(name = "idUsuario"))
+      joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "id"))
   @Getter
   @NonNull Set<Rol> roles;
 
   @Column(name = "contrasenia", nullable = false)
   @NonNull String contrasenia;
 
-  public Usuario(@NonNull Email mail,
-                 @NonNull Documento documento,
+  public Usuario(@NonNull Documento documento,
                  @NonNull String primerNombre,
                  @NonNull String apellido,
                  LocalDate fechaNacimiento,
                  @NonNull Set<Rol> roles) {
-    this.mail = mail;
     this.documento = documento;
     this.primerNombre = primerNombre;
     this.apellido = apellido;

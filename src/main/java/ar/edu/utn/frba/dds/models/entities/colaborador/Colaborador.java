@@ -1,8 +1,5 @@
 package ar.edu.utn.frba.dds.models.entities.colaborador;
 
-import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
-import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
@@ -11,28 +8,47 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Table(name = "colaborador")
 @Getter
 public class Colaborador {
-  static final Rol ROL_DEFAULT = new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
-  @NonNull List<Contacto> contactos;
+  @Transient
+  static final Rol ROL_DEFAULT =
+      new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
+
+  @Column(name = "id")
+  @Id
+  UUID id;
+
+  @OneToOne
+  @MapsId
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id")
   @NonNull Usuario usuario;
+
+  @Embedded
   CoordenadasGeograficas ubicacion;
 
-  public Colaborador(@NonNull Email mail,
-                     @NonNull Documento documento,
+  public Colaborador(@NonNull Documento documento,
                      @NonNull String primerNombre,
                      @NonNull String apellido,
                      LocalDate fechaNacimiento,
                      CoordenadasGeograficas ubicacion) {
-    this.contactos = new ArrayList<>(List.of(mail));
-    this.usuario = new Usuario(mail,
+    this.usuario = new Usuario(
         documento,
         primerNombre,
         apellido,
@@ -41,14 +57,7 @@ public class Colaborador {
     this.ubicacion = ubicacion;
   }
 
-  public void enviarMensaje(String mensaje) {
-    contactos.forEach(contacto -> {
-      try {
-        contacto.enviarMensaje(mensaje);
-      } catch (MensajeAContactoException e) {
-        throw new RuntimeException(e);
-      }
-    });
+  protected Colaborador() {
   }
 
   public UUID getId() {

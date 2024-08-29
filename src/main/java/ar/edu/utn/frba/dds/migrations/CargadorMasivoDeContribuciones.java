@@ -1,6 +1,8 @@
 package ar.edu.utn.frba.dds.migrations;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
+import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.ContribucionYaRealizadaException;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
@@ -33,6 +35,8 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
   private final Iterator<EntradaDeCargaCSV> reader;
   @Getter
   private final Set<Colaborador> colaboradores = new HashSet<>();
+  @Getter
+  private final Set<Contacto> contactos = new HashSet<>();
 
   public CargadorMasivoDeContribuciones(Path pathArchivoCsv) throws IOException {
     try (BufferedReader reader = newBufferedReader(pathArchivoCsv)) {
@@ -74,7 +78,7 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
   }
 
   private Colaborador crearColaborador(EntradaDeCargaCSV entrada) {
-    Colaborador colaboradorNuevo = new Colaborador(entrada.getMail(),
+    Colaborador colaboradorNuevo = new Colaborador(
         entrada.getDocumento(),
         entrada.getNombre(),
         entrada.getApellido(),
@@ -125,6 +129,7 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
 
     EntradaDeCargaCSV lecturaNueva = reader.next();
     Colaborador colaborador = encontrarOCrearColaborador(lecturaNueva);
+    contactos.add(new Email(colaborador.getUsuario(), lecturaNueva.getMail()));
 
     return instanciarContribucion(lecturaNueva, colaborador);
   }

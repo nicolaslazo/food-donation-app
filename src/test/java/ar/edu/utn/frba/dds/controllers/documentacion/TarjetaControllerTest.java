@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.documentacion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
@@ -33,13 +32,13 @@ class TarjetaControllerTest {
       Set.of(new Permiso("crearTarjetas"),
           new Permiso("asignarTarjetas"),
           new Permiso("darBajaTarjetas")));
-  Usuario usuario = new Usuario(mock(Email.class),
+  Usuario usuario = new Usuario(
       new Documento(TipoDocumento.DNI, 1),
       "",
       "",
       LocalDate.now(),
       Set.of(administrador));
-  Usuario usuarioInutil = new Usuario(mock(Email.class),
+  Usuario usuarioInutil = new Usuario(
       new Documento(TipoDocumento.DNI, 1),
       "",
       "",

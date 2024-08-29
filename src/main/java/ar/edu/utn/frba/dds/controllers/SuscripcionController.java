@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.controllers.heladera.HeladeraController;
 import ar.edu.utn.frba.dds.dtos.input.heladera.SolicitudAperturaPorContribucionInputDTO;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
@@ -11,6 +12,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribu
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CalculadoraDistancia;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
@@ -42,23 +44,31 @@ public class SuscripcionController implements IMqttMessageListener {
   public static void notificarIncidente(Heladera heladera, ZonedDateTime fecha) {
     // TODO: Checkear que la heladera tenga viandas antes de tirar notificación
 
-    StringBuilder mensaje =
-        new StringBuilder(
-            String.format("Se detectó una falla en la heladera %s el %s. ", heladera.getNombre(), fecha.toString()));
+    StringBuilder mensaje = new StringBuilder(
+        String.format("Se detectó una falla en la heladera %s el %s. ", heladera.getNombre(), fecha.toString()));
 
     List<Heladera> destinosSugeridos = new HeladeraController().encontrarHeladerasCercanas(heladera);
 
     if (!destinosSugeridos.isEmpty())
       mensaje.append("De así desearlo, puede alocar las viandas afectadas a una de las siguientes heladeras:\n");
 
-    for (Heladera sugerencia : destinosSugeridos) mensaje.append("\n\t* ").append(sugerencia.getNombre());
+    for (Heladera sugerencia : destinosSugeridos)
+      mensaje.append("\n\t* ").append(sugerencia.getNombre());
+
+    ContactosRepository contactosRepository = ContactosRepository.getInstancia();
 
     SuscripcionRepository
         .getInstancia()
         .getTodas(heladera, MotivoDeDistribucion.FALLA_HELADERA)
-        .stream()
         .map(Suscripcion::getColaborador)
-        .forEach(colaborador -> colaborador.enviarMensaje(mensaje.toString()));
+        .map(Colaborador::getUsuario)
+        .flatMap(contactosRepository::get)
+        .forEach(contacto -> {
+          try {
+            contacto.enviarMensaje(mensaje.toString());
+          } catch (MensajeAContactoException ignored) { // TODO: Dónde podríamos loggear estas fallas?
+          }
+        });
   }
 
   public static SuscripcionController getInstancia() {
@@ -70,19 +80,18 @@ public class SuscripcionController implements IMqttMessageListener {
   /* Convierte un input DTO de solicitud de apertura en una instancia, garantizando que es válida */
   private static SolicitudAperturaPorContribucion verificarSolicitudEsProcesable(
       SolicitudAperturaPorContribucionInputDTO dtoSolicitudApertura) throws SolicitudInvalidaException {
-    Optional<SolicitudAperturaPorContribucion> optionalSolicitudReferida =
-        SolicitudAperturaPorContribucionRepository
-            .getInstancia()
-            .getSolicitudVigenteAlMomento(dtoSolicitudApertura.getId(),
-                dtoSolicitudApertura.getEsExtraccion(),
-                dtoSolicitudApertura.getFechaRealizada());
+    Optional<SolicitudAperturaPorContribucion> optionalSolicitudReferida = SolicitudAperturaPorContribucionRepository
+        .getInstancia()
+        .getSolicitudVigenteAlMomento(dtoSolicitudApertura.getId(),
+            dtoSolicitudApertura.getEsExtraccion(),
+            dtoSolicitudApertura.getFechaRealizada());
 
     if (optionalSolicitudReferida.isEmpty()) throw new SolicitudInvalidaException("Esto no debería pasar");
 
     return optionalSolicitudReferida.get();
   }
 
-  private String construirMensajeDeNotificacion(Suscripcion suscripcion) throws SolicitudInvalidaException {
+  private String construirMensajeDeNotificacion(Suscripcion suscripcion) {
     String formato = "Usted está siendo notificad@ porque está suscrit@ a la heladera \"%s\". " +
         "Se desea informarle que actualmente quedan %d %s.";
 
@@ -93,12 +102,12 @@ public class SuscripcionController implements IMqttMessageListener {
     int numero = switch (suscripcion.getTipo()) {
       case FALTAN_VIANDAS -> viandasDepositadas;
       case FALTA_ESPACIO -> heladera.getCapacidadEnViandas() - viandasDepositadas;
-      default -> throw new SolicitudInvalidaException("Esto no debería pasar");
+      default -> throw new RuntimeException("Esto no debería pasar");
     };
     String consecuencia = switch (suscripcion.getTipo()) {
       case FALTAN_VIANDAS -> "viandas para que la heladera quede vacía";
       case FALTA_ESPACIO -> "espacios para que la heladera se llene";
-      default -> throw new SolicitudInvalidaException("Esto no debería pasar");
+      default -> throw new RuntimeException("Esto no debería pasar");
     };
 
     return String.format(formato, nombreHeladera, numero, consecuencia);
@@ -115,15 +124,21 @@ public class SuscripcionController implements IMqttMessageListener {
     Heladera heladeraAfectada = confirmacionCambioEnStock.getEsExtraccion() ?
         solicitudReferida.getHeladeraOrigen().get() : solicitudReferida.getHeladeraDestino();
 
+    ContactosRepository repositorioContactos = ContactosRepository.getInstancia();
+
     SuscripcionRepository
         .getInstancia()
         .getInteresadasEnStock(heladeraAfectada)
         .forEach(suscripcion -> {
-          try {
-            suscripcion.getColaborador().enviarMensaje(construirMensajeDeNotificacion(suscripcion));
-          } catch (SolicitudInvalidaException e) {
-            throw new RuntimeException(e);
-          }
+          String mensajeAEnviar = construirMensajeDeNotificacion(suscripcion);
+
+          repositorioContactos.get(suscripcion.getColaborador()).forEach(contacto -> {
+            try {
+              contacto.enviarMensaje(mensajeAEnviar);
+            } catch (MensajeAContactoException e) {
+              throw new RuntimeException(e);
+            }
+          });
         });
   }
 }

@@ -1,50 +1,59 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
+import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
+
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Optional;
 import java.util.stream.Stream;
 
-public abstract class HibernateEntityManager<T> {
-  protected EntityManager entityManager;
+/* T es el tipo de entidad, U el tipo de pkey que usa */
+public abstract class HibernateEntityManager<T, U> implements WithSimplePersistenceUnit {
+  Class<T> claseDeEntidad = getClaseDeEntidad();
 
-  public HibernateEntityManager() {
-    EntityManagerFactory entityManagerFactory =
-        Persistence.createEntityManagerFactory("simple-persistence-unit");
+  private Class<T> getClaseDeEntidad() {
+    Type tipo = getClass().getGenericSuperclass();
 
-    entityManager = entityManagerFactory.createEntityManager();
-  }
-
-  public HibernateEntityManager(EntityManager entityManager) {
-    this.entityManager = entityManager;
+    if (tipo instanceof ParameterizedType tipoDeEntidad) //noinspection unchecked
+      return (Class<T>) tipoDeEntidad.getActualTypeArguments()[0];
+    throw new IllegalStateException("Esta clase no tiene parámetros genéricos");
   }
 
   public Stream<?> correrQuery(String query) {
-    return entityManager.createQuery(query).getResultStream();
+    // CUIDADO: este método nos puede exponer a inyecciones SQL
+    //noinspection SqlSourceToSinkFlow
+    return entityManager().createQuery(query).getResultStream();
   }
 
-  public void delete(T object) {
-    empezarTransaccion();
-    entityManager.remove(object);
-    committearTransaccion();
+  public Optional<T> findById(U id) {
+    return Optional.ofNullable(entityManager().find(claseDeEntidad, id));
+  }
+
+  public Stream<T> findAll() {
+    return entityManager()
+        .createQuery("SELECT e FROM " + claseDeEntidad.getSimpleName() + " e", claseDeEntidad)
+        .getResultStream();
   }
 
   public void insert(T object) {
-    empezarTransaccion();
-    entityManager.persist(object);
-    committearTransaccion();
+    withTransaction(() -> entityManager().persist(object));
   }
 
-  public void empezarTransaccion() {
-    entityManager.getTransaction().begin();
+  public void delete(T object) {
+    withTransaction(() -> entityManager().remove(object));
   }
 
-  public void rollbackearTransaccion() {
-    entityManager.getTransaction().rollback();
-  }
+  public void deleteAll() {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaDelete<T> delete = cb.createCriteriaDelete(getClaseDeEntidad());
 
-  public void committearTransaccion() {
-    entityManager.getTransaction().commit();
+    withTransaction(() -> {
+      delete.from(claseDeEntidad);
+      em.createQuery(delete).executeUpdate();
+    });
   }
-
 }

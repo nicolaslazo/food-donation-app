@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
@@ -24,7 +23,6 @@ class CanjeosRepositoryTest {
   void setUp() {
     repositorio = new CanjeosRepository();
     colaboradorDummy = new Colaborador(
-        new Email("colaborador@example.com"),
         mock(Documento.class),
         "",
         "",

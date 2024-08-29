@@ -3,12 +3,14 @@ package ar.edu.utn.frba.dds.models.repositories.users;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
+import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Optional;
+import java.util.UUID;
 
-public class PermisosRepository extends HibernateEntityManager<Permiso> {
+public class PermisosRepository extends HibernateEntityManager<Permiso, UUID> {
   static PermisosRepository instancia = null;
 
   public PermisosRepository getInstancia() {
@@ -18,12 +20,13 @@ public class PermisosRepository extends HibernateEntityManager<Permiso> {
   }
 
   public Optional<Permiso> get(String nombre) {
-    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Permiso> query = cb.createQuery(Permiso.class);
     Root<Permiso> root = query.from(Permiso.class);
 
     query.select(root).where(cb.equal(root.get("nombre"), nombre));
 
-    return entityManager.createQuery(query).getResultStream().findFirst();
+    return em.createQuery(query).getResultStream().findFirst();
   }
 }
