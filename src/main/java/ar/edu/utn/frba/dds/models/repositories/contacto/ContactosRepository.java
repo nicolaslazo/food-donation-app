@@ -16,7 +16,7 @@ import javax.persistence.criteria.Root;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class ContactosRepository extends HibernateEntityManager<Contacto> {
+public class ContactosRepository extends HibernateEntityManager<Contacto, Long> {
   static ContactosRepository instancia = null;
 
   public static ContactosRepository getInstancia() {
