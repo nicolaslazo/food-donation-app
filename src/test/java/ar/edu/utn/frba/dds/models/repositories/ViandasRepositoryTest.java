@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ViandasRepositoryTest {
-  final ViandasRepository repositorio = ViandasRepository.getInstancia();
+  final ViandasRepository repositorio = new ViandasRepository();
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
   final Vianda viandaMock = Mockito.mock(Vianda.class);
   final Vianda otraViandaMock = Mockito.mock(Vianda.class);  // .getHeladeraDestino() devuelve null por default
