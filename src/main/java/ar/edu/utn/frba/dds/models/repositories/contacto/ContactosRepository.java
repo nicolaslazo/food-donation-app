@@ -17,14 +17,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class ContactosRepository extends HibernateEntityManager<Contacto, Long> {
-  static ContactosRepository instancia = null;
-
-  public static ContactosRepository getInstancia() {
-    if (instancia == null) instancia = new ContactosRepository();
-
-    return instancia;
-  }
-
   public <T extends Contacto> Optional<T> get(String username, Class<T> tipo) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -70,7 +62,6 @@ public class ContactosRepository extends HibernateEntityManager<Contacto, Long> 
         .orElseThrow(() -> new RepositoryException("No existe un contacto con ese usuario"));
 
     encontrado.setChatId(chatId);
-
-    withTransaction(() -> em.merge(encontrado));
+    update(encontrado);
   }
 }

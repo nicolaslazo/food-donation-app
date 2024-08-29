@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -35,7 +36,7 @@ public class Colaborador {
   @Id
   UUID id;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @MapsId
   @JoinColumn(name = "idUsuario", referencedColumnName = "id")
   @NonNull Usuario usuario;

@@ -42,6 +42,10 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
     withTransaction(() -> entityManager().persist(object));
   }
 
+  public void update(T object) {
+    withTransaction(() -> entityManager().merge(object));
+  }
+
   public void delete(T object) {
     withTransaction(() -> entityManager().remove(object));
   }

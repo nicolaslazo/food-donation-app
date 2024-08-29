@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -43,7 +44,7 @@ public class Usuario {
   @Getter
   @NonNull UUID id;
 
-  @ManyToMany
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(
       name = "rolesAsignados",
       joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),

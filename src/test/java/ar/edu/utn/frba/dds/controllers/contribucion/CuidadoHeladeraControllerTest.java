@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,15 +30,16 @@ class CuidadoHeladeraControllerTest {
       new CoordenadasGeograficas(-34d, -58d));
 
   @BeforeEach
-  void setUp() throws RepositoryException {
-    ColaboradorRepository.getInstancia().insert(colaborador);
+  void setUp() {
+    new ColaboradorRepository().insert(colaborador);
   }
 
   @AfterEach
   void tearDown() {
-    ColaboradorRepository.getInstancia().deleteTodos();
     HeladerasRepository.getInstancia().deleteTodas();
     SuscripcionRepository.getInstancia().deleteTodas();
+    new ColaboradorRepository().deleteAll();
+    new UsuariosRepository().deleteAll();
   }
 
   @Test

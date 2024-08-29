@@ -9,11 +9,11 @@ public class CalculadoraDistancia {
     /*
      * Basada en la fórmula de Haversine
      */
-    final double distanciaLatitud = Math.toRadians(otro.latitud() - uno.latitud());
-    final double distanciaLongitud = Math.toRadians(otro.longitud() - uno.longitud());
+    final double distanciaLatitud = Math.toRadians(otro.getLatitud() - uno.getLatitud());
+    final double distanciaLongitud = Math.toRadians(otro.getLongitud() - uno.getLongitud());
 
-    final double unaLatitud = Math.toRadians(uno.latitud());
-    final double otraLatitud = Math.toRadians(otro.latitud());
+    final double unaLatitud = Math.toRadians(uno.getLatitud());
+    final double otraLatitud = Math.toRadians(otro.getLatitud());
 
     final double a = Math.pow(Math.sin(distanciaLatitud / 2), 2)
         + Math.pow(Math.sin(distanciaLongitud / 2), 2) * Math.cos(unaLatitud) * Math.cos(otraLatitud);
