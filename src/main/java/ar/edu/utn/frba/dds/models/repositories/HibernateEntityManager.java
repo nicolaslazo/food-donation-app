@@ -39,7 +39,7 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
         .getResultStream();
   }
 
-  public void insert(T object) throws RepositoryException {
+  public void insert(T object) {
     withTransaction(() -> entityManager().persist(object));
   }
 

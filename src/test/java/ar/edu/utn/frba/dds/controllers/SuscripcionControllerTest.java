@@ -50,6 +50,7 @@ class SuscripcionControllerTest {
   final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
   final ContactosRepository repositorioContactos = new ContactosRepository();
   final UsuariosRepository repositorioUsuarios = new UsuariosRepository();
+  final ViandasRepository viandasRepository = new ViandasRepository();
 
   @BeforeEach
   void setUp() {
@@ -63,7 +64,7 @@ class SuscripcionControllerTest {
     repositorio.deleteTodas();
     SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
     HeladerasRepository.getInstancia().deleteTodas();
-    ViandasRepository.getInstancia().deleteTodas();
+    viandasRepository.deleteTodas();
     repositorioContactos.deleteAll();
     repositorioUsuarios.deleteAll();
   }

@@ -41,6 +41,7 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
   }
 
   private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) throws RepositoryException {
+    //TODO: Llevarlo al controller
     final int capacidadDisponible = HeladerasRepository.getInstancia().getCapacidadDisponible(destino);
     final String sPlural = cantidadViandas > 1 ? "s" : "";
 
@@ -70,8 +71,9 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
     insertAll(viandas);
   }
 
-  public void insert(Vianda vianda) throws RepositoryException {
-    assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
+  public void insert(Vianda vianda) {
+    //TODO: Esto rompe aca, hay que agregar la logica de esto en el controller
+    // assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
     super.insert(vianda);
   }
 
