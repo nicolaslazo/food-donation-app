@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -38,8 +39,16 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
         .getResultStream();
   }
 
-  public void insert(T object) {
+  public void insert(T object) throws RepositoryException {
     withTransaction(() -> entityManager().persist(object));
+  }
+
+  public void insertAll(Collection<T> objects) {
+    withTransaction(() -> {
+      for (T object : objects) {
+        entityManager().persist(object);
+      }
+    });
   }
 
   public void update(T object) {
