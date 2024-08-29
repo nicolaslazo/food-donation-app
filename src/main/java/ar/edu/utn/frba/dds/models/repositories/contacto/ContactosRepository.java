@@ -70,7 +70,6 @@ public class ContactosRepository extends HibernateEntityManager<Contacto, Long> 
         .orElseThrow(() -> new RepositoryException("No existe un contacto con ese usuario"));
 
     encontrado.setChatId(chatId);
-
-    withTransaction(() -> em.merge(encontrado));
+    update(encontrado);
   }
 }
