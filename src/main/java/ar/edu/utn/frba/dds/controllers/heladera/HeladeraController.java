@@ -61,8 +61,7 @@ public class HeladeraController {
             fecha);
 
     HeladeraController.encontrarTecnicoMasCercano(heladera).ifPresent(tecnico ->
-        ContactosRepository
-            .getInstancia()
+        new ContactosRepository()
             .get(tecnico)
             .forEach(contacto -> {
               try {

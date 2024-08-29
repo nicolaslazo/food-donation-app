@@ -31,15 +31,15 @@ class CuidadoHeladeraControllerTest {
 
   @BeforeEach
   void setUp() {
-    ColaboradorRepository.getInstancia().insert(colaborador);
+    new ColaboradorRepository().insert(colaborador);
   }
 
   @AfterEach
   void tearDown() {
     HeladerasRepository.getInstancia().deleteTodas();
     SuscripcionRepository.getInstancia().deleteTodas();
-    ColaboradorRepository.getInstancia().deleteAll();
-    UsuariosRepository.getInstancia().deleteAll();
+    new ColaboradorRepository().deleteAll();
+    new UsuariosRepository().deleteAll();
   }
 
   @Test

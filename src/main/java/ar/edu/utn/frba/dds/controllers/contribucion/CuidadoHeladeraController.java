@@ -16,8 +16,7 @@ public class CuidadoHeladeraController {
   public static void tomarCuidadoHeladera(String dtoCuidadoJson) throws RepositoryException {
     CuidadoHeladeraInputDTO dtoCuidado = CuidadoHeladeraInputDTO.desdeJson(dtoCuidadoJson);
 
-    Colaborador encargado = ColaboradorRepository
-        .getInstancia()
+    Colaborador encargado = new ColaboradorRepository()
         .findById(dtoCuidado.getIdColaborador())
         .orElseThrow();
 

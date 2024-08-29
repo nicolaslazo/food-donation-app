@@ -58,8 +58,8 @@ class HeladeraControllerTest {
   void tearDown() {
     tecnicoRepository.deleteTodos();
     heladerasRepository.deleteTodas();
-    ContactosRepository.getInstancia().deleteAll();
-    UsuariosRepository.getInstancia().deleteAll();
+    new ContactosRepository().deleteAll();
+    new UsuariosRepository().deleteAll();
   }
 
   @Test
@@ -128,10 +128,10 @@ class HeladeraControllerTest {
         LocalDate.now(),
         new HashSet<>());
     when(tecnicoMock.getUsuario()).thenReturn(usuario);
-    UsuariosRepository.getInstancia().insert(usuario);
+    new UsuariosRepository().insert(usuario);
 
     Email email = new Email(usuario, "tecnicomock@example.com");
-    ContactosRepository.getInstancia().insert(email);
+    new ContactosRepository().insert(email);
 
     EnviadorMail emailServiceMock = mock(EnviadorMail.class);
 
