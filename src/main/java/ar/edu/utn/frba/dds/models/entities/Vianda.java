@@ -29,7 +29,7 @@ public class Vianda {
   @NonNull ZonedDateTime fechaDonacion;
 
   @ManyToOne
-  @JoinColumn(name = "colaborador_id", referencedColumnName = "id")
+  @JoinColumn(name = "idColaborador", referencedColumnName = "id")
   @NonNull Colaborador colaborador;
 
   @Getter
@@ -41,7 +41,7 @@ public class Vianda {
 
   //TODO: ORMizar Heladera
   @ManyToOne
-  @JoinColumn(name = "heladera_id", referencedColumnName = "id")
+  @JoinColumn(name = "idHeladera", referencedColumnName = "id")
   @Getter
   @Setter
   @NonNull Heladera heladera;
