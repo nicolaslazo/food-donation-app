@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
 
 import java.util.List;
@@ -19,16 +20,13 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class SuscripcionRepositoryTest {
   final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
   final Heladera heladeraMock = mock(Heladera.class);
   final Colaborador colaboradorMock = mock(Colaborador.class);
-  final Suscripcion suscripcion =
-      new Suscripcion(heladeraMock, MotivoDeDistribucion.FALLA_HELADERA, null, colaboradorMock);
+  final Suscripcion suscripcion = new Suscripcion(heladeraMock, MotivoDeDistribucion.FALLA_HELADERA, null, colaboradorMock);
 
   @BeforeEach
   void setUp() throws RepositoryException {
@@ -69,17 +67,16 @@ class SuscripcionRepositoryTest {
 
     Set<Suscripcion> interesadas;
 
-    try (MockedStatic<HeladerasRepository> repositorioHeladeras = mockStatic(HeladerasRepository.class)) {
-      HeladerasRepository repositorioHeladerasMock = mock(HeladerasRepository.class);
-      when(repositorioHeladerasMock.getCantidadViandasDepositadas(heladeraMock)).thenReturn(3);
-
-      //TODO: aca rompe
-      repositorioHeladeras.when(HeladerasRepository::getInstancia).thenReturn(heladeraMock);
+    // Mockear el constructor de HeladerasRepository
+    try (MockedConstruction<HeladerasRepository> mockRepo = mockConstruction(HeladerasRepository.class,
+            (mock, context) -> {
+              // Configurar el comportamiento del mock
+              when(mock.getCantidadViandasDepositadas(heladeraMock)).thenReturn(3);
+            })) {
 
       interesadas = repositorio.getInteresadasEnStock(heladeraMock).collect(Collectors.toSet());
+      assertEquals(Set.of(faltanViandasDeseada, faltaEspacioDeseada), interesadas);
     }
-
-    assertEquals(Set.of(faltanViandasDeseada, faltaEspacioDeseada), interesadas);
   }
 
   @Test
