@@ -32,21 +32,21 @@ class HeladerasRepositoryTest {
       60,
       ZonedDateTime.now().minusMonths(7)
   );
-  HeladerasRepository repository = HeladerasRepository.getInstancia();
+  HeladerasRepository repository = new HeladerasRepository();
 
   @BeforeEach
-  void setUp() throws RepositoryException {
+  void setUp() {
     repository.insert(heladera);
   }
 
   @AfterEach
   void tearDown() {
-    repository.deleteTodas();
+    repository.deleteAll();
   }
 
   @Test
   void testGetPorId() {
-    Optional<Heladera> encontrada = repository.get(1);
+    Optional<Heladera> encontrada = repository.findById(1L);
     assertTrue(encontrada.isPresent());
     assertEquals(1, encontrada.get().getId());
   }
@@ -73,7 +73,7 @@ class HeladerasRepositoryTest {
   void testGetTodasPorColaborador() throws RepositoryException {
     repository.insert(otraHeladera);
 
-    List<Heladera> heladerasDelColaborador = repository.getTodas(colaboradorMock);
+    List<Heladera> heladerasDelColaborador = repository.getTodas(colaboradorMock).toList();
 
     assertEquals(2, heladerasDelColaborador.size());
     assertTrue(heladerasDelColaborador.contains(heladera));
