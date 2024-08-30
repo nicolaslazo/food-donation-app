@@ -19,15 +19,6 @@ import java.util.Set;
 //TODO Este repo tiene mucha logica, capaz conviene trabajarlo directo en un controller
 
 public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
-
-  public Optional<Vianda> get(Long id) {
-    return findById(id);
-  }
-
-  public List<Vianda> getTodas() {
-    return findAll().toList();
-  }
-
   public List<Vianda> getAlmacenadas(Heladera heladera) {
     //TODO: Cambiar el ID de Heladera en su issue
     EntityManager em = entityManager();
