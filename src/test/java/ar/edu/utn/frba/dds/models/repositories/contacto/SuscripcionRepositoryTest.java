@@ -73,7 +73,8 @@ class SuscripcionRepositoryTest {
       HeladerasRepository repositorioHeladerasMock = mock(HeladerasRepository.class);
       when(repositorioHeladerasMock.getCantidadViandasDepositadas(heladeraMock)).thenReturn(3);
 
-      repositorioHeladeras.when(HeladerasRepository::getInstancia).thenReturn(repositorioHeladerasMock);
+      //TODO: aca rompe
+      repositorioHeladeras.when(HeladerasRepository::getInstancia).thenReturn(heladeraMock);
 
       interesadas = repositorio.getInteresadasEnStock(heladeraMock).collect(Collectors.toSet());
     }
