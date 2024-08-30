@@ -46,6 +46,6 @@ class ViandasRepositoryTest {
     Mockito.when(otraViandaMock.getHeladera()).thenReturn(heladeraMock);
 
     assertThrows(RepositoryException.class, () -> repositorio.insert(List.of(viandaMock, otraViandaMock)));
-    assertEquals(0, repositorio.getTodas().size());
+    assertEquals(0, repositorio.findAll().count());
   }
 }
