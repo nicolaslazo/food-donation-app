@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class ViandasRepository {
   static ViandasRepository instancia = null;
+  static HeladerasRepository heladerasRepository = new HeladerasRepository();
   final List<Vianda> viandas;
 
   private ViandasRepository() {
@@ -38,7 +39,7 @@ public class ViandasRepository {
   }
 
   private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) throws RepositoryException {
-    final int capacidadDisponible = HeladerasRepository.getInstancia().getCapacidadDisponible(destino);
+    final int capacidadDisponible = heladerasRepository.getCapacidadDisponible(destino);
     final String sPlural = cantidadViandas > 1 ? "s" : "";
 
     if (capacidadDisponible < cantidadViandas)

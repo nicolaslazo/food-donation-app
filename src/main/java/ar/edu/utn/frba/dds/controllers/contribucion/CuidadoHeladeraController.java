@@ -13,6 +13,8 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import java.time.ZonedDateTime;
 
 public class CuidadoHeladeraController {
+  static HeladerasRepository heladerasRepository = new HeladerasRepository();
+
   public static void tomarCuidadoHeladera(String dtoCuidadoJson) throws RepositoryException {
     CuidadoHeladeraInputDTO dtoCuidado = CuidadoHeladeraInputDTO.desdeJson(dtoCuidadoJson);
 
@@ -26,7 +28,7 @@ public class CuidadoHeladeraController {
         dtoCuidado.getCapacidadEnViandas(),
         ZonedDateTime.now());
 
-    HeladerasRepository.getInstancia().insert(heladeraNueva);
+    heladerasRepository.insert(heladeraNueva);
     SuscripcionRepository
         .getInstancia()
         .insert(new Suscripcion(heladeraNueva, MotivoDeDistribucion.FALLA_HELADERA, null, encargado));

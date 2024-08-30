@@ -18,9 +18,9 @@ public class TemperatureSensorChecker {
   }
 
   public static void main(String[] args) throws CheckerException {
-    HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
+    HeladerasRepository heladerasRepository = new HeladerasRepository();
 
-    List<Heladera> heladeras = heladerasRepository.getHeladerasConTemperaturaDesactualizada(5);
+    List<Heladera> heladeras = heladerasRepository.getHeladerasConTemperaturaDesactualizada(5).toList();
 
     if (heladeras.isEmpty()) {
       throw new CheckerException("No hay heladeras disponibles para realizar el chequeo");

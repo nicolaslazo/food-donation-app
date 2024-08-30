@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 
 public class ActualizarRepositoryHeladera implements ComandoHeladera {
-  private final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
+  private final HeladerasRepository heladerasRepository = new HeladerasRepository();
 
   @Override
   public void accionar(Heladera heladera) {
