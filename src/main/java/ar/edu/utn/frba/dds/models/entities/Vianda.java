@@ -15,6 +15,7 @@ public class Vianda {
   @Getter
   @Setter
   @Id
+  @Column(name = "id")
   @GeneratedValue
   Long id;
 
