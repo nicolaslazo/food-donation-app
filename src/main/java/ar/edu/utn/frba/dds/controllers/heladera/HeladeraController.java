@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class HeladeraController {
-  final HeladerasRepository repositorio = HeladerasRepository.getInstancia();
+  final HeladerasRepository repositorio = new HeladerasRepository();
   final IncidenteController incidenteController = IncidenteController.getInstancia();
 
   public static void main(String[] args) {
@@ -76,8 +76,7 @@ public class HeladeraController {
     CoordenadasGeograficas ubicacionTarget = target.getUbicacion();
 
     return repositorio
-        .getTodas()
-        .stream()
+        .findAll()
         .sorted(Comparator.comparing(unaHeladera ->
             CalculadoraDistancia.calcular(unaHeladera.getUbicacion(), ubicacionTarget)))
         .skip(1) // Para eliminar al target en sí
@@ -89,7 +88,7 @@ public class HeladeraController {
     final int minutosDeSilencio =
         Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.sensores.limiteDeEsperaEnMinutos"));
 
-    return repositorio.getHeladerasConTemperaturaDesactualizada(minutosDeSilencio);
+    return repositorio.getHeladerasConTemperaturaDesactualizada(minutosDeSilencio).toList();
   }
 
   public void alertarFallaDeConexion(Heladera heladera) {
