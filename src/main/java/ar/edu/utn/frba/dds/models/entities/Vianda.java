@@ -34,10 +34,10 @@ public class Vianda {
 
   @Getter
   @Column(name = "pesoEnGramos")
-  Double pesoEnGramos;
+  @NonNull Double pesoEnGramos;
 
   @Column(name = "caloriasTotales")
-  Integer caloriasVianda;
+  @NonNull Integer caloriasVianda;
 
   //TODO: ORMizar Heladera
   @ManyToOne
@@ -50,8 +50,8 @@ public class Vianda {
                 @NonNull ZonedDateTime fechaCaducidad,
                 @NonNull ZonedDateTime fechaDonacion,
                 @NonNull Colaborador colaborador,
-                Double pesoEnGramos,
-                Integer caloriasVianda) {
+                @NonNull Double pesoEnGramos,
+                @NonNull Integer caloriasVianda) {
     this.descripcion = descripcion;
     this.fechaCaducidad = fechaCaducidad;
     this.fechaDonacion = fechaDonacion;
