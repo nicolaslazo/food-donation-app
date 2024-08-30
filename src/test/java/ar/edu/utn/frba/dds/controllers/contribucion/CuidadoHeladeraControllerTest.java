@@ -28,6 +28,7 @@ class CuidadoHeladeraControllerTest {
       "",
       LocalDate.now(),
       new CoordenadasGeograficas(-34d, -58d));
+  static HeladerasRepository heladerasRepository  = new HeladerasRepository();
 
   @BeforeEach
   void setUp() {
@@ -36,7 +37,7 @@ class CuidadoHeladeraControllerTest {
 
   @AfterEach
   void tearDown() {
-    HeladerasRepository.getInstancia().deleteTodas();
+    heladerasRepository.deleteAll();
     SuscripcionRepository.getInstancia().deleteTodas();
     new ColaboradorRepository().deleteAll();
     new UsuariosRepository().deleteAll();
@@ -65,7 +66,7 @@ class CuidadoHeladeraControllerTest {
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
 
-    assertTrue(HeladerasRepository.getInstancia().get(1).isPresent());
+    assertTrue(heladerasRepository.findById(1L).isPresent());
   }
 
   @Test
@@ -78,7 +79,7 @@ class CuidadoHeladeraControllerTest {
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
 
-    Heladera heladeraCreada = HeladerasRepository.getInstancia().get(1).get();
+    Heladera heladeraCreada = heladerasRepository.findById(1L).get();
     assertTrue(SuscripcionRepository
         .getInstancia()
         .get(heladeraCreada, MotivoDeDistribucion.FALLA_HELADERA, colaborador)

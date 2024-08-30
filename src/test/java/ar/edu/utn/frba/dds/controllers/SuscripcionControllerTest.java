@@ -50,6 +50,7 @@ class SuscripcionControllerTest {
   final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
   final ContactosRepository repositorioContactos = new ContactosRepository();
   final UsuariosRepository repositorioUsuarios = new UsuariosRepository();
+  final HeladerasRepository heladerasRepository = new HeladerasRepository();
 
   @BeforeEach
   void setUp() {
@@ -62,7 +63,7 @@ class SuscripcionControllerTest {
   void tearDown() {
     repositorio.deleteTodas();
     SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
-    HeladerasRepository.getInstancia().deleteTodas();
+    heladerasRepository.deleteAll();
     ViandasRepository.getInstancia().deleteTodas();
     repositorioContactos.deleteAll();
     repositorioUsuarios.deleteAll();
@@ -107,7 +108,6 @@ class SuscripcionControllerTest {
   @Test
   void testColaboradoresSonNotificadosDeIncidentes() throws RepositoryException {
     final List<Heladera> heladeras = new ArrayList<>(3);
-    final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
 
     for (int i = 0; i < 3; i++) {
       final Heladera heladeraNueva = new Heladera("Heladera " + (i + 1),

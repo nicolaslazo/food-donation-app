@@ -25,7 +25,7 @@ class SensorTemperaturaTest {
       ZonedDateTime.now().minusMonths(6)
   );
   final AccionadorHeladera accionadorHeladera = new AccionadorHeladera();
-  HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
+  final HeladerasRepository heladerasRepository = new HeladerasRepository();
 
   @BeforeEach
   void setUp() throws RepositoryException {
@@ -38,7 +38,7 @@ class SensorTemperaturaTest {
 
   @AfterEach
   void tearDown() {
-    heladerasRepository.deleteTodas();
+    heladerasRepository.deleteAll();
   }
 
   @Test

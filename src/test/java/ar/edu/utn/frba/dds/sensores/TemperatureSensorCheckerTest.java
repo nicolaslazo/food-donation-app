@@ -30,11 +30,11 @@ public class TemperatureSensorCheckerTest {
       60,
       ZonedDateTime.now().minusMonths(7)
   );
-  HeladerasRepository repositoryHeladeras = HeladerasRepository.getInstancia();
+  final HeladerasRepository repositoryHeladeras = new HeladerasRepository();
 
   @BeforeEach
   void setUp() throws RepositoryException, NoSuchFieldException, IllegalAccessException {
-    repositoryHeladeras.deleteTodas();
+    repositoryHeladeras.deleteAll();
 
     //Esta heladera no falla, OtraHeladera si
     heladera.setUltimaTempRegistradaCelsius(0.0);

@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
 
 class HeladeraControllerTest {
   final TecnicoRepository tecnicoRepository = TecnicoRepository.getInstancia();
-  final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
+  final HeladerasRepository heladerasRepository = new HeladerasRepository();
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
   final CoordenadasGeograficas obelisco =
       new CoordenadasGeograficas(-34.603706013664166, -58.3815728218273);
@@ -57,7 +57,7 @@ class HeladeraControllerTest {
   @AfterEach
   void tearDown() {
     tecnicoRepository.deleteTodos();
-    heladerasRepository.deleteTodas();
+    heladerasRepository.deleteAll();
     new ContactosRepository().deleteAll();
     new UsuariosRepository().deleteAll();
   }
@@ -167,7 +167,7 @@ class HeladeraControllerTest {
 
     Collections.shuffle(heladeras);
 
-    for (Heladera heladera : heladeras) HeladerasRepository.getInstancia().insert(heladera);
+    for (Heladera heladera : heladeras) heladerasRepository.insert(heladera);
 
     final List<Heladera> sugerencias = new HeladeraController().encontrarHeladerasCercanas(heladeraTarget);
     final double[] longitudes =
