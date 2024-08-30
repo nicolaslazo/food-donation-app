@@ -6,26 +6,46 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Heladera {
-  @Getter
-  final int capacidadEnViandas;
-  final @NonNull ZonedDateTime fechaInstalacion;
-  @Getter
-  final @NonNull Colaborador encargado;
-  @Getter
-  final CoordenadasGeograficas ubicacion;
+  @Id
+  @GeneratedValue
+  @Column(name = "id")
   @Getter
   @Setter
-  int id;
+  Long id;
+
+  @Column(name = "nombre", nullable = false)
   @Getter
   @NonNull String nombre;
+
+
+  @Column(name = "capacidadEnViandas")
+  @Getter
+  final Integer capacidadEnViandas;
+
+  @Column(name = "fechaInstalacion", nullable = false, columnDefinition = "DATETIME")
+  final @NonNull ZonedDateTime fechaInstalacion;
+
+  @ManyToOne
+  @JoinColumn(name = "idColaborador", referencedColumnName = "id")
+  @Getter
+  final @NonNull Colaborador encargado;
+
+  @Embedded
+  @Getter
+  final CoordenadasGeograficas ubicacion;
+
+  @Column(name = "ultimaTemperaturaRegistradaEnCelsius")
   @Getter
   @Setter //Lo agrego para el TEST TemperatureSensorChecker
-  double ultimaTempRegistradaCelsius;
+  Double ultimaTempRegistradaCelsius;
+
+  @Column(name = "momentoDeUltimaTempRegistrada", columnDefinition = "DATETIME")
   @Getter
   ZonedDateTime momentoUltimaTempRegistrada;
 
