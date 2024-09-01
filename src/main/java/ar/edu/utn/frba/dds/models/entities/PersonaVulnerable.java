@@ -43,14 +43,14 @@ public final class PersonaVulnerable {
   @Column(name = "menoresACargo", nullable = false)
   int menoresACargo;
 
-  public PersonaVulnerable(@NonNull Colaborador reclutador,
+  public PersonaVulnerable(@NonNull Usuario usuario,
+                           @NonNull Colaborador reclutador,
                            @NonNull ZonedDateTime fechaRegistro,
-                           @NonNull Usuario usuario,
                            @NonNull DireccionResidencia domicilio,
                            int menoresACargo) {
+    this.usuario = usuario;
     this.reclutador = reclutador;
     this.fechaRegistro = fechaRegistro;
-    this.usuario = usuario;
     this.domicilio = domicilio;
     this.menoresACargo = menoresACargo;
   }
