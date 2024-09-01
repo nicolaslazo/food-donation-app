@@ -2,7 +2,7 @@ body {
     display: flex;
     margin: 0;
     height: 100vh;
-    font-family: Arial, sans-serif;
+    font-family: montserrat;
 }
 
 main {
@@ -48,8 +48,8 @@ main {
 .fridge-info {
     background-color: #f5f5f5;
     padding: 0;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 17px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     margin-bottom: 20px;
     font-family: "Montserrat", sans-serif;
 }
@@ -59,7 +59,7 @@ main {
     color: #fff;
     font-size: 18px;
     padding: 15px;
-    border-radius: 10px 10px 0 0;
+    border-radius: 17px 17px 0 0;
     text-align: center;
     margin: 0;
 }
@@ -76,7 +76,7 @@ main {
 }
 
 .fridge-info .alert {
-    background-color: #fff;
+    background-color: #fcfcfc;
     border: 1px solid #ccc;
     border-radius: 10px;
     margin: 10px 20px;
@@ -118,7 +118,7 @@ main {
 .fridge-info .previous-alert {
     overflow: auto;
     min-height: 150px;
-    background-color: #fff;
+    background-color: #fcfcfc;
     border: 1px solid #ccc;
     border-radius: 10px;
     margin: 10px 20px;
@@ -152,16 +152,6 @@ main {
    margin: 0;
    font-size: 14px;
    padding: 0;
-}
-
-.fridge-info .previous-alert {
-    overflow: auto;
-    min-height: 150px;
-    margin-top: 5px;
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
 }
 
 .fridge-info .previous-alert-title {
