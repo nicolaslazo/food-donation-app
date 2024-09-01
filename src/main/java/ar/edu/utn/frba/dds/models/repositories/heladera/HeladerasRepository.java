@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 
@@ -29,7 +29,7 @@ public class HeladerasRepository {
     return heladeras.stream().filter(heladera -> heladera.getId() == id).findFirst();
   }
 
-  public Optional<Heladera> get(Ubicacion ubicacion) {
+  public Optional<Heladera> get(CoordenadasGeograficas ubicacion) {
     return heladeras.stream().filter(heladera -> heladera.getUbicacion() == ubicacion).findFirst();
   }
 
@@ -83,7 +83,7 @@ public class HeladerasRepository {
   public void updateTiempoHeladera(int id, Heladera nuevaHeladera) {
     Optional<Heladera> heladera = get(id);
     heladera.ifPresent(value -> value.setUltimaTempRegistradaCelsius(
-            nuevaHeladera.getUltimaTempRegistradaCelsius())
+        nuevaHeladera.getUltimaTempRegistradaCelsius())
     );
   }
 

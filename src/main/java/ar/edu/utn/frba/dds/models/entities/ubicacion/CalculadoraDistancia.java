@@ -5,7 +5,7 @@ import lombok.NonNull;
 public class CalculadoraDistancia {
   private static final double RADIO_DE_TIERRA_EN_METROS = 6371000;
 
-  public static Double calcular(@NonNull Coordenadas uno, @NonNull Coordenadas otro) {
+  public static Double calcular(@NonNull CoordenadasGeograficas uno, @NonNull CoordenadasGeograficas otro) {
     /*
      * Basada en la fórmula de Haversine
      */

@@ -2,8 +2,11 @@ package ar.edu.utn.frba.dds.services.mensajeria;
 
 import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.models.entities.contacto.Telegram;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
-import ar.edu.utn.frba.dds.models.repositories.contacto.TelegramRepository;
+import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -11,6 +14,9 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
+import java.time.LocalDate;
+import java.util.HashSet;
 
 public class TelegramService extends TelegramLongPollingBot {
   private static TelegramService instancia = null;
@@ -26,7 +32,13 @@ public class TelegramService extends TelegramLongPollingBot {
   }
 
   public static void main(String[] args) throws TelegramApiException, RepositoryException {
-    TelegramRepository.getInstancia().insert(new Telegram("sawtooth_waves"));
+    Usuario nicolas = new Usuario(
+        new Documento(TipoDocumento.DNI, 1),
+        "Nicolas",
+        "Lazo",
+        LocalDate.now(),
+        new HashSet<>());
+    new ContactosRepository().insert(new Telegram(nicolas, "sawtooth_waves"));
     TelegramService servicio = TelegramService.getInstancia();
 
     servicio.enviarMensaje(533241073L, "Corriendo bot");
@@ -66,7 +78,7 @@ public class TelegramService extends TelegramLongPollingBot {
     long id = mensaje.getChatId();
 
     try {
-      TelegramRepository.getInstancia().updateChatId(username, id);
+      new ContactosRepository().updateChatId(username, id);
     } catch (RepositoryException e) {
       enviarMensaje(id, "Hubo un problema en el proceso de registro. Por favor intente más tarde");
     }
