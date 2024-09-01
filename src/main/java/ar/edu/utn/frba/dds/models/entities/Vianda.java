@@ -33,10 +33,10 @@ public class Vianda {
   @NonNull Colaborador colaborador;
 
   @Getter
-  @Column(name = "pesoEnGramos")
+  @Column(name = "pesoEnGramos", nullable = false)
   @NonNull Double pesoEnGramos;
 
-  @Column(name = "caloriasTotales")
+  @Column(name = "caloriasTotales", nullable = false)
   @NonNull Integer caloriasVianda;
 
   //TODO: ORMizar Heladera
