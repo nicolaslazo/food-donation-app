@@ -2,16 +2,15 @@
     width: 30%;
     height: auto;
     box-shadow: 0 0 20px #0007;
-    border-radius: 20px; /* Asegurando que todo el contenedor tenga bordes redondeados */
-    overflow: hidden; /* Evita que los hijos sobrepasen los bordes redondeados */
-    background-color: #f2f2f2; /* Fondo gris */
-}
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #f2f2f2; 
 
 .form-container {
     background-color: #f2f2f2;
     max-width: 100%;
     padding: 20px;
-    border-radius: 20px; /* Borde redondeado */
+    border-radius: 20px;
 }
 
 .title {
@@ -21,7 +20,7 @@
     color: #fff;
     background-color: #C0392B;
     padding: 10px;
-    border-radius: 20px 20px 0 0; /* Bordes redondeados para la parte superior */
+    border-radius: 20px 20px 0 0;
 }
 
 .info-bottom {
@@ -32,7 +31,7 @@
     color: #fff;
     padding: 10px;
     min-height: 40px;
-    border-radius: 0 0 20px 20px; /* Bordes redondeados en la parte inferior */
+    border-radius: 0 0 20px 20px;
     text-align: center;
 }
 
@@ -40,7 +39,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 30px;
     min-width: 100%;
 }
 
@@ -75,6 +74,7 @@ input[type="file"] {
     font-size: 16px;
     font-weight: bold;
     text-align: center;
+    margin-top: 7px;
 }
 
 .custom-file-upload:hover {
@@ -95,4 +95,7 @@ input[type="file"] {
     text-align: center;
 }
 
+.info-bottom p {
+    font-size: 11px;
+}
 
