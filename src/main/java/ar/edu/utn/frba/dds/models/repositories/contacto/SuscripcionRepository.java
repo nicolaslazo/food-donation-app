@@ -65,6 +65,28 @@ public class SuscripcionRepository {
     return Stream.concat(porPocasViandas, porPocoEspacio);
   }
 
+  public Stream<Suscripcion> getInteresadasEnStock(Heladera heladera,
+                                                   HeladerasRepository repository) {
+    int capacidadTotal = heladera.getCapacidadEnViandas();
+    int cantidadViandasDepositadas = repository.getCantidadViandasDepositadas(heladera);
+
+    Stream<Suscripcion> porPocasViandas = suscripciones
+            .stream()
+            .filter(suscripcion ->
+                    suscripcion.getHeladera() == heladera &&
+                            suscripcion.getTipo() == MotivoDeDistribucion.FALTAN_VIANDAS &&
+                            cantidadViandasDepositadas < suscripcion.getParametro());
+
+    Stream<Suscripcion> porPocoEspacio = suscripciones
+            .stream()
+            .filter(suscripcion ->
+                    suscripcion.getHeladera() == heladera &&
+                            suscripcion.getTipo() == MotivoDeDistribucion.FALTA_ESPACIO &&
+                            capacidadTotal - cantidadViandasDepositadas < suscripcion.getParametro());
+
+    return Stream.concat(porPocasViandas, porPocoEspacio);
+  }
+
   public Stream<Suscripcion> getTodas(Heladera heladera, MotivoDeDistribucion tipo) {
     return suscripciones
         .stream()

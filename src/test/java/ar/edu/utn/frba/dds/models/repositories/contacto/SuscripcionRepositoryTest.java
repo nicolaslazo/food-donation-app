@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,36 +49,36 @@ class SuscripcionRepositoryTest {
 
   @Test
   void testGetSuscripcionesRelevantesAStockDeHeladera() throws RepositoryException {
-    Heladera heladeraMock = mock(Heladera.class);
-    when(heladeraMock.getCapacidadEnViandas()).thenReturn(5);
+    Heladera mockHeladera = mock(Heladera.class);
+    HeladerasRepository mockHeladerasRepository = mock(HeladerasRepository.class);
+
+    // Configurando el mock para devolver 5 como capacidad de viandas
+    when(mockHeladera.getCapacidadEnViandas()).thenReturn(5);
+    // Configurando el mock para devolver 1 como cantidad de viandas depositadas
+    when(mockHeladerasRepository.getCantidadViandasDepositadas(mockHeladera)).thenReturn(3);
 
     Suscripcion faltanViandasDeseada =
-        new Suscripcion(heladeraMock, MotivoDeDistribucion.FALTAN_VIANDAS, 4, mock(Colaborador.class));
+            new Suscripcion(mockHeladera, MotivoDeDistribucion.FALTAN_VIANDAS, 4, mock(Colaborador.class));
     Suscripcion faltanViandasIndeseada =
-        new Suscripcion(heladeraMock, MotivoDeDistribucion.FALTAN_VIANDAS, 2, mock(Colaborador.class));
+            new Suscripcion(mockHeladera, MotivoDeDistribucion.FALTAN_VIANDAS, 2, mock(Colaborador.class));
     Suscripcion faltaEspacioDeseada =
-        new Suscripcion(heladeraMock, MotivoDeDistribucion.FALTA_ESPACIO, 4, mock(Colaborador.class));
+            new Suscripcion(mockHeladera, MotivoDeDistribucion.FALTA_ESPACIO, 4, mock(Colaborador.class));
     Suscripcion faltaEspacioIndeseada =
-        new Suscripcion(heladeraMock, MotivoDeDistribucion.FALTA_ESPACIO, 2, mock(Colaborador.class));
+            new Suscripcion(mockHeladera, MotivoDeDistribucion.FALTA_ESPACIO, 2, mock(Colaborador.class));
 
     for (Suscripcion suscripcion :
-        List.of(faltanViandasDeseada, faltanViandasIndeseada, faltaEspacioDeseada, faltaEspacioIndeseada)) {
+            List.of(faltanViandasDeseada, faltanViandasIndeseada, faltaEspacioDeseada, faltaEspacioIndeseada)) {
       repositorio.insert(suscripcion);
     }
 
     Set<Suscripcion> interesadas;
 
-    // Mockear el constructor de HeladerasRepository
-    try (MockedConstruction<HeladerasRepository> mockRepo = mockConstruction(HeladerasRepository.class,
-            (mock, context) -> {
-              // Configurar el comportamiento del mock
-              when(mock.getCantidadViandasDepositadas(heladeraMock)).thenReturn(3);
-            })) {
+    interesadas = repositorio.getInteresadasEnStock(mockHeladera, mockHeladerasRepository)
+            .collect(Collectors.toSet());
 
-      interesadas = repositorio.getInteresadasEnStock(heladeraMock).collect(Collectors.toSet());
-      assertEquals(Set.of(faltanViandasDeseada, faltaEspacioDeseada), interesadas);
-    }
+    assertEquals(Set.of(faltanViandasDeseada, faltaEspacioDeseada), interesadas);
   }
+
 
   @Test
   void testInsertarSuscripcion() {
