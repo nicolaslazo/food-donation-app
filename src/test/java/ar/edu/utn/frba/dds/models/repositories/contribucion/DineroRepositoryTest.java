@@ -2,13 +2,12 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
-import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
-import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,7 +20,7 @@ class DineroRepositoryTest {
 
   @BeforeEach
   void setUp() {
-    when(colaboradorMock.getDocumento()).thenReturn(new Documento(TipoDocumento.DNI, 1));
+    when(colaboradorMock.getId()).thenReturn(UUID.randomUUID());
 
     repositorio.deleteTodo();
   }

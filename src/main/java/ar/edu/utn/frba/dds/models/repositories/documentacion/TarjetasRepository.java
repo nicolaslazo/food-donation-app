@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.documentacion;
 
 
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import java.util.ArrayList;
@@ -25,6 +26,15 @@ public class TarjetasRepository implements ITarjetasRepository {
 
   public Optional<Tarjeta> get(UUID id) {
     return tarjetas.stream().filter(ta -> ta.getId().equals(id)).findFirst();
+  }
+
+  public Optional<Tarjeta> getVigentePara(Usuario usuario) {
+    return tarjetas
+        .stream()
+        .filter(tarjeta -> tarjeta.getRecipiente() == usuario &&
+            tarjeta.getFechaAlta() != null &&
+            tarjeta.getFechaBaja() == null)
+        .findFirst();
   }
 
   public UUID insert(Tarjeta tarjeta) throws RepositoryException {

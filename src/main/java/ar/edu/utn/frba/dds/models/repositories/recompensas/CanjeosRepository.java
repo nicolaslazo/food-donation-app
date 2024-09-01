@@ -1,7 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories.recompensas;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.recompensas.CalculadoraDePuntos;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
 import ar.edu.utn.frba.dds.models.entities.recompensas.ExcepcionDeCanjeDePuntos;
@@ -10,6 +9,7 @@ import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class CanjeosRepository {
   private final List<Canjeo> canjeos;
@@ -22,10 +22,8 @@ public class CanjeosRepository {
     return canjeos.stream().filter(canjeo -> canjeo.getId() == id).findFirst();
   }
 
-  public List<Canjeo> getParaColaborador(Colaborador colaborador) {
-    Documento documento = colaborador.getDocumento();
-
-    return canjeos.stream().filter(canjeo -> canjeo.getColaborador().getDocumento() == documento).toList();
+  public Stream<Canjeo> getParaColaborador(Colaborador colaborador) {
+    return canjeos.stream().filter(canjeo -> canjeo.getColaborador() == colaborador);
   }
 
   public double getPuntosDisponibles(Colaborador colaborador) {
@@ -34,7 +32,6 @@ public class CanjeosRepository {
      */
     double puntosTotales = CalculadoraDePuntos.calcular(colaborador);
     double puntosGastados = getParaColaborador(colaborador)
-        .stream()
         .map(Canjeo::getRecompensa)
         .mapToDouble(Recompensa::getCostoEnPuntos)
         .sum();
@@ -42,16 +39,12 @@ public class CanjeosRepository {
     return puntosTotales - puntosGastados;
   }
 
-  public List<Canjeo> getParaRecompensa(Recompensa recompensa) {
-    return canjeos.stream().filter(canjeo -> canjeo.getRecompensa().getId() == recompensa.getId()).toList();
+  public Stream<Canjeo> getParaRecompensa(Recompensa recompensa) {
+    return canjeos.stream().filter(canjeo -> canjeo.getRecompensa().getId() == recompensa.getId());
   }
 
-  public int getStockDisponible(Recompensa recompensa) {
-    return recompensa.getStockInicial() - getParaRecompensa(recompensa).size();
-  }
-
-  public List<Canjeo> getTodos() {
-    return canjeos;
+  public long getStockDisponible(Recompensa recompensa) {
+    return recompensa.getStockInicial() - getParaRecompensa(recompensa).count();
   }
 
   public void insert(Canjeo canjeo) throws ExcepcionDeCanjeDePuntos {

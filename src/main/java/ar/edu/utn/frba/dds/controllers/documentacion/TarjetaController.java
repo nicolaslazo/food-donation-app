@@ -12,11 +12,15 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class TarjetaController {
-  public static void crear(@NonNull UUID uuid, @NonNull Usuario creador)
+  public static Tarjeta crear(@NonNull UUID uuid, @NonNull Usuario creador)
       throws RepositoryException, PermisoDenegadoException {
     creador.assertTienePermiso("crearTarjetas", "Sólo administradores pueden crear tarjetas");
 
-    TarjetasRepository.getInstancia().insert(new Tarjeta(uuid));
+    Tarjeta tarjetaNueva = new Tarjeta(uuid);
+
+    TarjetasRepository.getInstancia().insert(tarjetaNueva);
+
+    return tarjetaNueva;
   }
 
   public static void darDeAlta(@NonNull Tarjeta tarjeta, @NonNull Usuario recipiente, @NonNull Colaborador proveedor)
@@ -24,6 +28,9 @@ public class TarjetaController {
     proveedor
         .getUsuario()
         .assertTienePermiso("asignarTarjetas", "Sólo colaboradores pueden entregar tarjetas");
+
+    if (TarjetasRepository.getInstancia().getVigentePara(recipiente).isPresent())
+      throw new PermisoDenegadoException("Este usuario ya tiene una tarjeta asignada");
 
     tarjeta.setEnAlta(recipiente, proveedor, ZonedDateTime.now());
   }

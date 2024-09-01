@@ -1,7 +1,7 @@
 package ar.edu.utn.frba.dds.models.entities.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -17,7 +17,7 @@ public class Heladera {
   @Getter
   final @NonNull Colaborador encargado;
   @Getter
-  final Ubicacion ubicacion;
+  final CoordenadasGeograficas ubicacion;
   @Getter
   @Setter
   int id;
@@ -30,7 +30,7 @@ public class Heladera {
   ZonedDateTime momentoUltimaTempRegistrada;
 
   public Heladera(String nombre,
-                  Ubicacion ubicacion,
+                  CoordenadasGeograficas ubicacion,
                   Colaborador encargado,
                   int capacidadEnViandas,
                   ZonedDateTime fechaInstalacion) {

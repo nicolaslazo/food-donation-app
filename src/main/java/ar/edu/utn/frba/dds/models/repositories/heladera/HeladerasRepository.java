@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 
@@ -29,7 +29,7 @@ public class HeladerasRepository {
     return heladeras.stream().filter(heladera -> heladera.getId() == id).findFirst();
   }
 
-  public Optional<Heladera> get(Ubicacion ubicacion) {
+  public Optional<Heladera> get(CoordenadasGeograficas ubicacion) {
     return heladeras.stream().filter(heladera -> heladera.getUbicacion() == ubicacion).findFirst();
   }
 
@@ -55,12 +55,18 @@ public class HeladerasRepository {
     return getTodas(colaborador).stream().mapToInt(Heladera::mesesActiva).sum();
   }
 
+  /* Este método concierne a la cantidad de viandas ahora mismo depositadas en la heladera, independientemente de las
+   * Solicitudes de apertura. Para saber el espacio disponible, reservando los espacios de las solicitudes de apertura
+   */
+  public int getCantidadViandasDepositadas(Heladera heladera) {
+    return ViandasRepository.getInstancia().getAlmacenadas(heladera).size();
+  }
+
   public int getCapacidadDisponible(Heladera heladera) {
-    final int viandasActualmenteDepositadas = ViandasRepository.getInstancia().getAlmacenadas(heladera).size();
     final int viandasEnContribucionesVigentes =
         SolicitudAperturaPorContribucionRepository.getInstancia().getCantidadViandasPendientes(heladera);
 
-    return heladera.getCapacidadEnViandas() - viandasActualmenteDepositadas - viandasEnContribucionesVigentes;
+    return heladera.getCapacidadEnViandas() - getCantidadViandasDepositadas(heladera) - viandasEnContribucionesVigentes;
   }
 
   public int insert(Heladera heladera) throws RepositoryException {
@@ -77,7 +83,7 @@ public class HeladerasRepository {
   public void updateTiempoHeladera(int id, Heladera nuevaHeladera) {
     Optional<Heladera> heladera = get(id);
     heladera.ifPresent(value -> value.setUltimaTempRegistradaCelsius(
-            nuevaHeladera.getUltimaTempRegistradaCelsius())
+        nuevaHeladera.getUltimaTempRegistradaCelsius())
     );
   }
 
