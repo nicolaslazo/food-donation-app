@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class TarjetaController {
 
- static final TarjetasRepository tarjetasRepository = new TarjetasRepository();
+  static final TarjetasRepository tarjetasRepository = new TarjetasRepository();
 
   public static Tarjeta crear(@NonNull UUID uuid, @NonNull Usuario creador) throws RepositoryException, PermisoDenegadoException {
     creador.assertTienePermiso("crearTarjetas", "Sólo administradores pueden crear tarjetas");

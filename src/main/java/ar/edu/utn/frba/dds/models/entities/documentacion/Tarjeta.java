@@ -19,27 +19,27 @@ import java.util.UUID;
 
 @Getter
 @Entity
-@Table(name="tarjeta")
+@Table(name = "tarjeta")
 public class Tarjeta {
 
   @Id
   @GeneratedValue
-  @Column(name="id", unique = true, nullable = false, updatable = false )
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
   final @NonNull UUID id;
 
   @ManyToOne
-  @JoinColumn(name="idProveedor", referencedColumnName = "id")
+  @JoinColumn(name = "idProveedor", referencedColumnName = "id")
   Colaborador proveedor = null;
 
   @ManyToOne
-  @JoinColumn(name="idRecipiente", referencedColumnName = "id")
+  @JoinColumn(name = "idRecipiente", referencedColumnName = "id")
   Usuario recipiente = null;
 
-  @Column(name="fechaAlta")
+  @Column(name = "fechaAlta")
   //Converter ??
   ZonedDateTime fechaAlta = null;
 
-  @Column(name="fechaBaja")
+  @Column(name = "fechaBaja")
   //Converter ??
   ZonedDateTime fechaBaja = null;
 
@@ -59,8 +59,10 @@ public class Tarjeta {
 
   void assertEstaVigente() throws PermisoDenegadoException {
     if (fechaBaja != null) throw new PermisoDenegadoException("Esta tarjeta ya fue dada de baja");
+
     if (fechaAlta == null) throw new PermisoDenegadoException("Esta tarjeta no fue dada de alta");
   }
+
 
   public void setEnAlta(@NonNull Usuario recipiente, @NonNull Colaborador proveedor, @NonNull ZonedDateTime timestamp)
       throws PermisoDenegadoException {
