@@ -55,6 +55,20 @@ function administrarServicio(serviceId) {
     pointsContainer.style.pointerEvents = 'none';
 }
 
+document.getElementById('form-modificar-valores').onsubmit = function(event) {
+    event.preventDefault();
+
+    const puntos = document.getElementById('edit-points').value;
+    const stock = document.getElementById('edit-stocks').value;
+
+    if (puntos < 0 || stock < 0) {
+        alert('El valor de puntos y el stock no pueden ser negativos.');
+        return;
+    }
+
+    confirmarModificacion();
+};
+
 function cerrarModal() {
     document.getElementById('modal').style.display = 'none';
 
