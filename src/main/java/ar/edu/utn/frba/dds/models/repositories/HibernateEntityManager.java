@@ -21,7 +21,7 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
       return (Class<T>) tipoDeEntidad.getActualTypeArguments()[0];
     throw new IllegalStateException("Esta clase no tiene parámetros genéricos");
   }
-
+  
   public Stream<?> correrQuery(String query) {
     // CUIDADO: este método nos puede exponer a inyecciones SQL
     //noinspection SqlSourceToSinkFlow
@@ -36,6 +36,14 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
     return entityManager()
         .createQuery("SELECT e FROM " + claseDeEntidad.getSimpleName() + " e", claseDeEntidad)
         .getResultStream();
+  }
+
+  @SuppressWarnings("unchecked")
+  public Optional<T> searchBy(String nameColumn, String value) {
+    return entityManager()
+            .createQuery("from " + claseDeEntidad.getSimpleName() + " where cuil =:cuil")
+            .setParameter("cuil", value)
+            .getResultStream().findFirst();
   }
 
   public void insert(T object) {

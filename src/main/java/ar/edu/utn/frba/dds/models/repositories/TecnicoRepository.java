@@ -1,20 +1,16 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 @Getter
-public class TecnicoRepository implements ITecnicoRepository {
+public class TecnicoRepository extends HibernateEntityManager<Tecnico, UUID> {
   static TecnicoRepository instancia = null;
-  final List<Tecnico> tecnicos;
-
-  public TecnicoRepository() {
-    tecnicos = new ArrayList<>();
-  }
 
   public static TecnicoRepository getInstancia() {
     if (instancia == null) {
@@ -24,20 +20,19 @@ public class TecnicoRepository implements ITecnicoRepository {
     return instancia;
   }
 
-  public Optional<Tecnico> get(String cuil) {
-    return tecnicos.stream().filter(tecnico -> tecnico.getCuil().equals(cuil)).findFirst();
+  @Override
+  public Stream<Tecnico> findAll() {
+    Stream<Tecnico> tecnicos = super.findAll();
+    return tecnicos.filter(e -> e.getUsuario().getActive() == true);
   }
 
-  public void insert(Tecnico tecnico) {
-    tecnicos.add(tecnico);
-  }
-
-  public boolean delete(String cuil) {
-    Optional<Tecnico> tecnicoOptional = get(cuil);
-    return tecnicoOptional.map(tecnicos::remove).orElse(false);
-  }
-
-  public void deleteTodos() {
-    tecnicos.clear();
+  public void delete(String cuil) {
+    Optional<Tecnico> tecnico = this.searchBy("cuil", cuil);
+    if (tecnico.isPresent()) {
+      Tecnico my_tecnico = tecnico.get();
+      Usuario my_usuario = my_tecnico.getUsuario();
+      my_usuario.setActive(false);
+      this.update(my_tecnico);
+    }
   }
 }

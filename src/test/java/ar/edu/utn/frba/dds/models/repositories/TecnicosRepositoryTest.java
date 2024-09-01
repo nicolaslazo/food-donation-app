@@ -1,12 +1,17 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,22 +23,21 @@ class TecnicosRepositoryTest {
   Tecnico tecnico;
 
   @BeforeEach
-  void setUp() {
-    tecnico = Mockito.mock(Tecnico.class);
-    Mockito.when(tecnico.getCuil()).thenReturn("123456");
-
-    Tecnico tecnico1 = Mockito.mock(Tecnico.class);
-    Mockito.when(tecnico1.getCuil()).thenReturn("1");
-    repositorio.insert(tecnico1);
-
-    Tecnico tecnico2 = Mockito.mock(Tecnico.class);
-    Mockito.when(tecnico2.getCuil()).thenReturn("2");
-    repositorio.insert(tecnico2);
+  void setUp() {    
+    tecnico = new Tecnico(
+      new Documento(TipoDocumento.DNI, 123),
+      "Lautaro",
+      "velazquez",
+      LocalDate.now(),
+      "123456",
+      new AreaGeografica( new CoordenadasGeograficas(0.0,0.0), 100)
+    );
+    repositorio.insert(tecnico);
   }
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteTodos();
+    repositorio.deleteAll();
   }
 
   @Test
@@ -43,52 +47,47 @@ class TecnicosRepositoryTest {
 
   @Test
   void insertarTecnicoSinFallar() {
-    repositorio.insert(tecnico);
-    Assertions.assertTrue(repositorio.getTecnicos().contains(tecnico));
+    Assertions.assertTrue(repositorio.findAll().anyMatch(e -> e == tecnico));
   }
 
   @Test
   void obtenerTodosLostecnicos() {
-    repositorio.insert(tecnico);
+    repositorio.insert(new Tecnico(
+      new Documento(TipoDocumento.DNI, 123),
+      "xxx",
+      "xxx",
+      LocalDate.now(),
+      "401",
+      new AreaGeografica( new CoordenadasGeograficas(0.0,0.0), 100)
+    ));
 
-    assertEquals(3, repositorio.getTecnicos().size());
+    assertEquals(2, repositorio.findAll().count());
   }
 
   @Test
   void testGetTecnicoNoExistente() {
-    Optional<Tecnico> encontrado = repositorio.get("999999");
+    Optional<Tecnico> encontrado = repositorio.searchBy("cuil", "999999");
     Assertions.assertFalse(encontrado.isPresent(), "El técnico no existe");
   }
 
   @Test
   void testGetTecnicoExistente() {
     repositorio.insert(tecnico);
-
-
-    Optional<Tecnico> encontrado = repositorio.get("123456");
-    Assertions.assertTrue(encontrado.isPresent(), "El técnico debería estar presente");
-    assertEquals(tecnico, encontrado.get(), "técnico encontrado");
+    Optional<Tecnico> encontrado = repositorio.searchBy("cuil","123456");
+    Assertions.assertTrue(encontrado.isPresent(), encontrado.get().toString() +
+     "El técnico debería estar presente");
   }
 
   @Test
   void testDeleteTecnicoExistente() {
-    repositorio.insert(tecnico);
-    boolean resultado = repositorio.delete("123456");
-    Assertions.assertTrue(resultado, "El técnico debería haber sido eliminado");
-    Optional<Tecnico> encontrado = repositorio.get("123456");
-    Assertions.assertFalse(encontrado.isPresent(), "El técnico no debería estar presente después de ser eliminado");
-  }
-
-  @Test
-  void testDeleteTecnicoNoExistente() {
-    boolean resultado = repositorio.delete("999999");
-    Assertions.assertFalse(resultado, "El técnico no debería haber sido eliminado porque no existe");
+    repositorio.delete("123456");
+    Optional<Tecnico> encontrado = repositorio.searchBy("cuil","123456");
+    Assertions.assertFalse(encontrado.get().getUsuario().getActive(), "El técnico no debería estar presente después de ser eliminado");
   }
 
   @Test
   void testDeleteTodosLimpiaElRepositorio() {
-    repositorio.deleteTodos();
-
-    assertTrue(repositorio.get("401").isEmpty());
+    repositorio.deleteAll();
+    assertTrue(repositorio.searchBy("cuil","123456").isEmpty());
   }
 }

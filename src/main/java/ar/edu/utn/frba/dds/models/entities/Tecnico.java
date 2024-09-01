@@ -9,6 +9,9 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -30,11 +33,15 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "tecnico")
 @Getter
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 public final class Tecnico {
   // TODO: el rol capaz debería estar almacenado en un repositorio?
   @Column(name = "id")
   @Id
+  @GeneratedValue
+  @Type(type="uuid-char")
   @NonNull UUID id;
   @Transient
   private static final Rol ROL_DEFAULT = new Rol("tecnico", new HashSet<>());
@@ -55,16 +62,16 @@ public final class Tecnico {
                  @NonNull String cuil,
                  @NonNull AreaGeografica areaAsignada) {
     this.usuario = new Usuario(
-        documento,
-        primerNombre,
-        apellido,
-        fechaNacimiento,
+      documento,
+      primerNombre,
+      apellido,
+      fechaNacimiento,
         new HashSet<>(List.of(ROL_DEFAULT)));  // TODO: Agregar permisos
     this.cuil = cuil;
     this.areaAsignada = areaAsignada;
   }
 
   public boolean isDentroDeRango(Heladera heladera) {
-    return CalculadoraDistancia.calcular(heladera.getUbicacion(), areaAsignada.centro()) < areaAsignada.radioEnMetros();
+    return CalculadoraDistancia.calcular(heladera.getUbicacion(), areaAsignada.getCentro()) < areaAsignada.getRadioEnMetros();
   }
 }

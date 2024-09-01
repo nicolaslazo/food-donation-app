@@ -36,13 +36,12 @@ public class HeladeraController {
     HashMap<Tecnico, Double> distanciasAHeladera = new HashMap<>();
     TecnicoRepository
         .getInstancia()
-        .getTecnicos()
-        .stream()
+        .findAll()
         .filter(tecnico -> tecnico.isDentroDeRango(heladera))
         .forEach(tecnico ->
             distanciasAHeladera.put(
                 tecnico,
-                CalculadoraDistancia.calcular(tecnico.getAreaAsignada().centro(), coordsHeladera)
+                CalculadoraDistancia.calcular(tecnico.getAreaAsignada().getCentro(), coordsHeladera)
             )
         );
 

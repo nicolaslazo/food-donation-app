@@ -56,7 +56,7 @@ class HeladeraControllerTest {
 
   @AfterEach
   void tearDown() {
-    tecnicoRepository.deleteTodos();
+    tecnicoRepository.deleteAll();
     heladerasRepository.deleteTodas();
     new ContactosRepository().deleteAll();
     new UsuariosRepository().deleteAll();
