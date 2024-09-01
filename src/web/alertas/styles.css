@@ -1,26 +1,6 @@
-body {
-    display: flex;
-    margin: 0;
-    height: 100vh;
-    font-family: montserrat;
-}
-
-main {
-    display: flex;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-}
 
 /*MAPA*/
 
-.search-icon {
-    position: absolute;
-    right: 10px;
-    font-size: 1.5em;
-    pointer-events: none;
-    margin: 5px 0;
-}
 #map {
     width: 50%;
     height: 80vh;
@@ -91,6 +71,7 @@ main {
     max-width: 320px;
     box-sizing: border-box;
     padding: 10px;
+    overflow-x: hidden;
     min-height: 150px;
     overflow: auto;
 }
@@ -100,7 +81,6 @@ main {
     overflow-wrap: break-word;
     word-wrap: break-word;
     white-space: normal;
-    margin-right: 10px;
 }
 
 .alert div {
