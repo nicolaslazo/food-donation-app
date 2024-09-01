@@ -3,8 +3,6 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
-import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
-import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,7 +32,7 @@ class DonacionViandasRepositoryTest {
 
   @BeforeEach
   void setUp() {
-    when(colaboradorMock.getDocumento()).thenReturn(new Documento(TipoDocumento.DNI, 1));
+    when(colaboradorMock.getId()).thenReturn(UUID.randomUUID());
   }
 
   @AfterEach

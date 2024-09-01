@@ -7,8 +7,9 @@ import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CalculadoraDistancia;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Ubicacion;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
+import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 
 import java.time.ZonedDateTime;
@@ -30,7 +31,7 @@ public class HeladeraController {
   }
 
   public static Optional<Tecnico> encontrarTecnicoMasCercano(Heladera heladera) {
-    final Ubicacion coordsHeladera = heladera.getUbicacion();
+    final CoordenadasGeograficas coordsHeladera = heladera.getUbicacion();
 
     HashMap<Tecnico, Double> distanciasAHeladera = new HashMap<>();
     TecnicoRepository
@@ -59,17 +60,20 @@ public class HeladeraController {
             heladera.getNombre(),
             fecha);
 
-    HeladeraController.encontrarTecnicoMasCercano(heladera).ifPresent(tecnico -> {
-      try {
-        tecnico.enviarMensaje(mensaje);
-      } catch (MensajeAContactoException e) {
-        throw new RuntimeException(e);
-      }
-    });
+    HeladeraController.encontrarTecnicoMasCercano(heladera).ifPresent(tecnico ->
+        new ContactosRepository()
+            .get(tecnico)
+            .forEach(contacto -> {
+              try {
+                contacto.enviarMensaje(mensaje);
+              } catch (MensajeAContactoException e) {
+                throw new RuntimeException(e);
+              }
+            }));
   }
 
   public List<Heladera> encontrarHeladerasCercanas(Heladera target) {
-    Ubicacion ubicacionTarget = target.getUbicacion();
+    CoordenadasGeograficas ubicacionTarget = target.getUbicacion();
 
     return repositorio
         .getTodas()

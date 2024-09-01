@@ -2,7 +2,7 @@ package ar.edu.utn.frba.dds.services;
 
 import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.Coordenadas;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -33,12 +33,12 @@ public class ServicioSugerenciaColocacionHeladeras {
 
   public static void main(String[] args) {
     // Demo usando una mock API de Postman
-    Coordenadas obelisco = new Coordenadas(-34.6036152, -58.381700);
+    CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.6036152, -58.381700);
     AreaGeografica alrededorDelObelisco = new AreaGeografica(obelisco, 50);
 
     ServicioSugerenciaColocacionHeladeras servicio = ServicioSugerenciaColocacionHeladeras.getInstancia();
     try {
-      List<Coordenadas> sugerencias = servicio.solicitarSugerencias(alrededorDelObelisco);
+      List<CoordenadasGeograficas> sugerencias = servicio.solicitarSugerencias(alrededorDelObelisco);
 
       System.out.print(sugerencias);
     } catch (IOException e) {
@@ -46,13 +46,13 @@ public class ServicioSugerenciaColocacionHeladeras {
     }
   }
 
-  public List<Coordenadas> solicitarSugerencias(AreaGeografica area) throws IOException {
-    Coordenadas coordenadas = area.centro();
+  public List<CoordenadasGeograficas> solicitarSugerencias(AreaGeografica area) throws IOException {
+    CoordenadasGeograficas coordenadas = area.centro();
 
-    Call<List<Coordenadas>> request =
+    Call<List<CoordenadasGeograficas>> request =
         interfaz.sugerencias(coordenadas.getLatitud(), coordenadas.getLongitud(), area.radioEnMetros());
 
-    Response<List<Coordenadas>> response = request.execute();
+    Response<List<CoordenadasGeograficas>> response = request.execute();
 
     return response.body();
   }

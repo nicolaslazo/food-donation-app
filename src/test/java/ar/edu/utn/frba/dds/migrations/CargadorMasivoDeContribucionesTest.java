@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.migrations;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.util.Iterator;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,19 +54,16 @@ class CargadorMasivoDeContribucionesTest {
 
     assertAll("Campos leídos",
         () -> assertInstanceOf(Dinero.class, contribucion),
-        () -> assertEquals(TipoDocumento.DNI, colaborador.getDocumento().tipo()),
-        () -> assertEquals(30123456, colaborador.getDocumento().valor()),
-        () -> assertEquals("Juan", colaborador.getNombre()),
-        () -> assertEquals("Pérez", colaborador.getApellido()),
-        () -> {
-          Optional<Contacto> contacto = colaborador.getContactos().stream().findFirst();
-          Email email = (Email) contacto.get();
-
-          assertEquals(
-              "jperez@example.com",
-              email.destinatario()
-          );
-        },
+        () -> assertEquals(TipoDocumento.DNI, colaborador.getUsuario().getDocumento().getTipo()),
+        () -> assertEquals(30123456, colaborador.getUsuario().getDocumento().getValor()),
+        () -> assertEquals("Juan", colaborador.getUsuario().getPrimerNombre()),
+        () -> assertEquals("Pérez", colaborador.getUsuario().getApellido()),
+        () -> assertTrue(contribuciones
+            .getContactos()
+            .stream()
+            .map(Contacto::getDestinatario)
+            .toList()
+            .contains("jperez@example.com")),
         () -> assertEquals(
             ZonedDateTime.parse("2024-05-08T00:00-03:00[America/Argentina/Buenos_Aires]"),
             contribucion.getFechaRealizada()
@@ -91,6 +86,6 @@ class CargadorMasivoDeContribucionesTest {
   void testReciclaColaboradoresYaCreados() {
     while (contribuciones.hasNext()) contribuciones.next();
 
-    assertEquals(7, contribuciones.getColaboradores().toArray().length);
+    assertEquals(7, contribuciones.getColaboradores().size());
   }
 }

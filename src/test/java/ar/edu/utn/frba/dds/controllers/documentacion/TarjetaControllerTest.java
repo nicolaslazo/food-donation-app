@@ -1,8 +1,9 @@
 package ar.edu.utn.frba.dds.controllers.documentacion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -26,17 +28,27 @@ import static org.mockito.Mockito.when;
 
 class TarjetaControllerTest {
   Tarjeta tarjeta;
-  Usuario usuario;
   Rol administrador = new Rol("Administrador",
       Set.of(new Permiso("crearTarjetas"),
           new Permiso("asignarTarjetas"),
           new Permiso("darBajaTarjetas")));
+  Usuario usuario = new Usuario(
+      new Documento(TipoDocumento.DNI, 1),
+      "",
+      "",
+      LocalDate.now(),
+      Set.of(administrador));
+  Usuario usuarioInutil = new Usuario(
+      new Documento(TipoDocumento.DNI, 1),
+      "",
+      "",
+      LocalDate.now(),
+      new HashSet<>());
   Colaborador colaboradorMock = mock(Colaborador.class);
 
   @BeforeEach
   void setUp() {
     tarjeta = new Tarjeta(UUID.randomUUID());
-    usuario = new Usuario(new Email(""), Set.of(administrador));
 
     when(colaboradorMock.getUsuario()).thenReturn(usuario);
   }
@@ -57,8 +69,6 @@ class TarjetaControllerTest {
 
   @Test
   void testCrearTarjetaSinPermisosFalla() {
-    Usuario usuarioInutil = new Usuario(new Email(""), new HashSet<>());
-
     assertThrows(PermisoDenegadoException.class, () -> TarjetaController.crear(UUID.randomUUID(), usuarioInutil));
   }
 
@@ -73,11 +83,21 @@ class TarjetaControllerTest {
 
   @Test
   void testAltaFallaSiProveedorNoEsColaborador() {
-    Usuario usuarioInutil = new Usuario(new Email(""), new HashSet<>());
     when(colaboradorMock.getUsuario()).thenReturn(usuarioInutil);
 
     assertThrows(PermisoDenegadoException.class,
         () -> TarjetaController.darDeAlta(tarjeta, usuario, colaboradorMock));
+  }
+
+  @Test
+  void testAltaFallaSiRecipienteYaTieneTarjeta() throws PermisoDenegadoException, RepositoryException {
+    Tarjeta unaTarjeta = TarjetaController.crear(UUID.randomUUID(), usuario);
+    Tarjeta otraTarjeta = TarjetaController.crear(UUID.randomUUID(), usuario);
+
+    TarjetaController.darDeAlta(unaTarjeta, usuario, colaboradorMock);
+
+    assertThrows(PermisoDenegadoException.class,
+        () -> TarjetaController.darDeAlta(otraTarjeta, usuario, colaboradorMock));
   }
 
   @Test
