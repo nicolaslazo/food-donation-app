@@ -60,4 +60,11 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
       em.createQuery(delete).executeUpdate();
     });
   }
+  public Optional<T> findFirstByCriteria(String fieldName, Object value, String additionalCriteria) {
+    String queryStr =  "SELECT * FROM " + claseDeEntidad.getSimpleName() + " WHERE " + fieldName + " = :value " + additionalCriteria + " LIMIT 1";
+    return entityManager().createQuery(queryStr, claseDeEntidad)
+        .setParameter("value", value)
+        .getResultStream()
+        .findFirst();
+  }
 }

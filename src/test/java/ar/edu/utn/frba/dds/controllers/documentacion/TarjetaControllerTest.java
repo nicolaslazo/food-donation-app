@@ -27,6 +27,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class TarjetaControllerTest {
+
+  final TarjetasRepository tarjetasRepository = new TarjetasRepository();
   Tarjeta tarjeta;
   Rol administrador = new Rol("Administrador",
       Set.of(new Permiso("crearTarjetas"),
@@ -55,7 +57,7 @@ class TarjetaControllerTest {
 
   @AfterEach
   void tearDown() {
-    TarjetasRepository.getInstancia().deleteTodas();
+    tarjetasRepository.deleteAll();
   }
 
   @Test
@@ -64,7 +66,7 @@ class TarjetaControllerTest {
 
     TarjetaController.crear(uuid, usuario);
 
-    assertTrue(TarjetasRepository.getInstancia().get(uuid).isPresent());
+    assertTrue(tarjetasRepository.findById(uuid).isPresent());
   }
 
   @Test

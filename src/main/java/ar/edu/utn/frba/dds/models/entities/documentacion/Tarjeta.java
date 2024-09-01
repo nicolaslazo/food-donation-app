@@ -6,20 +6,45 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 @Getter
+@Entity
+@Table(name="tarjeta")
 public class Tarjeta {
 
-
+  @Id
+  @GeneratedValue
+  @Column(name="id", unique = true, nullable = false, updatable = false )
   final @NonNull UUID id;
 
+  @ManyToOne
+  @JoinColumn(name="idProveedor", referencedColumnName = "id")
   Colaborador proveedor = null;
+
+  @ManyToOne
+  @JoinColumn(name="idRecipiente", referencedColumnName = "id")
   Usuario recipiente = null;
+
+  @Column(name="fechaAlta")
+  //Converter ??
   ZonedDateTime fechaAlta = null;
+
+  @Column(name="fechaBaja")
+  //Converter ??
   ZonedDateTime fechaBaja = null;
+
+  @ManyToOne
+  @JoinColumn(name = "idResponsableBaja", referencedColumnName = "id")
   Usuario responsableDeBaja = null;
 
   public Tarjeta(@NonNull UUID id) {
