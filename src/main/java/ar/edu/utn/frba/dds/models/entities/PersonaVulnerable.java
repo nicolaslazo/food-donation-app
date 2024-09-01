@@ -6,15 +6,41 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public final class PersonaVulnerable {
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @Id
+  UUID id;
+
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @MapsId
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id", nullable = false, updatable = false)
+  @NonNull Usuario usuario;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "idReclutador", referencedColumnName = "id", nullable = false, updatable = false)
   @Getter
   @NonNull Colaborador reclutador;
+
+  @Column(name = "fechaRegistro", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaRegistro;
-  @NonNull Usuario usuario;
+
+  @Column(name = "domicilio")
+  @Embedded
   DireccionResidencia domicilio;
+
+  @Column(name = "menoresACargo", nullable = false)
   int menoresACargo;
 
   public PersonaVulnerable(@NonNull Colaborador reclutador,
