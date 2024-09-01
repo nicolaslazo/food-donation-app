@@ -12,7 +12,10 @@ import java.util.UUID;
 
 @Getter
 public class Tarjeta {
+
+
   final @NonNull UUID id;
+
   Colaborador proveedor = null;
   Usuario recipiente = null;
   ZonedDateTime fechaAlta = null;
