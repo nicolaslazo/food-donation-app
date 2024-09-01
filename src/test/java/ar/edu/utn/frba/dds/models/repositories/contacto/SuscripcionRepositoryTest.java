@@ -10,9 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
-import org.mockito.MockedStatic;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,13 +19,16 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.when;
 
 class SuscripcionRepositoryTest {
   final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
   final Heladera heladeraMock = mock(Heladera.class);
   final Colaborador colaboradorMock = mock(Colaborador.class);
-  final Suscripcion suscripcion = new Suscripcion(heladeraMock, MotivoDeDistribucion.FALLA_HELADERA, null, colaboradorMock);
+  final Suscripcion suscripcion =
+      new Suscripcion(heladeraMock, MotivoDeDistribucion.FALLA_HELADERA, null, colaboradorMock);
 
   @BeforeEach
   void setUp() throws RepositoryException {
@@ -49,36 +50,33 @@ class SuscripcionRepositoryTest {
 
   @Test
   void testGetSuscripcionesRelevantesAStockDeHeladera() throws RepositoryException {
-    Heladera mockHeladera = mock(Heladera.class);
-    HeladerasRepository mockHeladerasRepository = mock(HeladerasRepository.class);
-
-    // Configurando el mock para devolver 5 como capacidad de viandas
-    when(mockHeladera.getCapacidadEnViandas()).thenReturn(5);
-    // Configurando el mock para devolver 1 como cantidad de viandas depositadas
-    when(mockHeladerasRepository.getCantidadViandasDepositadas(mockHeladera)).thenReturn(3);
+    Heladera heladeraMock = mock(Heladera.class);
+    when(heladeraMock.getCapacidadEnViandas()).thenReturn(5);
 
     Suscripcion faltanViandasDeseada =
-            new Suscripcion(mockHeladera, MotivoDeDistribucion.FALTAN_VIANDAS, 4, mock(Colaborador.class));
+        new Suscripcion(heladeraMock, MotivoDeDistribucion.FALTAN_VIANDAS, 4, mock(Colaborador.class));
     Suscripcion faltanViandasIndeseada =
-            new Suscripcion(mockHeladera, MotivoDeDistribucion.FALTAN_VIANDAS, 2, mock(Colaborador.class));
+        new Suscripcion(heladeraMock, MotivoDeDistribucion.FALTAN_VIANDAS, 2, mock(Colaborador.class));
     Suscripcion faltaEspacioDeseada =
-            new Suscripcion(mockHeladera, MotivoDeDistribucion.FALTA_ESPACIO, 4, mock(Colaborador.class));
+        new Suscripcion(heladeraMock, MotivoDeDistribucion.FALTA_ESPACIO, 4, mock(Colaborador.class));
     Suscripcion faltaEspacioIndeseada =
-            new Suscripcion(mockHeladera, MotivoDeDistribucion.FALTA_ESPACIO, 2, mock(Colaborador.class));
+        new Suscripcion(heladeraMock, MotivoDeDistribucion.FALTA_ESPACIO, 2, mock(Colaborador.class));
 
     for (Suscripcion suscripcion :
-            List.of(faltanViandasDeseada, faltanViandasIndeseada, faltaEspacioDeseada, faltaEspacioIndeseada)) {
+        List.of(faltanViandasDeseada, faltanViandasIndeseada, faltaEspacioDeseada, faltaEspacioIndeseada)) {
       repositorio.insert(suscripcion);
     }
 
     Set<Suscripcion> interesadas;
 
-    interesadas = repositorio.getInteresadasEnStock(mockHeladera, mockHeladerasRepository)
-            .collect(Collectors.toSet());
+    try (MockedConstruction<HeladerasRepository> ignored =
+             mockConstruction(HeladerasRepository.class, (mock, context) ->
+                 when(mock.getCantidadViandasDepositadas(heladeraMock)).thenReturn(3))) {
+      interesadas = repositorio.getInteresadasEnStock(heladeraMock).collect(Collectors.toSet());
+    }
 
     assertEquals(Set.of(faltanViandasDeseada, faltaEspacioDeseada), interesadas);
   }
-
 
   @Test
   void testInsertarSuscripcion() {

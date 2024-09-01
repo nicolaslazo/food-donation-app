@@ -15,7 +15,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> {
-
   public Optional<Heladera> get(CoordenadasGeograficas ubicacion) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -53,9 +52,9 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
 
   public void updateTiempoHeladera(Long id, Heladera nuevaHeladera) {
     Optional<Heladera> heladera = findById(id);
-    if(heladera.isPresent()) {
+    if (heladera.isPresent()) {
       heladera.get().setUltimaTempRegistradaCelsius(
-              nuevaHeladera.getUltimaTempRegistradaCelsius()
+          nuevaHeladera.getUltimaTempRegistradaCelsius()
       );
       persist(heladera.get());
     }
@@ -75,7 +74,7 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
 
   public int getCapacidadDisponible(Heladera heladera) {
     final int viandasEnContribucionesVigentes =
-            SolicitudAperturaPorContribucionRepository.getInstancia().getCantidadViandasPendientes(heladera);
+        SolicitudAperturaPorContribucionRepository.getInstancia().getCantidadViandasPendientes(heladera);
 
     return heladera.getCapacidadEnViandas() - getCantidadViandasDepositadas(heladera) - viandasEnContribucionesVigentes;
   }
