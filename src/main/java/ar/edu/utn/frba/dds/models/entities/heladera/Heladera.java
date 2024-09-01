@@ -11,6 +11,8 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+@Entity
+@Table(name = "heladera")
 public class Heladera {
   @Id
   @GeneratedValue
@@ -26,19 +28,19 @@ public class Heladera {
 
   @Column(name = "capacidadEnViandas")
   @Getter
-  final Integer capacidadEnViandas;
+  Integer capacidadEnViandas;
 
   @Column(name = "fechaInstalacion", nullable = false, columnDefinition = "DATETIME")
-  final @NonNull ZonedDateTime fechaInstalacion;
+  @NonNull ZonedDateTime fechaInstalacion;
 
   @ManyToOne
   @JoinColumn(name = "idColaborador", referencedColumnName = "id")
   @Getter
-  final @NonNull Colaborador encargado;
+  @NonNull Colaborador encargado;
 
   @Embedded
   @Getter
-  final CoordenadasGeograficas ubicacion;
+  CoordenadasGeograficas ubicacion;
 
   @Column(name = "ultimaTemperaturaRegistradaEnCelsius")
   @Getter
@@ -59,6 +61,9 @@ public class Heladera {
     this.encargado = encargado;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
+  }
+
+  protected Heladera() {
   }
 
   public void setUltimaTempRegistradaCelsius(double temperatura) {
