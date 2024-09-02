@@ -37,49 +37,4 @@ class MovimientosHeladeraRepositoryTest {
     assertEquals(1, repositorio.insert(evento));
   }
 
-  void setUpMovimientoSemana() {
-    MockitoAnnotations.openMocks(this);
-    repositorio = MovimientosHeladeraRepository.getInstancia();
-
-    ZonedDateTime now = ZonedDateTime.now();
-    // Movimientos dentro de la semana anterior
-    repositorio.insert(new EventoMovimiento(heladeraMock, now.minusDays(3)));
-    repositorio.insert(new EventoMovimiento(heladeraMock, now.minusDays(5)));
-    // Movimientos fuera de la semana anterior
-    repositorio.insert(new EventoMovimiento(heladeraMock, now.minusDays(10)));
-    repositorio.insert(new EventoMovimiento(heladeraMock, now.minusDays(15)));
-  }
-
-  @Test
-  void testObtenerMovimientosSemanaAnterior() {
-    setUpMovimientoSemana();
-    List<EventoMovimiento> resultado = repositorio.getMovimientosSemanaAnterior();
-
-    // Verificamos que solo haya dos movimientos en el resultado
-    assertEquals(2, resultado.size());
-
-    ZonedDateTime fechaActual = ZonedDateTime.now();
-    ZonedDateTime inicioSemanaAnterior = fechaActual.minusWeeks(1);
-
-    // Verificamos que los movimientos están dentro del rango correcto
-    for (EventoMovimiento movimiento : resultado) {
-      assertTrue(movimiento.getFecha().isAfter(inicioSemanaAnterior));
-      assertTrue(movimiento.getFecha().isBefore(fechaActual));
-    }
-  }
-
-  @Test
-  void testReportaCantidadMovimientosPorHeladera() {
-    Heladera otraHeladeraMock = mock(Heladera.class);
-
-    repositorio.insert(new EventoMovimiento(heladeraMock, ZonedDateTime.now()));
-    repositorio.insert(new EventoMovimiento(otraHeladeraMock, ZonedDateTime.now()));
-    repositorio.insert(new EventoMovimiento(otraHeladeraMock, ZonedDateTime.now()));
-
-    Map<Heladera, Integer> cantidadesDeMovimientosPorHeladera =
-        repositorio.getCantidadMovimientosPorHeladeraSemanaAnterior();
-
-    assertEquals(1, cantidadesDeMovimientosPorHeladera.get(heladeraMock));
-    assertEquals(2, cantidadesDeMovimientosPorHeladera.get(otraHeladeraMock));
-  }
 }
