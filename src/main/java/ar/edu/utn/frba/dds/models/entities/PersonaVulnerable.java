@@ -8,7 +8,6 @@ import lombok.NonNull;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -23,29 +22,29 @@ import java.util.UUID;
 @Entity
 @Table(name = "personaVulnerable")
 public class PersonaVulnerable {
-  @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
   UUID id;
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
   @MapsId
-  @JoinColumn(name = "idUsuario", referencedColumnName = "id", nullable = false, updatable = false)
+  @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, updatable = false)
   @NonNull Usuario usuario;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "idReclutador", referencedColumnName = "id", nullable = false, updatable = false)
+  @JoinColumn(name = "idReclutador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @Getter
   @NonNull Colaborador reclutador;
 
   @Column(name = "fechaRegistro", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaRegistro;
 
-  @Column(name = "domicilio")
-  @Embedded
+  @OneToOne(fetch = FetchType.LAZY, targetEntity = DireccionResidencia.class)
+  @JoinColumn(name = "domicilio", unique = true)
   DireccionResidencia domicilio;
 
   @Column(name = "menoresACargo", nullable = false)
-  int menoresACargo;
+  @NonNull Integer menoresACargo;
 
   public PersonaVulnerable(@NonNull Usuario usuario,
                            @NonNull Colaborador reclutador,
@@ -60,9 +59,5 @@ public class PersonaVulnerable {
   }
 
   protected PersonaVulnerable() {
-  }
-
-  public UUID getId() {
-    return usuario.getId();
   }
 }
