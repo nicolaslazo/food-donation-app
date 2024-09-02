@@ -23,8 +23,7 @@ import java.util.UUID;
 public class Tarjeta {
 
   @Id
-  @GeneratedValue
-  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @Column(name = "id", unique = true)
   final @NonNull UUID id;
 
   @ManyToOne
