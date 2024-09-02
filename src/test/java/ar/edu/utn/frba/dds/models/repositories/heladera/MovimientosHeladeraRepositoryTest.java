@@ -4,6 +4,7 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.EventoMovimiento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 
@@ -17,13 +18,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class MovimientosHeladeraRepositoryTest {
-  MovimientosHeladeraRepository repositorio = MovimientosHeladeraRepository.getInstancia();
-  Heladera heladeraMock = mock(Heladera.class);
+  MovimientosHeladeraRepository repositorio = new MovimientosHeladeraRepository();
+  EventoMovimiento heladeraMock = mock(EventoMovimiento.class);
+  
+  @BeforeEach
+  void setUp() {
+    repositorio.insert(heladeraMock);
+  }
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteTodos();
+    repositorio.deleteAll();
   }
+
 
   @Test
   void repositorioSeInstancia() {
@@ -32,9 +39,7 @@ class MovimientosHeladeraRepositoryTest {
 
   @Test
   void testInsert() {
-    EventoMovimiento evento = new EventoMovimiento(mock(Heladera.class), ZonedDateTime.now());
-
-    assertEquals(1, repositorio.insert(evento));
+    assertEquals(1, heladeraMock.getId());
   }
 
 }

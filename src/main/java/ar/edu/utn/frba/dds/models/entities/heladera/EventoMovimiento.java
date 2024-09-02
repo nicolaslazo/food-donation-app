@@ -24,7 +24,7 @@ public final class EventoMovimiento {
   @Getter
   @Setter
   @NonNull Long id;
-  
+
   @ManyToOne
   @JoinColumn(name = "idHeladera", referencedColumnName = "id")
   private final @NonNull Heladera heladera;
