@@ -1,76 +1,106 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
+import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository;
-import org.junit.jupiter.api.BeforeEach;
+import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class RecompensasRepositoryTest {
-  RecompensasRepository repositorio;
-  Recompensa recompensaDummy;
+  Colaborador colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
+      "",
+      "",
+      LocalDate.now(),
+      new CoordenadasGeograficas(-34., -58.));
+  Recompensa recompensa = new Recompensa("Recompensa dummy",
+      colaborador,
+      100,
+      1,
+      RubroRecompensa.ELECTRONICA,
+      null);
 
-  @BeforeEach
-  void setUp() {
-    repositorio = new RecompensasRepository();
-    recompensaDummy = new Recompensa(
-        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
-    );
+  @AfterEach
+  void tearDown() {
+    new RecompensasRepository().deleteAll();
+    new ColaboradorRepository().deleteAll();
+    new UsuariosRepository().deleteAll();
   }
 
   @Test
   void repositorioSeInstancia() {
-    assertInstanceOf(RecompensasRepository.class, repositorio);
+    assertInstanceOf(RecompensasRepository.class, new RecompensasRepository());
   }
 
   @Test
   void insertaRecompensasSinFallar() {
-    assertDoesNotThrow(() -> repositorio.insert(recompensaDummy));
+    assertDoesNotThrow(() -> new RecompensasRepository().insert(recompensa));
   }
 
   @Test
   void insertSeteaIdEnRecompensa() {
-    assertNotEquals(1, recompensaDummy.getId());
+    new RecompensasRepository().insert(recompensa);
 
-    repositorio.insert(recompensaDummy);
-
-    assertEquals(1, recompensaDummy.getId());
+    assertNotNull(recompensa.getId());
   }
 
   @Test
   void getRetornaRecompensaPorId() {
-    Recompensa otraRecompensa = new Recompensa(
-        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
-    );
-    Recompensa otraRecompensaMas = new Recompensa(
-        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
-    );
+    RecompensasRepository repositorio = new RecompensasRepository();
 
-    repositorio.insert(recompensaDummy);
+    Recompensa otraRecompensa = new Recompensa("Recompensa dummy",
+        colaborador,
+        100,
+        1,
+        RubroRecompensa.ELECTRONICA,
+        null);
+    Recompensa otraRecompensaMas = new Recompensa("Recompensa dummy",
+        colaborador,
+        100,
+        1,
+        RubroRecompensa.ELECTRONICA,
+        null);
+
+    repositorio.insert(recompensa);
     repositorio.insert(otraRecompensa);
     repositorio.insert(otraRecompensaMas);
 
-    assertEquals(otraRecompensa, repositorio.get(2).orElse(null));
+    assertEquals(otraRecompensa, repositorio.findById(otraRecompensa.getId()).orElseThrow());
   }
 
   @Test
   void getTodosRetornaTodosLosContenidos() {
-    Recompensa otraRecompensa = new Recompensa(
-        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
-    );
-    Recompensa otraRecompensaMas = new Recompensa(
-        "Recompensa dummy", RubroRecompensa.ELECTRONICA, 100, 1, null
-    );
+    RecompensasRepository repositorio = new RecompensasRepository();
 
-    repositorio.insert(recompensaDummy);
+    Recompensa otraRecompensa = new Recompensa("Recompensa dummy",
+        colaborador,
+        100,
+        1,
+        RubroRecompensa.ELECTRONICA,
+        null);
+    Recompensa otraRecompensaMas = new Recompensa("Recompensa dummy",
+        colaborador,
+        100,
+        1,
+        RubroRecompensa.ELECTRONICA,
+        null);
+
+    repositorio.insert(recompensa);
     repositorio.insert(otraRecompensa);
     repositorio.insert(otraRecompensaMas);
 
-    assertEquals(3, repositorio.getTodos().size());
+    assertEquals(3, repositorio.findAll().count());
   }
 }
