@@ -22,10 +22,10 @@ public class Vianda {
   @Column(name = "descripcion", nullable = false, columnDefinition = "TEXT")
   @NonNull String descripcion;
 
-  @Column(name = "fechaCaducidad", nullable = false, columnDefinition = "DATETIME")
+  @Column(name = "fechaCaducidad", nullable = false)
   @NonNull ZonedDateTime fechaCaducidad;
 
-  @Column(name = "fechaDonacion", nullable = false, columnDefinition = "DATETIME")
+  @Column(name = "fechaDonacion", nullable = false)
   @NonNull ZonedDateTime fechaDonacion;
 
   @ManyToOne
