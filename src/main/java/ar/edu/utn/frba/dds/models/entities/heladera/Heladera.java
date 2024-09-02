@@ -6,7 +6,14 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.Embedded;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
@@ -44,7 +51,6 @@ public class Heladera {
 
   @Column(name = "ultimaTemperaturaRegistradaEnCelsius")
   @Getter
-  @Setter //Lo agrego para el TEST TemperatureSensorChecker
   Double ultimaTempRegistradaCelsius;
 
   @Column(name = "momentoDeUltimaTempRegistrada", columnDefinition = "DATETIME")
@@ -86,7 +92,7 @@ public class Heladera {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Heladera heladera = (Heladera) o;
-    return getId() == heladera.getId();
+    return Objects.equals(getId(), heladera.getId());
   }
 
   @Override
