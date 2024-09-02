@@ -3,17 +3,14 @@ package ar.edu.utn.frba.dds.models.repositories;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
-import io.github.flbulgarelli.jpa.extras.simple.WithSimplePersistenceUnit;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 //TODO Este repo tiene mucha logica, capaz conviene trabajarlo directo en un controller
@@ -62,11 +59,13 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
     insertAll(viandas);
   }
 
+  /*
   public void insert(Vianda vianda) {
     //TODO: Esto rompe aca, hay que agregar la logica de esto en el controller
     // assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
     super.insert(vianda);
   }
+  */
 
   public void update(Vianda vianda) {
     super.update(vianda);
@@ -91,17 +90,4 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
     if (heladerasInvolucradas.size() > 1)
       throw new RepositoryException("No se pueden insertar viandas de heladeras distintas en la misma transacción");
   }
-
-  // TODO: Necesitamos este método? Lo podemos aplicar en las concretizaciones de contribuciones?
-  public void updateUbicacion(Collection<Vianda> viandas, Heladera ubicacionNueva) throws RepositoryException {
-    // No hay ninguna razón por la que podamos mover viandas de una heladera a otra
-    // afuera del marco de las contribuciones, donde todas las viandas tienen el mismo origen
-    assertViandasSonDeLaMismaHeladera(viandas);
-    assertHeladeraTieneSuficienteEspacio(ubicacionNueva, viandas.size());
-
-    for (Vianda vianda : viandas) {
-      updateUbicacion(vianda, ubicacionNueva);
-    }
-  }
-
 }
