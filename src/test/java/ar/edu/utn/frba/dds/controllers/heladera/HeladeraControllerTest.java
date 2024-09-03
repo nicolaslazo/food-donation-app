@@ -13,6 +13,7 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
@@ -63,6 +64,7 @@ class HeladeraControllerTest {
     tecnicoRepository.deleteTodos();
     new HeladerasRepository().deleteAll();
     new ContactosRepository().deleteAll();
+    new ColaboradorRepository().deleteAll();
     new UsuariosRepository().deleteAll();
   }
 
@@ -176,8 +178,8 @@ class HeladeraControllerTest {
     final double[] longitudes =
         sugerencias.stream().mapToDouble(sugerencia -> sugerencia.getUbicacion().getLongitud()).toArray();
 
-    assertEquals(-59, longitudes[0]);
-    assertEquals(-60, longitudes[1]);
-    assertEquals(-61, longitudes[2]);
+    assertEquals(-59.0, longitudes[0]);
+    assertEquals(-60.0, longitudes[1]);
+    assertEquals(-61.0, longitudes[2]);
   }
 }

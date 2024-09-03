@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
@@ -64,6 +65,8 @@ class SuscripcionControllerTest {
     SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
     ViandasRepository.getInstancia().deleteTodas();
     new HeladerasRepository().deleteAll();
+    new ContactosRepository().deleteAll();
+    new ColaboradorRepository().deleteAll();
     new UsuariosRepository().deleteAll();
   }
 
@@ -133,7 +136,7 @@ class SuscripcionControllerTest {
     }
 
     verify(emailServiceMock).enviarMail(
-        argThat(destinatario -> Objects.equals(destinatario, "colaboradormock@example.com")),
+        argThat(destinatario -> Objects.equals(destinatario, "colaborador@example.com")),
         argThat(mensaje -> mensaje.contains("Se detectó una falla en la heladera Heladera 1") &&
             mensaje.contains("* Heladera 2") &&
             mensaje.contains("* Heladera 3")));
