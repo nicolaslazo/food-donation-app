@@ -8,7 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
-import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidentesRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import lombok.NonNull;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class IncidenteController implements IMqttMessageListener {
   static IncidenteController instancia = null;
   static HeladerasRepository heladerasRepository = new HeladerasRepository();
-  IncidentesRepository repositorio = IncidentesRepository.getInstancia();
+  IncidenteRepository repositorio = IncidenteRepository.getInstancia();
   MqttBrokerService brokerService = MqttBrokerService.getInstancia();
 
   private IncidenteController() throws MqttException {
