@@ -20,7 +20,7 @@ public class SensorTemperatura implements IMqttMessageListener {
     MqttBrokerService.getInstancia().suscribir("heladera/temperatura", this);
   }
 
-  public void recibirDatos(double temperatura, ZonedDateTime momentoEvento) {
+  public void recibirDatos(Double temperatura, ZonedDateTime momentoEvento) {
     this.receptorTemperatura.evaluarReceptor(temperatura, this.heladera, momentoEvento);
   }
 

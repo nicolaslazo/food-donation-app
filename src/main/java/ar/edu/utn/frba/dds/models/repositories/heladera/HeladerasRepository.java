@@ -52,7 +52,7 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
   }
 
   // TODO: arreglar el tipado acá antes de mergear. Tomamos una heladera o un double de temperatura?
-  public void updateTiempoHeladera(long id, Heladera heladera) {
+  public void updateTiempoHeladera(Long id, Double temperaturaNueva) {
 //    Heladera heladera = findById(id).orElseThrow();
 //    heladera.setUltimaTempRegistradaCelsius(temperaturaNueva);
 //

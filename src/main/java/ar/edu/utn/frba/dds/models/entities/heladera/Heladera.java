@@ -70,7 +70,7 @@ public class Heladera {
   protected Heladera() {
   }
 
-  public void setUltimaTempRegistradaCelsius(double temperatura) {
+  public void setUltimaTempRegistradaCelsius(Double temperatura) {
     ultimaTempRegistradaCelsius = temperatura;
     momentoUltimaTempRegistrada = ZonedDateTime.now();
   }
