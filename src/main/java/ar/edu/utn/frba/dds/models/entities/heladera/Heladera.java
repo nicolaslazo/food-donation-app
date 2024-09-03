@@ -23,7 +23,7 @@ import java.util.Objects;
 public class Heladera {
   @Id
   @GeneratedValue
-  @Column(name = "id")
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
   @Getter
   @Setter
   Long id;
@@ -31,7 +31,6 @@ public class Heladera {
   @Column(name = "nombre", nullable = false)
   @Getter
   @NonNull String nombre;
-
 
   @Column(name = "capacidadEnViandas")
   @Getter

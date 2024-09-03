@@ -32,7 +32,7 @@ public class Colaborador {
   static final Rol ROL_DEFAULT =
       new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
 
-  @Column(name = "id")
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   UUID id;
 
