@@ -4,7 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
-import ar.edu.utn.frba.dds.models.repositories.incidenteheladera.IncidenteRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

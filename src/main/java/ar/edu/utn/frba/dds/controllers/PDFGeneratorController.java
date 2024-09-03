@@ -4,7 +4,8 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.MovimientosHeladeraRepository;
-import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidentesRepository;
+
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 import ar.edu.utn.frba.dds.services.generadorpdf.PdfGenerator;
 
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class PDFGeneratorController {
 
   static void generarReporteFallasHeladeras() {
     Map<Heladera, Integer> cantidadPorHeladera =
-        IncidentesRepository.getInstancia().getCantidadIncidentesPorHeladeraSemanaPasada();
+        IncidenteRepository.getInstancia().getCantidadIncidentesPorHeladeraSemanaPasada();
     Map<String, Integer> cantidadPorNombreDeHeladera = new HashMap<>();
 
     for (Map.Entry<Heladera, Integer> entrada : cantidadPorHeladera.entrySet())
