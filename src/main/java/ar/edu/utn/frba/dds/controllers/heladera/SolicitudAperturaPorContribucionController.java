@@ -80,7 +80,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
         SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
 
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
-        repositorio.getSolicitudVigenteAlMomento(confirmacion.getId(),
+        repositorio.getSolicitudVigenteAlMomento(Long.valueOf(confirmacion.getId()),
             confirmacion.getEsExtraccion(),
             confirmacion.getFechaRealizada());
 
