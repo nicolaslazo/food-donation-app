@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.Embedded;
+import javax.persistence.Transient;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
@@ -40,7 +41,8 @@ public class Heladera {
   @NonNull ZonedDateTime fechaInstalacion;
 
   @ManyToOne
-  @JoinColumn(name = "idColaborador", referencedColumnName = "id")
+  @JoinColumn(name = "idColaborador", referencedColumnName = "idColaborador")
+  @Transient
   @Getter
   @NonNull Colaborador encargado;
 
@@ -59,7 +61,7 @@ public class Heladera {
   public Heladera(String nombre,
                   CoordenadasGeograficas ubicacion,
                   Colaborador encargado,
-                  int capacidadEnViandas,
+                  Integer capacidadEnViandas,
                   ZonedDateTime fechaInstalacion) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
