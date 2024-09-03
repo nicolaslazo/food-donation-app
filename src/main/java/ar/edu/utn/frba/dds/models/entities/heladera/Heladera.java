@@ -4,17 +4,16 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
-import javax.persistence.Embedded;
-import javax.persistence.Transient;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
@@ -26,23 +25,21 @@ public class Heladera {
   @GeneratedValue
   @Column(name = "id", nullable = false, unique = true, updatable = false)
   @Getter
-  @Setter
   Long id;
 
   @Column(name = "nombre", nullable = false)
   @Getter
   @NonNull String nombre;
 
-  @Column(name = "capacidadEnViandas")
+  @Column(name = "capacidadEnViandas", updatable = false)
   @Getter
-  Integer capacidadEnViandas;
+  @NonNull Integer capacidadEnViandas;
 
-  @Column(name = "fechaInstalacion", nullable = false, columnDefinition = "DATETIME")
+  @Column(name = "fechaInstalacion", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaInstalacion;
 
-  @ManyToOne
-  @JoinColumn(name = "idColaborador", referencedColumnName = "idColaborador")
-  @Transient
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario")
   @Getter
   @NonNull Colaborador encargado;
 
@@ -54,7 +51,7 @@ public class Heladera {
   @Getter
   Double ultimaTempRegistradaCelsius;
 
-  @Column(name = "momentoDeUltimaTempRegistrada", columnDefinition = "DATETIME")
+  @Column(name = "momentoDeUltimaTempRegistrada")
   @Getter
   ZonedDateTime momentoUltimaTempRegistrada;
 

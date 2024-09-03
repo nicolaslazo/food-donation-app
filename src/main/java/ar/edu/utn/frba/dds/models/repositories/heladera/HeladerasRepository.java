@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
+import lombok.NonNull;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> {
-  public Optional<Heladera> get(CoordenadasGeograficas ubicacion) {
+  public Optional<Heladera> find(@NonNull CoordenadasGeograficas ubicacion) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
@@ -26,7 +27,7 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
     return em.createQuery(query).getResultList().stream().findFirst();
   }
 
-  public Stream<Heladera> getHeladerasConTemperaturaDesactualizada(int limiteEnMinutos) {
+  public Stream<Heladera> findConTemperaturaDesactualizada(int limiteEnMinutos) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
@@ -39,7 +40,7 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
     return em.createQuery(query).getResultStream();
   }
 
-  public Stream<Heladera> getTodas(Colaborador encargado) {
+  public Stream<Heladera> findAll(@NonNull Colaborador encargado) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
@@ -50,19 +51,17 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
     return em.createQuery(query).getResultStream();
   }
 
-  public void updateTiempoHeladera(Long id, Heladera nuevaHeladera) {
-    Optional<Heladera> heladera = findById(id);
-    if (heladera.isPresent()) {
-      heladera.get().setUltimaTempRegistradaCelsius(
-          nuevaHeladera.getUltimaTempRegistradaCelsius()
-      );
-      persist(heladera.get());
-    }
+  // TODO: arreglar el tipado acá antes de mergear. Tomamos una heladera o un double de temperatura?
+  public void updateTiempoHeladera(long id, Heladera heladera) {
+//    Heladera heladera = findById(id).orElseThrow();
+//    heladera.setUltimaTempRegistradaCelsius(temperaturaNueva);
+//
+//    withTransaction(() -> merge(heladera));
   }
 
   public int getMesesActivosCumulativos(Colaborador colaborador) {
     // TODO: Actualizar en base a la fecha del último incidente resuelto
-    return getTodas(colaborador).mapToInt(Heladera::mesesActiva).sum();
+    return findAll(colaborador).mapToInt(Heladera::mesesActiva).sum();
   }
 
   /* Este método concierne a la cantidad de viandas ahora mismo depositadas en la heladera, independientemente de las
