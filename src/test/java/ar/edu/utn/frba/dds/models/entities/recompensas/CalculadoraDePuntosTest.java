@@ -93,12 +93,12 @@ class CalculadoraDePuntosTest {
 
   @Test
   public void testCalculaPuntaje() {
-    when(repositorioDineroMock.getTotal(colaboradorMock)).thenReturn(1.0);  // 1.0 * 0.5 = 0.5
+    when(repositorioDineroMock.getTotal(colaboradorMock)).thenReturn(2.);  // 2.0 * 0.5 = 1
     when(repositorioViandasRedistribuidasMock.getTotal(colaboradorMock)).thenReturn(10);  // 10 * 1 = 10
     when(repositorioViandasDonadasMock.getTotal(colaboradorMock)).thenReturn(100);  // 100 * 1.5 = 150
     when(repositorioEntregaTarjetasMock.getTotal(colaboradorMock)).thenReturn(1000);  // 1000 * 2 = 2000
     when(repositorioCuidadoHeladerasMock.getMesesActivosCumulativos(colaboradorMock)).thenReturn(10000);  // 10000 * 5 = 50000
 
-    assertEquals(52160.5, CalculadoraDePuntos.calcular(colaboradorMock));
+    assertEquals(52161, CalculadoraDePuntos.calcular(colaboradorMock));
   }
 }
