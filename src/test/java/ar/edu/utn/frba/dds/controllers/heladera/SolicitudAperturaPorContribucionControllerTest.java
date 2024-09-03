@@ -95,7 +95,7 @@ class SolicitudAperturaPorContribucionControllerTest {
       new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion);
     }
 
-    assertEquals(1, SolicitudAperturaPorContribucionRepository.getInstancia().getTodas().size());
+    assertEquals(1, SolicitudAperturaPorContribucionRepository.getInstancia().getTodas().count());
   }
 
   @Test
@@ -153,10 +153,8 @@ class SolicitudAperturaPorContribucionControllerTest {
 
     ZonedDateTime epoch = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
     ZonedDateTime unSegundoDespuesDeEpoch = epoch.plusSeconds(1);
+    SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(mock(Tarjeta.class), donacionMock, epoch);
 
-    int idSolicitud = SolicitudAperturaPorContribucionRepository
-        .getInstancia()
-        .insert(new SolicitudAperturaPorContribucion(mock(Tarjeta.class), donacionMock, epoch));
 
     controlador.messageArrived(
         "heladeras/1/solicitudes/confirmadas",
@@ -165,7 +163,7 @@ class SolicitudAperturaPorContribucionControllerTest {
             .getBytes()));
 
     ZonedDateTime fechaUsada =
-        SolicitudAperturaPorContribucionRepository.getInstancia().get(idSolicitud).get().getFechaAperturaEnDestino();
+        SolicitudAperturaPorContribucionRepository.getInstancia().findById(solicitud.getId()).get().getFechaAperturaEnDestino();
 
     assertEquals(unSegundoDespuesDeEpoch, fechaUsada);
   }
