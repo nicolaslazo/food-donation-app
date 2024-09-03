@@ -10,12 +10,15 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
+@Entity
+@Table(name = "solicitudAperturaPorContribucion")
 public class SolicitudAperturaPorContribucion {
-  @Getter
+  /*@Getter
   final @NonNull Tarjeta tarjeta;
   final @NonNull MovimientoViandas razon;
   @Getter
@@ -28,7 +31,39 @@ public class SolicitudAperturaPorContribucion {
   ZonedDateTime fechaAperturaEnDestino = null;
   @Getter
   @Setter
-  int id;
+  int id;*/
+  @Getter
+  @Setter
+  @Id
+  @Column(name = "id")
+  @GeneratedValue
+  Long id;
+
+  @Getter
+  @ManyToOne
+  @JoinColumn(name = "idTarjeta", referencedColumnName = "id")
+  @NonNull Tarjeta tarjeta;
+
+  @ManyToOne
+  @JoinColumn(name = "idMovimientoViandas", referencedColumnName = "id")
+  @NonNull MovimientoViandas razon;
+
+  @Getter
+  @Column(name = "fechaCreacion", nullable = false)
+  @NonNull ZonedDateTime fechaCreacion;
+
+  @Getter
+  @Column(name = "fechaVencimiento", nullable = false)
+  @NonNull ZonedDateTime fechaVencimiento;
+
+  @Getter
+  @Column(name = "fechaAperturaEnOrigen")
+  ZonedDateTime fechaAperturaEnOrigen = null;
+
+  @Getter
+  @Column(name = "fechaAperturaEnDestino")
+  ZonedDateTime fechaAperturaEnDestino = null;
+
 
   public SolicitudAperturaPorContribucion(Tarjeta tarjeta,
                                           MovimientoViandas razon,
