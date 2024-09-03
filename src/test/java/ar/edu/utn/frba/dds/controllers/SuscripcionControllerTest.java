@@ -10,7 +10,6 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
-import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
@@ -27,68 +26,62 @@ import org.mockito.MockedStatic;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 class SuscripcionControllerTest {
   final CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5609872, -58.501046);
-  final Heladera heladeraMock = mock(Heladera.class);
-  final Colaborador colaboradorMock = mock(Colaborador.class);
   final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
-  final ContactosRepository repositorioContactos = new ContactosRepository();
-  final UsuariosRepository repositorioUsuarios = new UsuariosRepository();
-  final HeladerasRepository heladerasRepository = new HeladerasRepository();
+  Colaborador colaborador;
+  Heladera heladera;
 
   @BeforeEach
   void setUp() {
-    when(heladeraMock.getNombre()).thenReturn("Heladera de testeo");
-    when(heladeraMock.getUbicacion()).thenReturn(obelisco);
-    when(heladeraMock.getCapacidadEnViandas()).thenReturn(5);
+    colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        new CoordenadasGeograficas(-34., -58.));
+    heladera = new Heladera("Heladera de testeo",
+        obelisco,
+        colaborador,
+        5,
+        ZonedDateTime.now());
   }
 
   @AfterEach
   void tearDown() {
     repositorio.deleteTodas();
     SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
-    heladerasRepository.deleteAll();
     ViandasRepository.getInstancia().deleteTodas();
-    repositorioContactos.deleteAll();
-    repositorioUsuarios.deleteAll();
+    new HeladerasRepository().deleteAll();
+    new UsuariosRepository().deleteAll();
   }
 
   @Test
   void testCrearSuscripcion() throws RepositoryException {
     final CoordenadasGeograficas bibliotecaNacional =
         new CoordenadasGeograficas(-34.5844291, -58.4164616);
-    when(colaboradorMock.getUbicacion()).thenReturn(bibliotecaNacional);
+    colaborador.setUbicacion(bibliotecaNacional);
 
     SuscripcionController
-        .suscribirAHeladera(heladeraMock, MotivoDeDistribucion.FALLA_HELADERA, null, colaboradorMock);
+        .suscribirAHeladera(heladera, MotivoDeDistribucion.FALLA_HELADERA, null, colaborador);
 
-    Optional<Suscripcion> suscripcionOpcional =
-        repositorio.get(heladeraMock, MotivoDeDistribucion.FALLA_HELADERA, colaboradorMock);
-
-    assertTrue(suscripcionOpcional.isPresent());
-
-    Suscripcion encontrada = suscripcionOpcional.get();
+    Suscripcion encontrada = repositorio.get(heladera, MotivoDeDistribucion.FALLA_HELADERA, colaborador).orElseThrow();
 
     assertAll(
         () -> assertEquals(1, encontrada.getId()),
-        () -> assertEquals(heladeraMock, encontrada.getHeladera()),
-        () -> assertEquals(colaboradorMock, encontrada.getColaborador())
+        () -> assertEquals(heladera, encontrada.getHeladera()),
+        () -> assertEquals(colaborador, encontrada.getColaborador())
     );
   }
 
@@ -96,13 +89,13 @@ class SuscripcionControllerTest {
   void testCrearSuscripcionFallaSiElUsuarioViveLejos() {
     final CoordenadasGeograficas centroCivicoBariloche =
         new CoordenadasGeograficas(-41.133496, -71.3127926);
-    when(colaboradorMock.getUbicacion()).thenReturn(centroCivicoBariloche);
+    colaborador.setUbicacion(centroCivicoBariloche);
 
     assertThrows(RuntimeException.class,
-        () -> SuscripcionController.suscribirAHeladera(heladeraMock,
+        () -> SuscripcionController.suscribirAHeladera(heladera,
             MotivoDeDistribucion.FALLA_HELADERA,
             null,
-            colaboradorMock));
+            colaborador));
   }
 
   @Test
@@ -112,33 +105,22 @@ class SuscripcionControllerTest {
     for (int i = 0; i < 3; i++) {
       final Heladera heladeraNueva = new Heladera("Heladera " + (i + 1),
           new CoordenadasGeograficas(-34d, -58d - i),
-          colaboradorMock,
+          colaborador,
           10,
           ZonedDateTime.now());
 
       heladeras.add(heladeraNueva);
-      heladerasRepository.insert(heladeraNueva);
+      new HeladerasRepository().insert(heladeraNueva);
     }
 
-    // La ubicación mockeada ayuda a pasar el checkeo de distancia
-    when(colaboradorMock.getUbicacion()).thenReturn(new CoordenadasGeograficas(-34d, -58d));
     SuscripcionController.suscribirAHeladera(heladeras.get(0),
         MotivoDeDistribucion.FALLA_HELADERA,
         null,
-        colaboradorMock);
+        colaborador);
 
-    Usuario usuario = new Usuario(
-        new Documento(TipoDocumento.DNI, 1),
-        "",
-        "",
-        LocalDate.now(),
-        new HashSet<>());
-    repositorioUsuarios.insert(usuario);
-
-    when(colaboradorMock.getUsuario()).thenReturn(usuario);
-    Email email = new Email(usuario, "colaboradormock@example.com");
+    Email email = new Email(colaborador.getUsuario(), "colaborador@example.com");
     Email emailMock = spy(email);
-    repositorioContactos.insert(emailMock);
+    new ContactosRepository().insert(emailMock);
 
     EnviadorMail emailServiceMock = mock(EnviadorMail.class);
 

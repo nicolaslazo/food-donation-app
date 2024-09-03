@@ -88,7 +88,7 @@ public class HeladeraController {
     final int minutosDeSilencio =
         Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.sensores.limiteDeEsperaEnMinutos"));
 
-    return repositorio.getHeladerasConTemperaturaDesactualizada(minutosDeSilencio).toList();
+    return repositorio.findConTemperaturaDesactualizada(minutosDeSilencio).toList();
   }
 
   public void alertarFallaDeConexion(Heladera heladera) {

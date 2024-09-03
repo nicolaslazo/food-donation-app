@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,6 +44,7 @@ public class Colaborador {
   @NonNull Usuario usuario;
 
   @Embedded
+  @Setter
   CoordenadasGeograficas ubicacion;
 
   public Colaborador(@NonNull Documento documento,

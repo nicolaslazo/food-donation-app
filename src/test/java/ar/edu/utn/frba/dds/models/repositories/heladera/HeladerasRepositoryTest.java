@@ -53,7 +53,7 @@ class HeladerasRepositoryTest {
 
   @Test
   void testGetPorUbicacion() {
-    Optional<Heladera> found = repository.get(obelisco);
+    Optional<Heladera> found = repository.find(obelisco);
 
     assertTrue(found.isPresent());
     assertEquals(obelisco, found.get().getUbicacion());
@@ -73,7 +73,7 @@ class HeladerasRepositoryTest {
   void testGetTodasPorColaborador() throws RepositoryException {
     repository.insert(otraHeladera);
 
-    List<Heladera> heladerasDelColaborador = repository.getTodas(colaboradorMock).toList();
+    List<Heladera> heladerasDelColaborador = repository.findAll(colaboradorMock).toList();
 
     assertEquals(2, heladerasDelColaborador.size());
     assertTrue(heladerasDelColaborador.contains(heladera));

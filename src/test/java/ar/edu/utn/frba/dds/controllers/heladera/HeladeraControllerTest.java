@@ -41,8 +41,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class HeladeraControllerTest {
+  final Colaborador colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
+      "",
+      "",
+      LocalDate.now(),
+      null);
   final TecnicoRepository tecnicoRepository = TecnicoRepository.getInstancia();
-  final HeladerasRepository heladerasRepository = new HeladerasRepository();
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
   final CoordenadasGeograficas obelisco =
       new CoordenadasGeograficas(-34.603706013664166, -58.3815728218273);
@@ -57,7 +61,7 @@ class HeladeraControllerTest {
   @AfterEach
   void tearDown() {
     tecnicoRepository.deleteTodos();
-    heladerasRepository.deleteAll();
+    new HeladerasRepository().deleteAll();
     new ContactosRepository().deleteAll();
     new UsuariosRepository().deleteAll();
   }
@@ -112,14 +116,14 @@ class HeladeraControllerTest {
     final CoordenadasGeograficas coordenadas = new CoordenadasGeograficas(-34d, -58d);
     final Heladera heladera = new Heladera("Heladera a testear",
         new CoordenadasGeograficas(coordenadas.getLatitud(), coordenadas.getLongitud()),
-        mock(Colaborador.class),
+        colaborador,
         10,
         ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC));
     final Tecnico tecnicoMock = mock(Tecnico.class);
     when(tecnicoMock.getAreaAsignada()).thenReturn(new AreaGeografica(coordenadas, 100));
     when(tecnicoMock.isDentroDeRango(heladera)).thenReturn(true);
 
-    heladerasRepository.insert(heladera);
+    new HeladerasRepository().insert(heladera);
     tecnicoRepository.insert(tecnicoMock);
 
     Usuario usuario = new Usuario(new Documento(TipoDocumento.DNI, 1),
@@ -152,13 +156,12 @@ class HeladeraControllerTest {
   }
 
   @Test
-  void testEncuentraHeladerasCercanas() throws RepositoryException {
+  void testEncuentraHeladerasCercanas() {
     final List<Heladera> heladeras = new ArrayList<>(5);
-
     for (int i = 0; i < 5; i++) {
       heladeras.add(new Heladera("",
           new CoordenadasGeograficas(-34d, -58d - i),
-          mock(Colaborador.class),
+          colaborador,
           10,
           ZonedDateTime.now()));
     }
@@ -167,7 +170,7 @@ class HeladeraControllerTest {
 
     Collections.shuffle(heladeras);
 
-    for (Heladera heladera : heladeras) heladerasRepository.insert(heladera);
+    for (Heladera heladera : heladeras) new HeladerasRepository().insert(heladera);
 
     final List<Heladera> sugerencias = new HeladeraController().encontrarHeladerasCercanas(heladeraTarget);
     final double[] longitudes =
