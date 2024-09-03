@@ -80,7 +80,7 @@ public class SuscripcionController implements IMqttMessageListener {
       SolicitudAperturaPorContribucionInputDTO dtoSolicitudApertura) throws SolicitudInvalidaException {
     Optional<SolicitudAperturaPorContribucion> optionalSolicitudReferida = SolicitudAperturaPorContribucionRepository
         .getInstancia()
-        .getSolicitudVigenteAlMomento(dtoSolicitudApertura.getId(),
+        .getSolicitudVigenteAlMomento(Long.valueOf(dtoSolicitudApertura.getId()),
             dtoSolicitudApertura.getEsExtraccion(),
             dtoSolicitudApertura.getFechaRealizada());
 

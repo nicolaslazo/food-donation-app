@@ -14,7 +14,7 @@ public record SolicitudAperturaPorContribucionOutputDTO(
 ) {
   public SolicitudAperturaPorContribucionOutputDTO(SolicitudAperturaPorContribucion solicitud) {
     this(solicitud.getTarjeta().getId(),
-        solicitud.getId(),
+        Math.toIntExact(solicitud.getId()),
         solicitud.getFechaVencimiento().toString(),
         solicitud.getPesosDeViandasEnGramos());
   }
