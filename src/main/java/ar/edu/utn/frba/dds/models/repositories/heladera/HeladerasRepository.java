@@ -46,7 +46,7 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
     CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
     Root<Heladera> root = query.from(Heladera.class);
 
-    query.select(root).where(cb.equal(root.get("colaborador"), encargado));
+    query.select(root).where(cb.equal(root.get("encargado"), encargado));
 
     return em.createQuery(query).getResultStream();
   }

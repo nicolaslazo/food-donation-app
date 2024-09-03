@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -79,10 +80,17 @@ class CuidadoHeladeraControllerTest {
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
 
-    Heladera heladeraCreada = heladerasRepository.findById(1L).get();
+    Optional<Heladera> heladeraOpcional = heladerasRepository.findById(1L);
+    Heladera heladera;
+    if(heladeraOpcional.isPresent()) {
+      heladera = heladeraOpcional.get();
+    } else {
+      throw new NoSuchElementException();
+    }
+
     assertTrue(SuscripcionRepository
         .getInstancia()
-        .get(heladeraCreada, MotivoDeDistribucion.FALLA_HELADERA, colaborador)
+        .get(heladera, MotivoDeDistribucion.FALLA_HELADERA, colaborador)
         .isPresent());
   }
 }
