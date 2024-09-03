@@ -18,20 +18,7 @@ import java.util.Optional;
 @Entity
 @Table(name = "solicitudAperturaPorContribucion")
 public class SolicitudAperturaPorContribucion {
-  /*@Getter
-  final @NonNull Tarjeta tarjeta;
-  final @NonNull MovimientoViandas razon;
-  @Getter
-  final @NonNull ZonedDateTime fechaCreacion;
-  @Getter
-  final @NonNull ZonedDateTime fechaVencimiento;
-  @Getter
-  ZonedDateTime fechaAperturaEnOrigen = null;
-  @Getter
-  ZonedDateTime fechaAperturaEnDestino = null;
-  @Getter
-  @Setter
-  int id;*/
+
   @Getter
   @Setter
   @Id
