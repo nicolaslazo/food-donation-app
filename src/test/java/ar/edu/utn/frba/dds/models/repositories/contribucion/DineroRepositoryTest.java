@@ -28,7 +28,7 @@ class DineroRepositoryTest {
   @Test
   void testGetPorId() {
     repositorio.insert(donacion);
-    Optional<Dinero> encontrada = repositorio.get(1);
+    Optional<Dinero> encontrada = repositorio.get(1L);
 
     assertTrue(encontrada.isPresent());
     assertEquals(1, encontrada.get().getId());
