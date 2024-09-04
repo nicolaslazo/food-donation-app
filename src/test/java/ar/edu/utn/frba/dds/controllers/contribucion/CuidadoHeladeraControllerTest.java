@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,7 +28,6 @@ class CuidadoHeladeraControllerTest {
       "",
       LocalDate.now(),
       new CoordenadasGeograficas(-34d, -58d));
-  static HeladerasRepository heladerasRepository  = new HeladerasRepository();
 
   @BeforeEach
   void setUp() {
@@ -38,8 +36,8 @@ class CuidadoHeladeraControllerTest {
 
   @AfterEach
   void tearDown() {
-    heladerasRepository.deleteAll();
     SuscripcionRepository.getInstancia().deleteTodas();
+    new HeladerasRepository().deleteAll();
     new ColaboradorRepository().deleteAll();
     new UsuariosRepository().deleteAll();
   }
@@ -59,7 +57,7 @@ class CuidadoHeladeraControllerTest {
 
   @Test
   void testCreaHeladeraEnRepositorio() throws RepositoryException {
-    CuidadoHeladeraController.tomarCuidadoHeladera(
+    Heladera heladeraNueva = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
             "\"capacidadEnViandas\": 1, " +
@@ -67,26 +65,18 @@ class CuidadoHeladeraControllerTest {
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
 
-    assertTrue(heladerasRepository.findById(1L).isPresent());
+    assertTrue(new HeladerasRepository().findById(heladeraNueva.getId()).isPresent());
   }
 
   @Test
   void testCreaSuscripcionParaCuidador() throws RepositoryException {
-    CuidadoHeladeraController.tomarCuidadoHeladera(
+    Heladera heladera = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
             "\"capacidadEnViandas\": 1, " +
             "\"idColaboradorSerializado\": \"" + colaborador.getId() + "\", " +
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
-
-    Optional<Heladera> heladeraOpcional = heladerasRepository.findById(1L);
-    Heladera heladera;
-    if(heladeraOpcional.isPresent()) {
-      heladera = heladeraOpcional.get();
-    } else {
-      throw new NoSuchElementException();
-    }
 
     assertTrue(SuscripcionRepository
         .getInstancia()

@@ -15,7 +15,7 @@ import java.time.ZonedDateTime;
 public class CuidadoHeladeraController {
   static HeladerasRepository heladerasRepository = new HeladerasRepository();
 
-  public static void tomarCuidadoHeladera(String dtoCuidadoJson) throws RepositoryException {
+  public static Heladera tomarCuidadoHeladera(String dtoCuidadoJson) throws RepositoryException {
     CuidadoHeladeraInputDTO dtoCuidado = CuidadoHeladeraInputDTO.desdeJson(dtoCuidadoJson);
 
     Colaborador encargado = new ColaboradorRepository()
@@ -32,5 +32,7 @@ public class CuidadoHeladeraController {
     SuscripcionRepository
         .getInstancia()
         .insert(new Suscripcion(heladeraNueva, MotivoDeDistribucion.FALLA_HELADERA, null, encargado));
+
+    return heladeraNueva;
   }
 }

@@ -6,42 +6,43 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
-import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.RollbackException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HeladerasRepositoryTest {
   CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
 
   Colaborador colaborador = new Colaborador(
-          new Documento(TipoDocumento.DNI, 1),
-          "",
-          "",
-          LocalDate.now(),
-          new CoordenadasGeograficas(-30d, -50d));
+      new Documento(TipoDocumento.DNI, 1),
+      "",
+      "",
+      LocalDate.now(),
+      new CoordenadasGeograficas(-30d, -50d));
 
   Heladera heladera = new Heladera("Una heladera",
-          obelisco,
-          colaborador,
-          50,
-          ZonedDateTime.now().minusMonths(5)
+      obelisco,
+      colaborador,
+      50,
+      ZonedDateTime.now().minusMonths(5)
   );
 
   Heladera otraHeladera = new Heladera("Otra heladera",
-          new CoordenadasGeograficas(-34d, -58d),
-          colaborador,
-          60,
-          ZonedDateTime.now().minusMonths(7)
+      new CoordenadasGeograficas(-34d, -58d),
+      colaborador,
+      60,
+      ZonedDateTime.now().minusMonths(7)
   );
 
   @BeforeEach
@@ -88,18 +89,16 @@ class HeladerasRepositoryTest {
     assertTrue(heladerasDelColaborador.contains(otraHeladera));
   }
 
-  /* TODO: El repo ya no arroja RepositoryException
   @Test
   void testFallaCuandoYaExisteHeladeraConEsaUbicacion() {
     Heladera heladeraCopiona = new Heladera(
-            "Heladera Copiona",
-            obelisco,
-            colaborador,
-            60,
-            ZonedDateTime.now().minusMonths(7)
+        "Heladera Copiona",
+        obelisco,
+        colaborador,
+        60,
+        ZonedDateTime.now().minusMonths(7)
     );
 
-    assertThrows(RepositoryException.class, () -> repository.insert(heladeraCopiona));
+    assertThrows(RollbackException.class, () -> new HeladerasRepository().insert(heladeraCopiona));
   }
-  */
 }
