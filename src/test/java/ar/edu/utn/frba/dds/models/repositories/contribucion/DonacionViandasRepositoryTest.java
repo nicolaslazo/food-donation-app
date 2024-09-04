@@ -43,7 +43,7 @@ class DonacionViandasRepositoryTest {
   @Test
   void testObtenerPorId() throws RepositoryException {
     repositorio.insert(donacion);
-    Optional<DonacionViandas> encontrada = repositorio.get(1);
+    Optional<DonacionViandas> encontrada = repositorio.get(1L);
 
     assertTrue(encontrada.isPresent());
     assertEquals(1, encontrada.get().getId());
@@ -110,6 +110,6 @@ class DonacionViandasRepositoryTest {
 
     repositorio.deleteTodas();
 
-    assertTrue(repositorio.get(1).isEmpty());
+    assertTrue(repositorio.get(1L).isEmpty());
   }
 }

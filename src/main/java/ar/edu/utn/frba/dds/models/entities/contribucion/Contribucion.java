@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.models.entities.contribucion;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ import java.time.ZonedDateTime;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 public abstract class Contribucion {
+  @Setter
   @Getter
   @Column(name = "id", nullable = false, updatable = false, unique = true)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
