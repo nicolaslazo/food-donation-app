@@ -21,6 +21,7 @@ import java.time.ZonedDateTime;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 public abstract class Contribucion {
+  @Getter
   @Column(name = "id", nullable = false, updatable = false, unique = true)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
