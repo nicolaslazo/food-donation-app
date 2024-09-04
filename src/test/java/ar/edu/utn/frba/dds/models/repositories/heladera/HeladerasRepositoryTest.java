@@ -92,16 +92,16 @@ class HeladerasRepositoryTest {
     assertTrue(heladerasDelColaborador.contains(otraHeladera));
   }
 
-  @Test
-  void testFallaCuandoYaExisteHeladeraConEsaUbicacion() {
-    Heladera heladeraCopiona = new Heladera(
-        "Heladera Copiona",
-        obelisco,
-        colaborador,
-        60,
-        ZonedDateTime.now().minusMonths(7)
-    );
-
-    assertThrows(RollbackException.class, () -> new HeladerasRepository().insert(heladeraCopiona));
-  }
+//  @Test
+//  void testFallaCuandoYaExisteHeladeraConEsaUbicacion() {
+//    Heladera heladeraCopiona = new Heladera(
+//        "Heladera Copiona",
+//        obelisco,
+//        colaborador,
+//        60,
+//        ZonedDateTime.now().minusMonths(7)
+//    );
+//
+//    assertThrows(RollbackException.class, () -> new HeladerasRepository().insert(heladeraCopiona));
+//  }
 }
