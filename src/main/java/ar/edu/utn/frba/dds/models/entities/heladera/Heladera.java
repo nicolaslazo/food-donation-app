@@ -32,7 +32,7 @@ public class Heladera {
   @Getter
   @NonNull String nombre;
 
-  @Column(name = "capacidadEnViandas", updatable = false)
+  @Column(name = "capacidadEnViandas", nullable = false, updatable = false)
   @Getter
   @NonNull Integer capacidadEnViandas;
 
@@ -40,7 +40,7 @@ public class Heladera {
   @NonNull ZonedDateTime fechaInstalacion;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario")
+  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @Getter
   @NonNull Colaborador encargado;
 
