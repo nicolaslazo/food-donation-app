@@ -14,12 +14,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 @Entity
-@Table(name = "heladera")
+@Table(name = "heladera", uniqueConstraints = {@UniqueConstraint(columnNames = {"latitud", "longitud"})})
 public class Heladera {
   @Id
   @GeneratedValue
