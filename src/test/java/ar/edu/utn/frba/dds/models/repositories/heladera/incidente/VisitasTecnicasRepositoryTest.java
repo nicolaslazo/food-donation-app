@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class VisitasTecnicasRepositoryTest {
-  final VisitasTecnicasRepository repositorio = new VisitasTecnicasRepository();
+  final VisitasTecnicasRepository repositorio = VisitasTecnicasRepository.getInstancia();
   final IncidentesRepository repositorioIncidentes = IncidentesRepository.getInstancia();
   final Incidente incidente = new Incidente(mock(Heladera.class), mock(TipoIncidente.class), ZonedDateTime.now());
 

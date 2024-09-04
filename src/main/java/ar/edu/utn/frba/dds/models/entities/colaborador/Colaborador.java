@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
@@ -36,9 +37,9 @@ public class Colaborador {
   @Id
   UUID id;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @MapsId
-  @JoinColumn(name = "idUsuario", referencedColumnName = "id")
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false)
   @NonNull Usuario usuario;
 
   @Embedded
