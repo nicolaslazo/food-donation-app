@@ -55,10 +55,10 @@ class RedistribucionViandasRepositoryTest {
 
   @Test
   void testInsertarRedistribucion() {
-    int id = repositorio.insert(redistribucion);
+    Long id = repositorio.insert(redistribucion);
 
-    assertEquals(1, id);
-    assertEquals(1, redistribucion.getId());
+    assertEquals(1L, id);
+    assertEquals(1L, redistribucion.getId());
   }
 
   @Test

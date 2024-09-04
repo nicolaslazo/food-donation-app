@@ -51,10 +51,10 @@ class EntregaTarjetasRepositoryTest {
 
   @Test
   void testInsertarEntrega() throws RepositoryException {
-    int id = repositorio.insert(entrega);
+    Long id = repositorio.insert(entrega);
 
-    assertEquals(1, id);
-    assertEquals(1, entrega.getId());
+    assertEquals(1L, id);
+    assertEquals(1L, entrega.getId());
   }
 
   @Test

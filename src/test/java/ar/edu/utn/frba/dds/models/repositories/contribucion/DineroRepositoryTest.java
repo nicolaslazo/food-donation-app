@@ -47,9 +47,9 @@ class DineroRepositoryTest {
 
   @Test
   void testInsertarDonacion() {
-    int id = repositorio.insert(donacion);
+    Long id = repositorio.insert(donacion);
 
-    assertEquals(1, id);
-    assertEquals(1, donacion.getId());
+    assertEquals(1L, id);
+    assertEquals(1L, donacion.getId());
   }
 }

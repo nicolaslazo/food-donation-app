@@ -36,7 +36,7 @@ class CuidadoHeladerasRepositoryTest {
 
   @Test
   void testInsertContribucion() throws RepositoryException {
-    int id = repositorio.insert(contribucion);
+    Long id = repositorio.insert(contribucion);
 
     assertEquals(1, id);
     assertEquals(1, contribucion.getId());
