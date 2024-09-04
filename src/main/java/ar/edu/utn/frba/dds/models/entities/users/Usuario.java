@@ -5,15 +5,16 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
+import javax.persistence.Table;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Transient;
+import javax.persistence.JoinTable;
+import javax.persistence.CascadeType;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
@@ -44,7 +45,8 @@ public class Usuario {
   @Getter
   @NonNull UUID id;
 
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @Transient
+  @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @JoinTable(
       name = "rolesAsignados",
       joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),
