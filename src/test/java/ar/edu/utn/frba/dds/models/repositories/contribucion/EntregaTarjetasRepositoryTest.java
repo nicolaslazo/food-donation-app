@@ -30,7 +30,7 @@ class EntregaTarjetasRepositoryTest {
   @Test
   void testGetPorId() throws RepositoryException {
     repositorio.insert(entrega);
-    Optional<EntregaTarjetas> encontrada = repositorio.get(1);
+    Optional<EntregaTarjetas> encontrada = repositorio.get(1L);
 
     assertTrue(encontrada.isPresent());
     assertEquals(1, encontrada.get().getId());
@@ -69,6 +69,6 @@ class EntregaTarjetasRepositoryTest {
     repositorio.insert(entrega);
     repositorio.deleteTodo();
 
-    assertTrue(repositorio.get(1).isEmpty());
+    assertTrue(repositorio.get(1L).isEmpty());
   }
 }

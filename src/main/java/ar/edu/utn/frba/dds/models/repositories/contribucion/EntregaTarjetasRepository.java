@@ -24,7 +24,7 @@ public class EntregaTarjetasRepository {
     return instancia;
   }
 
-  public Optional<EntregaTarjetas> get(int id) {
+  public Optional<EntregaTarjetas> get(Long id) {
     return entregas.stream().filter(entrega -> entrega.getId() == id).findFirst();
   }
 
@@ -45,6 +45,7 @@ public class EntregaTarjetasRepository {
     }
 
     entregas.add(entrega);
+    entrega.setId((long) entregas.size());
 
     return entrega.getId();
   }
