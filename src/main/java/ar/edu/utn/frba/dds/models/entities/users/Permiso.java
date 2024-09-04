@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class Permiso {
   @Column(name = "descripcion")
   String descripcion;
 
-  @ManyToMany(mappedBy = "permisos")
+  @ManyToMany(mappedBy = "permisos", cascade = CascadeType.ALL)
   @NonNull Set<Rol> rolesQueUsan;
 
   public Permiso(@NonNull UUID id, @NonNull String nombre, String descripcion, @NonNull Set<Rol> rolesQueUsan) {

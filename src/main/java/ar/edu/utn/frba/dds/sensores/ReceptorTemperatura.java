@@ -10,6 +10,15 @@ public class ReceptorTemperatura {
   Double temperaturaMaxima;
   AccionadorHeladera accionador;
 
+  public ReceptorTemperatura(
+          Double temperaturaMaxima,
+          Double temperaturaMinima,
+          AccionadorHeladera accionador) {
+    this.temperaturaMaxima = temperaturaMaxima;
+    this.temperaturaMinima = temperaturaMinima;
+    this.accionador = accionador;
+  }
+
   public void evaluarReceptor(Double temperaturaRecibida,
                               Heladera heladera,
                               ZonedDateTime momentoEvento) {
@@ -19,6 +28,9 @@ public class ReceptorTemperatura {
     } else if (temperaturaRecibida > temperaturaMaxima) {
       heladera.setUltimaTempRegistradaCelsius(temperaturaRecibida);
       accionador.sucedeIncidente(TipoIncidente.BAJA_TEMPERATURA, heladera, momentoEvento);
+    } else {
+      heladera.setUltimaTempRegistradaCelsius(temperaturaRecibida);
+      accionador.registrarTemperatura(heladera);
     }
   }
 }

@@ -30,7 +30,7 @@ public class Rol {
 
   @Getter
   @Setter
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany(cascade = {CascadeType.ALL})
   @JoinTable(
       name = "permisosPorRol",
       joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),

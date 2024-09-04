@@ -5,11 +5,12 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HeladerasRepositoryTest {
@@ -44,28 +44,28 @@ class HeladerasRepositoryTest {
           ZonedDateTime.now().minusMonths(7)
   );
 
-  static HeladerasRepository repository = new HeladerasRepository();
-
   @BeforeEach
   void setUp() {
-    repository.insert(heladera);
+    new HeladerasRepository().insert(heladera);
   }
 
   @AfterEach
   void tearDown() {
-    repository.deleteAll();
+    new HeladerasRepository().deleteAll();
+    new ColaboradorRepository().deleteAll();
+    new UsuariosRepository().deleteAll();
   }
 
   @Test
   void testGetPorId() {
-    Optional<Heladera> encontrada = repository.findById(1L);
+    Optional<Heladera> encontrada = new HeladerasRepository().findById(heladera.getId());
     assertTrue(encontrada.isPresent());
-    assertEquals(1L, encontrada.get().getId());
+    assertEquals(heladera.getId(), encontrada.get().getId());
   }
 
   @Test
   void testGetPorUbicacion() {
-    Optional<Heladera> found = repository.find(obelisco);
+    Optional<Heladera> found = new HeladerasRepository().find(obelisco);
 
     assertTrue(found.isPresent());
     assertEquals(obelisco, found.get().getUbicacion());
@@ -73,14 +73,16 @@ class HeladerasRepositoryTest {
 
   @Test
   void testInsert() {
-    assertEquals(1, repository.findById(1L).get().getId());
+    Optional<Heladera> encontrada = new HeladerasRepository().findById(heladera.getId());
+    assertTrue(encontrada.isPresent());
+    assertEquals(heladera.getId(), encontrada.get().getId());
   }
 
   @Test
-  void testGetTodasPorColaborador() throws RepositoryException {
-    repository.insert(otraHeladera);
+  void testGetTodasPorColaborador() {
+    new HeladerasRepository().insert(otraHeladera);
 
-    List<Heladera> heladerasDelColaborador = repository.findAll(colaborador).toList();
+    List<Heladera> heladerasDelColaborador = new HeladerasRepository().findAll(colaborador).toList();
     assertEquals(2, heladerasDelColaborador.size());
     assertTrue(heladerasDelColaborador.contains(heladera));
     assertTrue(heladerasDelColaborador.contains(otraHeladera));
