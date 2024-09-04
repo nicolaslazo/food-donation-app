@@ -24,7 +24,7 @@ public class CuidadoHeladerasRepository {
     return instancia;
   }
 
-  public Optional<CuidadoHeladera> get(int id) {
+  public Optional<CuidadoHeladera> get(Long id) {
     return contribuciones.stream().filter(contribucion -> contribucion.getId() == id).findFirst();
   }
 
@@ -34,6 +34,7 @@ public class CuidadoHeladerasRepository {
     }
 
     contribuciones.add(contribucion);
+    contribucion.setId((long) contribuciones.size());
 
     return contribucion.getId();
   }
