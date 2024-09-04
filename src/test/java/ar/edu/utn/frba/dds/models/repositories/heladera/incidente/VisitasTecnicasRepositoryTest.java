@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class VisitasTecnicasRepositoryTest {
-  final VisitasTecnicasRepository repositorio = VisitasTecnicasRepository.getInstancia();
+  final VisitasTecnicasRepository repositorio = new VisitasTecnicasRepository();
   final IncidentesRepository repositorioIncidentes = IncidentesRepository.getInstancia();
   final Incidente incidente = new Incidente(mock(Heladera.class), mock(TipoIncidente.class), ZonedDateTime.now());
 
@@ -29,7 +29,7 @@ class VisitasTecnicasRepositoryTest {
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteTodas();
+    repositorio.deleteAll();
     repositorioIncidentes.deleteTodos();
   }
 
@@ -37,14 +37,14 @@ class VisitasTecnicasRepositoryTest {
   void testVisitaSinResolucionNoResuelveIncidente() throws RepositoryException {
     repositorio.insert(new VisitaTecnica(mock(Tecnico.class), incidente, ZonedDateTime.now(), false));
 
-    assertFalse(repositorio.getIsResuelto(incidente));
+    assertFalse(repositorio.isIncidenteResuelto(incidente));
   }
 
   @Test
   void testVisitaResuelveIncidente() throws RepositoryException {
     repositorio.insert(new VisitaTecnica(mock(Tecnico.class), incidente, ZonedDateTime.now(), true));
 
-    assertTrue(repositorio.getIsResuelto(incidente));
+    assertTrue(repositorio.isIncidenteResuelto(incidente));
   }
 
   @Test
