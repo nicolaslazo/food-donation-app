@@ -35,9 +35,8 @@ public class RedistribucionViandasRepository {
         .sum();
   }
 
-  public int insert(RedistribucionViandas redistribucion) {
+  public Long insert(RedistribucionViandas redistribucion) {
     redistribuciones.add(redistribucion);
-    redistribucion.setId(redistribuciones.size());
 
     return redistribucion.getId();
   }
