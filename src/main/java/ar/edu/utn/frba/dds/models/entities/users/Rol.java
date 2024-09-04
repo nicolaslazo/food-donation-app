@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.models.entities.users;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +18,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "rol")
-@ToString
 public class Rol {
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
@@ -30,7 +28,7 @@ public class Rol {
 
   @Getter
   @Setter
-  @ManyToMany(cascade = {CascadeType.ALL})
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(
       name = "permisosPorRol",
       joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),

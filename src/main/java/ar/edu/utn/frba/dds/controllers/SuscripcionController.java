@@ -25,7 +25,6 @@ import java.util.Optional;
 
 public class SuscripcionController implements IMqttMessageListener {
   static SuscripcionController instancia = null;
-  static HeladerasRepository heladerasRepository = new HeladerasRepository();
 
   public static void suscribirAHeladera(Heladera heladera,
                                         MotivoDeDistribucion tipo,
@@ -97,7 +96,7 @@ public class SuscripcionController implements IMqttMessageListener {
         "Se desea informarle que actualmente quedan %d %s.";
 
     Heladera heladera = suscripcion.getHeladera();
-    int viandasDepositadas = heladerasRepository.getCantidadViandasDepositadas(heladera);
+    int viandasDepositadas = new HeladerasRepository().getCantidadViandasDepositadas(heladera);
 
     String nombreHeladera = heladera.getNombre();
     int numero = switch (suscripcion.getTipo()) {

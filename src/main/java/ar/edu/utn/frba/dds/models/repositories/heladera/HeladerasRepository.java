@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import lombok.NonNull;
@@ -12,20 +11,20 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.time.ZonedDateTime;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> {
-  public Optional<Heladera> find(@NonNull CoordenadasGeograficas ubicacion) {
-    EntityManager em = entityManager();
-    CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
-    Root<Heladera> root = query.from(Heladera.class);
-
-    query.select(root).where(cb.equal(root.get("ubicacion"), ubicacion));
-
-    return em.createQuery(query).getResultList().stream().findFirst();
-  }
+// TODO: Borrar si nunca buscamos por ubicación
+//  public Optional<Heladera> find(@NonNull CoordenadasGeograficas ubicacion) {
+//    EntityManager em = entityManager();
+//    CriteriaBuilder cb = em.getCriteriaBuilder();
+//    CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
+//    Root<Heladera> root = query.from(Heladera.class);
+//
+//    query.select(root).where(cb.equal(root.get("ubicacion"), ubicacion));
+//
+//    return em.createQuery(query).getResultList().stream().findFirst();
+//  }
 
   public Stream<Heladera> findConTemperaturaDesactualizada(int limiteEnMinutos) {
     EntityManager em = entityManager();

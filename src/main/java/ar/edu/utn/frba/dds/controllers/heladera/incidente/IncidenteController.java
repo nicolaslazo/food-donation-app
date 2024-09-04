@@ -21,7 +21,6 @@ import java.util.Optional;
 
 public class IncidenteController implements IMqttMessageListener {
   static IncidenteController instancia = null;
-  static HeladerasRepository heladerasRepository = new HeladerasRepository();
   IncidenteRepository repositorio = IncidenteRepository.getInstancia();
   MqttBrokerService brokerService = MqttBrokerService.getInstancia();
 
@@ -67,7 +66,7 @@ public class IncidenteController implements IMqttMessageListener {
   public void messageArrived(String topic, MqttMessage payload) throws Exception {
     IncidenteInputDTO mensaje = IncidenteInputDTO.desdeJson(payload.toString());
 
-    Optional<Heladera> optionalHeladera = heladerasRepository.findById(mensaje.idHeladera());
+    Optional<Heladera> optionalHeladera = new HeladerasRepository().findById(mensaje.idHeladera());
     if (optionalHeladera.isEmpty()) throw new Exception("La heladera correspondiente a esta alerta no existe");
 
     crearAlerta(optionalHeladera.get(), TipoIncidente.fromString(mensaje.tipoIncidente()), mensaje.getFecha());

@@ -31,12 +31,7 @@ class HeladerasRepositoryTest {
       LocalDate.now(),
       new CoordenadasGeograficas(-30d, -50d));
 
-  Heladera heladera = new Heladera("Una heladera",
-      obelisco,
-      colaborador,
-      50,
-      ZonedDateTime.now().minusMonths(5)
-  );
+  Heladera heladera;
 
   Heladera otraHeladera = new Heladera("Otra heladera",
       new CoordenadasGeograficas(-34d, -58d),
@@ -47,6 +42,13 @@ class HeladerasRepositoryTest {
 
   @BeforeEach
   void setUp() {
+    heladera = new Heladera("Una heladera",
+        obelisco,
+        colaborador,
+        50,
+        ZonedDateTime.now().minusMonths(5)
+    );
+
     new HeladerasRepository().insert(heladera);
   }
 
@@ -64,13 +66,14 @@ class HeladerasRepositoryTest {
     assertEquals(heladera.getId(), encontrada.get().getId());
   }
 
-  @Test
-  void testGetPorUbicacion() {
-    Optional<Heladera> found = new HeladerasRepository().find(obelisco);
-
-    assertTrue(found.isPresent());
-    assertEquals(obelisco, found.get().getUbicacion());
-  }
+// TODO: Borrar si nunca buscamos por ubicación
+//  @Test
+//  void testGetPorUbicacion() {
+//    Optional<Heladera> found = new HeladerasRepository().find(obelisco);
+//
+//    assertTrue(found.isPresent());
+//    assertEquals(obelisco, found.get().getUbicacion());
+//  }
 
   @Test
   void testInsert() {
