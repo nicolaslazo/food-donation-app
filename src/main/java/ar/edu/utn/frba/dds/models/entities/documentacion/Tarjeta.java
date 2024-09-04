@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,8 +27,8 @@ public class Tarjeta {
   @Column(name = "id", unique = true)
   final @NonNull UUID id;
 
-  @ManyToOne
-  @JoinColumn(name = "idProveedor", referencedColumnName = "id")
+  @ManyToOne(cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "idProveedor", referencedColumnName = "idUsuario")
   Colaborador proveedor = null;
 
   @ManyToOne
