@@ -35,9 +35,8 @@ public class DineroRepository {
         .sum();  // TODO: Implementar para donaciones recurrentes también
   }
 
-  public int insert(Dinero dinero) {
+  public Long insert(Dinero dinero) {
     donaciones.add(dinero);
-    dinero.setId(donaciones.size());
 
     return dinero.getId();
   }

@@ -53,7 +53,7 @@ public class DonacionViandasRepository {
         .sum();
   }
 
-  public int insert(DonacionViandas donacion) throws RepositoryException {
+  public Long insert(DonacionViandas donacion) throws RepositoryException {
     if (donaciones
         .stream()
         .flatMap(donacionPrevia -> donacionPrevia.getViandas().stream())
@@ -62,7 +62,6 @@ public class DonacionViandasRepository {
     }
 
     donaciones.add(donacion);
-    donacion.setId(donaciones.size());
 
     return donacion.getId();
   }
