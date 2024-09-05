@@ -4,16 +4,28 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import lombok.Getter;
 import lombok.NonNull;
 
-public class Dinero extends Contribucion {
-  @Getter
-  final float monto;
-  final Integer frecuenciaEnDias;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-  public Dinero(@NonNull Colaborador colaborador, float monto, Integer frecuenciaEnDias) {
+@Entity
+@Table(name = "donacionDinero")
+public class Dinero extends Contribucion {
+
+  @Column(name = "monto", updatable = false)
+  @Getter
+  Float monto;
+
+  @Column(name = "frecuenciaEnDias", updatable = false)
+  Integer frecuenciaEnDias;
+
+  public Dinero(@NonNull Colaborador colaborador, Float monto, Integer frecuenciaEnDias) {
     super(colaborador);
     this.monto = monto;
     this.frecuenciaEnDias = frecuenciaEnDias;
   }
+
+  protected Dinero() {}
 
   @Override
   public String toString() {
