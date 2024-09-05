@@ -37,11 +37,11 @@ public class Recompensa {
 
   @Column(name = "costoEnPuntos", nullable = false, updatable = false)
   @Getter
-  double costoEnPuntos;
+  @NonNull Long costoEnPuntos;
 
   @Column(name = "stockInicial", nullable = false, updatable = false)
   @Getter
-  int stockInicial;
+  @NonNull Integer stockInicial;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "rubro", nullable = false, updatable = false)
@@ -52,8 +52,8 @@ public class Recompensa {
 
   public Recompensa(@NonNull String nombre,
                     @NonNull Colaborador proveedor,
-                    double costoEnPuntos,
-                    int stockInicial,
+                    @NonNull Long costoEnPuntos,
+                    @NonNull Integer stockInicial,
                     @NonNull RubroRecompensa rubro,
                     URL imagen) {
     this.nombre = nombre;
