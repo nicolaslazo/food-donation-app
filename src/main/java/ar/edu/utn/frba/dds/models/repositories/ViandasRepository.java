@@ -13,8 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//TODO Este repo tiene mucha logica, capaz conviene trabajarlo directo en un controller
-
 public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
   public List<Vianda> getAlmacenadas(Heladera heladera) {
     //TODO: Cambiar el ID de Heladera en su issue
@@ -29,8 +27,7 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
   }
 
   private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) throws RepositoryException {
-    //TODO: Llevarlo al controller
-    final int capacidadDisponible = HeladerasRepository.getInstancia().getCapacidadDisponible(destino);
+    final int capacidadDisponible = new HeladerasRepository().getCapacidadDisponible(destino);
     final String sPlural = cantidadViandas > 1 ? "s" : "";
 
     if (capacidadDisponible < cantidadViandas)
@@ -47,12 +44,17 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
               capacidadDisponible);
   }
 
+  private void assertViandasSonDeLaMismaHeladera(Collection<Vianda> viandas) throws RepositoryException {
+    final Set<Heladera> heladerasInvolucradas = new HashSet<>(viandas.stream().map(Vianda::getHeladera).toList());
+    if (heladerasInvolucradas.size() > 1)
+      throw new RepositoryException("No se pueden insertar viandas de heladeras distintas en la misma transacción");
+  }
+
   public void insert(Collection<Vianda> viandas) throws RepositoryException {
     // Diseñada para calcular la disponibilidad de espacio en una heladera sola.
     // No hay caso de uso que justifique complicarla
     assertViandasSonDeLaMismaHeladera(viandas);
 
-    //TODO: eventualmente cambiara
     final Heladera heladeraInvolucrada = viandas.iterator().next().getHeladera();
     assertHeladeraTieneSuficienteEspacio(heladeraInvolucrada, viandas.size());
 
@@ -83,11 +85,5 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
 
   public void deleteTodas() {
     deleteAll();
-  }
-
-  private void assertViandasSonDeLaMismaHeladera(Collection<Vianda> viandas) throws RepositoryException {
-    final Set<Heladera> heladerasInvolucradas = new HashSet<>(viandas.stream().map(Vianda::getHeladera).toList());
-    if (heladerasInvolucradas.size() > 1)
-      throw new RepositoryException("No se pueden insertar viandas de heladeras distintas en la misma transacción");
   }
 }

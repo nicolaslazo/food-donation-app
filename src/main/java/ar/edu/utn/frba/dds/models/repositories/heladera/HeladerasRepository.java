@@ -2,65 +2,59 @@ package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
+import lombok.NonNull;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.stream.Stream;
 
-public class HeladerasRepository {
-  static HeladerasRepository instancia = null;
-  final List<Heladera> heladeras;
-  ViandasRepository viandasRepository = new ViandasRepository();
+public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> {
+  public Stream<Heladera> findConTemperaturaDesactualizada(int limiteEnMinutos) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
+    Root<Heladera> root = query.from(Heladera.class);
 
-  private HeladerasRepository() {
-    heladeras = new ArrayList<>();
+    ZonedDateTime limite = ZonedDateTime.now().minusMinutes(limiteEnMinutos);
+
+    query.select(root).where(cb.lessThan(root.get("momentoUltimaTempRegistrada"), limite));
+
+    return em.createQuery(query).getResultStream();
   }
 
-  public static HeladerasRepository getInstancia() {
-    if (instancia == null) instancia = new HeladerasRepository();
+  public Stream<Heladera> findAll(@NonNull Colaborador encargado) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
+    Root<Heladera> root = query.from(Heladera.class);
 
-    return instancia;
+    query.select(root).where(cb.equal(root.get("encargado"), encargado));
+
+    return em.createQuery(query).getResultStream();
   }
 
-  public Optional<Heladera> get(int id) {
-    return heladeras.stream().filter(heladera -> heladera.getId() == id).findFirst();
-  }
+  public void updateTiempoHeladera(Long id, Double temperaturaNueva) {
+    Heladera heladera = findById(id).orElseThrow();
+    heladera.setUltimaTempRegistradaCelsius(temperaturaNueva);
 
-  public Optional<Heladera> get(CoordenadasGeograficas ubicacion) {
-    return heladeras.stream().filter(heladera -> heladera.getUbicacion() == ubicacion).findFirst();
-  }
-
-  public List<Heladera> getHeladerasConTemperaturaDesactualizada(int limiteEnMinutos) {
-    return heladeras
-        .stream()
-        .filter(heladera -> heladera
-            .getMomentoUltimaTempRegistrada()
-            .isBefore(ZonedDateTime.now().minusMinutes(limiteEnMinutos)))
-        .toList();
-  }
-
-  public List<Heladera> getTodas() {
-    return heladeras;
-  }
-
-  public List<Heladera> getTodas(Colaborador encargado) {
-    return heladeras.stream().filter(heladera -> heladera.getEncargado() == encargado).toList();
+    withTransaction(() -> merge(heladera));
   }
 
   public int getMesesActivosCumulativos(Colaborador colaborador) {
     // TODO: Actualizar en base a la fecha del último incidente resuelto
-    return getTodas(colaborador).stream().mapToInt(Heladera::mesesActiva).sum();
+    return findAll(colaborador).mapToInt(Heladera::mesesActiva).sum();
   }
 
   /* Este método concierne a la cantidad de viandas ahora mismo depositadas en la heladera, independientemente de las
    * Solicitudes de apertura. Para saber el espacio disponible, reservando los espacios de las solicitudes de apertura
    */
   public int getCantidadViandasDepositadas(Heladera heladera) {
-    return viandasRepository.getAlmacenadas(heladera).size();
+    return new ViandasRepository().getAlmacenadas(heladera).size();
   }
 
   public int getCapacidadDisponible(Heladera heladera) {
@@ -69,27 +63,4 @@ public class HeladerasRepository {
 
     return heladera.getCapacidadEnViandas() - getCantidadViandasDepositadas(heladera) - viandasEnContribucionesVigentes;
   }
-
-  public int insert(Heladera heladera) throws RepositoryException {
-    if (get(heladera.getUbicacion()).isPresent()) {
-      throw new RepositoryException("Una heladera ya se encuentra en esa ubicación");
-    }
-
-    heladeras.add(heladera);
-    heladera.setId(heladeras.size());
-
-    return heladera.getId();
-  }
-
-  public void updateTiempoHeladera(int id, Heladera nuevaHeladera) {
-    Optional<Heladera> heladera = get(id);
-    heladera.ifPresent(value -> value.setUltimaTempRegistradaCelsius(
-        nuevaHeladera.getUltimaTempRegistradaCelsius())
-    );
-  }
-
-  public void deleteTodas() {
-    heladeras.clear();
-  }
 }
-

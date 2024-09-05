@@ -96,7 +96,7 @@ public class SuscripcionController implements IMqttMessageListener {
         "Se desea informarle que actualmente quedan %d %s.";
 
     Heladera heladera = suscripcion.getHeladera();
-    int viandasDepositadas = HeladerasRepository.getInstancia().getCantidadViandasDepositadas(heladera);
+    int viandasDepositadas = new HeladerasRepository().getCantidadViandasDepositadas(heladera);
 
     String nombreHeladera = heladera.getNombre();
     int numero = switch (suscripcion.getTipo()) {
