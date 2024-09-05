@@ -23,7 +23,7 @@ public class RedistribucionViandasRepository {
     return instancia;
   }
 
-  public Optional<RedistribucionViandas> get(int id) {
+  public Optional<RedistribucionViandas> get(Long id) {
     return redistribuciones.stream().filter(redistribucion -> redistribucion.getId() == id).findFirst();
   }
 
@@ -35,9 +35,9 @@ public class RedistribucionViandasRepository {
         .sum();
   }
 
-  public int insert(RedistribucionViandas redistribucion) {
+  public Long insert(RedistribucionViandas redistribucion) {
     redistribuciones.add(redistribucion);
-    redistribucion.setId(redistribuciones.size());
+    redistribucion.setId((long) redistribuciones.size());
 
     return redistribucion.getId();
   }

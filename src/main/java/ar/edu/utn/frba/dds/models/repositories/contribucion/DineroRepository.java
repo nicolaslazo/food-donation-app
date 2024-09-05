@@ -23,7 +23,7 @@ public class DineroRepository {
     return instancia;
   }
 
-  public Optional<Dinero> get(int id) {
+  public Optional<Dinero> get(Long id) {
     return donaciones.stream().filter(donacion -> donacion.getId() == id).findFirst();
   }
 
@@ -35,9 +35,9 @@ public class DineroRepository {
         .sum();  // TODO: Implementar para donaciones recurrentes también
   }
 
-  public int insert(Dinero dinero) {
+  public Long insert(Dinero dinero) {
     donaciones.add(dinero);
-    dinero.setId(donaciones.size());
+    dinero.setId((long) donaciones.size());
 
     return dinero.getId();
   }
