@@ -18,39 +18,36 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "vianda")
 public class Vianda {
-  @Getter
-  @Setter
   @Id
-  @Column(name = "id")
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
   @GeneratedValue
   Long id;
 
-  @Column(name = "descripcion", nullable = false, columnDefinition = "TEXT")
+  @Column(name = "descripcion", nullable = false, updatable = false)
   @NonNull String descripcion;
 
-  @Column(name = "fechaCaducidad", nullable = false)
+  @Column(name = "fechaCaducidad", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaCaducidad;
 
-  @Column(name = "fechaDonacion", nullable = false)
+  @Column(name = "fechaDonacion", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaDonacion;
 
   @ManyToOne
-  @JoinColumn(name = "idColaborador", referencedColumnName = "id")
+  @JoinColumn(name = "idColaborador", referencedColumnName = "id", nullable = false, updatable = false)
   @NonNull Colaborador colaborador;
 
   @Getter
-  @Column(name = "pesoEnGramos", nullable = false)
+  @Column(name = "pesoEnGramos", nullable = false, updatable = false)
   @NonNull Double pesoEnGramos;
 
-  @Column(name = "caloriasTotales", nullable = false)
+  @Column(name = "caloriasTotales", nullable = false, updatable = false)
   @NonNull Integer caloriasVianda;
 
-  //TODO: ORMizar Heladera
   @ManyToOne
-  @JoinColumn(name = "idHeladera", referencedColumnName = "id")
+  @JoinColumn(name = "idHeladera", referencedColumnName = "id", updatable = false)
   @Getter
   @Setter
-  @NonNull Heladera heladera;
+  Heladera heladera;
 
   public Vianda(@NonNull String descripcion,
                 @NonNull ZonedDateTime fechaCaducidad,
