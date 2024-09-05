@@ -25,7 +25,7 @@ public abstract class Contribucion {
   @Setter
   @Getter
   @Column(name = "id", nullable = false, updatable = false, unique = true)
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Id
   Long id;
 
