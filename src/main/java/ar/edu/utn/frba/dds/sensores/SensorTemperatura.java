@@ -11,8 +11,8 @@ import java.time.ZonedDateTime;
 
 
 public class SensorTemperatura implements IMqttMessageListener {
-  private ReceptorTemperatura receptorTemperatura;
-  private Heladera heladera;
+  final ReceptorTemperatura receptorTemperatura;
+  final Heladera heladera;
 
   public SensorTemperatura(ReceptorTemperatura receptorTemperatura, Heladera heladera) throws MqttException {
     this.receptorTemperatura = receptorTemperatura;

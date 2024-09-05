@@ -9,7 +9,7 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
+import org.mockito.MockedConstruction;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.when;
 
 class SuscripcionRepositoryTest {
@@ -69,12 +69,9 @@ class SuscripcionRepositoryTest {
 
     Set<Suscripcion> interesadas;
 
-    try (MockedStatic<HeladerasRepository> repositorioHeladeras = mockStatic(HeladerasRepository.class)) {
-      HeladerasRepository repositorioHeladerasMock = mock(HeladerasRepository.class);
-      when(repositorioHeladerasMock.getCantidadViandasDepositadas(heladeraMock)).thenReturn(3);
-
-      repositorioHeladeras.when(HeladerasRepository::getInstancia).thenReturn(repositorioHeladerasMock);
-
+    try (MockedConstruction<HeladerasRepository> ignored =
+             mockConstruction(HeladerasRepository.class, (mock, context) ->
+                 when(mock.getCantidadViandasDepositadas(heladeraMock)).thenReturn(3))) {
       interesadas = repositorio.getInteresadasEnStock(heladeraMock).collect(Collectors.toSet());
     }
 

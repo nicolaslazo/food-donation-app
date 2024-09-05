@@ -38,7 +38,7 @@ public class ViandasRepository {
   }
 
   private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) throws RepositoryException {
-    final int capacidadDisponible = HeladerasRepository.getInstancia().getCapacidadDisponible(destino);
+    final int capacidadDisponible = new HeladerasRepository().getCapacidadDisponible(destino);
     final String sPlural = cantidadViandas > 1 ? "s" : "";
 
     if (capacidadDisponible < cantidadViandas)

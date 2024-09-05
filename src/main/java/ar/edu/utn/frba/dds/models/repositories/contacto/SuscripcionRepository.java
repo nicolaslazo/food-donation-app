@@ -45,7 +45,7 @@ public class SuscripcionRepository {
   /* Dada una heladera, busca todas las suscripciones que deberían recibir una notificación relacionada a stock */
   public Stream<Suscripcion> getInteresadasEnStock(Heladera heladera) {
     int capacidadTotal = heladera.getCapacidadEnViandas();
-    int cantidadViandasDepositadas = HeladerasRepository.getInstancia().getCantidadViandasDepositadas(heladera);
+    int cantidadViandasDepositadas = new HeladerasRepository().getCantidadViandasDepositadas(heladera);
 
     Stream<Suscripcion> porPocasViandas = suscripciones
         .stream()
@@ -60,6 +60,28 @@ public class SuscripcionRepository {
             suscripcion.getHeladera() == heladera &&
                 suscripcion.getTipo() == MotivoDeDistribucion.FALTA_ESPACIO &&
                 capacidadTotal - cantidadViandasDepositadas < suscripcion.getParametro());
+
+    return Stream.concat(porPocasViandas, porPocoEspacio);
+  }
+
+  public Stream<Suscripcion> getInteresadasEnStock(Heladera heladera,
+                                                   HeladerasRepository repository) {
+    int capacidadTotal = heladera.getCapacidadEnViandas();
+    int cantidadViandasDepositadas = repository.getCantidadViandasDepositadas(heladera);
+
+    Stream<Suscripcion> porPocasViandas = suscripciones
+            .stream()
+            .filter(suscripcion ->
+                    suscripcion.getHeladera() == heladera &&
+                            suscripcion.getTipo() == MotivoDeDistribucion.FALTAN_VIANDAS &&
+                            cantidadViandasDepositadas < suscripcion.getParametro());
+
+    Stream<Suscripcion> porPocoEspacio = suscripciones
+            .stream()
+            .filter(suscripcion ->
+                    suscripcion.getHeladera() == heladera &&
+                            suscripcion.getTipo() == MotivoDeDistribucion.FALTA_ESPACIO &&
+                            capacidadTotal - cantidadViandasDepositadas < suscripcion.getParametro());
 
     return Stream.concat(porPocasViandas, porPocoEspacio);
   }
