@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,13 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 class DineroRepositoryTest {
-  final Colaborador colaborador = new Colaborador(
+  Colaborador colaborador = new Colaborador(
           new Documento(TipoDocumento.DNI, 1),
           "",
           "",
           LocalDate.now(),
           new CoordenadasGeograficas(-30d, -50d));
-  final Dinero donacion = new Dinero(colaborador, 1000f, null);
+
+  Dinero donacion = new Dinero(colaborador, 1000f, null);
 
   @BeforeEach
   void setUp() {
@@ -35,6 +37,7 @@ class DineroRepositoryTest {
   @AfterEach
   void tearDown(){
     new DineroRepository().deleteAll();
+    new ColaboradorRepository().deleteAll();
   }
 
   @Test
