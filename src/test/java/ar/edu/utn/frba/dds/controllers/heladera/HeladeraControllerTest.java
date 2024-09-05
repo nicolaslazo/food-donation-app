@@ -11,7 +11,6 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;

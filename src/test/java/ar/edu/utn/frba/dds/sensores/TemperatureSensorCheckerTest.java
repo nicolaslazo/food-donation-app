@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.sensores;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

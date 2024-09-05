@@ -30,7 +30,7 @@ class CuidadoHeladeraControllerTest {
       new CoordenadasGeograficas(-34d, -58d));
 
   @BeforeEach
-  void setUp() throws RepositoryException {
+  void setUp() {
     new ColaboradorRepository().insert(colaborador);
   }
 
