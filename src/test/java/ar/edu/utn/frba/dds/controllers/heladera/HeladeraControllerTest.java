@@ -114,7 +114,7 @@ class HeladeraControllerTest {
   }
 
   @Test
-  void testNotificaTecnicoMasCercanoDeIncidentes() throws RepositoryException {
+  void testNotificaTecnicoMasCercanoDeIncidentes() {
     final CoordenadasGeograficas coordenadas = new CoordenadasGeograficas(-34d, -58d);
     final Heladera heladera = new Heladera("Heladera a testear",
         new CoordenadasGeograficas(coordenadas.getLatitud(), coordenadas.getLongitud()),
@@ -178,8 +178,8 @@ class HeladeraControllerTest {
     final double[] longitudes =
         sugerencias.stream().mapToDouble(sugerencia -> sugerencia.getUbicacion().getLongitud()).toArray();
 
-    assertEquals(-59.0, longitudes[0]);
-    assertEquals(-60.0, longitudes[1]);
-    assertEquals(-61.0, longitudes[2]);
+    assertEquals(-59d, longitudes[0]);
+    assertEquals(-60d, longitudes[1]);
+    assertEquals(-61d, longitudes[2]);
   }
 }

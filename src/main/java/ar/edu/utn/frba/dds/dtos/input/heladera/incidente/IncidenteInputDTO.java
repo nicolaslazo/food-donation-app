@@ -5,7 +5,7 @@ import lombok.NonNull;
 
 import java.time.ZonedDateTime;
 
-public record IncidenteInputDTO(Long idHeladera, @NonNull String tipoIncidente,
+public record IncidenteInputDTO(long idHeladera, @NonNull String tipoIncidente,
                                 @NonNull String fechaRealizadaSerializadaIso8601) {
   public static IncidenteInputDTO desdeJson(@NonNull String json) {
     return new Gson().fromJson(json, IncidenteInputDTO.class);

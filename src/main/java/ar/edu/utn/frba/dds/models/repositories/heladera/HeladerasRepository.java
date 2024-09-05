@@ -14,18 +14,6 @@ import java.time.ZonedDateTime;
 import java.util.stream.Stream;
 
 public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> {
-// TODO: Borrar si nunca buscamos por ubicación
-//  public Optional<Heladera> find(@NonNull CoordenadasGeograficas ubicacion) {
-//    EntityManager em = entityManager();
-//    CriteriaBuilder cb = em.getCriteriaBuilder();
-//    CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
-//    Root<Heladera> root = query.from(Heladera.class);
-//
-//    query.select(root).where(cb.equal(root.get("ubicacion"), ubicacion));
-//
-//    return em.createQuery(query).getResultList().stream().findFirst();
-//  }
-
   public Stream<Heladera> findConTemperaturaDesactualizada(int limiteEnMinutos) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -50,12 +38,11 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
     return em.createQuery(query).getResultStream();
   }
 
-  // TODO: arreglar el tipado acá antes de mergear. Tomamos una heladera o un double de temperatura?
   public void updateTiempoHeladera(Long id, Double temperaturaNueva) {
-    //    Heladera heladera = findById(id).orElseThrow();
-    //    heladera.setUltimaTempRegistradaCelsius(temperaturaNueva);
-    //
-    //    withTransaction(() -> merge(heladera));
+    Heladera heladera = findById(id).orElseThrow();
+    heladera.setUltimaTempRegistradaCelsius(temperaturaNueva);
+
+    withTransaction(() -> merge(heladera));
   }
 
   public int getMesesActivosCumulativos(Colaborador colaborador) {
@@ -77,4 +64,3 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
     return heladera.getCapacidadEnViandas() - getCantidadViandasDepositadas(heladera) - viandasEnContribucionesVigentes;
   }
 }
-

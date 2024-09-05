@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
@@ -30,12 +31,9 @@ public class TemperatureSensorCheckerTest {
       60,
       ZonedDateTime.now().minusMonths(7)
   );
-  final HeladerasRepository repositoryHeladeras = new HeladerasRepository();
 
   @BeforeEach
-  void setUp() throws RepositoryException, NoSuchFieldException, IllegalAccessException {
-    repositoryHeladeras.deleteAll();
-
+  void setUp() throws NoSuchFieldException, IllegalAccessException {
     //Esta heladera no falla, OtraHeladera si
     heladera.setUltimaTempRegistradaCelsius(0.0);
 
@@ -44,8 +42,14 @@ public class TemperatureSensorCheckerTest {
     campoMomentoUltimaTempRegistrada.setAccessible(true);
     campoMomentoUltimaTempRegistrada.set(otraHeladera, ZonedDateTime.now().minusMinutes(7));
 
-    repositoryHeladeras.insert(heladera);
-    repositoryHeladeras.insert(otraHeladera);
+    HeladerasRepository repositorio = new HeladerasRepository();
+    repositorio.insert(heladera);
+    repositorio.insert(otraHeladera);
+  }
+
+  @AfterEach
+  void tearDown() {
+    new HeladerasRepository().deleteAll();
   }
 
   // Tests inhabilitados por https://github.com/dds-utn/2024-tpa-ma-ma-grupo-06/issues/157

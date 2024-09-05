@@ -6,22 +6,17 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import java.time.ZonedDateTime;
 
 public class ReceptorTemperatura {
-  Double temperaturaMinima;
-  Double temperaturaMaxima;
+  double temperaturaMinima;
+  double temperaturaMaxima;
   AccionadorHeladera accionador;
 
-  public ReceptorTemperatura(
-          Double temperaturaMaxima,
-          Double temperaturaMinima,
-          AccionadorHeladera accionador) {
+  public ReceptorTemperatura(double temperaturaMaxima, double temperaturaMinima, AccionadorHeladera accionador) {
     this.temperaturaMaxima = temperaturaMaxima;
     this.temperaturaMinima = temperaturaMinima;
     this.accionador = accionador;
   }
 
-  public void evaluarReceptor(Double temperaturaRecibida,
-                              Heladera heladera,
-                              ZonedDateTime momentoEvento) {
+  public void evaluarReceptor(Double temperaturaRecibida, Heladera heladera, ZonedDateTime momentoEvento) {
     if (temperaturaRecibida < temperaturaMinima) {
       heladera.setUltimaTempRegistradaCelsius(temperaturaRecibida);
       accionador.sucedeIncidente(TipoIncidente.BAJA_TEMPERATURA, heladera, momentoEvento);
