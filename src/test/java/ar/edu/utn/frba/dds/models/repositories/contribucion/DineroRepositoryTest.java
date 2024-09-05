@@ -2,10 +2,15 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,42 +19,39 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 class DineroRepositoryTest {
-  final DineroRepository repositorio = DineroRepository.getInstancia();
-  final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final Dinero donacion = new Dinero(colaboradorMock, 1000, null);
+  final Colaborador colaborador = new Colaborador(
+          new Documento(TipoDocumento.DNI, 1),
+          "",
+          "",
+          LocalDate.now(),
+          new CoordenadasGeograficas(-30d, -50d));
+  final Dinero donacion = new Dinero(colaborador, 1000f, null);
 
   @BeforeEach
   void setUp() {
-    when(colaboradorMock.getId()).thenReturn(UUID.randomUUID());
+    new DineroRepository().insert(donacion);
+  }
 
-    repositorio.deleteTodo();
+  @AfterEach
+  void tearDown(){
+    new DineroRepository().deleteAll();
   }
 
   @Test
   void testGetPorId() {
-    repositorio.insert(donacion);
-    Optional<Dinero> encontrada = repositorio.get(1L);
+    Optional<Dinero> encontrada = new DineroRepository().findById(donacion.getId());
 
     assertTrue(encontrada.isPresent());
-    assertEquals(1, encontrada.get().getId());
+    assertEquals(donacion.getId(), encontrada.get().getId());
   }
 
   @Test
   void testObtenerTotalPorColaborador() {
-    Dinero otraDonacion = new Dinero(colaboradorMock, 500, null);
-    repositorio.insert(donacion);
-    repositorio.insert(otraDonacion);
+    Dinero otraDonacion = new Dinero(colaborador, 500f, null);
+    new DineroRepository().insert(otraDonacion);
 
-    double total = repositorio.getTotal(colaboradorMock);
+    double total = new DineroRepository().getTotal(colaborador);
 
-    assertEquals(1500.0, total);
-  }
-
-  @Test
-  void testInsertarDonacion() {
-    Long id = repositorio.insert(donacion);
-
-    assertEquals(1L, id);
-    assertEquals(1L, donacion.getId());
+    assertEquals(1500.0f, total);
   }
 }
