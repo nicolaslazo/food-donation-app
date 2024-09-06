@@ -9,10 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.CascadeType;
 
 @Entity
-@Table(name = "cuidadoHeladera")
+@Table(name = "cuidadoHeladera", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "idHeladera")
+})
 @Getter
 public class CuidadoHeladera extends Contribucion {
 

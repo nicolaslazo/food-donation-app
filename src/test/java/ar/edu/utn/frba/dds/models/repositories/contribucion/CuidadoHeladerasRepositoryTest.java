@@ -13,12 +13,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.RollbackException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CuidadoHeladerasRepositoryTest {
   CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
@@ -59,19 +60,21 @@ class CuidadoHeladerasRepositoryTest {
     assertEquals(contribucion.getId(), encontrada.get().getId());
   }
 
-  // TODO: Deberiamos cambiar este metodo?
-  //  @Test
-  //  void testInsertarContribucionConHeladeraRepetidaLanzaExcepcion() {
-  //    assertThrows(RollbackException.class, () -> new CuidadoHeladerasRepository().insert(contribucion));
-  //  }
+
+  @Test
+  void testInsertarContribucionConHeladeraRepetidaLanzaExcepcion() {
+    CuidadoHeladera contribucionDuplicada = new CuidadoHeladera(colaborador, heladera);
+    assertThrows(RollbackException.class, () ->
+            new CuidadoHeladerasRepository().insert(contribucionDuplicada)
+    );
+  }
 
   @Test
   void testEliminarTodas() {
     new CuidadoHeladerasRepository().deleteAll();
-    //new CuidadoHeladerasRepository().clearCache();
 
-    Optional<CuidadoHeladera> vacio = new CuidadoHeladerasRepository().findById(contribucion.getId());
+    Stream<CuidadoHeladera> contribuciones = new CuidadoHeladerasRepository().findAll();
 
-    assertTrue(vacio.isEmpty());
+    assertEquals(0, contribuciones.count());
   }
 }

@@ -66,8 +66,6 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
       delete.from(claseDeEntidad);
       em.createQuery(delete).executeUpdate();
     });
-    //TODO: Esta correcto esto? No me funcionaba el deleteAll() y era por la cache.
-    em.clear();
   }
 
   public void clearCache() {
