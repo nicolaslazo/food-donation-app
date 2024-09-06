@@ -33,8 +33,8 @@ public final class EventoMovimiento {
   @Column(name = "fecha", nullable = false, updatable = false)
   @NonNull ZonedDateTime fecha;
 
-  protected EventoMovimiento()
-  {}
+  protected EventoMovimiento() {}
+
   public EventoMovimiento(@NonNull Heladera heladera, @NonNull ZonedDateTime fecha) {
     this.heladera = heladera;
     this.fecha = fecha;
