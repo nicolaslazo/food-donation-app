@@ -5,16 +5,35 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 public abstract class MovimientoViandas extends Contribucion {
-  final Collection<Vianda> viandas;
-  final Heladera destino;
+
+  @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+  @JoinTable(
+          name = "viandasEnMovimiento",
+          joinColumns = @JoinColumn(name = "idMovimiento", referencedColumnName = "id"),
+          inverseJoinColumns = @JoinColumn(name = "idVianda", referencedColumnName = "id")
+  )
+  Collection<Vianda> viandas;
+
+  @ManyToOne
+  @JoinColumn(name = "idHeladera", referencedColumnName = "id")
+  Heladera destino;
 
   public MovimientoViandas(@NonNull Colaborador colaborador, Collection<Vianda> viandas, Heladera heladera) {
     super(colaborador);
@@ -22,6 +41,8 @@ public abstract class MovimientoViandas extends Contribucion {
     this.viandas = viandas;
     this.destino = heladera;
   }
+
+  protected MovimientoViandas() {}
 
   public int getNumeroViandas() {
     return viandas.size();
