@@ -21,7 +21,6 @@ import java.util.Optional;
 
 public class IncidenteController implements IMqttMessageListener {
   static IncidenteController instancia = null;
-  IncidenteRepository repositorio = IncidenteRepository.getInstancia();
   MqttBrokerService brokerService = MqttBrokerService.getInstancia();
 
   private IncidenteController() throws MqttException {
@@ -46,7 +45,7 @@ public class IncidenteController implements IMqttMessageListener {
   }
 
   public void crearAlerta(@NonNull Heladera heladera, @NonNull TipoIncidente tipo, @NonNull ZonedDateTime fecha) {
-    repositorio.insert(new Incidente(heladera, tipo, fecha));
+    new IncidenteRepository().insert(new Incidente(heladera, tipo, fecha));
 
     notificarAInteresados(heladera, fecha);
   }
@@ -56,7 +55,7 @@ public class IncidenteController implements IMqttMessageListener {
                                   @NonNull Colaborador colaborador,
                                   String descripcion,
                                   URL foto) {
-    repositorio.insert(
+    new IncidenteRepository().insert(
         new Incidente(heladera, TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR, fecha, colaborador, descripcion, foto));
 
     notificarAInteresados(heladera, fecha);
