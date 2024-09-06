@@ -34,7 +34,7 @@ public abstract class Contribucion {
   @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario")
   @NonNull Colaborador colaborador;
 
-  @Column(name = "fechaContribucionRealizada", updatable = false)
+  @Column(name = "fechaContribucionRealizada")
   ZonedDateTime fechaRealizada = null;
 
   public Contribucion(@NonNull Colaborador colaborador) {
