@@ -25,6 +25,7 @@ public class Incidente {
   @Id
   @GeneratedValue
   @Column(name = "id", nullable = false, unique = true, updatable = false)
+  @Getter
   Long id;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Heladera.class)

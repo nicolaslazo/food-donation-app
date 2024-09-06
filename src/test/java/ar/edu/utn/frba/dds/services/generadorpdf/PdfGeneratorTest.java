@@ -94,9 +94,9 @@ public class PdfGeneratorTest {
       PdfDocument pdfDocument = new PdfDocument(pdfWriter);
       Document doc = new Document(pdfDocument);
 
-      Map<String, Integer> data = new HashMap<>();
-      data.put("Heladera A", 10);
-      data.put("Heladera B", 20);
+      Map<String, Long> data = new HashMap<>();
+      data.put("Heladera A", 10L);
+      data.put("Heladera B", 20L);
 
       PdfGenerator pdfGenerator = new PdfGenerator("prueba.pdf", "Tabla de Prueba",
           new String[]{"Heladera", "Cantidad"}, data);
