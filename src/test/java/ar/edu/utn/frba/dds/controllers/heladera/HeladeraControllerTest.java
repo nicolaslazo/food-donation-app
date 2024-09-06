@@ -11,9 +11,8 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
-import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
@@ -62,10 +61,7 @@ class HeladeraControllerTest {
   @AfterEach
   void tearDown() {
     tecnicoRepository.deleteTodos();
-    new HeladerasRepository().deleteAll();
-    new ContactosRepository().deleteAll();
-    new ColaboradorRepository().deleteAll();
-    new UsuariosRepository().deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test

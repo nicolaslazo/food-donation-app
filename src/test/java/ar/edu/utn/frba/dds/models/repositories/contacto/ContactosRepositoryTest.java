@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Telegram;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -40,8 +41,7 @@ class ContactosRepositoryTest {
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteAll();
-    repositorioUsuarios.deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
