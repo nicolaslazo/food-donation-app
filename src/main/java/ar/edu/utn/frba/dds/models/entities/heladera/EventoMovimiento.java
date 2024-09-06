@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.heladera;
 
+import jdk.jfr.Event;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -27,13 +28,16 @@ public final class EventoMovimiento {
 
   @ManyToOne
   @JoinColumn(name = "idHeladera", referencedColumnName = "id")
-  private final @NonNull Heladera heladera;
+  @NonNull Heladera heladera;
 
-  @Column(name = "fecha")
-  private final @NonNull ZonedDateTime fecha;
+  @Column(name = "fecha", nullable = false, updatable = false)
+  @NonNull ZonedDateTime fecha;
 
+  protected EventoMovimiento()
+  {}
   public EventoMovimiento(@NonNull Heladera heladera, @NonNull ZonedDateTime fecha) {
     this.heladera = heladera;
     this.fecha = fecha;
   }
+
 }
