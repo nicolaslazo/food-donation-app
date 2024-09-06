@@ -36,8 +36,8 @@ class CuidadoHeladeraControllerTest {
 
   @AfterEach
   void tearDown() {
-    HeladerasRepository.getInstancia().deleteTodas();
     SuscripcionRepository.getInstancia().deleteTodas();
+    new HeladerasRepository().deleteAll();
     new ColaboradorRepository().deleteAll();
     new UsuariosRepository().deleteAll();
   }
@@ -57,7 +57,7 @@ class CuidadoHeladeraControllerTest {
 
   @Test
   void testCreaHeladeraEnRepositorio() throws RepositoryException {
-    CuidadoHeladeraController.tomarCuidadoHeladera(
+    Heladera heladeraNueva = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
             "\"capacidadEnViandas\": 1, " +
@@ -65,12 +65,12 @@ class CuidadoHeladeraControllerTest {
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
 
-    assertTrue(HeladerasRepository.getInstancia().get(1).isPresent());
+    assertTrue(new HeladerasRepository().findById(heladeraNueva.getId()).isPresent());
   }
 
   @Test
   void testCreaSuscripcionParaCuidador() throws RepositoryException {
-    CuidadoHeladeraController.tomarCuidadoHeladera(
+    Heladera heladera = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
             "\"capacidadEnViandas\": 1, " +
@@ -78,10 +78,9 @@ class CuidadoHeladeraControllerTest {
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
 
-    Heladera heladeraCreada = HeladerasRepository.getInstancia().get(1).get();
     assertTrue(SuscripcionRepository
         .getInstancia()
-        .get(heladeraCreada, MotivoDeDistribucion.FALLA_HELADERA, colaborador)
+        .get(heladera, MotivoDeDistribucion.FALLA_HELADERA, colaborador)
         .isPresent());
   }
 }

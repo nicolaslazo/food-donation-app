@@ -19,7 +19,7 @@ import static org.mockito.Mockito.mock;
 
 class VisitasTecnicasRepositoryTest {
   final VisitasTecnicasRepository repositorio = VisitasTecnicasRepository.getInstancia();
-  final IncidentesRepository repositorioIncidentes = IncidentesRepository.getInstancia();
+  final IncidenteRepository repositorioIncidentes = IncidenteRepository.getInstancia();
   final Incidente incidente = new Incidente(mock(Heladera.class), mock(TipoIncidente.class), ZonedDateTime.now());
 
   @BeforeEach

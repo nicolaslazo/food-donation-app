@@ -6,30 +6,58 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public final class PersonaVulnerable {
+@Entity
+@Table(name = "personaVulnerable")
+public class PersonaVulnerable {
+  @Id
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  UUID id;
+
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
+  @MapsId
+  @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, updatable = false)
+  @NonNull Usuario usuario;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "idReclutador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @Getter
   @NonNull Colaborador reclutador;
-  @NonNull ZonedDateTime fechaRegistro;
-  @NonNull Usuario usuario;
-  DireccionResidencia domicilio;
-  int menoresACargo;
 
-  public PersonaVulnerable(@NonNull Colaborador reclutador,
+  @Column(name = "fechaRegistro", nullable = false, updatable = false)
+  @NonNull ZonedDateTime fechaRegistro;
+
+  @OneToOne(fetch = FetchType.LAZY, targetEntity = DireccionResidencia.class)
+  @JoinColumn(name = "domicilio", unique = true)
+  DireccionResidencia domicilio;
+
+  @Column(name = "menoresACargo", nullable = false)
+  @NonNull Integer menoresACargo;
+
+  public PersonaVulnerable(@NonNull Usuario usuario,
+                           @NonNull Colaborador reclutador,
                            @NonNull ZonedDateTime fechaRegistro,
-                           @NonNull Usuario usuario,
                            @NonNull DireccionResidencia domicilio,
                            int menoresACargo) {
+    this.usuario = usuario;
     this.reclutador = reclutador;
     this.fechaRegistro = fechaRegistro;
-    this.usuario = usuario;
     this.domicilio = domicilio;
     this.menoresACargo = menoresACargo;
   }
 
-  public UUID getId() {
-    return usuario.getId();
+  protected PersonaVulnerable() {
   }
 }

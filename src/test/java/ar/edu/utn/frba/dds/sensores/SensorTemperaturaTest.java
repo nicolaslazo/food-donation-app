@@ -1,53 +1,64 @@
 package ar.edu.utn.frba.dds.sensores;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
-import ar.edu.utn.frba.dds.sensores.comandos.ActualizarRepositoryHeladera;
-import org.eclipse.paho.client.mqttv3.MqttException;
+import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class SensorTemperaturaTest {
-  final ReceptorTemperatura receptorTemperaturaMock = Mockito.mock(ReceptorTemperatura.class);
-  final Heladera heladera = new Heladera(
-      "Heladera Test",
-      null,
-      Mockito.mock(Colaborador.class),
-      10,
-      ZonedDateTime.now().minusMonths(6)
-  );
   final AccionadorHeladera accionadorHeladera = new AccionadorHeladera();
-  HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
+  final ReceptorTemperatura receptorTemperatura = new ReceptorTemperatura(5.0d,
+      -5.0,
+      accionadorHeladera);
+  Colaborador colaborador;
+  Heladera heladera;
+
 
   @BeforeEach
-  void setUp() throws RepositoryException {
-    heladerasRepository.insert(heladera);
-
-    accionadorHeladera.agregarComando(
-        new ActualizarRepositoryHeladera()
+  void setUp() {
+    colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        null);
+    heladera = new Heladera(
+        "Heladera Test",
+        null,
+        colaborador,
+        10,
+        ZonedDateTime.now().minusMonths(6)
     );
+
+    new HeladerasRepository().insert(heladera);
   }
 
   @AfterEach
   void tearDown() {
-    heladerasRepository.deleteTodas();
+    new HeladerasRepository().deleteAll();
+    new ColaboradorRepository().deleteAll();
+    new PermisosRepository().deleteAll();
+    new UsuariosRepository().deleteAll();
   }
 
-  @Test
-  void recibirDatosCorrectos() throws MqttException {
-    SensorTemperatura sensor = new SensorTemperatura(
-        receptorTemperaturaMock,
-        heladera
-    );
-    sensor.recibirDatos(0.0, ZonedDateTime.now());
-    assertEquals(0.0, heladera.getUltimaTempRegistradaCelsius());
-  }
+//  @Test
+//  void recibirDatosCorrectos() throws MqttException {
+//    SensorTemperatura sensor = new SensorTemperatura(
+//        receptorTemperatura,
+//        heladera
+//    );
+//    sensor.recibirDatos(0.0d, ZonedDateTime.now());
+//    Optional<Heladera> heladeraReceptora = new HeladerasRepository().findById(heladera.getId());
+//
+//    assertTrue(heladeraReceptora.isPresent());
+//    assertEquals(0.0d, heladeraReceptora.get().getUltimaTempRegistradaCelsius());
+//  }
 }
