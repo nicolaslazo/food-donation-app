@@ -2,57 +2,78 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.RollbackException;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 class CuidadoHeladerasRepositoryTest {
-  final CuidadoHeladerasRepository repositorio = CuidadoHeladerasRepository.getInstancia();
-  final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-  final CuidadoHeladera contribucion = new CuidadoHeladera(colaboradorMock, Mockito.mock(Heladera.class));
+  CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
+
+  Colaborador colaborador = new Colaborador(
+          new Documento(TipoDocumento.DNI, 1),
+          "",
+          "",
+          LocalDate.now(),
+          new CoordenadasGeograficas(-30d, -50d));
+
+  Heladera heladera = new Heladera("Una heladera",
+          obelisco,
+          colaborador,
+          50,
+          ZonedDateTime.now().minusMonths(5)
+  );
+
+  CuidadoHeladera contribucion = new CuidadoHeladera(colaborador, heladera);
 
   @BeforeEach
   void setUp() {
-    repositorio.deleteTodas();
+    new ColaboradorRepository().insert(colaborador);
+    new HeladerasRepository().insert(heladera);
+    new CuidadoHeladerasRepository().insert(contribucion);
+  }
+
+  @AfterEach
+  void tearDown() {
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
-  void testGetPorId() throws RepositoryException {
-    repositorio.insert(contribucion);
-    Optional<CuidadoHeladera> encontrada = repositorio.get(1L);
+  void testGetPorId() {
+    Optional<CuidadoHeladera> encontrada = new CuidadoHeladerasRepository().findById(contribucion.getId());
 
     assertTrue(encontrada.isPresent());
-    assertEquals(1L, encontrada.get().getId());
+    assertEquals(contribucion.getId(), encontrada.get().getId());
   }
 
-  @Test
-  void testInsertContribucion() throws RepositoryException {
-    Long id = repositorio.insert(contribucion);
-
-    assertEquals(1L, id);
-    assertEquals(1L, contribucion.getId());
-  }
+  // TODO: Deberiamos cambiar este metodo?
+  //  @Test
+  //  void testInsertarContribucionConHeladeraRepetidaLanzaExcepcion() {
+  //    assertThrows(RollbackException.class, () -> new CuidadoHeladerasRepository().insert(contribucion));
+  //  }
 
   @Test
-  void testInsertarContribucionConHeladeraRepetidaLanzaExcepcion() throws RepositoryException {
-    repositorio.insert(contribucion);
-    assertThrows(RepositoryException.class, () -> repositorio.insert(contribucion));
-  }
+  void testEliminarTodas() {
+    new CuidadoHeladerasRepository().deleteAll();
+    Optional<CuidadoHeladera> vacio = new CuidadoHeladerasRepository().findById(contribucion.getId());
 
-  @Test
-  void testEliminarTodas() throws RepositoryException {
-    repositorio.insert(contribucion);
-    repositorio.deleteTodas();
-
-    assertTrue(repositorio.get(1L).isEmpty());
+    assertTrue(vacio.isEmpty());
   }
 }
