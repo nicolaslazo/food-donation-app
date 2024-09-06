@@ -23,7 +23,6 @@ public final class EventoMovimiento {
   @GeneratedValue
   @Column(name = "id")
   @Getter
-  @Setter
   @NonNull Long id;
 
   @ManyToOne
