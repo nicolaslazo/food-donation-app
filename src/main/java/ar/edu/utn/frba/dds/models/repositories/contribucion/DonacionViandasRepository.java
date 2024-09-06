@@ -32,7 +32,7 @@ public class DonacionViandasRepository {
     return donaciones.stream().filter(donacion -> donacion.getId() == id).findFirst();
   }
 
-  public Map<Colaborador, Integer> getCantidadDonacionesPorColaboradorSemanaAnterior() {
+  public Map<Colaborador, Long> getCantidadDonacionesPorColaboradorSemanaAnterior() {
     ZonedDateTime haceUnaSemana = ZonedDateTime.now().minusWeeks(1);
 
     return donaciones
@@ -40,7 +40,7 @@ public class DonacionViandasRepository {
         .filter(donacion -> donacion.getFechaRealizada().isAfter(haceUnaSemana))
         .collect(Collectors.groupingBy(
             Contribucion::getColaborador,
-            Collectors.summingInt(donacion -> donacion.getViandas().size())
+            Collectors.summingLong(donacion -> donacion.getViandas().size())
         ));
   }
 

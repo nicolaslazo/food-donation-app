@@ -83,7 +83,7 @@ class DonacionViandasRepositoryTest {
       }
     });
 
-    Map<Colaborador, Integer> cantidades = repositorio.getCantidadDonacionesPorColaboradorSemanaAnterior();
+    Map<Colaborador, Long> cantidades = repositorio.getCantidadDonacionesPorColaboradorSemanaAnterior();
 
     assertEquals(1, cantidades.get(unColaboradorMock));
     assertEquals(2, cantidades.get(otroColaboradorMock));
