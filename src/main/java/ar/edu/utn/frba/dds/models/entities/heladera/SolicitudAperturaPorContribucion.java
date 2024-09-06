@@ -51,11 +51,8 @@ public class SolicitudAperturaPorContribucion {
   @NonNull ZonedDateTime fechaVencimiento;
 
   @Getter
-  @Column(name = "fechaAperturaEnOrigen")
   ZonedDateTime fechaAperturaEnOrigen = null;
-
   @Getter
-  @Column(name = "fechaAperturaEnDestino")
   ZonedDateTime fechaAperturaEnDestino = null;
 
 

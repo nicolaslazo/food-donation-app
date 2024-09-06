@@ -31,6 +31,9 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
     return instancia;
   }
 
+  public Optional<SolicitudAperturaPorContribucion> get(int id) {
+    return solicitudes.stream().filter(solicitud -> solicitud.getId() == id).findFirst();
+  }
 
   public Optional<SolicitudAperturaPorContribucion> getSolicitudVigenteAlMomento(Long id,
                                                                                  boolean paraExtraccion,
