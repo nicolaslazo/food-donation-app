@@ -45,9 +45,7 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
 
   public void insertAll(Collection<T> objects) {
     withTransaction(() -> {
-      for (T object : objects) {
-        entityManager().persist(object);
-      }
+      for (T object : objects) entityManager().persist(object);
     });
   }
 

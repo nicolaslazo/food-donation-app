@@ -63,7 +63,7 @@ class SuscripcionControllerTest {
   void tearDown() {
     repositorio.deleteTodas();
     SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
-    new ViandasRepository().deleteTodas();
+    new ViandasRepository().deleteAll();
     new HeladerasRepository().deleteAll();
     new ContactosRepository().deleteAll();
     new ColaboradorRepository().deleteAll();

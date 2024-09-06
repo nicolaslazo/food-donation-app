@@ -71,7 +71,7 @@ class SuscripcionRepositoryTest {
 
     try (MockedConstruction<HeladerasRepository> ignored =
              mockConstruction(HeladerasRepository.class, (mock, context) ->
-                 when(mock.getCantidadViandasDepositadas(heladeraMock)).thenReturn(3))) {
+                 when(mock.getCantidadViandasDepositadas(heladeraMock)).thenReturn(3L))) {
       interesadas = repositorio.getInteresadasEnStock(heladeraMock).collect(Collectors.toSet());
     }
 

@@ -53,11 +53,11 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
   /* Este método concierne a la cantidad de viandas ahora mismo depositadas en la heladera, independientemente de las
    * Solicitudes de apertura. Para saber el espacio disponible, reservando los espacios de las solicitudes de apertura
    */
-  public int getCantidadViandasDepositadas(Heladera heladera) {
-    return new ViandasRepository().getAlmacenadas(heladera).size();
+  public long getCantidadViandasDepositadas(Heladera heladera) {
+    return new ViandasRepository().findAll(heladera).count();
   }
 
-  public int getCapacidadDisponible(Heladera heladera) {
+  public long getCapacidadDisponible(Heladera heladera) {
     final int viandasEnContribucionesVigentes =
         SolicitudAperturaPorContribucionRepository.getInstancia().getCantidadViandasPendientes(heladera);
 
