@@ -9,7 +9,6 @@ import lombok.NonNull;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,37 +17,37 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-@Getter
 @Entity
 @Table(name = "tarjeta")
+@Getter
 public class Tarjeta {
-
   @Id
-  @Column(name = "id", unique = true)
-  final @NonNull UUID id;
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
+  @NonNull UUID id;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Colaborador.class)
   @JoinColumn(name = "idProveedor", referencedColumnName = "idUsuario")
   Colaborador proveedor = null;
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Usuario.class)
   @JoinColumn(name = "idRecipiente", referencedColumnName = "id")
   Usuario recipiente = null;
 
   @Column(name = "fechaAlta")
-  //Converter ??
   ZonedDateTime fechaAlta = null;
 
   @Column(name = "fechaBaja")
-  //Converter ??
   ZonedDateTime fechaBaja = null;
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Usuario.class)
   @JoinColumn(name = "idResponsableBaja", referencedColumnName = "id")
   Usuario responsableDeBaja = null;
 
   public Tarjeta(@NonNull UUID id) {
     this.id = id;
+  }
+
+  protected Tarjeta() {
   }
 
   public void assertTienePermiso(@NonNull String nombrePermiso, @NonNull String razon) throws PermisoDenegadoException {
