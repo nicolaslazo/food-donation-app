@@ -41,6 +41,9 @@ public class DireccionResidencia {
   @Column(name = "codigoPostal", nullable = false)
   @NonNull String codigoPostal;
 
+  @Column(name = "barrio", nullable = false)
+  @NonNull String barrio;
+
   @Column(name = "ciudad", nullable = false)
   @NonNull String ciudad;
 
@@ -50,22 +53,23 @@ public class DireccionResidencia {
   @Column(name = "pais", nullable = false)
   @NonNull String pais;
 
-  public DireccionResidencia(
-      @NonNull Usuario usuario,
-      String unidad,
-      String piso,
-      @NonNull String numeroDeCasa,
-      @NonNull String calle,
-      @NonNull String codigoPostal,
-      @NonNull String ciudad,
-      @NonNull String provincia,
-      @NonNull String pais) {
+  public DireccionResidencia(@NonNull Usuario usuario,
+                             String unidad,
+                             String piso,
+                             @NonNull String numeroDeCasa,
+                             @NonNull String calle,
+                             @NonNull String codigoPostal,
+                             @NonNull String barrio,
+                             @NonNull String ciudad,
+                             @NonNull String provincia,
+                             @NonNull String pais) {
     this.usuario = usuario;
     this.unidad = unidad;
     this.piso = piso;
     this.numeroDeCasa = numeroDeCasa;
     this.calle = calle;
     this.codigoPostal = codigoPostal;
+    this.barrio = barrio;
     this.ciudad = ciudad;
     this.provincia = provincia;
     this.pais = pais;
