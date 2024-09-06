@@ -3,10 +3,9 @@ package ar.edu.utn.frba.dds.models.repositories;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
-import ar.edu.utn.frba.dds.models.repositories.recompensas.CanjeosRepository;
-import org.junit.jupiter.api.BeforeEach;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -14,26 +13,20 @@ import java.time.ZonedDateTime;
 import static org.mockito.Mockito.mock;
 
 class CanjeosRepositoryTest {
-  CanjeosRepository repositorio;
-  Colaborador colaboradorDummy;
-  Recompensa recompensaDummy;
-  Canjeo canjeo;
-
-  @BeforeEach
-  void setUp() {
-    repositorio = new CanjeosRepository();
-    colaboradorDummy = new Colaborador(
-        mock(Documento.class),
-        "",
-        "",
-        LocalDate.now(),
-        null
-    );
-    recompensaDummy = new Recompensa(
-        "Recompensa dummy", RubroRecompensa.OTROS, 10, 1, null
-    );
-    canjeo = new Canjeo(colaboradorDummy, recompensaDummy, ZonedDateTime.now());
-  }
+  Colaborador colaboradorDummy = new Colaborador(
+      new Documento(TipoDocumento.DNI, 1),
+      "",
+      "",
+      LocalDate.now(),
+      null
+  );
+  Recompensa recompensa = new Recompensa("Recompensa dummy",
+      mock(Colaborador.class),
+      10L,
+      1,
+      RubroRecompensa.OTROS,
+      null);
+  Canjeo canjeo = new Canjeo(colaboradorDummy, recompensa, ZonedDateTime.now());
 
   /*  TODO: Arreglar en la entrega de persistencia
   void registrarRedistribucionViandas(Colaborador colaborador, int cantidad) {
