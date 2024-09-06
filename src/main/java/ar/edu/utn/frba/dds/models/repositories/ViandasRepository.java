@@ -26,7 +26,7 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
   }
 
   private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) {
-    final int capacidadDisponible = new HeladerasRepository().getCapacidadDisponible(destino);
+    final long capacidadDisponible = new HeladerasRepository().getCapacidadDisponible(destino);
     final String sPlural = cantidadViandas > 1 ? "s" : "";
 
     if (capacidadDisponible < cantidadViandas)

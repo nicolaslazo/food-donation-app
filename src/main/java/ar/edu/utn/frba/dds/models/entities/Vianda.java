@@ -6,13 +6,13 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -33,7 +33,7 @@ public class Vianda {
   @NonNull ZonedDateTime fechaDonacion;
 
   @ManyToOne
-  @JoinColumn(name = "idColaborador", referencedColumnName = "id", nullable = false, updatable = false)
+  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @NonNull Colaborador colaborador;
 
   @Getter
@@ -43,6 +43,8 @@ public class Vianda {
   @Column(name = "caloriasTotales", nullable = false, updatable = false)
   @NonNull Integer caloriasVianda;
 
+  /* NOTA: No podemos hacer cascade en las heladeras porque
+           para insertar una vianda primero necesitamos verificar que la heladera, _ya persistida_, tenga espacio */
   @ManyToOne
   @JoinColumn(name = "idHeladera", referencedColumnName = "id", updatable = false)
   @Getter
@@ -63,5 +65,6 @@ public class Vianda {
     this.caloriasVianda = caloriasVianda;
   }
 
-  protected Vianda() {}
+  protected Vianda() {
+  }
 }
