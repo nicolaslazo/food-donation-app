@@ -26,9 +26,9 @@ public class CanjeosRepository extends HibernateEntityManager<Canjeo, Long> {
     return em.createQuery(query).getSingleResult();
   }
 
-  public double getPuntosDisponibles(Colaborador colaborador) {
-    double puntosTotales = CalculadoraDePuntos.calcular(colaborador);
-    double puntosGastados = findPuntosGastados(colaborador);
+  public long getPuntosDisponibles(Colaborador colaborador) {
+    long puntosTotales = CalculadoraDePuntos.calcular(colaborador);
+    long puntosGastados = findPuntosGastados(colaborador);
 
     return puntosTotales - puntosGastados;
   }
