@@ -62,7 +62,7 @@ class SolicitudAperturaPorContribucionRepositoryTest {
 
     repositorio.insert(solicitud);
 
-    assertEquals(1, solicitud.getId());
+    assertEquals(solicitud, repositorio.findById(solicitud.getId()).get());
   }
 
   @Test

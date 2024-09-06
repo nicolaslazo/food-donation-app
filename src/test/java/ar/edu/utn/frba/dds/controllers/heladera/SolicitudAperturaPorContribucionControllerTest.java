@@ -155,11 +155,12 @@ class SolicitudAperturaPorContribucionControllerTest {
     ZonedDateTime unSegundoDespuesDeEpoch = epoch.plusSeconds(1);
     SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(mock(Tarjeta.class), donacionMock, epoch);
 
+    controlador.repositorio.insert(solicitud);
 
     controlador.messageArrived(
         "heladeras/1/solicitudes/confirmadas",
-        new MqttMessage("{\"id\":1,\"esExtraccion\":false,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
-            .formatted(unSegundoDespuesDeEpoch.toString())
+        new MqttMessage("{\"id\":%d,\"esExtraccion\":false,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
+            .formatted(solicitud.getId(),unSegundoDespuesDeEpoch.toString())
             .getBytes()));
 
     ZonedDateTime fechaUsada =
