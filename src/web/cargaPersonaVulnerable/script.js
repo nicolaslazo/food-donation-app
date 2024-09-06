@@ -19,42 +19,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    const dniSiRadio = document.getElementById('tiene-dni-si');
-    const dniNoRadio = document.getElementById('tiene-dni-no');
-    const dniSection = document.getElementById('posee-documento');
-
-    const domicilioSiRadio = document.getElementById('tiene-domicilio-si');
-    const domicilioNoRadio = document.getElementById('tiene-domicilio-no');
     const addressSection = document.getElementById('direccion'); // El div que contiene los campos de la dirección
+    const tieneDomicilioCheckbox = document.getElementById('tiene-domicilio'); // Nueva checkbox
 
-    // Manejar la visibilidad de los campos de Domicilio cuando se selecciona una opción
-    domicilioSiRadio.addEventListener('change', function() {
+    // Manejar la visibilidad de los campos de Domicilio cuando se selecciona la nueva checkbox
+    tieneDomicilioCheckbox.addEventListener('change', function() {
         if (this.checked) {
-            addressSection.classList.add('show'); // Muestra el div
+            addressSection.classList.add('show'); // Muestra el div de la dirección
             addressSection.classList.remove('hidden'); // Asegura que la clase 'hidden' no esté presente
-        }
-    });
-
-    domicilioNoRadio.addEventListener('change', function() {
-        if (this.checked) {
-            addressSection.classList.add('hidden'); // Oculta el div
+        } else {
+            addressSection.classList.add('hidden'); // Oculta el div de la dirección
             addressSection.classList.remove('show'); // Asegura que la clase 'show' no esté presente
         }
     });
 
- // Manejar la visibilidad de los campos de DNI cuando se selecciona una opción
-    dniSiRadio.addEventListener('change', function() {
-        if (this.checked) {
-            dniSection.classList.add('show'); // Muestra el div
-            dniSection.classList.remove('hidden'); // Asegura que la clase 'hidden' no esté presente
-        }
-    });
 
-    dniNoRadio.addEventListener('change', function() {
+    const documentSection = document.getElementById('posee-documento'); // El div que contiene los campos de la dirección
+    const tieneDocumentoCheckbox = document.getElementById('tiene-dni'); // Nueva checkbox
+
+    // Manejar la visibilidad de los campos de Domicilio cuando se selecciona la nueva checkbox
+    tieneDocumentoCheckbox.addEventListener('change', function() {
         if (this.checked) {
-            dniSection.classList.add('hidden'); // Oculta el div
-            dniSection.classList.remove('show'); // Asegura que la clase 'show' no esté presente
+            documentSection.classList.add('show'); // Muestra el div de la dirección
+            documentSection.classList.remove('hidden'); // Asegura que la clase 'hidden' no esté presente
+        } else {
+            documentSection.classList.add('hidden'); // Oculta el div de la dirección
+            documentSection.classList.remove('show'); // Asegura que la clase 'show' no esté presente
         }
     });
 
 });
+

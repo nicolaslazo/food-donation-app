@@ -54,16 +54,10 @@
                         <input type="date" id="dob" required>
                     </label>
 
-                    <p>¿Posee Domicilio?</p>
-                    <label for="tiene-domicilio-si">
-                        <input type="radio" id="tiene-domicilio-si" name="tiene-domicilio" value="yes" required>
-                        Sí
-                    </label>
-
-                    <label for="tiene-domicilio-no">
-                        <input type="radio" id="tiene-domicilio-no" name="tiene-domicilio" value="no" required>
-                        No
-                    </label>
+                    <div class="question-checkbox">
+                        <p>¿Posee Domicilio?</p>
+                        <input type="checkbox" id="tiene-domicilio" name="tiene-domicilio" value="yes">
+                    </div>
 
                     <div id="direccion" class="hidden">
                         <label class="input-box">
@@ -102,16 +96,11 @@
                         </label>
                     </div>
 
+                    <div class="question-checkbox">
                     <p>¿Posee documento de identidad?</p>
-                    <label for="tiene-dni-si">
-                        <input type="radio" id="tiene-dni-si" name="tiene-dni" value="yes" required>
-                        Sí
+                        <input type="checkbox" id="tiene-dni" name="tiene-dni" value="yes">
                     </label>
-
-                    <label for="tiene-dni-no">
-                        <input type="radio" id="tiene-dni-no" name="tiene-dni" value="no" required>
-                        No
-                    </label>
+                    </div>
 
                     <div id="posee-documento" class="hidden">
                         <label for="" class="input-box">Tipo de Documento

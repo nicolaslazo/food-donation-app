@@ -66,6 +66,15 @@
     font-weight: bolder;
 }
 
+.question-checkbox {
+    display: flex;
+    align-items: center;   /* Alinea el checkbox al centro verticalmente */
+    justify-content: flex-start;  /* Asegura que el contenido se alinee hacia la izquierda */
+    gap: 10px;  /* Espacio entre la pregunta y el checkbox */
+    margin-bottom: 10px;  /* Para dar algo de espacio debajo de cada conjunto */
+}
+
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
