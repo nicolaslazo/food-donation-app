@@ -45,7 +45,7 @@ public class SuscripcionRepository {
   /* Dada una heladera, busca todas las suscripciones que deberían recibir una notificación relacionada a stock */
   public Stream<Suscripcion> getInteresadasEnStock(Heladera heladera) {
     int capacidadTotal = heladera.getCapacidadEnViandas();
-    int cantidadViandasDepositadas = new HeladerasRepository().getCantidadViandasDepositadas(heladera);
+    long cantidadViandasDepositadas = new HeladerasRepository().getCantidadViandasDepositadas(heladera);
 
     Stream<Suscripcion> porPocasViandas = suscripciones
         .stream()
@@ -67,7 +67,7 @@ public class SuscripcionRepository {
   public Stream<Suscripcion> getInteresadasEnStock(Heladera heladera,
                                                    HeladerasRepository repository) {
     int capacidadTotal = heladera.getCapacidadEnViandas();
-    int cantidadViandasDepositadas = repository.getCantidadViandasDepositadas(heladera);
+    long cantidadViandasDepositadas = repository.getCantidadViandasDepositadas(heladera);
 
     Stream<Suscripcion> porPocasViandas = suscripciones
             .stream()
