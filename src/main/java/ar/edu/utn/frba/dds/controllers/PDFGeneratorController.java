@@ -18,7 +18,7 @@ public class PDFGeneratorController {
     PDFGeneratorController.generarReporteViandasColaborador();
   }
 
- /* static void generarReporteMovimientoHeladeras() {
+  /*static void generarReporteMovimientoHeladeras() {
     MovimientosHeladeraRepository movimientosHeladeraRepository = MovimientosHeladeraRepository.getInstancia();
 
     Map<Heladera, Long> cantidadPorHeladera =
