@@ -4,84 +4,86 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import lombok.NonNull;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class SuscripcionRepository {
-  static SuscripcionRepository instancia = null;
-  List<Suscripcion> suscripciones;
+public class SuscripcionRepository extends HibernateEntityManager<Suscripcion, Long> {
+  public Optional<Suscripcion> find(@NonNull Colaborador colaborador,
+                                    @NonNull Heladera heladera,
+                                    @NonNull MotivoDeDistribucion tipo) {
+    EntityManager em = entityManager();
 
-  private SuscripcionRepository() {
-    suscripciones = new ArrayList<>();
-  }
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Suscripcion> query = cb.createQuery(Suscripcion.class);
+    Root<Suscripcion> root = query.from(Suscripcion.class);
 
-  public static SuscripcionRepository getInstancia() {
-    if (instancia == null) {
-      instancia = new SuscripcionRepository();
-    }
+    List<Predicate> predicates = new ArrayList<>();
 
-    return instancia;
-  }
+    predicates.add(cb.equal(root.get("heladera"), heladera));
+    predicates.add(cb.equal(root.get("tipo"), tipo));
+    predicates.add(cb.equal(root.get("colaborador"), colaborador));
 
-  public Optional<Suscripcion> get(int id) {
-    return suscripciones.stream().filter(suscripcion -> suscripcion.getId() == id).findFirst();
-  }
+    query.where(predicates.toArray(new Predicate[0]));
 
-  public Optional<Suscripcion> get(Heladera heladera, MotivoDeDistribucion tipo, Colaborador colaborador) {
-    return suscripciones
-        .stream()
-        .filter(suscripcion ->
-            suscripcion.getHeladera() == heladera &&
-                suscripcion.getTipo() == tipo &&
-                suscripcion.getColaborador() == colaborador
-        ).findFirst();
+    return Optional.ofNullable(em.createQuery(query).getSingleResult());
   }
 
   /* Dada una heladera, busca todas las suscripciones que deberían recibir una notificación relacionada a stock */
-  public Stream<Suscripcion> getInteresadasEnStock(Heladera heladera) {
+  public Stream<Suscripcion> findInteresadasEnStock(@NonNull Heladera heladera) {
     int capacidadTotal = heladera.getCapacidadEnViandas();
-    int cantidadViandasDepositadas = HeladerasRepository.getInstancia().getCantidadViandasDepositadas(heladera);
+    long cantidadViandasDepositadas = new HeladerasRepository().getCantidadViandasDepositadas(heladera);
 
-    Stream<Suscripcion> porPocasViandas = suscripciones
-        .stream()
-        .filter(suscripcion ->
-            suscripcion.getHeladera() == heladera &&
-                suscripcion.getTipo() == MotivoDeDistribucion.FALTAN_VIANDAS &&
-                cantidadViandasDepositadas < suscripcion.getParametro());
+    EntityManager em = entityManager();
 
-    Stream<Suscripcion> porPocoEspacio = suscripciones
-        .stream()
-        .filter(suscripcion ->
-            suscripcion.getHeladera() == heladera &&
-                suscripcion.getTipo() == MotivoDeDistribucion.FALTA_ESPACIO &&
-                capacidadTotal - cantidadViandasDepositadas < suscripcion.getParametro());
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Suscripcion> query = cb.createQuery(Suscripcion.class);
+    Root<Suscripcion> root = query.from(Suscripcion.class);
 
-    return Stream.concat(porPocasViandas, porPocoEspacio);
+    Predicate heladeraPredicate = cb.equal(root.get("heladera"), heladera);
+
+    Predicate faltanViandasPredicate = cb.and(
+        cb.equal(root.get("tipo"), MotivoDeDistribucion.FALTAN_VIANDAS),
+        cb.lessThan(cb.literal(cantidadViandasDepositadas), root.get("parametro"))
+    );
+
+    Predicate faltaEspacioPredicate = cb.and(
+        cb.equal(root.get("tipo"), MotivoDeDistribucion.FALTA_ESPACIO),
+        cb.lessThan(cb.literal(capacidadTotal - cantidadViandasDepositadas), root.get("parametro"))
+    );
+
+    query.where(
+        cb.and(
+            heladeraPredicate,
+            cb.or(faltanViandasPredicate, faltaEspacioPredicate)
+        )
+    );
+
+    return em.createQuery(query).getResultStream();
   }
 
-  public Stream<Suscripcion> getTodas(Heladera heladera, MotivoDeDistribucion tipo) {
-    return suscripciones
-        .stream()
-        .filter(suscripcion -> suscripcion.getHeladera() == heladera && suscripcion.getTipo() == tipo);
-  }
+  public Stream<Suscripcion> findAll(Heladera heladera, MotivoDeDistribucion tipo) {
+    EntityManager em = entityManager();
 
-  public int insert(Suscripcion suscripcion) throws RepositoryException {
-    if (get(suscripcion.getHeladera(), suscripcion.getTipo(), suscripcion.getColaborador()).isPresent()) {
-      throw new RepositoryException("Ese colaborador ya está inscrito a esa heladera para eso");
-    }
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Suscripcion> query = cb.createQuery(Suscripcion.class);
+    Root<Suscripcion> root = query.from(Suscripcion.class);
 
-    suscripciones.add(suscripcion);
-    suscripcion.setId(suscripciones.size());
+    Predicate heladeraPredicate = cb.equal(root.get("heladera"), heladera);
+    Predicate tipoPredicate = cb.equal(root.get("tipo"), tipo);
 
-    return suscripcion.getId();
-  }
+    query.where(cb.and(heladeraPredicate, tipoPredicate));
 
-  public void deleteTodas() {
-    suscripciones.clear();
+    return em.createQuery(query).getResultStream();
   }
 }

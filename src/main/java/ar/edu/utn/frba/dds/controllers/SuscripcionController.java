@@ -11,7 +11,6 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CalculadoraDistancia;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
@@ -29,7 +28,7 @@ public class SuscripcionController implements IMqttMessageListener {
   public static void suscribirAHeladera(Heladera heladera,
                                         MotivoDeDistribucion tipo,
                                         Integer parametro,
-                                        Colaborador colaborador) throws RepositoryException {
+                                        Colaborador colaborador) {
     final double distanciaHabilitadaEnMetros =
         Double.parseDouble(ConfigLoader.getInstancia().getProperty("heladeras.suscripciones.radioHabilitadoEnMetros"));
     final double distancia = CalculadoraDistancia.calcular(heladera.getUbicacion(), colaborador.getUbicacion());
@@ -38,7 +37,7 @@ public class SuscripcionController implements IMqttMessageListener {
       throw new RuntimeException("El colaborador vive demasiado lejos de esta heladera para poder suscribirse");
     }
 
-    SuscripcionRepository.getInstancia().insert(new Suscripcion(heladera, tipo, parametro, colaborador));
+    new SuscripcionRepository().insert(new Suscripcion(colaborador, heladera, tipo, parametro));
   }
 
   public static void notificarIncidente(Heladera heladera, ZonedDateTime fecha) {
@@ -57,9 +56,8 @@ public class SuscripcionController implements IMqttMessageListener {
 
     ContactosRepository contactosRepository = new ContactosRepository();
 
-    SuscripcionRepository
-        .getInstancia()
-        .getTodas(heladera, MotivoDeDistribucion.FALLA_HELADERA)
+    new SuscripcionRepository()
+        .findAll(heladera, MotivoDeDistribucion.FALLA_HELADERA)
         .map(Suscripcion::getColaborador)
         .map(Colaborador::getUsuario)
         .flatMap(contactosRepository::get)
@@ -96,10 +94,10 @@ public class SuscripcionController implements IMqttMessageListener {
         "Se desea informarle que actualmente quedan %d %s.";
 
     Heladera heladera = suscripcion.getHeladera();
-    int viandasDepositadas = HeladerasRepository.getInstancia().getCantidadViandasDepositadas(heladera);
+    long viandasDepositadas = new HeladerasRepository().getCantidadViandasDepositadas(heladera);
 
     String nombreHeladera = heladera.getNombre();
-    int numero = switch (suscripcion.getTipo()) {
+    long numero = switch (suscripcion.getTipo()) {
       case FALTAN_VIANDAS -> viandasDepositadas;
       case FALTA_ESPACIO -> heladera.getCapacidadEnViandas() - viandasDepositadas;
       default -> throw new RuntimeException("Esto no debería pasar");
@@ -126,9 +124,8 @@ public class SuscripcionController implements IMqttMessageListener {
 
     ContactosRepository repositorioContactos = new ContactosRepository();
 
-    SuscripcionRepository
-        .getInstancia()
-        .getInteresadasEnStock(heladeraAfectada)
+    new SuscripcionRepository()
+        .findInteresadasEnStock(heladeraAfectada)
         .forEach(suscripcion -> {
           String mensajeAEnviar = construirMensajeDeNotificacion(suscripcion);
 

@@ -4,35 +4,62 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+@Entity
+@Table(name = "heladera", uniqueConstraints = {@UniqueConstraint(columnNames = {"latitud", "longitud"})})
 public class Heladera {
+  @Id
+  @GeneratedValue
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
   @Getter
-  final int capacidadEnViandas;
-  final @NonNull ZonedDateTime fechaInstalacion;
-  @Getter
-  final @NonNull Colaborador encargado;
-  @Getter
-  final CoordenadasGeograficas ubicacion;
-  @Getter
-  @Setter
-  int id;
+  Long id;
+
+  @Column(name = "nombre", nullable = false)
   @Getter
   @NonNull String nombre;
+
+  @Column(name = "capacidadEnViandas", nullable = false, updatable = false)
   @Getter
-  @Setter //Lo agrego para el TEST TemperatureSensorChecker
-  double ultimaTempRegistradaCelsius;
+  @NonNull Integer capacidadEnViandas;
+
+  @Column(name = "fechaInstalacion", nullable = false, updatable = false)
+  @NonNull ZonedDateTime fechaInstalacion;
+
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
+  @Getter
+  @NonNull Colaborador encargado;
+
+  @Embedded
+  @Getter
+  CoordenadasGeograficas ubicacion;
+
+  @Column(name = "ultimaTemperaturaRegistradaEnCelsius")
+  @Getter
+  Double ultimaTempRegistradaCelsius;
+
+  @Column(name = "momentoDeUltimaTempRegistrada")
   @Getter
   ZonedDateTime momentoUltimaTempRegistrada;
 
   public Heladera(String nombre,
                   CoordenadasGeograficas ubicacion,
                   Colaborador encargado,
-                  int capacidadEnViandas,
+                  Integer capacidadEnViandas,
                   ZonedDateTime fechaInstalacion) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
@@ -41,7 +68,10 @@ public class Heladera {
     this.fechaInstalacion = fechaInstalacion;
   }
 
-  public void setUltimaTempRegistradaCelsius(double temperatura) {
+  protected Heladera() {
+  }
+
+  public void setUltimaTempRegistradaCelsius(Double temperatura) {
     ultimaTempRegistradaCelsius = temperatura;
     momentoUltimaTempRegistrada = ZonedDateTime.now();
   }
@@ -61,7 +91,7 @@ public class Heladera {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Heladera heladera = (Heladera) o;
-    return getId() == heladera.getId();
+    return Objects.equals(getId(), heladera.getId());
   }
 
   @Override

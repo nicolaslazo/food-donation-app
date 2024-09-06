@@ -9,10 +9,10 @@ public class Main {
     String nombreArchivo = "reporte.pdf";
     String tituloTabla = "Reporte de Ventas";
     String[] headersTabla = {"Producto", "Cantidad Vendida"};
-    Map<String, Integer> data = new HashMap<>();
-    data.put("Producto A", 15);
-    data.put("Producto B", 20);
-    data.put("Producto C", 10);
+    Map<String, Long> data = new HashMap<>();
+    data.put("Producto A", 15L);
+    data.put("Producto B", 20L);
+    data.put("Producto C", 10L);
 
     PdfGenerator pdfGenerator = new PdfGenerator(nombreArchivo, tituloTabla, headersTabla, data);
 

@@ -11,8 +11,6 @@ import java.util.List;
 @Getter
 public class EntregaTarjetas extends Contribucion {
   final List<Tarjeta> tarjetasRepartidas;
-  @Setter
-  int id;
 
   public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull List<Tarjeta> tarjetas) {
     super(colaborador);
