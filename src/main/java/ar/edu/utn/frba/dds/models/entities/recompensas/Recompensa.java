@@ -25,7 +25,6 @@ public class Recompensa {
   @GeneratedValue
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Getter
-  @Setter
   @NonNull Long id;
 
   @Column(name = "nombre", nullable = false)
