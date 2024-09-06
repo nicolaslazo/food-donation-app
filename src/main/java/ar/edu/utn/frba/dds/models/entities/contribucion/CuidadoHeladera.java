@@ -17,7 +17,7 @@ import javax.persistence.CascadeType;
 public class CuidadoHeladera extends Contribucion {
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Heladera.class)
-  @JoinColumn(name = "idHeladera", referencedColumnName = "id")
+  @JoinColumn(name = "idHeladera", referencedColumnName = "id", updatable = false, unique = true)
   Heladera heladera;
 
   public CuidadoHeladera(@NonNull Colaborador colaborador, Heladera heladera) {
