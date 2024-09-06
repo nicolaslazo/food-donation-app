@@ -6,9 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
-import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
-import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,10 +54,7 @@ class ViandasRepositoryTest {
 
   @AfterEach
   void tearDown() {
-    new ViandasRepository().deleteAll();
-    new HeladerasRepository().deleteAll();
-    new ColaboradorRepository().deleteAll();
-    new UsuariosRepository().deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test

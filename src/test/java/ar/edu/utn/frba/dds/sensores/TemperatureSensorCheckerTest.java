@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.sensores;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +49,7 @@ public class TemperatureSensorCheckerTest {
 
   @AfterEach
   void tearDown() {
-    new HeladerasRepository().deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   // Tests inhabilitados por https://github.com/dds-utn/2024-tpa-ma-ma-grupo-06/issues/157
