@@ -13,7 +13,7 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import java.time.ZonedDateTime;
 
 public class CuidadoHeladeraController {
-  public static void tomarCuidadoHeladera(String dtoCuidadoJson) throws RepositoryException {
+  public static Heladera tomarCuidadoHeladera(String dtoCuidadoJson) throws RepositoryException {
     CuidadoHeladeraInputDTO dtoCuidado = CuidadoHeladeraInputDTO.desdeJson(dtoCuidadoJson);
 
     Colaborador encargado = new ColaboradorRepository()
@@ -26,9 +26,11 @@ public class CuidadoHeladeraController {
         dtoCuidado.getCapacidadEnViandas(),
         ZonedDateTime.now());
 
-    HeladerasRepository.getInstancia().insert(heladeraNueva);
+    new HeladerasRepository().insert(heladeraNueva);
     SuscripcionRepository
         .getInstancia()
         .insert(new Suscripcion(heladeraNueva, MotivoDeDistribucion.FALLA_HELADERA, null, encargado));
+
+    return heladeraNueva;
   }
 }

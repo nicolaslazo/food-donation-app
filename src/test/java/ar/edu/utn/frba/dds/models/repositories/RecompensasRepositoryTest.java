@@ -6,9 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
-import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository;
-import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,16 +25,14 @@ class RecompensasRepositoryTest {
       new CoordenadasGeograficas(-34., -58.));
   Recompensa recompensa = new Recompensa("Recompensa dummy",
       colaborador,
-      100,
+      100L,
       1,
       RubroRecompensa.ELECTRONICA,
       null);
 
   @AfterEach
   void tearDown() {
-    new RecompensasRepository().deleteAll();
-    new ColaboradorRepository().deleteAll();
-    new UsuariosRepository().deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
@@ -62,13 +58,13 @@ class RecompensasRepositoryTest {
 
     Recompensa otraRecompensa = new Recompensa("Recompensa dummy",
         colaborador,
-        100,
+        100L,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
     Recompensa otraRecompensaMas = new Recompensa("Recompensa dummy",
         colaborador,
-        100,
+        100L,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
@@ -86,13 +82,13 @@ class RecompensasRepositoryTest {
 
     Recompensa otraRecompensa = new Recompensa("Recompensa dummy",
         colaborador,
-        100,
+        100L,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
     Recompensa otraRecompensaMas = new Recompensa("Recompensa dummy",
         colaborador,
-        100,
+        100L,
         1,
         RubroRecompensa.ELECTRONICA,
         null);

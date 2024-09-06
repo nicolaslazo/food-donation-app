@@ -96,10 +96,10 @@ public class SuscripcionController implements IMqttMessageListener {
         "Se desea informarle que actualmente quedan %d %s.";
 
     Heladera heladera = suscripcion.getHeladera();
-    int viandasDepositadas = HeladerasRepository.getInstancia().getCantidadViandasDepositadas(heladera);
+    long viandasDepositadas = new HeladerasRepository().getCantidadViandasDepositadas(heladera);
 
     String nombreHeladera = heladera.getNombre();
-    int numero = switch (suscripcion.getTipo()) {
+    long numero = switch (suscripcion.getTipo()) {
       case FALTAN_VIANDAS -> viandasDepositadas;
       case FALTA_ESPACIO -> heladera.getCapacidadEnViandas() - viandasDepositadas;
       default -> throw new RuntimeException("Esto no debería pasar");

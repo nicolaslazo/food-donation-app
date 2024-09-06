@@ -1,51 +1,87 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.Vianda;
+import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ViandasRepositoryTest {
-  final ViandasRepository repositorio = ViandasRepository.getInstancia();
-  final Heladera heladeraMock = Mockito.mock(Heladera.class);
-  final Vianda viandaMock = Mockito.mock(Vianda.class);
-  final Vianda otraViandaMock = Mockito.mock(Vianda.class);  // .getHeladeraDestino() devuelve null por default
+  Colaborador colaborador;
+  Heladera heladera;
+  Vianda vianda, otraVianda;
 
   @BeforeEach
   void setUp() {
-    repositorio.deleteTodas();
+    colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        null);
+    heladera = new Heladera("",
+        new CoordenadasGeograficas(-34d, -58d),
+        colaborador,
+        1,
+        ZonedDateTime.now());
+    vianda = new Vianda("",
+        ZonedDateTime.now().plusWeeks(1),
+        ZonedDateTime.now(),
+        colaborador,
+        1d,
+        1);
+    otraVianda = new Vianda("",
+        ZonedDateTime.now().plusWeeks(1),
+        ZonedDateTime.now(),
+        colaborador,
+        1d,
+        1);
 
-    Mockito.when(heladeraMock.getCapacidadEnViandas()).thenReturn(1);
+    new HeladerasRepository().insert(heladera);
+  }
+
+  @AfterEach
+  void tearDown() {
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
-  void testInsertFallaSiHeladeraNoTieneEspacio() throws RepositoryException {
-    Mockito.when(viandaMock.getHeladera()).thenReturn(heladeraMock);
+  void testInsertFallaSiHeladeraNoTieneEspacio() {
+    vianda.setHeladera(heladera);
 
-    repositorio.insert(viandaMock);  // Heladera ahora está llena
+    new ViandasRepository().insert(vianda);  // Heladera ahora está llena
 
-    assertThrows(RepositoryException.class, () -> repositorio.insert(viandaMock));
+    assertThrows(RuntimeException.class, () -> new ViandasRepository().insert(vianda));
   }
 
   @Test
   void testInsertDeCollectionFallaSiViandasTienenHeladerasDistintas() {
-    Mockito.when(viandaMock.getHeladera()).thenReturn(heladeraMock);
+    vianda.setHeladera(heladera);
 
-    assertThrows(RepositoryException.class, () -> repositorio.insert(List.of(otraViandaMock, viandaMock)));
+    assertNull(otraVianda.getHeladera());
+    assertThrows(RuntimeException.class,
+        () -> new ViandasRepository().insertAll(List.of(otraVianda, vianda)));
   }
 
   @Test
   void testInsertDeCollectionFallaSiHayDemasiadasViandas() {
-    Mockito.when(viandaMock.getHeladera()).thenReturn(heladeraMock);
-    Mockito.when(otraViandaMock.getHeladera()).thenReturn(heladeraMock);
+    vianda.setHeladera(heladera);
+    otraVianda.setHeladera(heladera);
 
-    assertThrows(RepositoryException.class, () -> repositorio.insert(List.of(viandaMock, otraViandaMock)));
-    assertEquals(0, repositorio.getTodas().size());
+    assertThrows(RuntimeException.class,
+        () -> new ViandasRepository().insertAll(List.of(vianda, otraVianda)));
+    assertEquals(0, new ViandasRepository().findAll().count());
   }
 }
