@@ -28,18 +28,18 @@ class CuidadoHeladerasRepositoryTest {
   @Test
   void testGetPorId() throws RepositoryException {
     repositorio.insert(contribucion);
-    Optional<CuidadoHeladera> encontrada = repositorio.get(1);
+    Optional<CuidadoHeladera> encontrada = repositorio.get(1L);
 
     assertTrue(encontrada.isPresent());
-    assertEquals(1, encontrada.get().getId());
+    assertEquals(1L, encontrada.get().getId());
   }
 
   @Test
   void testInsertContribucion() throws RepositoryException {
-    int id = repositorio.insert(contribucion);
+    Long id = repositorio.insert(contribucion);
 
-    assertEquals(1, id);
-    assertEquals(1, contribucion.getId());
+    assertEquals(1L, id);
+    assertEquals(1L, contribucion.getId());
   }
 
   @Test
@@ -53,6 +53,6 @@ class CuidadoHeladerasRepositoryTest {
     repositorio.insert(contribucion);
     repositorio.deleteTodas();
 
-    assertTrue(repositorio.get(1).isEmpty());
+    assertTrue(repositorio.get(1L).isEmpty());
   }
 }

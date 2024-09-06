@@ -7,11 +7,13 @@ import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
@@ -32,16 +34,17 @@ public class Colaborador {
   static final Rol ROL_DEFAULT =
       new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
 
-  @Column(name = "id")
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   UUID id;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
   @MapsId
-  @JoinColumn(name = "idUsuario", referencedColumnName = "id")
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false)
   @NonNull Usuario usuario;
 
   @Embedded
+  @Setter
   CoordenadasGeograficas ubicacion;
 
   public Colaborador(@NonNull Documento documento,
