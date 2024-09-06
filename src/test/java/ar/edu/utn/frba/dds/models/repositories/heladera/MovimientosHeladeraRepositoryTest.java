@@ -76,7 +76,7 @@ class MovimientosHeladeraRepositoryTest {
     repositorio.insert(new EventoMovimiento(otraHeladeraMock, ZonedDateTime.now()));
     repositorio.insert(new EventoMovimiento(otraHeladeraMock, ZonedDateTime.now()));
 
-    Map<Heladera, Integer> cantidadesDeMovimientosPorHeladera =
+    Map<Heladera, Long> cantidadesDeMovimientosPorHeladera =
         repositorio.getCantidadMovimientosPorHeladeraSemanaAnterior();
 
     assertEquals(1, cantidadesDeMovimientosPorHeladera.get(heladeraMock));

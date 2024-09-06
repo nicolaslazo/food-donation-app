@@ -24,17 +24,17 @@ public class CuidadoHeladerasRepository {
     return instancia;
   }
 
-  public Optional<CuidadoHeladera> get(int id) {
+  public Optional<CuidadoHeladera> get(Long id) {
     return contribuciones.stream().filter(contribucion -> contribucion.getId() == id).findFirst();
   }
 
-  public int insert(CuidadoHeladera contribucion) throws RepositoryException {
+  public Long insert(CuidadoHeladera contribucion) throws RepositoryException {
     if (contribuciones.stream().map(CuidadoHeladera::getHeladera).anyMatch(heladera -> heladera == contribucion.getHeladera())) {
       throw new RepositoryException("Esa heladera ya fue insertada en otra contribución");
     }
 
     contribuciones.add(contribucion);
-    contribucion.setId(contribuciones.size());
+    contribucion.setId((long) contribuciones.size());
 
     return contribucion.getId();
   }

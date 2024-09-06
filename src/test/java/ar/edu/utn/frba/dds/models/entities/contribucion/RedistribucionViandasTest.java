@@ -15,7 +15,7 @@ class RedistribucionViandasTest {
   @Test
   void testSetearFechaIniciadaActualizaUbicacionDeViandas() throws Exception {
     ZonedDateTime ahora = ZonedDateTime.now();
-    Vianda vianda = new Vianda("", ahora, ahora, mock(Colaborador.class), 1, 1);
+    Vianda vianda = new Vianda("", ahora, ahora, mock(Colaborador.class), 1.0, 1);
     vianda.setHeladera(mock(Heladera.class));
 
     RedistribucionViandas redistribucion = new RedistribucionViandas(mock(Colaborador.class),

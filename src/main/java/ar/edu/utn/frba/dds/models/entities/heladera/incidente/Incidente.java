@@ -1,18 +1,16 @@
 package ar.edu.utn.frba.dds.models.entities.heladera.incidente;
 
-import ar.edu.utn.frba.dds.models.converters.URLAttributeConverter;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -26,42 +24,51 @@ import java.time.ZonedDateTime;
 public class Incidente {
   @Id
   @GeneratedValue
-  @Setter
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
   @Getter
-  long id;
+  Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "idHeladera", referencedColumnName = "id")
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Heladera.class)
+  @JoinColumn(name = "idHeladera", referencedColumnName = "id", nullable = false, updatable = false)
   @Getter
-  final @NonNull Heladera heladera;
+  @NonNull Heladera heladera;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "tipoIncidente")
+  @Column(name = "tipo", nullable = false, updatable = false)
   @Getter
-  final @NonNull TipoIncidente tipo;
+  @NonNull TipoIncidente tipo;
 
-  @Column(name = "fecha")
+  @Column(name = "fecha", nullable = false, updatable = false)
   @Getter
-  final @NonNull ZonedDateTime fecha;
+  @NonNull ZonedDateTime fecha;
 
-  @ManyToOne
-  @JoinColumn(name = "idColaborador", referencedColumnName = "id")
-  final Colaborador colaborador;
-  @Column(name = "descripcion", columnDefinition = "TEXT")
-  final String descripcion;
+  @ManyToOne(fetch = FetchType.LAZY,
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+      targetEntity = Colaborador.class)
+  @JoinColumn(name = "colaborador", referencedColumnName = "idUsuario", updatable = false)
+  Colaborador colaborador;
 
-  @Column(name="foto")
-  @Convert(converter = URLAttributeConverter.class)
-  final URL imagen;
+  @Column(name = "descripcion", updatable = false)
+  String descripcion;
 
+  @Column(name = "imagen", updatable = false)
+  URL imagen;
 
-  public Incidente(@NonNull Heladera heladera, @NonNull TipoIncidente tipo, @NonNull ZonedDateTime fecha, Colaborador colaborador, String descripcion, URL imagen) {
+  public Incidente(@NonNull Heladera heladera,
+                   @NonNull TipoIncidente tipo,
+                   @NonNull ZonedDateTime fecha,
+                   Colaborador colaborador,
+                   String descripcion,
+                   URL imagen) {
     this.heladera = heladera;
     this.tipo = tipo;
     this.fecha = fecha;
     this.colaborador = colaborador;
     this.descripcion = descripcion;
     this.imagen = imagen;
+  }
+
+  protected Incidente() {
   }
 
   public Incidente(@NonNull Heladera heladera, @NonNull TipoIncidente tipo, @NonNull ZonedDateTime fecha) {

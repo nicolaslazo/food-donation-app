@@ -101,7 +101,7 @@ public class CargadorMasivoDeContribuciones implements Iterator<Contribucion> {
 
   private Contribucion instanciarContribucion(EntradaDeCargaCSV entrada, Colaborador colaborador) {
     final Contribucion contribucion = switch (entrada.getTipoDeContribucion()) {
-      case "DINERO" -> new Dinero(colaborador, entrada.getCantidad(), null);
+      case "DINERO" -> new Dinero(colaborador, (float) entrada.getCantidad(), null);
       case "DONACION_VIANDAS" -> new DonacionViandas(colaborador, listaDeNulls(entrada.getCantidad()), null);
       case "REDISTRIBUCION_VIANDAS" -> new RedistribucionViandas(
           colaborador,
