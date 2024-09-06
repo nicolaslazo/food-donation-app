@@ -8,9 +8,11 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedConstruction;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.when;
 
 class SuscripcionRepositoryTest {
   final SuscripcionRepository repositorio = new SuscripcionRepository();
@@ -89,11 +93,11 @@ class SuscripcionRepositoryTest {
 
     Set<Suscripcion> interesadas;
 
-//    try (MockedConstruction<HeladerasRepository> ignored =
-//             mockConstruction(HeladerasRepository.class, (mock, context) ->
-//                 when(mock.getCantidadViandasDepositadas(heladera)).thenReturn(3L))) {
+    try (MockedConstruction<HeladerasRepository> ignored =
+             mockConstruction(HeladerasRepository.class, (mock, context) ->
+                 when(mock.getCantidadViandasDepositadas(heladera)).thenReturn(3L))) {
     interesadas = repositorio.findInteresadasEnStock(heladera).collect(Collectors.toSet());
-//    }
+    }
 
     assertEquals(Set.of(faltanViandasDeseada, faltaEspacioDeseada), interesadas);
   }
