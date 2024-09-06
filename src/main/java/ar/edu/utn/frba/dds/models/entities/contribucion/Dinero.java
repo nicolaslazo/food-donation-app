@@ -14,7 +14,7 @@ public class Dinero extends Contribucion {
 
   @Column(name = "monto", updatable = false)
   @Getter
-  Float monto;
+  Double monto;
 
   @Column(name = "frecuenciaEnDias", updatable = false)
   Integer frecuenciaEnDias;
