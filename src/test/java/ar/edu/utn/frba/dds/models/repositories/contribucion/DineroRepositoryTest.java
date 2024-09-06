@@ -36,8 +36,7 @@ class DineroRepositoryTest {
 
   @AfterEach
   void tearDown(){
-    new DineroRepository().deleteAll();
-    new ColaboradorRepository().deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
