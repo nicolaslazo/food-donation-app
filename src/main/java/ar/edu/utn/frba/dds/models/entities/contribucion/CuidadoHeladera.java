@@ -13,9 +13,7 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.CascadeType;
 
 @Entity
-@Table(name = "cuidadoHeladera", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "idHeladera")
-})
+@Table(name = "cuidadoHeladera", uniqueConstraints = {@UniqueConstraint(columnNames = "idHeladera")})
 @Getter
 public class CuidadoHeladera extends Contribucion {
 
