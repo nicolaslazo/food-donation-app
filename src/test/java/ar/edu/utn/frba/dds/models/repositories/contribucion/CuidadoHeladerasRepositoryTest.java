@@ -19,7 +19,10 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 class CuidadoHeladerasRepositoryTest {
   CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
