@@ -19,7 +19,7 @@ public class Dinero extends Contribucion {
   @Column(name = "frecuenciaEnDias", updatable = false)
   Integer frecuenciaEnDias;
 
-  public Dinero(@NonNull Colaborador colaborador, Float monto, Integer frecuenciaEnDias) {
+  public Dinero(@NonNull Colaborador colaborador, double monto, Integer frecuenciaEnDias) {
     super(colaborador);
     this.monto = monto;
     this.frecuenciaEnDias = frecuenciaEnDias;
