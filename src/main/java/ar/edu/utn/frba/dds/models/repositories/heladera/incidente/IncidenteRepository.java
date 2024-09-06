@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class IncidenteRepository {
   private static IncidenteRepository instancia = null;
-  private List<Incidente> incidentesHeladeras;
+  final List<Incidente> incidentesHeladeras;
 
   public IncidenteRepository() {
     incidentesHeladeras = new ArrayList<>();
