@@ -20,14 +20,13 @@ import java.net.URL;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name="visitaTecnica")
+@Table(name = "visitaTecnica")
 @Getter
 public class VisitaTecnica {
 
-  @Transient
-  //@ManyToOne
-  //@JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "id")
-  //@NonNull
+  @ManyToOne
+  @JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "id")
+  @NonNull
   final Tecnico tecnico;
 
   @ManyToOne
