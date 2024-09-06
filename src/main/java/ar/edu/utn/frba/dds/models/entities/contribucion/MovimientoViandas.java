@@ -15,8 +15,6 @@ import java.util.Objects;
 public abstract class MovimientoViandas extends Contribucion {
   final Collection<Vianda> viandas;
   final Heladera destino;
-  @Setter
-  private int id;
 
   public MovimientoViandas(@NonNull Colaborador colaborador, Collection<Vianda> viandas, Heladera heladera) {
     super(colaborador);

@@ -31,10 +31,10 @@ class RedistribucionViandasRepositoryTest {
   @Test
   void testGetPorId() {
     repositorio.insert(redistribucion);
-    Optional<RedistribucionViandas> encontrada = repositorio.get(1);
+    Optional<RedistribucionViandas> encontrada = repositorio.get(1L);
 
     assertTrue(encontrada.isPresent());
-    assertEquals(1, encontrada.get().getId());
+    assertEquals(1L, encontrada.get().getId());
   }
 
   @Test
@@ -55,10 +55,10 @@ class RedistribucionViandasRepositoryTest {
 
   @Test
   void testInsertarRedistribucion() {
-    int id = repositorio.insert(redistribucion);
+    Long id = repositorio.insert(redistribucion);
 
-    assertEquals(1, id);
-    assertEquals(1, redistribucion.getId());
+    assertEquals(1L, id);
+    assertEquals(1L, redistribucion.getId());
   }
 
   @Test
@@ -67,6 +67,6 @@ class RedistribucionViandasRepositoryTest {
 
     repositorio.deleteTodas();
 
-    assertTrue(repositorio.get(1).isEmpty());
+    assertTrue(repositorio.get(1L).isEmpty());
   }
 }
