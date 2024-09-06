@@ -22,17 +22,19 @@ public class SolicitudAperturaPorContribucion {
   @Getter
   @Setter
   @Id
-  @Column(name = "id")
+  @Column(name = "id", nullable = false)
   @GeneratedValue
   Long id;
 
+  @Transient
   @Getter
-  @ManyToOne
-  @JoinColumn(name = "idTarjeta", referencedColumnName = "id")
+  //@ManyToOne
+  //@JoinColumn(name = "idTarjeta", referencedColumnName = "id")
   @NonNull Tarjeta tarjeta;
 
-  @ManyToOne
-  @JoinColumn(name = "idMovimientoViandas", referencedColumnName = "id")
+  @Transient
+  //@ManyToOne
+  //@JoinColumn(name = "idMovimientoViandas", referencedColumnName = "id")
   @NonNull MovimientoViandas razon;
 
   @Getter
