@@ -80,4 +80,10 @@ class CuidadoHeladerasRepositoryTest {
 
     assertEquals(0, contribuciones.count());
   }
+
+  @Test
+  void testMesesActivos() {
+    int mesesActiva = new CuidadoHeladerasRepository().getMesesActivosCumulativos(colaborador);
+    assertEquals(5, mesesActiva);
+  }
 }
