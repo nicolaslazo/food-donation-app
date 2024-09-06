@@ -7,7 +7,6 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
@@ -36,7 +35,6 @@ class CuidadoHeladeraControllerTest {
 
   @AfterEach
   void tearDown() {
-    SuscripcionRepository.getInstancia().deleteTodas();
     new HibernatePersistenceReset().execute();
   }
 
@@ -54,7 +52,7 @@ class CuidadoHeladeraControllerTest {
   }
 
   @Test
-  void testCreaHeladeraEnRepositorio() throws RepositoryException {
+  void testCreaHeladeraEnRepositorio() {
     Heladera heladeraNueva = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
@@ -67,7 +65,7 @@ class CuidadoHeladeraControllerTest {
   }
 
   @Test
-  void testCreaSuscripcionParaCuidador() throws RepositoryException {
+  void testCreaSuscripcionParaCuidador() {
     Heladera heladera = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
@@ -76,9 +74,7 @@ class CuidadoHeladeraControllerTest {
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
 
-    assertTrue(SuscripcionRepository
-        .getInstancia()
-        .get(heladera, MotivoDeDistribucion.FALLA_HELADERA, colaborador)
-        .isPresent());
+    assertTrue(
+        new SuscripcionRepository().find(colaborador, heladera, MotivoDeDistribucion.FALLA_HELADERA).isPresent());
   }
 }

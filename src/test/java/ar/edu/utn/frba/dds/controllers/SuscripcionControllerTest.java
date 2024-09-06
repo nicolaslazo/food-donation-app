@@ -11,7 +11,6 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
@@ -39,7 +38,7 @@ import static org.mockito.Mockito.verify;
 
 class SuscripcionControllerTest {
   final CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5609872, -58.501046);
-  final SuscripcionRepository repositorio = SuscripcionRepository.getInstancia();
+  final SuscripcionRepository repositorio = new SuscripcionRepository();
   Colaborador colaborador;
   Heladera heladera;
 
@@ -59,13 +58,12 @@ class SuscripcionControllerTest {
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteTodas();
     SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
     new HibernatePersistenceReset().execute();
   }
 
   @Test
-  void testCrearSuscripcion() throws RepositoryException {
+  void testCrearSuscripcion() {
     final CoordenadasGeograficas bibliotecaNacional =
         new CoordenadasGeograficas(-34.5844291, -58.4164616);
     colaborador.setUbicacion(bibliotecaNacional);
@@ -73,10 +71,9 @@ class SuscripcionControllerTest {
     SuscripcionController
         .suscribirAHeladera(heladera, MotivoDeDistribucion.FALLA_HELADERA, null, colaborador);
 
-    Suscripcion encontrada = repositorio.get(heladera, MotivoDeDistribucion.FALLA_HELADERA, colaborador).orElseThrow();
+    Suscripcion encontrada = repositorio.find(colaborador, heladera, MotivoDeDistribucion.FALLA_HELADERA).orElseThrow();
 
     assertAll(
-        () -> assertEquals(1, encontrada.getId()),
         () -> assertEquals(heladera, encontrada.getHeladera()),
         () -> assertEquals(colaborador, encontrada.getColaborador())
     );
@@ -96,7 +93,7 @@ class SuscripcionControllerTest {
   }
 
   @Test
-  void testColaboradoresSonNotificadosDeIncidentes() throws RepositoryException {
+  void testColaboradoresSonNotificadosDeIncidentes() {
     final List<Heladera> heladeras = new ArrayList<>(3);
 
     for (int i = 0; i < 3; i++) {
