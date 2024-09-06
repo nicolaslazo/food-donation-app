@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.VisitaTecnica;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class VisitasTecnicasRepositoryTest {
-  final VisitasTecnicasRepository repositorio = VisitasTecnicasRepository.getInstancia();
-  final IncidentesRepository repositorioIncidentes = IncidentesRepository.getInstancia();
+  final VisitasTecnicasRepository repositorio = new VisitasTecnicasRepository();
+  final IncidenteRepository repositorioIncidentes = new IncidenteRepository();
   final Incidente incidente = new Incidente(mock(Heladera.class), mock(TipoIncidente.class), ZonedDateTime.now());
 
   @BeforeEach
@@ -29,8 +30,7 @@ class VisitasTecnicasRepositoryTest {
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteAll();
-    repositorioIncidentes.deleteTodos();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test

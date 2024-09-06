@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.net.URL;
 import java.time.ZonedDateTime;
 
@@ -23,9 +24,11 @@ import java.time.ZonedDateTime;
 @Getter
 public class VisitaTecnica {
 
-  @ManyToOne
-  @JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "id")
-  final @NonNull Tecnico tecnico;
+  @Transient
+  //@ManyToOne
+  //@JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "id")
+  //@NonNull
+  final Tecnico tecnico;
 
   @ManyToOne
   @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id")
@@ -39,7 +42,7 @@ public class VisitaTecnica {
   @Getter
   final boolean incidenteResuelto;
 
-  @Column(name = "descripcion", columnDefinition = "TEXT")
+  @Column(name = "descripcion", length = 1000)
   final String descripcion;
 
   @Column(name = "foto")
