@@ -5,19 +5,16 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
-import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.time.LocalDate;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 class DineroRepositoryTest {
   Colaborador colaborador = new Colaborador(
