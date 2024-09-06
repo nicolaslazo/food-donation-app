@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class SolicitudAperturaPorContribucionRepository extends HibernateEntityManager <SolicitudAperturaPorContribucion, Long>{
+public class SolicitudAperturaPorContribucionRepository extends HibernateEntityManager<SolicitudAperturaPorContribucion, Long> {
   private static SolicitudAperturaPorContribucionRepository instancia = null;
   final List<SolicitudAperturaPorContribucion> solicitudes;
 
@@ -39,7 +39,7 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<SolicitudAperturaPorContribucion> query = cb.createQuery(SolicitudAperturaPorContribucion.class);
     Root<SolicitudAperturaPorContribucion> root = query.from(SolicitudAperturaPorContribucion.class);
-    query.select(root).where(cb.equal(root.get("id"),id));
+    query.select(root).where(cb.equal(root.get("id"), id));
     return em.createQuery(query)
             .getResultStream()
             .filter(solicitud -> solicitud.isVigenteAlMomento(momento, paraExtraccion))
