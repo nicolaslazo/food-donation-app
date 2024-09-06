@@ -67,9 +67,4 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
       em.createQuery(delete).executeUpdate();
     });
   }
-
-  public void clearCache() {
-    EntityManager em = entityManager();
-    em.clear();
-  }
 }
