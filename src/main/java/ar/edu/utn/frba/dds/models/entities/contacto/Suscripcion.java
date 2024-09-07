@@ -6,8 +6,10 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class Suscripcion {
   final @NonNull Heladera heladera;
   final @NonNull MotivoDeDistribucion tipo;

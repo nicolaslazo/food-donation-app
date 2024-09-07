@@ -5,6 +5,10 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -20,18 +24,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TecnicosRepositoryTest {
   TecnicoRepository repositorio = TecnicoRepository.getInstancia();
-  Tecnico tecnico;
+  final ContactosRepository repositorioContactos = new ContactosRepository();
+  final UsuariosRepository repositorioUsuarios = new UsuariosRepository();
+  Tecnico tecnico = new Tecnico(
+    new Documento(TipoDocumento.DNI, 123),
+    "Lautaro",
+    "velazquez",
+    LocalDate.now(),
+    "123456",
+    new AreaGeografica( new CoordenadasGeograficas(0.0,0.0), 100)
+  );
 
   @BeforeEach
-  void setUp() {    
-    tecnico = new Tecnico(
-      new Documento(TipoDocumento.DNI, 123),
-      "Lautaro",
-      "velazquez",
-      LocalDate.now(),
-      "123456",
-      new AreaGeografica( new CoordenadasGeograficas(0.0,0.0), 100)
-    );
+  void setUp() {
     repositorio.insert(tecnico);
   }
 

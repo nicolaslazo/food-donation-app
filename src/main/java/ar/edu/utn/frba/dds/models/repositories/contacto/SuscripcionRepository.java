@@ -65,9 +65,10 @@ public class SuscripcionRepository {
   }
 
   public Stream<Suscripcion> getTodas(Heladera heladera, MotivoDeDistribucion tipo) {
-    return suscripciones
+    Stream<Suscripcion> my_suscripcion = suscripciones
         .stream()
         .filter(suscripcion -> suscripcion.getHeladera() == heladera && suscripcion.getTipo() == tipo);
+    return my_suscripcion;
   }
 
   public int insert(Suscripcion suscripcion) throws RepositoryException {

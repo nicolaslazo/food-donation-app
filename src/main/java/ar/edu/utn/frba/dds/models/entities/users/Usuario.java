@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.models.entities.users;
 
 import ar.edu.utn.frba.dds.auth.GeneradorDeContrasenias;
+import ar.edu.utn.frba.dds.models.entities.contacto.Contacto;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import lombok.Getter;
 import lombok.NonNull;
@@ -15,15 +16,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@ToString
 @Table(name = "usuario")
+@ToString
 public class Usuario {
   @Column(name = "documento", unique = true, nullable = false, updatable = false)
   @Embedded
@@ -33,6 +37,11 @@ public class Usuario {
   @Column(name = "primerNombre", nullable = false)
   @Getter
   @NonNull String primerNombre;
+
+  @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+  @Getter
+  @Setter
+  private List<Contacto> contactos = new ArrayList<>();
 
   @Column(name = "active", nullable = false)
   @Getter @Setter

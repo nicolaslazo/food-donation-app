@@ -44,7 +44,7 @@ public class ContactosRepository extends HibernateEntityManager<Contacto, Long> 
   }
 
   public Stream<Contacto> get(@NonNull Tecnico tecnico) {
-    return get(tecnico.getUsuario());
+    return get(tecnico);
   }
 
   public void updateChatId(String username, long chatId) throws RepositoryException {

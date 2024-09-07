@@ -54,21 +54,19 @@ public class SuscripcionController implements IMqttMessageListener {
 
     for (Heladera sugerencia : destinosSugeridos)
       mensaje.append("\n\t* ").append(sugerencia.getNombre());
-
-    ContactosRepository contactosRepository = new ContactosRepository();
-
-    SuscripcionRepository
-        .getInstancia()
-        .getTodas(heladera, MotivoDeDistribucion.FALLA_HELADERA)
-        .map(Suscripcion::getColaborador)
-        .map(Colaborador::getUsuario)
-        .flatMap(contactosRepository::get)
-        .forEach(contacto -> {
-          try {
-            contacto.enviarMensaje(mensaje.toString());
-          } catch (MensajeAContactoException ignored) { // TODO: Dónde podríamos loggear estas fallas?
-          }
-        });
+    
+      SuscripcionRepository
+          .getInstancia()
+          .getTodas(heladera, MotivoDeDistribucion.FALLA_HELADERA)
+          .map(Suscripcion::getColaborador)
+          .map(Colaborador::getUsuario)
+          .flatMap(a -> a.getContactos().stream()).toList()
+          .forEach(contacto -> {
+        try {
+          contacto.enviarMensaje(mensaje.toString());
+        } catch (MensajeAContactoException ignored) { // TODO: Dónde podríamos loggear estas fallas?
+        }
+      });
   }
 
   public static SuscripcionController getInstancia() {

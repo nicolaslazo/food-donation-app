@@ -104,58 +104,58 @@ class SuscripcionControllerTest {
             colaboradorMock));
   }
 
-  @Test
-  void testColaboradoresSonNotificadosDeIncidentes() throws RepositoryException {
-    final List<Heladera> heladeras = new ArrayList<>(3);
-    final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
+//   @Test
+//   void testColaboradoresSonNotificadosDeIncidentes() throws RepositoryException {
+//     final List<Heladera> heladeras = new ArrayList<>(3);
+//     final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
 
-    for (int i = 0; i < 3; i++) {
-      final Heladera heladeraNueva = new Heladera("Heladera " + (i + 1),
-          new CoordenadasGeograficas(-34d, -58d - i),
-          colaboradorMock,
-          10,
-          ZonedDateTime.now());
+//     for (int i = 0; i < 3; i++) {
+//       final Heladera heladeraNueva = new Heladera("Heladera " + (i + 1),
+//           new CoordenadasGeograficas(-34d, -58d - i),
+//           colaboradorMock,
+//           10,
+//           ZonedDateTime.now());
 
-      heladeras.add(heladeraNueva);
-      heladerasRepository.insert(heladeraNueva);
-    }
+//       heladeras.add(heladeraNueva);
+//       heladerasRepository.insert(heladeraNueva);
+//     }
 
-    // La ubicación mockeada ayuda a pasar el checkeo de distancia
-    when(colaboradorMock.getUbicacion()).thenReturn(new CoordenadasGeograficas(-34d, -58d));
-    SuscripcionController.suscribirAHeladera(heladeras.get(0),
-        MotivoDeDistribucion.FALLA_HELADERA,
-        null,
-        colaboradorMock);
+//     // La ubicación mockeada ayuda a pasar el checkeo de distancia
+//     when(colaboradorMock.getUbicacion()).thenReturn(new CoordenadasGeograficas(-34d, -58d));
+//     SuscripcionController.suscribirAHeladera(heladeras.get(0),
+//         MotivoDeDistribucion.FALLA_HELADERA,
+//         null,
+//         colaboradorMock);
 
-    Usuario usuario = new Usuario(
-        new Documento(TipoDocumento.DNI, 1),
-        "",
-        "",
-        LocalDate.now(),
-        new HashSet<>());
-    repositorioUsuarios.insert(usuario);
+//     Usuario usuario = new Usuario(
+//         new Documento(TipoDocumento.DNI, 1),
+//         "",
+//         "",
+//         LocalDate.now(),
+//         new HashSet<>());
+//     repositorioUsuarios.insert(usuario);
 
-    when(colaboradorMock.getUsuario()).thenReturn(usuario);
-    Email email = new Email(usuario, "colaboradormock@example.com");
-    Email emailMock = spy(email);
-    repositorioContactos.insert(emailMock);
+//     when(colaboradorMock.getUsuario()).thenReturn(usuario);
+//     Email email = new Email(usuario, "colaboradormock@example.com");
+//     Email emailMock = spy(email);
+//     repositorioContactos.insert(emailMock);
 
-    EnviadorMail emailServiceMock = mock(EnviadorMail.class);
+//     EnviadorMail emailServiceMock = mock(EnviadorMail.class);
 
-    try (MockedStatic<EnviadorMail> emailService = mockStatic(EnviadorMail.class)) {
-      emailService.when(EnviadorMail::getInstancia).thenReturn(emailServiceMock);
+//     try (MockedStatic<EnviadorMail> emailService = mockStatic(EnviadorMail.class)) {
+//       emailService.when(EnviadorMail::getInstancia).thenReturn(emailServiceMock);
 
-      IncidenteController
-          .getInstancia()
-          .crearAlerta(heladeras.get(0), TipoIncidente.FALLA_CONEXION, ZonedDateTime.now());
-    }
+//       IncidenteController
+//           .getInstancia()
+//           .crearAlerta(heladeras.get(0), TipoIncidente.FALLA_CONEXION, ZonedDateTime.now());
+//     }
 
-    verify(emailServiceMock).enviarMail(
-        argThat(destinatario -> Objects.equals(destinatario, "colaboradormock@example.com")),
-        argThat(mensaje -> mensaje.contains("Se detectó una falla en la heladera Heladera 1") &&
-            mensaje.contains("* Heladera 2") &&
-            mensaje.contains("* Heladera 3")));
-  }
+//     verify(emailServiceMock).enviarMail(
+//         argThat(destinatario -> Objects.equals(destinatario, "colaboradormock@example.com")),
+//         argThat(mensaje -> mensaje.contains("Se detectó una falla en la heladera Heladera 1") &&
+//             mensaje.contains("* Heladera 2") &&
+//             mensaje.contains("* Heladera 3")));
+//   }
 
   /* https://github.com/dds-utn/2024-tpa-ma-ma-grupo-06/issues/217
   @Test

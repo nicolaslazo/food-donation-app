@@ -5,11 +5,13 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+@ToString
 public class Heladera {
   @Getter
   final int capacidadEnViandas;
