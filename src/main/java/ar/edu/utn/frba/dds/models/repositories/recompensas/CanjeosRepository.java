@@ -3,60 +3,60 @@ package ar.edu.utn.frba.dds.models.repositories.recompensas;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.recompensas.CalculadoraDePuntos;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
-import ar.edu.utn.frba.dds.models.entities.recompensas.ExcepcionDeCanjeDePuntos;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
+import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.stream.Stream;
 
-public class CanjeosRepository {
-  private final List<Canjeo> canjeos;
+public class CanjeosRepository extends HibernateEntityManager<Canjeo, Long> {
+  public long findPuntosGastados(Colaborador colaborador) {
+    // TODO: Cambiar el tipo de Recompensa.costoEnPuntos a @NonNull Long
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Long> query = cb.createQuery(Long.class);
+    Root<Canjeo> root = query.from(Canjeo.class);
 
-  public CanjeosRepository() {
-    canjeos = new ArrayList<>();
+    query.select(cb.sum(root.get("recompensa").get("costoEnPuntos")))
+        .where(cb.equal(root.get("colaborador"), colaborador));
+
+    return em.createQuery(query).getSingleResult();
   }
 
-  public Optional<Canjeo> get(int id) {
-    return canjeos.stream().filter(canjeo -> canjeo.getId() == id).findFirst();
-  }
-
-  public Stream<Canjeo> getParaColaborador(Colaborador colaborador) {
-    return canjeos.stream().filter(canjeo -> canjeo.getColaborador() == colaborador);
-  }
-
-  public double getPuntosDisponibles(Colaborador colaborador) {
-    /* TODO: Esto sería el equivalente de una derived column. Hay que almacenar las contribuciones en su propio
-             repositorio. Está bien tener métodos no convencionales como este en un repository pattern?
-     */
-    double puntosTotales = CalculadoraDePuntos.calcular(colaborador);
-    double puntosGastados = getParaColaborador(colaborador)
-        .map(Canjeo::getRecompensa)
-        .mapToDouble(Recompensa::getCostoEnPuntos)
-        .sum();
+  public long getPuntosDisponibles(Colaborador colaborador) {
+    long puntosTotales = CalculadoraDePuntos.calcular(colaborador);
+    long puntosGastados = findPuntosGastados(colaborador);
 
     return puntosTotales - puntosGastados;
   }
 
-  public Stream<Canjeo> getParaRecompensa(Recompensa recompensa) {
-    return canjeos.stream().filter(canjeo -> canjeo.getRecompensa().getId() == recompensa.getId());
+  public Stream<Canjeo> findAll(Recompensa recompensa) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Canjeo> query = cb.createQuery(Canjeo.class);
+    Root<Canjeo> root = query.from(Canjeo.class);
+
+    query.select(root).where(cb.equal(root.get("recompensa"), recompensa));
+
+    return em.createQuery(query).getResultStream();
   }
 
   public long getStockDisponible(Recompensa recompensa) {
-    return recompensa.getStockInicial() - getParaRecompensa(recompensa).count();
+    return recompensa.getStockInicial() - findAll(recompensa).count();
   }
 
-  public void insert(Canjeo canjeo) throws ExcepcionDeCanjeDePuntos {
+  public void insert(Canjeo canjeo) {
     Colaborador colaborador = canjeo.getColaborador();
     if (getPuntosDisponibles(colaborador) < canjeo.getRecompensa().getCostoEnPuntos()) {
-      throw new ExcepcionDeCanjeDePuntos("Colaborador no posee los puntos necesarios para la transacción");
+      throw new RuntimeException("Colaborador no posee los puntos necesarios para la transacción");
     }
     if (getStockDisponible(canjeo.getRecompensa()) <= 0) {
-      throw new ExcepcionDeCanjeDePuntos("Recompensa no posee el stock necesario para la transacción");
+      throw new RuntimeException("Recompensa no posee el stock necesario para la transacción");
     }
 
-    canjeo.setId(canjeos.size() + 1);
-    canjeos.add(canjeo);
+    super.insert(canjeo);
   }
 }

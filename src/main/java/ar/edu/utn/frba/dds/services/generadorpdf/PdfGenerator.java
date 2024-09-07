@@ -15,10 +15,10 @@ import java.util.Map;
 
 public class PdfGenerator {
 
-  private String nombreArchivo;
-  private String titulo;
-  private String[] headersTabla;
-  private Map<String, Integer> data;
+  final String nombreArchivo;
+  final String titulo;
+  final String[] headersTabla;
+  final Map<String, Long> data;
 
   @Setter
   private PdfWriter writer;
@@ -30,7 +30,7 @@ public class PdfGenerator {
   public PdfGenerator(String nombreArchivo,
                       String tituloTabla,
                       String[] headersTabla,
-                      Map<String, Integer> data) {
+                      Map<String, Long> data) {
     this.nombreArchivo = nombreArchivo;
     this.titulo = tituloTabla;
     this.headersTabla = headersTabla;
@@ -86,7 +86,7 @@ public class PdfGenerator {
     }
 
     // Filas de datos
-    for (Map.Entry<String, Integer> entry : data.entrySet()) {
+    for (Map.Entry<String, Long> entry : data.entrySet()) {
       table.addCell(entry.getKey()); // Nombre del producto
       table.addCell(entry.getValue().toString()); // Cantidad vendida
     }

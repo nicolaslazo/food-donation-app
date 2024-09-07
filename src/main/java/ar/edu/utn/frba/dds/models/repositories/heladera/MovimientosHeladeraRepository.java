@@ -25,12 +25,12 @@ public class MovimientosHeladeraRepository {
     return instancia;
   }
 
-  public Map<Heladera, Integer> getCantidadMovimientosPorHeladeraSemanaAnterior() {
-    Map<Heladera, Integer> cantidadMovimientos = new HashMap<>();
+  public Map<Heladera, Long> getCantidadMovimientosPorHeladeraSemanaAnterior() {
+    Map<Heladera, Long> cantidadMovimientos = new HashMap<>();
 
     for (EventoMovimiento evento : getMovimientosSemanaAnterior()) {
       Heladera heladera = evento.getHeladera();
-      cantidadMovimientos.put(heladera, cantidadMovimientos.getOrDefault(heladera, 0) + 1);
+      cantidadMovimientos.put(heladera, cantidadMovimientos.getOrDefault(heladera, 0L) + 1);
     }
 
     return cantidadMovimientos;

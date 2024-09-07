@@ -43,7 +43,7 @@ class DonacionViandasRepositoryTest {
   @Test
   void testObtenerPorId() throws RepositoryException {
     repositorio.insert(donacion);
-    Optional<DonacionViandas> encontrada = repositorio.get(1);
+    Optional<DonacionViandas> encontrada = repositorio.get(1L);
 
     assertTrue(encontrada.isPresent());
     assertEquals(1, encontrada.get().getId());
@@ -83,7 +83,7 @@ class DonacionViandasRepositoryTest {
       }
     });
 
-    Map<Colaborador, Integer> cantidades = repositorio.getCantidadDonacionesPorColaboradorSemanaAnterior();
+    Map<Colaborador, Long> cantidades = repositorio.getCantidadDonacionesPorColaboradorSemanaAnterior();
 
     assertEquals(1, cantidades.get(unColaboradorMock));
     assertEquals(2, cantidades.get(otroColaboradorMock));
@@ -91,10 +91,10 @@ class DonacionViandasRepositoryTest {
 
   @Test
   void testInsertarDonacion() throws RepositoryException {
-    int id = repositorio.insert(donacion);
+    Long id = repositorio.insert(donacion);
 
-    assertEquals(1, id);
-    assertEquals(1, donacion.getId());
+    assertEquals(1L, id);
+    assertEquals(1L, donacion.getId());
   }
 
   @Test
@@ -110,6 +110,6 @@ class DonacionViandasRepositoryTest {
 
     repositorio.deleteTodas();
 
-    assertTrue(repositorio.get(1).isEmpty());
+    assertTrue(repositorio.get(1L).isEmpty());
   }
 }

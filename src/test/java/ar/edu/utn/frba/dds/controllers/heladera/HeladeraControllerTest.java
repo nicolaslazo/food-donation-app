@@ -11,7 +11,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
@@ -41,8 +41,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class HeladeraControllerTest {
+  final Colaborador colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
+      "",
+      "",
+      LocalDate.now(),
+      null);
   final TecnicoRepository tecnicoRepository = TecnicoRepository.getInstancia();
-  final HeladerasRepository heladerasRepository = HeladerasRepository.getInstancia();
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
   final CoordenadasGeograficas obelisco =
       new CoordenadasGeograficas(-34.603706013664166, -58.3815728218273);
@@ -57,9 +61,7 @@ class HeladeraControllerTest {
   @AfterEach
   void tearDown() {
     tecnicoRepository.deleteAll();
-    heladerasRepository.deleteTodas();
-    new ContactosRepository().deleteAll();
-    new UsuariosRepository().deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
@@ -108,46 +110,41 @@ class HeladeraControllerTest {
   }
 
   // @Test
-  // void testNotificaTecnicoMasCercanoDeIncidentes() throws RepositoryException {
+  // void testNotificaTecnicoMasCercanoDeIncidentes() {
   //   final CoordenadasGeograficas coordenadas = new CoordenadasGeograficas(-34d, -58d);
-  //   final Colaborador colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
-  //   "",
-  //       "",
-  //       LocalDate.now(),
-  //   new CoordenadasGeograficas(0.0,0.0));
   //   final Heladera heladera = new Heladera("Heladera a testear",
   //       new CoordenadasGeograficas(coordenadas.getLatitud(), coordenadas.getLongitud()),
   //       colaborador,
   //       10,
   //       ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC));
-    
-  //   Suscripcion suscripcion = new Suscripcion(heladera, MotivoDeDistribucion.FALLA_HELADERA, 0, colaborador);
-  //   SuscripcionRepository.getInstancia().insert(suscripcion);
-    
-  //   Tecnico tecnico = new Tecnico(
-  //     new Documento(TipoDocumento.DNI, 1),
-  //     "",
-  //     "",
-  //     LocalDate.now(),
-  //     "123456",
-  //     new AreaGeografica(coordenadas, 100));
-      
-  //   tecnicoRepository.insert(tecnico);
-  //   heladerasRepository.insert(heladera);
+  //   final Tecnico tecnicoMock = mock(Tecnico.class);
+  //   when(tecnicoMock.getAreaAsignada()).thenReturn(new AreaGeografica(coordenadas, 100));
+  //   when(tecnicoMock.isDentroDeRango(heladera)).thenReturn(true);
 
-  //   Email email = new Email(tecnico.getUsuario(), "tecnicomock@example.com");
-  //   colaborador.getUsuario().setContactos(new ArrayList(List.of(email)));
-  //   new ColaboradorRepository().insert(colaborador);
+  //   new HeladerasRepository().insert(heladera);
+  //   tecnicoRepository.insert(tecnicoMock);
+
+  //   Usuario usuario = new Usuario(new Documento(TipoDocumento.DNI, 1),
+  //       "",
+  //       "",
+  //       LocalDate.now(),
+  //       new HashSet<>());
+  //   when(tecnicoMock.getUsuario()).thenReturn(usuario);
+  //   new UsuariosRepository().insert(usuario);
+
+  //   Email email = new Email(usuario, "tecnicomock@example.com");
+  //   new ContactosRepository().insert(email);
+
   //   EnviadorMail emailServiceMock = mock(EnviadorMail.class);
 
   //   try (MockedStatic<EnviadorMail> emailService = mockStatic(EnviadorMail.class)) {
   //     emailService.when(EnviadorMail::getInstancia).thenReturn(emailServiceMock);
 
-  //   IncidenteController
-  //       .getInstancia()
-  //       .crearAlerta(heladera,
-  //           TipoIncidente.FALLA_CONEXION,
-  //           ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC).plusMinutes(5));
+  //     IncidenteController
+  //         .getInstancia()
+  //         .crearAlerta(heladera,
+  //             TipoIncidente.FALLA_CONEXION,
+  //             ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC).plusMinutes(5));
   //   }
 
   //   verify(emailServiceMock)
@@ -157,13 +154,12 @@ class HeladeraControllerTest {
   // }
 
   @Test
-  void testEncuentraHeladerasCercanas() throws RepositoryException {
+  void testEncuentraHeladerasCercanas() {
     final List<Heladera> heladeras = new ArrayList<>(5);
-
     for (int i = 0; i < 5; i++) {
       heladeras.add(new Heladera("",
           new CoordenadasGeograficas(-34d, -58d - i),
-          mock(Colaborador.class),
+          colaborador,
           10,
           ZonedDateTime.now()));
     }
@@ -172,14 +168,14 @@ class HeladeraControllerTest {
 
     Collections.shuffle(heladeras);
 
-    for (Heladera heladera : heladeras) HeladerasRepository.getInstancia().insert(heladera);
+    for (Heladera heladera : heladeras) new HeladerasRepository().insert(heladera);
 
     final List<Heladera> sugerencias = new HeladeraController().encontrarHeladerasCercanas(heladeraTarget);
     final double[] longitudes =
         sugerencias.stream().mapToDouble(sugerencia -> sugerencia.getUbicacion().getLongitud()).toArray();
 
-    assertEquals(-59, longitudes[0]);
-    assertEquals(-60, longitudes[1]);
-    assertEquals(-61, longitudes[2]);
+    assertEquals(-59d, longitudes[0]);
+    assertEquals(-60d, longitudes[1]);
+    assertEquals(-61d, longitudes[2]);
   }
 }

@@ -28,11 +28,11 @@ public class DonacionViandasRepository {
     return instancia;
   }
 
-  public Optional<DonacionViandas> get(int id) {
+  public Optional<DonacionViandas> get(Long id) {
     return donaciones.stream().filter(donacion -> donacion.getId() == id).findFirst();
   }
 
-  public Map<Colaborador, Integer> getCantidadDonacionesPorColaboradorSemanaAnterior() {
+  public Map<Colaborador, Long> getCantidadDonacionesPorColaboradorSemanaAnterior() {
     ZonedDateTime haceUnaSemana = ZonedDateTime.now().minusWeeks(1);
 
     return donaciones
@@ -40,7 +40,7 @@ public class DonacionViandasRepository {
         .filter(donacion -> donacion.getFechaRealizada().isAfter(haceUnaSemana))
         .collect(Collectors.groupingBy(
             Contribucion::getColaborador,
-            Collectors.summingInt(donacion -> donacion.getViandas().size())
+            Collectors.summingLong(donacion -> donacion.getViandas().size())
         ));
   }
 
@@ -53,16 +53,15 @@ public class DonacionViandasRepository {
         .sum();
   }
 
-  public int insert(DonacionViandas donacion) throws RepositoryException {
+  public Long insert(DonacionViandas donacion) throws RepositoryException {
     if (donaciones
         .stream()
         .flatMap(donacionPrevia -> donacionPrevia.getViandas().stream())
         .anyMatch(donacion.getViandas()::contains)) {
       throw new RepositoryException("Al menos una de las viandas a insertar ya fue registrada en una donación previa");
     }
-
     donaciones.add(donacion);
-    donacion.setId(donaciones.size());
+    donacion.setId((long) donaciones.size());
 
     return donacion.getId();
   }

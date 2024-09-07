@@ -6,11 +6,10 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
-import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,10 +35,7 @@ class CuidadoHeladeraControllerTest {
 
   @AfterEach
   void tearDown() {
-    HeladerasRepository.getInstancia().deleteTodas();
-    SuscripcionRepository.getInstancia().deleteTodas();
-    new ColaboradorRepository().deleteAll();
-    new UsuariosRepository().deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
@@ -56,8 +52,8 @@ class CuidadoHeladeraControllerTest {
   }
 
   @Test
-  void testCreaHeladeraEnRepositorio() throws RepositoryException {
-    CuidadoHeladeraController.tomarCuidadoHeladera(
+  void testCreaHeladeraEnRepositorio() {
+    Heladera heladeraNueva = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
             "\"capacidadEnViandas\": 1, " +
@@ -65,12 +61,12 @@ class CuidadoHeladeraControllerTest {
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
 
-    assertTrue(HeladerasRepository.getInstancia().get(1).isPresent());
+    assertTrue(new HeladerasRepository().findById(heladeraNueva.getId()).isPresent());
   }
 
   @Test
-  void testCreaSuscripcionParaCuidador() throws RepositoryException {
-    CuidadoHeladeraController.tomarCuidadoHeladera(
+  void testCreaSuscripcionParaCuidador() {
+    Heladera heladera = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
             "\"capacidadEnViandas\": 1, " +
@@ -78,10 +74,7 @@ class CuidadoHeladeraControllerTest {
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0}");
 
-    Heladera heladeraCreada = HeladerasRepository.getInstancia().get(1).get();
-    assertTrue(SuscripcionRepository
-        .getInstancia()
-        .get(heladeraCreada, MotivoDeDistribucion.FALLA_HELADERA, colaborador)
-        .isPresent());
+    assertTrue(
+        new SuscripcionRepository().find(colaborador, heladera, MotivoDeDistribucion.FALLA_HELADERA).isPresent());
   }
 }

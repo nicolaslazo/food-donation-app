@@ -2,53 +2,25 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.ZonedDateTime;
 
-public class CuidadoHeladerasRepository {
-  static CuidadoHeladerasRepository instancia = null;
-  final List<CuidadoHeladera> contribuciones;
-
-  public CuidadoHeladerasRepository() {
-    contribuciones = new ArrayList<>();
-  }
-
-  public static CuidadoHeladerasRepository getInstancia() {
-    if (instancia == null) {
-      instancia = new CuidadoHeladerasRepository();
-    }
-
-    return instancia;
-  }
-
-  public Optional<CuidadoHeladera> get(int id) {
-    return contribuciones.stream().filter(contribucion -> contribucion.getId() == id).findFirst();
-  }
-
-  public int insert(CuidadoHeladera contribucion) throws RepositoryException {
-    if (contribuciones.stream().map(CuidadoHeladera::getHeladera).anyMatch(heladera -> heladera == contribucion.getHeladera())) {
-      throw new RepositoryException("Esa heladera ya fue insertada en otra contribución");
-    }
-
-    contribuciones.add(contribucion);
-    contribucion.setId(contribuciones.size());
-
-    return contribucion.getId();
-  }
-
+public class CuidadoHeladerasRepository extends HibernateEntityManager<CuidadoHeladera, Long> {
   public int getMesesActivosCumulativos(Colaborador colaborador) {
-    return contribuciones
-            .stream()
-            .filter(contribucion -> contribucion.getColaborador() == colaborador)
-            .mapToInt(contribucion -> contribucion.getHeladera().mesesActiva())
-            .sum();
-  }
+    String jpql = """
+            SELECT COALESCE(SUM(CASE\s
+                WHEN ch.heladera.fechaInstalacion <= :currentDate\s
+                THEN FLOOR(DATEDIFF(:currentDate, ch.heladera.fechaInstalacion) / 30.44)\s
+                ELSE 0 END), 0)\s
+            FROM CuidadoHeladera ch\s
+            WHERE ch.colaborador = :colaborador""";
 
-
-  public void deleteTodas() {
-    contribuciones.clear();
+    return entityManager()
+            .createQuery(jpql, Double.class)
+            .setParameter("colaborador", colaborador)
+            .setParameter("currentDate", ZonedDateTime.now())
+            .getSingleResult()
+            .intValue();
   }
 }

@@ -8,7 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
-import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidentesRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import lombok.NonNull;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -21,7 +21,6 @@ import java.util.Optional;
 
 public class IncidenteController implements IMqttMessageListener {
   static IncidenteController instancia = null;
-  IncidentesRepository repositorio = IncidentesRepository.getInstancia();
   MqttBrokerService brokerService = MqttBrokerService.getInstancia();
 
   private IncidenteController() throws MqttException {
@@ -46,7 +45,7 @@ public class IncidenteController implements IMqttMessageListener {
   }
 
   public void crearAlerta(@NonNull Heladera heladera, @NonNull TipoIncidente tipo, @NonNull ZonedDateTime fecha) {
-    repositorio.insert(new Incidente(heladera, tipo, fecha));
+    new IncidenteRepository().insert(new Incidente(heladera, tipo, fecha));
 
     notificarAInteresados(heladera, fecha);
   }
@@ -56,7 +55,7 @@ public class IncidenteController implements IMqttMessageListener {
                                   @NonNull Colaborador colaborador,
                                   String descripcion,
                                   URL foto) {
-    repositorio.insert(
+    new IncidenteRepository().insert(
         new Incidente(heladera, TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR, fecha, colaborador, descripcion, foto));
 
     notificarAInteresados(heladera, fecha);
@@ -66,7 +65,7 @@ public class IncidenteController implements IMqttMessageListener {
   public void messageArrived(String topic, MqttMessage payload) throws Exception {
     IncidenteInputDTO mensaje = IncidenteInputDTO.desdeJson(payload.toString());
 
-    Optional<Heladera> optionalHeladera = HeladerasRepository.getInstancia().get(mensaje.idHeladera());
+    Optional<Heladera> optionalHeladera = new HeladerasRepository().findById(mensaje.idHeladera());
     if (optionalHeladera.isEmpty()) throw new Exception("La heladera correspondiente a esta alerta no existe");
 
     crearAlerta(optionalHeladera.get(), TipoIncidente.fromString(mensaje.tipoIncidente()), mensaje.getFecha());

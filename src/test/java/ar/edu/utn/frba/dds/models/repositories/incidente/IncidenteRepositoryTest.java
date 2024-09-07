@@ -1,71 +1,83 @@
 package ar.edu.utn.frba.dds.models.repositories.incidente;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
-import ar.edu.utn.frba.dds.models.repositories.incidenteheladera.IncidenteRepository;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IncidenteRepositoryTest {
-    private IncidenteRepository incidenteRepository;
-    private Incidente incidente;
-    final Heladera heladeraMock = Mockito.mock(Heladera.class);
-    final Colaborador colaboradorMock = Mockito.mock(Colaborador.class);
-    @BeforeEach
-    public void setUp() {
-        incidenteRepository = new IncidenteRepository();
-        incidente = new Incidente(
-            heladeraMock,
-            TipoIncidente.BAJA_TEMPERATURA,
-            ZonedDateTime.now(),
-                colaboradorMock,
-                "",
-                null
-        );
-    }
+  final IncidenteRepository incidenteRepository = new IncidenteRepository();
+  Colaborador colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
+      "",
+      "",
+      LocalDate.now(),
+      new CoordenadasGeograficas(-34d, -58d));
+  Heladera heladera = new Heladera("",
+      new CoordenadasGeograficas(-34d, -58d),
+      colaborador,
+      1,
+      ZonedDateTime.now());
+  Incidente incidente;
 
-    @Test
-    public void testInsertIncidenteHeladera() {
-        incidenteRepository.insertIncidenteHeladera(incidente);
-        assertEquals(1, incidenteRepository.getIncidenteHeladeras().size());
-        assertEquals(1, incidente.getId());
-    }
+  @BeforeEach
+  public void setUp() {
+    incidente = new Incidente(
+        heladera,
+        TipoIncidente.BAJA_TEMPERATURA,
+        ZonedDateTime.now(),
+        colaborador,
+        "",
+        null
+    );
+  }
 
-    @Test
-    public void testGetIncidenteHeladera() {
-        incidenteRepository.insertIncidenteHeladera(incidente);
-        Optional<Incidente> foundIncidente = incidenteRepository.getIncidenteHeladera(1);
-        assertTrue(foundIncidente.isPresent());
-        assertEquals(incidente, foundIncidente.get());
-    }
+  @AfterEach
+  void tearDown() {
+    new HibernatePersistenceReset().execute();
+  }
 
-    @Test
-    public void testDeleteIncidenteHeladera() {
-        incidenteRepository.insertIncidenteHeladera(incidente);
-        boolean isDeleted = incidenteRepository.deleteIncidenteHeladera(1);
-        assertTrue(isDeleted);
-        assertEquals(0, incidenteRepository.getIncidenteHeladeras().size());
-    }
+  @Test
+  public void testInsertIncidenteHeladera() {
+    new IncidenteRepository().insert(incidente);
 
-    @Test
-    public void testExistsIncidenteHeladera() {
-        incidenteRepository.insertIncidenteHeladera(incidente);
-        assertTrue(incidenteRepository.existsIncidenteHeladera(1));
-    }
+    assertEquals(1, incidenteRepository.findAll().count());
+    assertNotNull(incidente.getId());
+  }
 
-    @Test
-    public void testDeleteTodos() {
-        incidenteRepository.insertIncidenteHeladera(incidente);
-        incidenteRepository.deleteTodos();
-        assertEquals(0, incidenteRepository.getIncidenteHeladeras().size());
-    }
+  @Test
+  public void testGetIncidenteHeladera() {
+    incidenteRepository.insert(incidente);
+
+    Optional<Incidente> foundIncidente = incidenteRepository.findById(incidente.getId());
+    assertEquals(incidente, foundIncidente.get());
+  }
+
+  @Test
+  public void testExistsIncidenteHeladera() {
+    incidenteRepository.insert(incidente);
+    assertTrue(incidenteRepository.findById(incidente.getId()).isPresent());
+  }
+
+  @Test
+  public void testDeleteTodos() {
+    incidenteRepository.insert(incidente);
+    incidenteRepository.deleteAll();
+    assertEquals(0, incidenteRepository.findAll().count());
+  }
 }
-
