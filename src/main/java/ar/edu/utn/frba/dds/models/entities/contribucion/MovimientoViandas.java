@@ -27,12 +27,12 @@ public abstract class MovimientoViandas extends Contribucion {
   @NonNull Collection<Vianda> viandas;
 
   @ManyToOne(targetEntity = Heladera.class)
-  @JoinColumn(name = "idHeladera", referencedColumnName = "id", nullable = false)
-  @NonNull Heladera destino;
+  @JoinColumn(name = "idHeladera", referencedColumnName = "id")
+  Heladera destino;
 
   public MovimientoViandas(@NonNull Colaborador colaborador,
                            @NonNull Collection<Vianda> viandas,
-                           @NonNull Heladera heladera) {
+                           Heladera heladera) {
     super(colaborador);
 
     this.viandas = viandas;
