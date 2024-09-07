@@ -41,7 +41,7 @@ public final class Tecnico {
   @Column(name = "id")
   @Id
   @GeneratedValue
-  @Type(type="uuid-char")
+  @Type(type = "uuid-char")
   @NonNull UUID id;
   @Transient
   private static final Rol ROL_DEFAULT = new Rol("tecnico", new HashSet<>());

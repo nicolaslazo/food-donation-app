@@ -59,7 +59,7 @@ public class Usuario {
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   @Getter
-  @Type(type="uuid-char")
+  @Type(type = "uuid-char")
   @NonNull UUID id;
 
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

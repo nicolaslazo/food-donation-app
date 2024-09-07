@@ -37,10 +37,10 @@ public class TecnicoRepository extends HibernateEntityManager<Tecnico, UUID> {
   public void delete(String cuil) {
     Optional<Tecnico> tecnico = this.searchBy("cuil", cuil);
     if (tecnico.isPresent()) {
-      Tecnico my_tecnico = tecnico.get();
-      Usuario my_usuario = my_tecnico.getUsuario();
-      my_usuario.setActive(false);
-      this.update(my_tecnico);
+      Tecnico myTecnico = tecnico.get();
+      Usuario myUsuario = myTecnico.getUsuario();
+      myUsuario.setActive(false);
+      this.update(myTecnico);
     }
   }
 }

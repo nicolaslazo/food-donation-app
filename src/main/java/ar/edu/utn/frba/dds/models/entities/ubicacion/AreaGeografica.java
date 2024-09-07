@@ -11,6 +11,6 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AreaGeografica {
-    @NonNull CoordenadasGeograficas centro;
-    float radioEnMetros;
+  @NonNull CoordenadasGeograficas centro;
+  float radioEnMetros;
 }
