@@ -26,6 +26,14 @@ public class TecnicoRepository extends HibernateEntityManager<Tecnico, UUID> {
     return tecnicos.filter(e -> e.getUsuario().getActive() == true);
   }
 
+  @SuppressWarnings("unchecked")
+  public Optional<Tecnico> searchBy(String nameColumn, String value) {
+    return entityManager()
+            .createQuery("from " + claseDeEntidad.getSimpleName() + " where cuil =:cuil")
+            .setParameter("cuil", value)
+            .getResultStream().findFirst();
+  }
+
   public void delete(String cuil) {
     Optional<Tecnico> tecnico = this.searchBy("cuil", cuil);
     if (tecnico.isPresent()) {

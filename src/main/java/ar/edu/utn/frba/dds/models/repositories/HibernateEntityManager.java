@@ -38,14 +38,6 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
         .getResultStream();
   }
 
-  @SuppressWarnings("unchecked")
-  public Optional<T> searchBy(String nameColumn, String value) {
-    return entityManager()
-            .createQuery("from " + claseDeEntidad.getSimpleName() + " where cuil =:cuil")
-            .setParameter("cuil", value)
-            .getResultStream().findFirst();
-  }
-
   public void insert(T object) {
     withTransaction(() -> entityManager().persist(object));
   }
