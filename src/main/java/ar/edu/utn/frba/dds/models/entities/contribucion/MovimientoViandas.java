@@ -6,14 +6,13 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
-import javax.persistence.CascadeType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Objects;
@@ -23,15 +22,11 @@ import java.util.Objects;
 @Getter
 public abstract class MovimientoViandas extends Contribucion {
 
-  @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-  @JoinTable(
-          name = "viandasEnMovimiento",
-          joinColumns = @JoinColumn(name = "idMovimiento", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "idVianda", referencedColumnName = "id")
-  )
+  @OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+  @JoinColumn(name = "idVianda", referencedColumnName = "id")
   Collection<Vianda> viandas;
 
-  @ManyToOne
+  @ManyToOne(targetEntity = Heladera.class)
   @JoinColumn(name = "idHeladera", referencedColumnName = "id")
   Heladera destino;
 
