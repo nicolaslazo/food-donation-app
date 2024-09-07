@@ -1,17 +1,12 @@
 package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
 import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 
 import javax.persistence.TypedQuery;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DonacionViandasRepository extends HibernateEntityManager<DonacionViandas, Long> {
@@ -42,17 +37,17 @@ public class DonacionViandasRepository extends HibernateEntityManager<DonacionVi
     return query.getSingleResult() != null ? query.getSingleResult().intValue() : 0;
   }
 
-//  public Long insert(DonacionViandas donacion) throws RepositoryException {
-//    if (donaciones
-//        .stream()
-//        .flatMap(donacionPrevia -> donacionPrevia.getViandas().stream())
-//        .anyMatch(donacion.getViandas()::contains)) {
-//      throw new RepositoryException("Al menos una de las viandas a insertar ya fue registrada en una donación previa");
-//    }
-//    donaciones.add(donacion);
-//    donacion.setId((long) donaciones.size());
-//
-//    return donacion.getId();
-//  }
+  //  public Long insert(DonacionViandas donacion) throws RepositoryException {
+  //    if (donaciones
+  //        .stream()
+  //        .flatMap(donacionPrevia -> donacionPrevia.getViandas().stream())
+  //        .anyMatch(donacion.getViandas()::contains)) {
+  //      throw new RepositoryException("Al menos una de las viandas a insertar ya fue registrada en una donación previa");
+  //    }
+  //    donaciones.add(donacion);
+  //    donacion.setId((long) donaciones.size());
+  //
+  //    return donacion.getId();
+  //  }
 
 }
