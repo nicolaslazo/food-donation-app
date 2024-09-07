@@ -23,5 +23,7 @@ public class OfertaRecompensa extends Contribucion {
     this.recompensa = recompensa;
   }
 
-  OfertaRecompensa(){}
+  OfertaRecompensa(){
+
+  }
 }
