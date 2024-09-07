@@ -19,7 +19,7 @@ import java.time.ZonedDateTime;
 @Table(name = "vianda")
 public class Vianda {
   @Id
-  @Column(name = "id", unique = true, updatable = false)
+  @Column(name = "id",nullable = false ,unique = true, updatable = false)
   @GeneratedValue
   Long id;
 
