@@ -63,6 +63,7 @@ class ViandasRepositoryTest {
     new ColaboradorRepository().insert(colaborador);
     new UsuariosRepository().insert(usuario);
     new HeladerasRepository().insert(heladera);
+    vianda.setHeladera(heladera);
   }
 
   @AfterEach
@@ -72,8 +73,6 @@ class ViandasRepositoryTest {
 
   @Test
   void testInsertFallaSiHeladeraNoTieneEspacio() {
-    vianda.setHeladera(heladera);
-
     new ViandasRepository().insert(vianda);  // Heladera ahora está llena
 
     assertThrows(RuntimeException.class, () -> new ViandasRepository().insert(vianda));
@@ -81,7 +80,6 @@ class ViandasRepositoryTest {
 
   @Test
   void testInsertDeCollectionFallaSiViandasTienenHeladerasDistintas() {
-    vianda.setHeladera(heladera);
 
     assertNull(otraVianda.getHeladera());
     assertThrows(RuntimeException.class,
@@ -90,7 +88,6 @@ class ViandasRepositoryTest {
 
   @Test
   void testInsertDeCollectionFallaSiHayDemasiadasViandas() {
-    vianda.setHeladera(heladera);
     otraVianda.setHeladera(heladera);
 
     assertThrows(RuntimeException.class,
