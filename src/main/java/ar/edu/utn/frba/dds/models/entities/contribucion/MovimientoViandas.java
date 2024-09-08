@@ -44,12 +44,14 @@ public abstract class MovimientoViandas extends Contribucion {
   public int getNumeroViandas() {
     return viandas.size();
   }
+
   public void setFechaRealizada(ZonedDateTime timestamp) {
     viandas
         .stream()
         .filter(Objects::nonNull)  // Caso especial por las contribuciones legacy
         .forEach(vianda -> vianda.setHeladera(destino));
   }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -57,6 +59,7 @@ public abstract class MovimientoViandas extends Contribucion {
     MovimientoViandas that = (MovimientoViandas) o;
     return getId() == that.getId();
   }
+
   @Override
   public int hashCode() {
     return Objects.hash(getId());
