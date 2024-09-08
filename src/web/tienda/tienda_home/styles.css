@@ -4,7 +4,6 @@ body {
 
 /* Sección Tienda */
 .tienda-section {
-    background-image: url('../static/tienda-bg.jpg'); /* Imagen de fondo para la tienda */
     background-size: cover;
     background-position: center;
     padding: 50px 0;
