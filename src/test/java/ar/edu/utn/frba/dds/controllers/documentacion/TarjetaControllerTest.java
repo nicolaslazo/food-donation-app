@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -57,7 +58,7 @@ class TarjetaControllerTest {
 
   @AfterEach
   void tearDown() {
-    tarjetasRepository.deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
