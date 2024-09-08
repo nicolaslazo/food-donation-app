@@ -8,7 +8,10 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -41,6 +44,12 @@ class RedistribucionViandasRepositoryTest {
       ZonedDateTime.now().minusMonths(5)
   );
 
+  RedistribucionViandas otraRedistribucion = new RedistribucionViandas(colaborador,
+      Arrays.asList(null, null),
+      heladera,
+      heladera,
+      null
+  );
   final RedistribucionViandas redistribucion = new RedistribucionViandas(colaborador,
       Collections.singletonList(null),
       heladera,
@@ -53,14 +62,14 @@ class RedistribucionViandasRepositoryTest {
     new HibernatePersistenceReset().execute();
   }
 
+
+  @BeforeEach
+  void setUp() {
+    new ColaboradorRepository().insert(colaborador);
+    new HeladerasRepository().insert(heladera);
+  }
   @Test
   void testGetPorId() {
-    RedistribucionViandas otraRedistribucion = new RedistribucionViandas(colaborador,
-        Arrays.asList(null, null),
-        null,
-        null,
-        null
-    );
 
     repositorio.insert(redistribucion);
     repositorio.insert(otraRedistribucion);
@@ -92,19 +101,13 @@ class RedistribucionViandasRepositoryTest {
   @Test
   void testEliminarTodas() {
     repositorio.insert(redistribucion);
+    repositorio.insert(otraRedistribucion);
     repositorio.deleteAll();
     assertEquals(0, repositorio.findAll().count());
   }
 
   @Test
   void getTodosRetornaTodosLosContenidos() {
-
-    RedistribucionViandas otraRedistribucion = new RedistribucionViandas(colaborador,
-        Arrays.asList(null, null),
-        null,
-        null,
-        null
-    );
 
     repositorio.insert(otraRedistribucion);
     repositorio.insert(redistribucion);

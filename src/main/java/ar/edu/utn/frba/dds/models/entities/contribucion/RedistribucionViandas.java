@@ -6,16 +6,25 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Objects;
+
+@Entity
+@Table(name = "RedistribucionViandas")
 
 public class RedistribucionViandas extends MovimientoViandas {
   // Algunos de estos se mantienen nulificables para el cargador masivo CSV
 
   @Getter
+  @ManyToOne
+  @JoinColumn(name = "idHeladeraOrigen", referencedColumnName = "id")
   final Heladera origen;
 
   @Enumerated(EnumType.STRING)
