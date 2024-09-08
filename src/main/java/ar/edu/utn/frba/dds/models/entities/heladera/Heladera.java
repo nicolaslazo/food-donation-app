@@ -74,6 +74,7 @@ public class Heladera {
   public int getCapacidadEnViandas() {
     return this.capacidadEnViandas;  // Verifica que la capacidad esté correctamente inicializada
   }
+
   public void setUltimaTempRegistradaCelsius(Double temperatura) {
     ultimaTempRegistradaCelsius = temperatura;
     momentoUltimaTempRegistrada = ZonedDateTime.now();
