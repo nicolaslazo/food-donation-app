@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../../static/Logo_viandas_donation.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Inicio Sesion</title>
+</head>
+<body>
+    <header>
+        <div class="container-logo">
+            <a class="img-logo" href="../../home/home.html">
+                <img src="../../static/Logo_viandas_donation.png" alt="Logo">
+                <h2 class="name-logo"> Viandas Donation </h2>
+            </a>
+            <button class="btn-contribuir">
+                <a>Contribuir Ya</a>
+            </button>
+        </div>
+        <nav class="navbar">
+            <a href="../../quienes_somos/quienes_somos.html" class="navbar-item">QUIENES SOMOS</a>
+            <a href="../../home/home.html" class="navbar-item">INICIO</a>
+            <a href="../../contacto/contacto.html" class="navbar-item">CONTACTO</a>
+            <a href="../../tienda/tienda_home/tienda.html" class="navbar-item">TIENDA</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="title">INICIO SESION</div>
+
+            <form action="" class="form-container">
+
+                <div class="user-details-container">
+                    <!-- EMAIL INPUT -->
+                    <label class="input-box">
+                        Email
+                        <input type="email" placeholder="example@gmail.com" required>
+                    </label>
+
+                    <!-- CONTRASEÑA INPUT -->
+                    <label class="input-box">
+                        Contraseña
+                        <input type="password" placeholder="*******" required>
+                    </label>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <div class="submit-register">
+                    <input type="submit" value="INICIAR">
+                </div>
+            </form>
+
+            <!-- OLVIDE MI CONTRASEÑA -->
+            <div class="forgot-password">
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <!-- REGISTRO -->
+            <div class="inicio-bottom">
+                <p>¿Todavía no tienes una cuenta?</p>
+                <button class="btn-register"><a href="../registro/register.html">REGISTRO</a></button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p>
+                Haciendo clic en alguno de los botones de inicio de sesión de arriba,
+                aceptas nuestros <a href="../../terminosYcondiciones/terminos.html">Términos</a> y <a href="../../terminosYcondiciones/terminos.html">Política de Privacidad.</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

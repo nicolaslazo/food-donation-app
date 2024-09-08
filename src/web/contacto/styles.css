@@ -1,0 +1,98 @@
+/* General */
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Header */
+
+header {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    background-color: #C0392B;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.contact-container {
+    max-width: 800px;
+    width: 100%;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #0007;
+}
+
+.contact-container h1 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #2980B9;
+    margin-bottom: 20px;
+}
+
+.contact-container p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.contact-form {
+    display: grid;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.form-group input, 
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    resize: none; 
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #2980B9;
+    outline: none;
+}
+
+.btn-submit {
+    padding: 10px;
+    background-color: #2980B9;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+    color: #fff;
+    text-align: center;
+}
+
+.btn-submit:hover {
+    background-color: #2980FF;
+}

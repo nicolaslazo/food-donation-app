@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* MAIN SECTION */
+
+.main__container {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.form__container {
+    grid-column: 1/2;
+    background-color: #f2f2f2;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    align-content: center;
+    border-radius: 20px;
+    width: 50%;
+    justify-self: center;
+    box-shadow: 0 0 10px #0006;
+}
+
+.form-title {
+    font-weight: bold;
+    padding: 10px 20px;
+    background: #C0392B;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.heladera-details-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 10px;
+    font-size: 14px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box input{
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+}
+
+.input-box input:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+#input-text-area {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+    resize: none; 
+    min-width: 100%; 
+    min-height: 100px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+}
+
+.input-box select {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+    font-family: "Montserrat";
+}
+
+.input-box select:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+.input-check {
+    margin-top: 10px;
+}
+
+.input-check input {
+    margin-left: 10px;
+}
+
+.submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    min-width: 100%;
+    margin-bottom: 20px;
+}
+
+.submit-button input{
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+
+/* ACLARACION */
+
+.aclaracion-campos{
+    font-size: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* MAP SECTION */
+
+#map {
+    border-radius: 20px;
+    margin-top: 10px;
+    border: solid 1px #0006;
+    min-height: 400px;
+    min-width: 400px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 1.5em;
+    pointer-events: none;
+    margin: 5px 0;
+}
+
+/* MAP END */
+
+
+/* ASIDE SECTION - Imagen del costado*/
+
+aside{
+    grid-column: 2/3;
+    display: flex;
+}
+
+.img__aside{
+    width: 200px;
+    height: 300px;
+}
+/* END ASIDE SECTION */
+
+
+/* FOOTER */
+
+footer {
+    background-color: #9F9D9D;
+    display: flex;
+    flex-direction: column;
+    margin-top: 70px;
+    padding: 10px;
+    color: #fff;
+    width: 100%;
+}
+
+.footer-text {
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+}

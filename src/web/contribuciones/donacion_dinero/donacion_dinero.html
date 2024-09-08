@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../../static/Logo_viandas_donation.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Scripts JS -->
+    <script src="../../sticky_nav_bar.js" defer></script>
+    <script src="script.js" defer></script>
+    
+    <title>VD</title>
+</head>
+<body>
+    <header>
+        <div class="container-logo">
+            <a class="img-logo" href="../../home/home.html">
+                <img src="../../static/Logo_viandas_donation.png" alt="Logo">
+                <h2 class="name-logo"> Viandas Donation </h2>
+            </a>
+            <button class="btn-contribuir">
+                <a href="../../logueo/inicioSesion/index.html">Contribuir Ya</a>
+            </button>
+        </div>
+        <nav class="navbar">
+            <a href="../../home/home.html" class="navbar-item">INICIO</a>
+            <a href="../../quienes_somos/quienes_somos.html" class="navbar-item">QUIENES SOMOS </a>
+            <a href="../../contacto/contacto.html" class="navbar-item">CONTACTO</a>
+            <a href="../../tienda/tienda_home/tienda.html" class="navbar-item">TIENDA</a>
+        </nav>
+    </header>
+
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                DONACIÓN DE DINERO
+            </div>
+
+            <form action="" class="form__body">
+                <div class="heladera-details-container">
+                    <!-- Existing Inputs -->
+                    <label class="input-box">
+                        Monto a Donar
+                        <input type="number" min="1" required>
+                    </label>
+                    <label class="input-box">
+                        Donación Periódica
+                        <select name="donacion_periodica" id="donacion-periodica">
+                            <option value="no">No</option>
+                            <option value="si">Sí</option>
+                        </select>
+                    </label>
+                    <label class="input-box" id="frecuencia-container">
+                        Frecuencia
+                        <!-- SE QUE LA FRECUENCIA ESTA EN DIAS EN EL MODELO, PERO PODEMOS CONVERTILO A DIAS DESPUES -->
+                        <select name="frecuencia" id="frecuencia">
+                            <option value="semanal">Semanal</option>
+                            <option value="mensual">Mensual</option>
+                            <option value="trimestral">Trimestral</option>
+                            <option value="anual">Anual</option>
+                        </select>
+                    </label>
+                    <label class="input-box">
+                        Número de Tarjeta
+                        <input type="tel" minlength="13" maxlength="18" pattern="\d{13,18}" required>
+                    </label>
+                    <label class="input-box">
+                        CDS (Código de Seguridad)
+                        <input type="tel" minlength="3" maxlength="3" pattern="\d{3,3}" required>
+                    </label>
+                    <label class="input-check">
+                        Acepto los <a href="../../terminosYcondiciones/terminos.html"> terminos y condiciones </a>
+                        <input type="checkbox" required>
+                    </label>
+                </div>
+
+                <div class="submit-button">
+                    <input type="submit" value="ENVIAR SOLICITUD">
+                </div>
+            </form>
+        </div>
+
+        <aside>
+            <div class="aside">
+                <img src="../../static/donacionPlata.png" alt="Icono Dinero" class="img__aside">
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="footer-text">
+            Derechos reservados © 2024 Viandas Donation.
+        </div>
+    </footer>
+</body>

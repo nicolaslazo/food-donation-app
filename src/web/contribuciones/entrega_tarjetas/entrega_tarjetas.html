@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../../static/Logo_viandas_donation.png">
+
+    <!-- Links StyleSheets -->
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../reset.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="../cuidado_heladera/cuidado_heladera.js" defer></script> 
+    <title>VD</title>
+</head>
+
+<header>
+    <div class="container-logo">
+        <a class="img-logo" href="../../home/home.html">
+            <img src="../../static/Logo_viandas_donation.png" alt="Logo">
+            <h2 class="name-logo"> Viandas Donation </h2>
+        </a>
+        <button class="btn-contribuir">
+            <a href="../../logueo/inicioSesion/index.html">Contribuir Ya</a>
+        </button>
+    </div>
+    <nav class="navbar">
+        <a href="../../home/home.html" class="navbar-item">INICIO</a>
+        <a href="../../quienes_somos/quienes_somos.html" class="navbar-item">QUIENES SOMOS</a>
+        <a href="../../contacto/contacto.html" class="navbar-item">CONTACTO</a>
+        <a href="../../tienda/tienda_home/tienda.html" class="navbar-item">TIENDA</a>
+    </nav>
+</header>
+
+<main class="main__container">
+    <div class="form__container">
+        <div class="form-title">
+            SOLICITUD DE TARJETAS
+        </div>
+
+        <form action="" class="form__body">
+            <div class="heladera-details-container">
+                <!-- Existing Inputs -->
+                <label class="input-box">
+                    Cantidad de Tarjetas Solicitadas *
+                    <input type="number" min="1" max="10" placeholder="Se pueden solicitar entre 1 a 10 tarjetas" required>
+                </label>
+                <!-- New Map Input -->
+                <label class="input-box">
+                    Direccion *
+                    <div id="map"></div>
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+                </label>
+
+                <label class="input-check">
+                    Acepto los <a href="../../terminosYcondiciones/terminos.html"> terminos y condiciones </a>
+                    <input type="checkbox" required>
+                </label>
+            </div>
+
+            <div class="submit-button">
+                <input type="submit" value="ENVIAR SOLICITUD">
+            </div>
+
+            <div class="aclaracion-campos"> Los campos con * son obligatorios </div>
+
+        </form>
+    </div>
+
+    <aside>
+        <div class="aside">
+            <img src="../../static/icono_tarjeta.png" alt="Icono de Tarjeta" class="img__aside">
+        </div>
+    </aside>
+</main>
+
+<footer>
+    <div class="footer-text">
+        Derechos reservados © 2024 Viandas Donation.
+    </div>
+</footer>
+
+</body>
+</html>
