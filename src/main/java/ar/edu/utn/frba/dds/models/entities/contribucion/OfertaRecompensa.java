@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class OfertaRecompensa extends Contribucion {
 
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-  @JoinColumn(name = "idRecompensa", referencedColumnName = "id")
+  @JoinColumn(name = "idRecompensa", referencedColumnName = "id", nullable = false)
   @NonNull Recompensa recompensa;
 
   public OfertaRecompensa(@NonNull Colaborador colaborador, @NonNull Recompensa recompensa) {
