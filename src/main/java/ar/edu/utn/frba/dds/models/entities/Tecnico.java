@@ -38,20 +38,24 @@ import javax.persistence.Transient;
 @NoArgsConstructor
 public final class Tecnico {
   // TODO: el rol capaz debería estar almacenado en un repositorio?
-  @Column(name = "id")
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
   @Id
   @GeneratedValue
   @Type(type = "uuid-char")
   @NonNull UUID id;
+
+  //TODO: Agregar los permisos
   @Transient
   private static final Rol ROL_DEFAULT = new Rol("tecnico", new HashSet<>());
+
   @Column(name = "cuil", unique = true, nullable = false, updatable = false)
   @NonNull String cuil;
   
   @OneToOne(cascade = CascadeType.ALL)
   @MapsId
   @JoinColumn(name = "idUsuario", referencedColumnName = "id")
-  @NonNull Usuario usuario; 
+  @NonNull Usuario usuario;
+
   @Embedded
   @NonNull AreaGeografica areaAsignada;
 
