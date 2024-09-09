@@ -6,21 +6,48 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Table(name = "tarjeta")
 @Getter
 public class Tarjeta {
-  final @NonNull UUID id;
+  @Id
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
+  @NonNull UUID id;
+
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Colaborador.class)
+  @JoinColumn(name = "idProveedor", referencedColumnName = "idUsuario")
   Colaborador proveedor = null;
+
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Usuario.class)
+  @JoinColumn(name = "idRecipiente", referencedColumnName = "id")
   Usuario recipiente = null;
+
+  @Column(name = "fechaAlta")
   ZonedDateTime fechaAlta = null;
+
+  @Column(name = "fechaBaja")
   ZonedDateTime fechaBaja = null;
+
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Usuario.class)
+  @JoinColumn(name = "idResponsableBaja", referencedColumnName = "id")
   Usuario responsableDeBaja = null;
 
   public Tarjeta(@NonNull UUID id) {
     this.id = id;
+  }
+
+  protected Tarjeta() {
   }
 
   public void assertTienePermiso(@NonNull String nombrePermiso, @NonNull String razon) throws PermisoDenegadoException {
@@ -31,8 +58,10 @@ public class Tarjeta {
 
   void assertEstaVigente() throws PermisoDenegadoException {
     if (fechaBaja != null) throw new PermisoDenegadoException("Esta tarjeta ya fue dada de baja");
+
     if (fechaAlta == null) throw new PermisoDenegadoException("Esta tarjeta no fue dada de alta");
   }
+
 
   public void setEnAlta(@NonNull Usuario recipiente, @NonNull Colaborador proveedor, @NonNull ZonedDateTime timestamp)
       throws PermisoDenegadoException {
