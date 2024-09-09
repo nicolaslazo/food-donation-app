@@ -2,7 +2,6 @@ package ar.edu.utn.frba.dds.models.entities.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contribucion.Contribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
@@ -24,17 +23,18 @@ import java.util.Objects;
 public abstract class MovimientoViandas extends Contribucion {
 
   @OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-  @JoinColumn(name = "idVianda", referencedColumnName = "id", nullable = false, unique = true)
-  @NonNull Collection<Vianda> viandas;
+  @JoinColumn(name = "idVianda", referencedColumnName = "id", unique = true)
+  Collection<Vianda> viandas;
 
   @ManyToOne(targetEntity = Heladera.class)
-  @JoinColumn(name = "idHeladera", referencedColumnName = "id", nullable = false)
-  @NonNull Heladera destino;
+  @JoinColumn(name = "idHeladera", referencedColumnName = "id")
+  Heladera destino;
 
   public MovimientoViandas(@NonNull Colaborador colaborador,
-                           @NonNull Collection<Vianda> viandas,
-                           @NonNull Heladera heladera) {
+                           Collection<Vianda> viandas,
+                           Heladera heladera) {
     super(colaborador);
+
     this.viandas = viandas;
     this.destino = heladera;
   }
@@ -50,6 +50,8 @@ public abstract class MovimientoViandas extends Contribucion {
         .stream()
         .filter(Objects::nonNull)  // Caso especial por las contribuciones legacy
         .forEach(vianda -> vianda.setHeladera(destino));
+
+    fechaRealizada = timestamp;
   }
 
   @Override
