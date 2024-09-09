@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories.heladera;
 
+import ar.edu.utn.frba.dds.models.entities.contribucion.MovimientoViandas;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
@@ -53,9 +54,9 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
   public int getCantidadViandasPendientes(Heladera heladera) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery<SolicitudAperturaPorContribucion> query = cb.createQuery(SolicitudAperturaPorContribucion.class);
-    Root<SolicitudAperturaPorContribucion> root = query.from(SolicitudAperturaPorContribucion.class);
-    query.select(root).where(cb.equal(root.get("idHeladera"), heladera.getId()));
+    CriteriaQuery<MovimientoViandas> query = cb.createQuery(MovimientoViandas.class);
+    Root<MovimientoViandas> root = query.from(MovimientoViandas.class);
+    query.select(root).where(cb.equal(root.get("destino").get("id"), heladera.getId()));
     return em.createQuery(query)
             .getResultStream()
             .mapToInt(solicitud -> solicitud.getViandas().size())
@@ -69,15 +70,15 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
 
 
   public void updateFechaUsada(Long id, boolean paraExtraccion, ZonedDateTime fechaUsada)
-      throws Exception {
+          throws Exception {
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
-        getSolicitudVigenteAlMomento(id, paraExtraccion, fechaUsada);
+            getSolicitudVigenteAlMomento(id, paraExtraccion, fechaUsada);
 
     if (optionalSolicitud.isEmpty()) {
       String operacion = paraExtraccion ? "extracción" : "depósito";
 
       throw new SolicitudInvalidaException(
-          "No existe solicitud vigente con id %d para %s de viandas".formatted(id, operacion));
+              "No existe solicitud vigente con id %d para %s de viandas".formatted(id, operacion));
     }
 
     if (paraExtraccion) {
