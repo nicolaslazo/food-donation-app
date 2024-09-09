@@ -61,11 +61,11 @@ class SolicitudAperturaPorConsumicion(Base):
     __tablename__ = "solicitudAperturaPorConsumicion"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    tarjeta_id = Column(BINARY(16), ForeignKey("tarjeta.id"), nullable=False)
-    vianda_id = Column(BINARY(16), nullable=False)  # Asumimos que Vianda es transient
-    fecha_creacion = Column(DateTime, nullable=False)
-    fecha_vencimiento = Column(DateTime, nullable=False)
-    fecha_usada = Column(DateTime)
+    idTarjeta = Column(BINARY(16), ForeignKey("tarjeta.id"), nullable=False)
+    idVianda = Column(BINARY(16), nullable=False)  # Asumimos que Vianda es transient
+    fechaCreacion = Column(DateTime, nullable=False)
+    fechaVencimiento = Column(DateTime, nullable=False)
+    fechaUsada = Column(DateTime)
     tarjeta = relationship("Tarjeta")
 
 
