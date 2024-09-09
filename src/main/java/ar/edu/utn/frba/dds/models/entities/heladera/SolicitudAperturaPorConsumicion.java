@@ -25,17 +25,17 @@ public class SolicitudAperturaPorConsumicion {
   Long id;
 
   @ManyToOne
-  @JoinColumn(name = "trjeta_id", nullable = false)
+  @JoinColumn(name = "idTarjeta", nullable = false)
   @NonNull Tarjeta tarjeta;
 
   @ManyToOne
-  @JoinColumn(name = "vianda_id", nullable = false, referencedColumnName = "id")
+  @JoinColumn(name = "idVianda", nullable = false, referencedColumnName = "id")
   @NonNull Vianda vianda;
 
-  @Column(name = "fechaCreacion", nullable = false)
+  @Column(name = "fechaCreacion", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaCreacion;
 
-  @Column(name = "fechaVencimiento", nullable = false)
+  @Column(name = "fechaVencimiento", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaVencimiento;
 
   @Column(name = "fechaUsada")
