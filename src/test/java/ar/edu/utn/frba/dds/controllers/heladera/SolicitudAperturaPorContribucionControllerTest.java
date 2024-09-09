@@ -94,7 +94,7 @@ class SolicitudAperturaPorContribucionControllerTest {
       new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion);
     }
 
-    assertEquals(1, SolicitudAperturaPorContribucionRepository.getInstancia().getTodas().count());
+    assertEquals(1, SolicitudAperturaPorContribucionRepository.getInstancia().findAll().count());
   }
   /*
     @Test

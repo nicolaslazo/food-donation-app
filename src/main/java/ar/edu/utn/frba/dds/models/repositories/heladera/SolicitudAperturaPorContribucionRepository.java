@@ -63,9 +63,6 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
             .sum();
   }
 
-  public Stream<SolicitudAperturaPorContribucion> getTodas() {
-    return findAll();
-  }
 
 
 
