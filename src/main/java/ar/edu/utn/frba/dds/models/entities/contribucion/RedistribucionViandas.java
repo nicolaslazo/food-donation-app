@@ -44,8 +44,7 @@ public class RedistribucionViandas extends MovimientoViandas {
     this.motivo = motivo;
   }
 
-  RedistribucionViandas() {
-
+  protected RedistribucionViandas() {
   }
 
   @Override
