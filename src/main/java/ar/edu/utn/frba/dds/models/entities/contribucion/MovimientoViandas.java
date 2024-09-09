@@ -26,7 +26,7 @@ public abstract class MovimientoViandas extends Contribucion {
   @JoinColumn(name = "idVianda", referencedColumnName = "id", unique = true)
   Collection<Vianda> viandas;
 
-  @ManyToOne(targetEntity = Heladera.class)
+  @ManyToOne(targetEntity = Heladera.class, cascade = {CascadeType.MERGE, CascadeType.PERSIST })
   @JoinColumn(name = "idHeladera", referencedColumnName = "id")
   Heladera destino;
 
