@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,7 +21,7 @@ import java.time.ZonedDateTime;
 public class Vianda {
   @Id
   @Column(name = "id", nullable = false, unique = true, updatable = false)
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
   @Column(name = "descripcion", nullable = false, updatable = false)
