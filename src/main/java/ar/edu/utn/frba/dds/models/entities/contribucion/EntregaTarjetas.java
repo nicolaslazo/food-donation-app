@@ -9,14 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 import java.util.List;
 
 @Entity
 @Table(name = "entregaTarjetas")
 @Getter
 public class EntregaTarjetas extends Contribucion {
-  @OneToMany
-  @JoinColumn(name = "idEntrega", referencedColumnName = "id")
+  @OneToMany(targetEntity = Tarjeta.class, cascade = {CascadeType.ALL}, orphanRemoval = true)
+  @JoinColumn(name = "idEntrega", referencedColumnName = "id", unique = true)
   List<Tarjeta> tarjetasRepartidas;
 
   public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull List<Tarjeta> tarjetas) {

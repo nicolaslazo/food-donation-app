@@ -29,6 +29,4 @@ public class TarjetasRepository extends HibernateEntityManager<Tarjeta, UUID> {
 
     return em.createQuery(query).setMaxResults(1).getResultStream().findFirst();
   }
-
-
 }
