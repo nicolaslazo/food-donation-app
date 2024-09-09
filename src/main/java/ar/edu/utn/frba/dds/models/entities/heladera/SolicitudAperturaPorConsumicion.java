@@ -17,6 +17,7 @@ import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "solicitudAperturaPorConsumicion")
+@Getter
 public class SolicitudAperturaPorConsumicion {
 
   @GeneratedValue
@@ -51,6 +52,9 @@ public class SolicitudAperturaPorConsumicion {
         Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
 
     this.fechaVencimiento = fechaCreacion.plusMinutes(tiempoSolicitudAperturaMinutos);
+  }
+
+  protected SolicitudAperturaPorConsumicion() {
   }
 
   void verificarPrecondicionesApertura(ZonedDateTime timestamp) throws SolicitudInvalidaException {
