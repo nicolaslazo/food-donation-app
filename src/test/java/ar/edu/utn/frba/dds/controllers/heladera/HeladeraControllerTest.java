@@ -46,7 +46,7 @@ class HeladeraControllerTest {
       "",
       LocalDate.now(),
       null);
-  final TecnicoRepository tecnicoRepository = TecnicoRepository.getInstancia();
+  final TecnicoRepository tecnicoRepository = new TecnicoRepository();
   final Heladera heladeraMock = Mockito.mock(Heladera.class);
   final CoordenadasGeograficas obelisco =
       new CoordenadasGeograficas(-34.603706013664166, -58.3815728218273);
