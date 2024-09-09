@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.config.ConfigLoader;
 import ar.edu.utn.frba.dds.controllers.heladera.HeladeraController;
 import ar.edu.utn.frba.dds.dtos.input.heladera.SolicitudAperturaPorContribucionInputDTO;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contacto.Mensaje;
 import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
@@ -12,6 +13,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribu
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CalculadoraDistancia;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
+import ar.edu.utn.frba.dds.models.repositories.contacto.MensajeRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
@@ -123,6 +125,7 @@ public class SuscripcionController implements IMqttMessageListener {
         solicitudReferida.getHeladeraOrigen().get() : solicitudReferida.getHeladeraDestino();
 
     ContactosRepository repositorioContactos = new ContactosRepository();
+    MensajeRepository mensajeRepository = new MensajeRepository();
 
     new SuscripcionRepository()
         .findInteresadasEnStock(heladeraAfectada)
@@ -132,7 +135,13 @@ public class SuscripcionController implements IMqttMessageListener {
           repositorioContactos.get(suscripcion.getColaborador()).forEach(contacto -> {
             try {
               contacto.enviarMensaje(mensajeAEnviar);
+
+              // Guardamos el mensaje en el repositorio después de enviarlo exitosamente
+              Mensaje mensaje = new Mensaje(contacto, mensajeAEnviar, ZonedDateTime.now());
+              mensajeRepository.insert(mensaje);
+
             } catch (MensajeAContactoException e) {
+              // En caso de fallo al enviar el mensaje, lanzamos una excepción
               throw new RuntimeException(e);
             }
           });
