@@ -19,10 +19,11 @@ public class Mensaje {
 
   @Id
   @GeneratedValue
+  @Column(name = "id", nullable = false, updatable = false, unique = true)
   Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "idContacto", referencedColumnName = "id")
+  @ManyToOne(targetEntity = Contacto.class)
+  @JoinColumn(name = "idContacto", referencedColumnName = "id", nullable = false)
   @NonNull
   Contacto contacto;
 
