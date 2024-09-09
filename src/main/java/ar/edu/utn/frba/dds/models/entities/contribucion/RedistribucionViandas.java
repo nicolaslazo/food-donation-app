@@ -25,11 +25,11 @@ public class RedistribucionViandas extends MovimientoViandas {
   @Getter
   @ManyToOne
   @JoinColumn(name = "idHeladeraOrigen", referencedColumnName = "id")
-  final Heladera origen;
+  Heladera origen;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "motivo")
-  final MotivoDeDistribucion motivo;
+  MotivoDeDistribucion motivo;
 
   @Column(name = "fechaIniciada")
   ZonedDateTime fechaIniciada = null;
@@ -42,6 +42,10 @@ public class RedistribucionViandas extends MovimientoViandas {
     super(colaborador, viandas, destino);
     this.origen = origen;
     this.motivo = motivo;
+  }
+
+  RedistribucionViandas() {
+
   }
 
   @Override

@@ -45,13 +45,13 @@ class RedistribucionViandasRepositoryTest {
   );
 
   RedistribucionViandas otraRedistribucion = new RedistribucionViandas(colaborador,
-      Arrays.asList(null, null),
+      Arrays.asList(vianda, vianda),
       heladera,
       heladera,
       null
   );
   final RedistribucionViandas redistribucion = new RedistribucionViandas(colaborador,
-      Collections.singletonList(null),
+      Collections.singletonList(vianda),
       heladera,
       heladera,
       null
@@ -79,18 +79,12 @@ class RedistribucionViandasRepositoryTest {
 
   @Test
   void testGetTotalPorColaborador() {
-   /* RedistribucionViandas otraRedistribucion = new RedistribucionViandas(colaborador,
-        Arrays.asList(null, null),
-        null,
-        null,
-        null
-    );
 
     repositorio.insert(redistribucion);
     repositorio.insert(otraRedistribucion);
 
     int total = repositorio.getTotal(colaborador);
-    assertEquals(1 + 2, total);*/
+    assertEquals(1 + 2, total);
   }
 
   @Test

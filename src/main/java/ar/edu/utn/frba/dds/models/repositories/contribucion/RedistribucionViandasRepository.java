@@ -4,16 +4,19 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
+import java.util.List;
+
 public class RedistribucionViandasRepository extends HibernateEntityManager<RedistribucionViandas, Long> {
   public int getTotal(Colaborador colaborador) {
-    String query = "SELECT SUM(r.numeroViandas) FROM RedistribucionViandas r WHERE r.colaborador = :colaborador";
-    Integer totalViandas = entityManager()
-        .createQuery(query, Integer.class)
+    String query = "SELECT r FROM RedistribucionViandas r WHERE r.colaborador = :colaborador";
+    List<RedistribucionViandas> redistribuciones = entityManager()
+        .createQuery(query, RedistribucionViandas.class)
         .setParameter("colaborador", colaborador)
-        .getSingleResult();
+        .getResultList();
 
-    // Si el resultado es null (es decir, no hay redistribuciones), retornamos 0
-    return totalViandas != null ? totalViandas : 0;
+    // Sumamos la cantidad de viandas redistribuidas
+    return redistribuciones.stream()
+        .mapToInt(RedistribucionViandas::getNumeroViandas)
+        .sum();
   }
-
 }
