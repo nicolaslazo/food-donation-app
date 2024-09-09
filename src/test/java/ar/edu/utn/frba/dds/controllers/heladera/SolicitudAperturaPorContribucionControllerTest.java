@@ -43,6 +43,7 @@ class SolicitudAperturaPorContribucionControllerTest {
   final MqttBrokerService brokerServiceMock = mock(MqttBrokerService.class);
   Colaborador colaboradorMock = new Colaborador(mock(Documento.class),"", "", null,null);
   final Tarjeta tarjeta = new Tarjeta(randomUUID());
+  final SolicitudAperturaPorContribucionRepository repositorio = new SolicitudAperturaPorContribucionRepository();
   final DonacionViandas contribucion = new DonacionViandas(colaboradorMock,
           Collections.singletonList(new Vianda("",ZonedDateTime.now(),ZonedDateTime.now(), colaboradorMock, 0.0, 22)),
           new Heladera("", new CoordenadasGeograficas(54.3, 54.0), colaboradorMock, 11, ZonedDateTime.now()));
@@ -55,7 +56,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
   @AfterEach
   void tearDown() {
-    SolicitudAperturaPorContribucionRepository.getInstancia().deleteAll();
+    repositorio.deleteAll();
   }
 
   @Test
@@ -94,7 +95,7 @@ class SolicitudAperturaPorContribucionControllerTest {
       new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion);
     }
 
-    assertEquals(1, SolicitudAperturaPorContribucionRepository.getInstancia().findAll().count());
+    assertEquals(1, repositorio.findAll().count());
   }
   /*
     @Test
@@ -163,7 +164,7 @@ class SolicitudAperturaPorContribucionControllerTest {
                     .getBytes()));
 
     ZonedDateTime fechaUsada =
-            SolicitudAperturaPorContribucionRepository.getInstancia().findById(solicitud.getId()).get().getFechaAperturaEnDestino();
+            repositorio.findById(solicitud.getId()).get().getFechaAperturaEnDestino();
 
     assertEquals(unSegundoDespuesDeEpoch, fechaUsada);
   }

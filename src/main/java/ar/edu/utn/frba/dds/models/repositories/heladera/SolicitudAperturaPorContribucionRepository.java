@@ -17,21 +17,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class SolicitudAperturaPorContribucionRepository extends HibernateEntityManager<SolicitudAperturaPorContribucion, Long> {
-  private static SolicitudAperturaPorContribucionRepository instancia = null;
-  final List<SolicitudAperturaPorContribucion> solicitudes;
-
-  private SolicitudAperturaPorContribucionRepository() {
-    solicitudes = new ArrayList<>();
-  }
-
-  public static SolicitudAperturaPorContribucionRepository getInstancia() {
-    if (instancia == null) {
-      instancia = new SolicitudAperturaPorContribucionRepository();
-    }
-
-    return instancia;
-  }
-
 
   public Optional<SolicitudAperturaPorContribucion> getSolicitudVigenteAlMomento(Long id,
                                                                                  boolean paraExtraccion,

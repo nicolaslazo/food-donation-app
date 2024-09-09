@@ -22,7 +22,7 @@ class SolicitudAperturaPorContribucionRepositoryTest {
   final Tarjeta tarjetaMock = new Tarjeta(UUID.randomUUID());
   final DonacionViandas donacionMock = mock(DonacionViandas.class);
   final SolicitudAperturaPorContribucionRepository repositorio =
-      SolicitudAperturaPorContribucionRepository.getInstancia();
+      new SolicitudAperturaPorContribucionRepository();
 
   @AfterEach
   void tearDown() {
