@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../static/Logo_viandas_donation.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <!-- StyleSheets -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- Leaflet PinSearch -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+
+    <!-- Scripts JS -->
+    <script src="script.js" defer></script>
+
+    <title>Historial de Incidentes</title>
+</head>
+<body>
+<header>
+    <div class="container-logo">
+        <a class="img-logo" href="../home/home.html">
+            <img src="../static/Logo_viandas_donation.png" alt="Logo">
+            <h2 class="name-logo"> Viandas Donation </h2>
+        </a>
+        <button class="btn-contribuir">
+            <a href="../inicioSesion/index.html">Contribuir Ya</a>
+        </button>
+    </div>
+    <nav class="navbar">
+        <a href="../home/home.html" class="navbar-item">INICIO</a>
+        <a href="#" class="navbar-item">QUIENES SOMOS</a>
+        <a href="../contacto/contacto.html" class="navbar-item">CONTACTO</a>
+        <a href="#" class="navbar-item">QUIERO AYUDAR</a>
+    </nav>
+</header>
+
+<main>
+    <div id="map" class="rounded-box"></div>
+    <div class="fridge-info" >
+        <div class="title"><span git id="nombre"> HELADERA</span></div>
+        <div class="details">
+            <p><strong>Fecha Instalación:</strong> <span id="installDate">(fecha)</span></p>
+            <p><strong>Encargado:</strong> <span id="managerName">(nombre)</span></p>
+            <p><strong>Capacidad:</strong> <span id="capacity">(cantidad viandas)</span></p>
+            <p><strong>Dirección:</strong> <span id="direccion"> (dirección)</span></p>
+        </div>
+        <div class="alert">
+            <p class="alert-title"><strong>ALERTA:</strong><span id="alertType">Tipo ALERTA</span></p>
+            <div class="alert-description">
+                <p><strong>Fecha:</strong> <span id="alertDate">(fecha)</span></p>
+                <p><strong>Descripción:</strong> <span id="alertDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</span></p>
+                <p><strong>Reporte realizado por:</strong> <span id="reporteXPersona">(persona)</span></p>
+            </div>
+            <img src="../static/ejemploHeladera.png" alt="Imagen de la alerta">
+        </div>
+        <p class="previous-alert-title">Alerta previa</p>
+        <div class="previous-alert">
+            <div>
+                <p><strong>ALERTA:</strong> <span id="prevAlertType">Tipo ALERTA</span></p>
+                <div class="alert-description">
+                    <p><strong>Fecha:</strong> <span id="prevAlertDate">(fecha)</span></p>
+                    <p><strong>Descripción: </strong><span id="prevAlertDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</span></p>
+                    <p><strong>Reporte realizado por:</strong> <span id="prevreporteXPersona">(persona)</span></p>
+                </div>
+                <img src="../static/ejemploHeladera.png" alt="Imagen de la alerta">
+            </div>
+        </div>
+</main>
+
+<footer>
+    <div class="footer-container">
+        <p>
+            Haciendo clic en alguno de los botones de registro de
+            arriba, aceptas nuestros <a href="../terminosYcondiciones/terminos.html">Términos</a> y <a href="../terminosYcondiciones/terminos.html">Política de Privacidad</a>.
+        </p>
+    </div>
+</footer>
+
+<div id="modal" class="modal">
+    <span id="close">&times;</span>
+    <img class="modal-content" id="imgModal">
+</div>
+
+</body>
