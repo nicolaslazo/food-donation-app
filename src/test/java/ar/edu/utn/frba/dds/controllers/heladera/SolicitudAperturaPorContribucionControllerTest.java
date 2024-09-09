@@ -41,7 +41,6 @@ import static org.mockito.Mockito.when;
 
 class SolicitudAperturaPorContribucionControllerTest {
   final MqttBrokerService brokerServiceMock = mock(MqttBrokerService.class);
-  //final Usuario usuarioMock = new Usuario(mock(Documento.class), "", "", null, mock(Set.class));
   Colaborador colaboradorMock = new Colaborador(mock(Documento.class),"", "", null,null);
   final Tarjeta tarjeta = new Tarjeta(randomUUID());
   final DonacionViandas contribucion = new DonacionViandas(colaboradorMock,
@@ -69,7 +68,6 @@ class SolicitudAperturaPorContribucionControllerTest {
 
   @Test
   void testCreacionFallaSiColaboradorSinDomicilio() {
-    //when(colaboradorMock.getUbicacion()).thenReturn(null);
     colaboradorMock.setUbicacion(null);
 
 
