@@ -94,6 +94,34 @@ body{
     border: solid 1px transparent;
 }
 
+input[type="file"] {
+     display: none; /* Ocultamos el botón original */
+ }
+
+.custom-file-upload {
+    display: flex;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #2980B9;
+    color: #fff;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.custom-file-upload:hover {
+    background-color: #2074A3;
+}
+
+#file-name {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    font-style: italic;
+}
+
 .input-check {
     margin-top: 10px;
 }
