@@ -21,7 +21,8 @@ public class TemperatureSensorCheckerTest {
       obelisco,
       colaboradorMock,
       50,
-      ZonedDateTime.now().minusMonths(5)
+      ZonedDateTime.now().minusMonths(5),
+      ""
   );
 
   //Heladera defectuosa
@@ -29,7 +30,8 @@ public class TemperatureSensorCheckerTest {
       new CoordenadasGeograficas(-34d, -58d),
       colaboradorMock,
       60,
-      ZonedDateTime.now().minusMonths(7)
+      ZonedDateTime.now().minusMonths(7),
+      ""
   );
 
   @BeforeEach

@@ -116,7 +116,8 @@ class HeladeraControllerTest {
         new CoordenadasGeograficas(coordenadas.getLatitud(), coordenadas.getLongitud()),
         colaborador,
         10,
-        ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC));
+        ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC),
+        "");
     final Tecnico tecnicoMock = mock(Tecnico.class);
     when(tecnicoMock.getAreaAsignada()).thenReturn(new AreaGeografica(coordenadas, 100));
     when(tecnicoMock.isDentroDeRango(heladera)).thenReturn(true);
@@ -161,7 +162,8 @@ class HeladeraControllerTest {
           new CoordenadasGeograficas(-34d, -58d - i),
           colaborador,
           10,
-          ZonedDateTime.now()));
+          ZonedDateTime.now(),
+          ""));
     }
 
     final Heladera heladeraTarget = heladeras.get(0);

@@ -38,7 +38,8 @@ class SuscripcionRepositoryTest {
       new CoordenadasGeograficas(-34d, -58d),
       colaborador,
       5,
-      ZonedDateTime.now());
+      ZonedDateTime.now(),
+      "");
   final Suscripcion suscripcion =
       new Suscripcion(colaborador, heladera, MotivoDeDistribucion.FALLA_HELADERA, null);
 

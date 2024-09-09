@@ -20,25 +20,26 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class CuidadoHeladerasRepositoryTest {
   CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
 
   Colaborador colaborador = new Colaborador(
-          new Documento(TipoDocumento.DNI, 1),
-          "",
-          "",
-          LocalDate.now(),
-          new CoordenadasGeograficas(-30d, -50d));
+      new Documento(TipoDocumento.DNI, 1),
+      "",
+      "",
+      LocalDate.now(),
+      new CoordenadasGeograficas(-30d, -50d));
 
   Heladera heladera = new Heladera("Una heladera",
-          obelisco,
-          colaborador,
-          50,
-          ZonedDateTime.now().minusMonths(5)
+      obelisco,
+      colaborador,
+      50,
+      ZonedDateTime.now().minusMonths(5),
+      ""
   );
 
   CuidadoHeladera contribucion = new CuidadoHeladera(colaborador, heladera);
@@ -68,7 +69,7 @@ class CuidadoHeladerasRepositoryTest {
   void testInsertarContribucionConHeladeraRepetidaLanzaExcepcion() {
     CuidadoHeladera contribucionDuplicada = new CuidadoHeladera(colaborador, heladera);
     assertThrows(RollbackException.class, () ->
-            new CuidadoHeladerasRepository().insert(contribucionDuplicada)
+        new CuidadoHeladerasRepository().insert(contribucionDuplicada)
     );
   }
 

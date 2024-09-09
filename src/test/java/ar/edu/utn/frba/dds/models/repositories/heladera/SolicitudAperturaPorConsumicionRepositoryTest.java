@@ -38,7 +38,8 @@ public class SolicitudAperturaPorConsumicionRepositoryTest {
       obelisco,
       colaborador,
       50,
-      ZonedDateTime.now().minusMonths(5)
+      ZonedDateTime.now().minusMonths(5),
+      ""
   );
   Vianda vianda = new Vianda("",
       ZonedDateTime.now().plusWeeks(1),

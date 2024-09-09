@@ -42,7 +42,8 @@ class ViandasRepositoryTest {
         new CoordenadasGeograficas(-34d, -58d),
         colaborador,
         1,
-        ZonedDateTime.now());
+        ZonedDateTime.now(),
+        "");
     usuario = new Usuario(new Documento(TipoDocumento.DNI, 1),
         "",
         "",

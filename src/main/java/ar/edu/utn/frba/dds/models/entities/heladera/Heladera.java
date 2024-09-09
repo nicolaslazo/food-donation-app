@@ -48,6 +48,9 @@ public class Heladera {
   @Getter
   CoordenadasGeograficas ubicacion;
 
+  @Column(name = "barrio", nullable = false, updatable = false)
+  @NonNull String barrio;
+
   @Column(name = "ultimaTemperaturaRegistradaEnCelsius")
   @Getter
   Double ultimaTempRegistradaCelsius;
@@ -60,12 +63,14 @@ public class Heladera {
                   CoordenadasGeograficas ubicacion,
                   Colaborador encargado,
                   Integer capacidadEnViandas,
-                  ZonedDateTime fechaInstalacion) {
+                  ZonedDateTime fechaInstalacion,
+                  String barrio) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
     this.encargado = encargado;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
+    this.barrio = barrio;
   }
 
   protected Heladera() {

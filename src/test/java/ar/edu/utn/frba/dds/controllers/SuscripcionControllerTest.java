@@ -53,7 +53,8 @@ class SuscripcionControllerTest {
         obelisco,
         colaborador,
         5,
-        ZonedDateTime.now());
+        ZonedDateTime.now(),
+        "");
   }
 
   @AfterEach
@@ -101,7 +102,8 @@ class SuscripcionControllerTest {
           new CoordenadasGeograficas(-34d, -58d - i),
           colaborador,
           10,
-          ZonedDateTime.now());
+          ZonedDateTime.now(),
+          "");
 
       heladeras.add(heladeraNueva);
       new HeladerasRepository().insert(heladeraNueva);

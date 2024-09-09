@@ -23,7 +23,8 @@ public class CuidadoHeladeraController {
         dtoCuidado.getUbicacion(),
         encargado,
         dtoCuidado.getCapacidadEnViandas(),
-        ZonedDateTime.now());
+        ZonedDateTime.now(),
+        dtoCuidado.getBarrio());
 
     new HeladerasRepository().insert(heladeraNueva);
     new SuscripcionRepository()
