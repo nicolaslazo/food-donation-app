@@ -55,7 +55,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
   @AfterEach
   void tearDown() {
-    SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
+    SolicitudAperturaPorContribucionRepository.getInstancia().deleteAll();
   }
 
   @Test

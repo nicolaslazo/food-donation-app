@@ -89,7 +89,4 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
     update(optionalSolicitud.get());
   }
 
-  public void deleteTodas() {
-    deleteAll();
-  }
 }

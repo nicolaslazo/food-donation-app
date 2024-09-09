@@ -26,7 +26,7 @@ class SolicitudAperturaPorContribucionRepositoryTest {
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteTodas();
+    repositorio.deleteAll();
   }
 
   @Test
@@ -120,7 +120,7 @@ class SolicitudAperturaPorContribucionRepositoryTest {
         new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now());
 
     repositorio.insert(solicitud);
-    repositorio.deleteTodas();
+    repositorio.deleteAll();
 
     assertTrue(repositorio.getSolicitudVigente(solicitud.getId(), false).isEmpty());
   }

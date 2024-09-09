@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SolicitudAperturaPorContribucionOutputDTOTest {
   @BeforeEach
   void setUp() {
-    SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
+    SolicitudAperturaPorContribucionRepository.getInstancia().deleteAll();
   }
 
   @Test
