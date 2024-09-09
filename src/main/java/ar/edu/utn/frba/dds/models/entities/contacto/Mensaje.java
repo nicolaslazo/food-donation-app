@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.contacto;
 
+import lombok.Getter;
 import lombok.NonNull;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "mensajesSuscripciones")
+@Getter
 public class Mensaje {
 
   @Id
@@ -37,7 +39,4 @@ public class Mensaje {
     this.fechaEnvio = fechaEnvio;
   }
 
-  Mensaje() {
-
-  }
 }
