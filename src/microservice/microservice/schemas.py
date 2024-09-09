@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 from typing import List, Dict
 
 
@@ -7,5 +7,4 @@ class BarrioInfo(BaseModel):
     nombres: List[str]
 
 
-class ReporteBarrios(BaseModel):
-    __root__: Dict[str, BarrioInfo]
+ReporteBarrios = RootModel[Dict[str, BarrioInfo]]
