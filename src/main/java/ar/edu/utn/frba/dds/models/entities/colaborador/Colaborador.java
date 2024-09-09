@@ -34,13 +34,13 @@ public class Colaborador {
   static final Rol ROL_DEFAULT =
       new Rol("colaborador", new HashSet<>(List.of(new Permiso("depositarViandas"))));
 
-  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "binary(16)")
   @Id
   UUID id;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
   @MapsId
-  @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false)
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false, columnDefinition = "binary(16)")
   @NonNull Usuario usuario;
 
   @Embedded

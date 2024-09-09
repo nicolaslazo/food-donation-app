@@ -15,7 +15,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "permiso")
 public class Permiso {
-  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "binary(16)")
   @Id
   @NonNull UUID id;
 

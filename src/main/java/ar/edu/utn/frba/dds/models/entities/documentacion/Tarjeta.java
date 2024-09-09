@@ -22,7 +22,7 @@ import java.util.UUID;
 @Getter
 public class Tarjeta {
   @Id
-  @Column(name = "id", nullable = false, unique = true, updatable = false)
+  @Column(name = "id", nullable = false, unique = true, updatable = false, columnDefinition = "binary(16)")
   @NonNull UUID id;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Colaborador.class)

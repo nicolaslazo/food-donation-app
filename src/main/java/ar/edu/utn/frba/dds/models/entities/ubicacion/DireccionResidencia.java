@@ -18,12 +18,12 @@ import java.util.UUID;
 @Table(name = "direccionResidencia")
 public class DireccionResidencia {
   @Id
-  @Column(name = "id")
+  @Column(name = "id", columnDefinition = "binary(16)")
   UUID id;
 
   @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
   @MapsId
-  @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false)
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false, columnDefinition = "binary(16)")
   @NonNull Usuario usuario;
 
   @Column(name = "unidad")

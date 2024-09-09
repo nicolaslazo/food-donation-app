@@ -39,7 +39,7 @@ public class Usuario {
   LocalDate fechaNacimiento;
 
   // Idealmente estaríamos usando números de trámite en vez de UUIDs pero el cargador CSV no los soporta
-  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "BINARY(16)")
   @Id
   @Getter
   @NonNull UUID id;

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Vianda {
   @Column(name = "fechaDonacion", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaDonacion;
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Colaborador.class)
   @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @NonNull Colaborador colaborador;
 

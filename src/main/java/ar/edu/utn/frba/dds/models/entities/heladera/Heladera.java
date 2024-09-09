@@ -40,7 +40,7 @@ public class Heladera {
   @NonNull ZonedDateTime fechaInstalacion;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
+  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false, columnDefinition = "binary(16)")
   @Getter
   @NonNull Colaborador encargado;
 

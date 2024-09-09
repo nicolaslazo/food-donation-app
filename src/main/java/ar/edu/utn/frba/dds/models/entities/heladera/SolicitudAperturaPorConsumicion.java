@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,11 +25,11 @@ public class SolicitudAperturaPorConsumicion {
   @Id
   Long id;
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Tarjeta.class)
   @JoinColumn(name = "idTarjeta", nullable = false)
   @NonNull Tarjeta tarjeta;
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Vianda.class)
   @JoinColumn(name = "idVianda", nullable = false, referencedColumnName = "id")
   @NonNull Vianda vianda;
 

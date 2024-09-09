@@ -19,7 +19,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "rol")
 public class Rol {
-  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "binary(16)")
   @Id
   @NonNull UUID id;
 
