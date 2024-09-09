@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class SolicitudAperturaPorContribucionRepositoryTest {
-  final Tarjeta tarjetaMock = mock(Tarjeta.class);
+  final Tarjeta tarjetaMock = new Tarjeta(UUID.randomUUID());
   final DonacionViandas donacionMock = mock(DonacionViandas.class);
   final SolicitudAperturaPorContribucionRepository repositorio =
       SolicitudAperturaPorContribucionRepository.getInstancia();

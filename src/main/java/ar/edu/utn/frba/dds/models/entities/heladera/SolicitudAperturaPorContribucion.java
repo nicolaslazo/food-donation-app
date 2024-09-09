@@ -34,13 +34,12 @@ public class SolicitudAperturaPorContribucion {
   @GeneratedValue
   Long id;
 
-  @Transient
   @Getter
-  //@ManyToOne
-  //@JoinColumn(name = "idTarjeta", referencedColumnName = "id")
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinColumn(name = "idTarjeta", referencedColumnName = "id")
   @NonNull Tarjeta tarjeta;
 
-  @ManyToOne (cascade = CascadeType.PERSIST)
+  @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "idMovimientoViandas", referencedColumnName = "id")
   @NonNull MovimientoViandas razon;
 

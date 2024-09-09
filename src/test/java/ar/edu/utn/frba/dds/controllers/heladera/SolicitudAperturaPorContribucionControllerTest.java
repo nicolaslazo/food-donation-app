@@ -154,7 +154,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
     ZonedDateTime epoch = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
     ZonedDateTime unSegundoDespuesDeEpoch = epoch.plusSeconds(1);
-    SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(mock(Tarjeta.class), donacionMock, epoch);
+    SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(new Tarjeta(randomUUID()), donacionMock, epoch);
 
     controlador.repositorio.insert(solicitud);
 
