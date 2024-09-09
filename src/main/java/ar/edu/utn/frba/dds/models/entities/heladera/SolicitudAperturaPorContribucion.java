@@ -16,6 +16,9 @@ import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Transient;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Optional;
@@ -37,9 +40,8 @@ public class SolicitudAperturaPorContribucion {
   //@JoinColumn(name = "idTarjeta", referencedColumnName = "id")
   @NonNull Tarjeta tarjeta;
 
-  @Transient
-  //@ManyToOne
-  //@JoinColumn(name = "idMovimientoViandas", referencedColumnName = "id")
+  @ManyToOne (cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "idMovimientoViandas", referencedColumnName = "id")
   @NonNull MovimientoViandas razon;
 
   @Getter
@@ -67,7 +69,7 @@ public class SolicitudAperturaPorContribucion {
     this.fechaCreacion = fechaCreacion;
 
     int tiempoSolicitudAperturaMinutos =
-        Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
+            Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
 
     this.fechaVencimiento = fechaCreacion.plusMinutes(tiempoSolicitudAperturaMinutos);
   }
