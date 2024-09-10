@@ -1,53 +1,32 @@
 package ar.edu.utn.frba.dds.models.repositories.documentacion;
 
-
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.Optional;
 import java.util.UUID;
 
-public class TarjetasRepository implements ITarjetasRepository {
-  static TarjetasRepository instancia = null;
-  List<Tarjeta> tarjetas;
-
-  TarjetasRepository() {
-    tarjetas = new ArrayList<>();
-  }
-
-  public static TarjetasRepository getInstancia() {
-    if (instancia == null) instancia = new TarjetasRepository();
-
-    return instancia;
-  }
-
-  public Optional<Tarjeta> get(UUID id) {
-    return tarjetas.stream().filter(ta -> ta.getId().equals(id)).findFirst();
-  }
-
+public class TarjetasRepository extends HibernateEntityManager<Tarjeta, UUID> {
   public Optional<Tarjeta> getVigentePara(Usuario usuario) {
-    return tarjetas
-        .stream()
-        .filter(tarjeta -> tarjeta.getRecipiente() == usuario &&
-            tarjeta.getFechaAlta() != null &&
-            tarjeta.getFechaBaja() == null)
-        .findFirst();
-  }
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Tarjeta> query = cb.createQuery(Tarjeta.class);
+    Root<Tarjeta> root = query.from(Tarjeta.class);
 
-  public UUID insert(Tarjeta tarjeta) throws RepositoryException {
-    if (get(tarjeta.getId()).isPresent()) {
-      throw new RepositoryException("Otra tarjeta con este identificador ya existe");
-    }
+    Predicate recipientePredicate = cb.equal(root.get("recipiente"), usuario);
+    Predicate fechaAltaNotNullPredicate = cb.isNotNull(root.get("fechaAlta"));
+    Predicate fechaBajaNullPredicate = cb.isNull(root.get("fechaBaja"));
 
-    tarjetas.add(tarjeta);
+    query.select(root)
+        .where(cb.and(recipientePredicate, fechaAltaNotNullPredicate, fechaBajaNullPredicate));
 
-    return tarjeta.getId();
-  }
-
-  public void deleteTodas() {
-    tarjetas.clear();
+    return em.createQuery(query).setMaxResults(1).getResultStream().findFirst();
   }
 }

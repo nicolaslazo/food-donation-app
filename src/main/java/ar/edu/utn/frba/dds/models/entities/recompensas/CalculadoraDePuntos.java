@@ -25,7 +25,7 @@ public class CalculadoraDePuntos {
     return (long) (new DineroRepository().getTotal(colaborador) * coeficientePesosDonados +
         new RedistribucionViandasRepository().getTotal(colaborador) * coeficienteViandasDistribuidas +
         (new DonacionViandasRepository().getTotal(colaborador)) * coeficienteViandasDonadas +
-        EntregaTarjetasRepository.getInstancia().getTotal(colaborador) * coeficienteTarjetasRepartidas +
+        (new EntregaTarjetasRepository().getTotal(colaborador)) * coeficienteTarjetasRepartidas +
         (new CuidadoHeladerasRepository().getMesesActivosCumulativos(colaborador)) * coeficienteHeladerasActivas);
   }
 }

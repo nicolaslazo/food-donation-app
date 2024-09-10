@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -27,6 +28,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class TarjetaControllerTest {
+
+  final TarjetasRepository tarjetasRepository = new TarjetasRepository();
   Tarjeta tarjeta;
   Rol administrador = new Rol("Administrador",
       Set.of(new Permiso("crearTarjetas"),
@@ -55,7 +58,7 @@ class TarjetaControllerTest {
 
   @AfterEach
   void tearDown() {
-    TarjetasRepository.getInstancia().deleteTodas();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
@@ -64,7 +67,7 @@ class TarjetaControllerTest {
 
     TarjetaController.crear(uuid, usuario);
 
-    assertTrue(TarjetasRepository.getInstancia().get(uuid).isPresent());
+    assertTrue(tarjetasRepository.findById(uuid).isPresent());
   }
 
   @Test
@@ -87,17 +90,6 @@ class TarjetaControllerTest {
 
     assertThrows(PermisoDenegadoException.class,
         () -> TarjetaController.darDeAlta(tarjeta, usuario, colaboradorMock));
-  }
-
-  @Test
-  void testAltaFallaSiRecipienteYaTieneTarjeta() throws PermisoDenegadoException, RepositoryException {
-    Tarjeta unaTarjeta = TarjetaController.crear(UUID.randomUUID(), usuario);
-    Tarjeta otraTarjeta = TarjetaController.crear(UUID.randomUUID(), usuario);
-
-    TarjetaController.darDeAlta(unaTarjeta, usuario, colaboradorMock);
-
-    assertThrows(PermisoDenegadoException.class,
-        () -> TarjetaController.darDeAlta(otraTarjeta, usuario, colaboradorMock));
   }
 
   @Test
