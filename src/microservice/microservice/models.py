@@ -5,15 +5,13 @@ from sqlalchemy import (
     BINARY,
     Column,
     DateTime,
-    Enum,
     Float,
     ForeignKey,
     Integer,
     String,
-    UniqueConstraint,
 )
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import composite, relationship
+from sqlalchemy.orm import relationship
 from sqlalchemy.types import TypeDecorator
 
 Base = declarative_base()
@@ -25,7 +23,7 @@ class Uuid(TypeDecorator):
     def process_bind_param(self, value, dialect):
         if value is None:
             return value
-        if dialect.name == 'mysql':
+        if dialect.name == "mysql":
             return value.bytes
         else:
             return value
@@ -34,6 +32,7 @@ class Uuid(TypeDecorator):
         if value is None:
             return value
         return UUID(bytes=value)
+
 
 class Permiso(Base):
     __tablename__ = "permiso"
@@ -49,6 +48,7 @@ class SolicitudAperturaPorConsumicion(Base):
     id = Column(Integer, primary_key=True)
     idTarjeta = Column(Uuid, ForeignKey("tarjeta.id"), nullable=False)
     idVianda = Column(Integer, ForeignKey("vianda.id"), nullable=False)
+    idHeladera = Column(Integer, ForeignKey("heladera.id"), nullable=False)
     fechaCreacion = Column(DateTime, nullable=False)
     fechaVencimiento = Column(DateTime, nullable=False)
     fechaUsada = Column(DateTime)
@@ -56,23 +56,23 @@ class SolicitudAperturaPorConsumicion(Base):
     tarjeta = relationship("Tarjeta", back_populates="solicitudes")
     vianda = relationship("Vianda", back_populates="solicitudes")
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 
 class Tarjeta(Base):
     __tablename__ = "tarjeta"
 
     id = Column(Uuid, primary_key=True)
-    idProveedor = Column(Uuid, ForeignKey("colaborador.idUsuario"))
     idRecipiente = Column(Uuid, ForeignKey("usuario.id"))
-    fechaAlta = Column(DateTime)
-    fechaBaja = Column(DateTime)
-    idResponsableBaja = Column(Uuid, ForeignKey("usuario.id"))
 
-    proveedor = relationship("Colaborador", foreign_keys=[idProveedor])
     recipiente = relationship("Usuario", foreign_keys=[idRecipiente])
-    responsableDeBaja = relationship("Usuario", foreign_keys=[idResponsableBaja])
     solicitudes = relationship(
         "SolicitudAperturaPorConsumicion", back_populates="tarjeta"
     )
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class Vianda(Base):
@@ -140,17 +140,13 @@ class Usuario(Base):
     __tablename__ = "usuario"
 
     id = Column(Uuid, primary_key=True)
-    documento_tipo = Column("tipo", Enum(TipoDocumento), nullable=False)
-    documento_valor = Column("valor", Integer, nullable=False)
-    documento = composite(Documento, documento_tipo, documento_valor)
     primerNombre = Column(String, nullable=False)
     apellido = Column(String, nullable=False)
-    fechaNacimiento = Column(DateTime)
-    contrasenia = Column(String, nullable=False)
 
     colaborador = relationship("Colaborador", back_populates="usuario", uselist=False)
 
-    __table_args__ = (UniqueConstraint("tipo", "valor", name="uq_documento"),)
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class Rol(Base):
@@ -165,12 +161,9 @@ class Heladera(Base):
 
     id = Column(Integer, primary_key=True)
     nombre = Column(String, nullable=False)
-    capacidadEnViandas = Column(Integer, nullable=False)
-    fechaInstalacion = Column(DateTime, nullable=False)
     idColaborador = Column(Uuid, ForeignKey("colaborador.idUsuario"), nullable=False)
-    latitud = Column(Float)
-    longitud = Column(Float)
-    ultimaTemperaturaRegistradaEnCelsius = Column(Float)
-    momentoDeUltimaTempRegistrada = Column(DateTime)
 
     encargado = relationship("Colaborador")
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
