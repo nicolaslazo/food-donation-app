@@ -1,21 +1,17 @@
 package ar.edu.utn.frba.dds.models.entities.heladera.incidente;
 
-import ar.edu.utn.frba.dds.models.converters.URLAttributeConverter;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.net.URL;
 import java.time.ZonedDateTime;
 
@@ -25,7 +21,7 @@ import java.time.ZonedDateTime;
 public class VisitaTecnica {
 
   @ManyToOne
-  @JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "id")
+  @JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "idUsuario")
   @NonNull
   final Tecnico tecnico;
 
@@ -45,7 +41,6 @@ public class VisitaTecnica {
   final String descripcion;
 
   @Column(name = "foto")
-  @Convert(converter = URLAttributeConverter.class)
   final URL imagen;
 
   @Id
