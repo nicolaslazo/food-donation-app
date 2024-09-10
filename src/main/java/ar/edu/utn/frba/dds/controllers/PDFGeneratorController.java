@@ -13,12 +13,12 @@ import java.util.Map;
 
 public class PDFGeneratorController {
   public static void main(String[] args) {
-    PDFGeneratorController.generarReporteMovimientoHeladeras();
+    //PDFGeneratorController.generarReporteMovimientoHeladeras();
     PDFGeneratorController.generarReporteFallasHeladeras();
     PDFGeneratorController.generarReporteViandasColaborador();
   }
 
-  static void generarReporteMovimientoHeladeras() {
+  /*static void generarReporteMovimientoHeladeras() {
     MovimientosHeladeraRepository movimientosHeladeraRepository = MovimientosHeladeraRepository.getInstancia();
 
     Map<Heladera, Long> cantidadPorHeladera =
@@ -33,7 +33,7 @@ public class PDFGeneratorController {
         new String[]{"HELADERA", "CANTIDAD"},
         cantidadPorNombreDeHeladera);
     generador.generatePdf();
-  }
+  }*/
 
   static void generarReporteFallasHeladeras() {
     Map<Heladera, Long> cantidadPorHeladera =
@@ -52,7 +52,7 @@ public class PDFGeneratorController {
 
   static void generarReporteViandasColaborador() {
     Map<Colaborador, Long> cantidadPorColaborador =
-        DonacionViandasRepository.getInstancia().getCantidadDonacionesPorColaboradorSemanaAnterior();
+            new DonacionViandasRepository().getCantidadDonacionesPorColaboradorSemanaAnterior();
     Map<String, Long> cantidadPorNombreDeColaborador = new HashMap<>();
 
     for (Map.Entry<Colaborador, Long> entrada : cantidadPorColaborador.entrySet())

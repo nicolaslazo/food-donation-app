@@ -33,15 +33,13 @@ public class HeladeraController {
     final CoordenadasGeograficas coordsHeladera = heladera.getUbicacion();
 
     HashMap<Tecnico, Double> distanciasAHeladera = new HashMap<>();
-    TecnicoRepository
-        .getInstancia()
-        .getTecnicos()
-        .stream()
+    new TecnicoRepository()
+        .findAll()
         .filter(tecnico -> tecnico.isDentroDeRango(heladera))
         .forEach(tecnico ->
             distanciasAHeladera.put(
                 tecnico,
-                CalculadoraDistancia.calcular(tecnico.getAreaAsignada().centro(), coordsHeladera)
+                CalculadoraDistancia.calcular(tecnico.getAreaAsignada().getCentro(), coordsHeladera)
             )
         );
 
