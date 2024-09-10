@@ -23,25 +23,25 @@ public class VisitaTecnica {
   @ManyToOne
   @JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "idUsuario")
   @NonNull
-  final Tecnico tecnico;
+  Tecnico tecnico;
 
   @ManyToOne
   @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id")
   @Getter
-  final @NonNull Incidente incidente;
+  @NonNull Incidente incidente;
 
   @Column(name = "fecha", nullable = false)
-  final @NonNull ZonedDateTime fecha;
+  @NonNull ZonedDateTime fecha;
 
   @Column(name = "incidenteResuelto")
   @Getter
-  final boolean incidenteResuelto;
+  boolean incidenteResuelto;
 
   @Column(name = "descripcion", length = 1000)
-  final String descripcion;
+  String descripcion;
 
   @Column(name = "foto")
-  final URL imagen;
+  URL imagen;
 
   @Id
   @GeneratedValue
@@ -63,6 +63,9 @@ public class VisitaTecnica {
     this.imagen = imagen;
   }
 
+  protected VisitaTecnica(){
+
+  }
   public VisitaTecnica(@NonNull Tecnico tecnico,
                        @NonNull Incidente incidente,
                        @NonNull ZonedDateTime fecha,
