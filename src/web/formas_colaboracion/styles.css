@@ -1,0 +1,88 @@
+
+/* General */
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+}
+
+.contribuciones {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: #f2f2f2;
+    box-shadow: 0 0 10px #0007;
+    margin: 40px 40px;
+}
+
+.contribucion {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border-bottom: #0007 1px solid;
+}
+
+.contribucion:last-child {
+    border: none;
+}
+
+.contribucion-image img {
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0007;
+}
+
+.contribucion-info {
+    flex-grow: 1;
+}
+
+.contribucion-info h2 {
+    color: #C0392B;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.contribucion-info p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.btn-container-right {
+    display: flex;
+    align-content: center;
+    justify-content: end;
+}
+
+.btn-contribuir-ahora {
+    padding: 10px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.contribucion-info .btn-contribuir-ahora {
+    background-color: #2980B9;
+}
+
+.contribucion-info .btn-contribuir-ahora a {
+    color: #fff;
+}
+
+.btn-contribuir-ahora:hover {
+    background-color: #21618C;
+}
+

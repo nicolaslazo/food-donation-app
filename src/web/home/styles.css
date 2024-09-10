@@ -1,0 +1,158 @@
+/* General */
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+}
+
+a {
+    color: #2980B9;
+}
+
+header {
+    margin-bottom: 0;
+}
+
+/* Hero Section */
+
+.hero {
+    margin-top: 0;
+    position: relative;
+    min-width: 98.76vw;
+    height: calc(100vh - 124px);
+    overflow: hidden;
+    background: linear-gradient(90deg, #000, transparent);
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    opacity: 0.8;
+    
+}
+
+/* Main Section */
+
+main {
+    box-shadow: 0 0 10px #0007;
+    background-color: #f2f2f2;
+}
+
+.about, .system, .collaborate, .cards, .quiero-ayudar, .subs, .rewards {
+    padding: 40px 20px;
+    max-width: 1000px;
+    text-align: center;
+    border-bottom: #0007 1px solid;
+}
+
+.rewards {
+    border-bottom: none;
+}
+
+
+.about h2, .system h2, .collaborate h2, .cards h2, .quiero-ayudar h2, .subs h2, .rewards h2 {
+    font-size: 28px;
+    color: #C0392B;
+    margin-bottom: 20px;
+}
+
+.about p, .system p, .collaborate p, .cards p, .quiero-ayudar p, .subs p, .rewards p {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px
+}
+
+.container-subs{
+    margin-top: 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-content: center;
+    padding: 0 60px;
+}
+
+
+.subs ul li {
+    margin-bottom: 10px;
+    justify-self: center;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.container-rubros {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.container-rubros p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    list-style: none;
+}
+
+.collaboration-method {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.collaboration-method h3 {
+    font-size: 22px;
+    color: #2980B9;
+    margin-bottom: 10px;
+}
+
+.collaboration-method p {
+    font-size: 16px;
+    color: #333;
+}
+
+.btn-quiero-ayudar {
+    padding: 10px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.btn-quiero-ayudar:hover {
+    background-color: #21618C;
+}
+
+.btn-quiero-ayudar a {
+    color: #fff;
+}
+
+/* FOOTER */
+footer{
+    margin-top: 0;
+}
+
+/* PRUEBA DE LA STICKY-NAVBAR */
+
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; 
+    background-color: #C0392B; 
+}
+
+.sticky-padding {
+    padding-top: 70px; /* Ajusta este valor según la altura de la navbar */
+}
+
+.hidden-logo {
+    display: none;
+}
+
+

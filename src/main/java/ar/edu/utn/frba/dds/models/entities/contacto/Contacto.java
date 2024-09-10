@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.models.entities.contacto;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+@ToString
 @Entity
 @Table(name = "contacto", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"idUsuario", "destinatario"}),

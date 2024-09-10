@@ -1,0 +1,13 @@
+#falta-espacio-container {
+    display: none;
+}
+
+.form__container {
+    min-width: 60%;
+    max-width: 60%;
+}
+
+.form__body {
+    min-width: 80%;
+    max-width: 80%;
+}

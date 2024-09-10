@@ -1,0 +1,67 @@
+body {
+    background-color: #eee;
+}
+
+/* Sección Quiero Ayudar */
+.quiero-ayudar-section {
+    background-size: cover;
+    background-position: center;
+    padding: 50px 0;
+}
+
+.quiero-ayudar-container {
+    text-align: center;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.quiero-ayudar-container h1 {
+    font-size: 40px;
+}
+
+.options-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.option-card {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    max-width: 300px;
+    text-align: center;
+    transition: transform 0.3s;
+    box-shadow: 0 0 5px #0006;
+}
+
+.option-card:hover {
+    transform: scale(1.05);
+}
+
+.option-card img {
+    width: auto;
+    height: 160px;
+    border-radius: 10px;
+}
+
+.btn-opcion {
+    background-color: #2980B9;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn-opcion:hover {
+    background-color: #21618C;
+}
+
+.btn-opcion a {
+    color: #fff;
+    text-decoration: none;
+}

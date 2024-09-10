@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../../static/Logo_viandas_donation.png">
+
+    <!-- Links StyleSheets -->
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="styles.css">
+
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Leaflet PinSearch -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+    <!-- La idea un mapa general donde tengamos todas las heladeras a seleccionar 
+    pongo esto nomas para tener el mapa visualmente :) -->
+    <script src="script.js" defer></script>
+    <title>VD - Distribuir Viandas</title>
+</head>
+<body>
+    <header>
+        <div class="container-logo">
+            <a class="img-logo" href="../../home/home.html">
+                <img src="../../static/Logo_viandas_donation.png" alt="Logo">
+                <h2 class="name-logo"> Viandas Donation </h2>
+            </a>
+            <button class="btn-contribuir">
+                <a href="../../logueo/inicioSesion/index.html">Contribuir Ya</a>
+            </button>
+        </div>
+        <nav class="navbar">
+            <a href="../../home/home.html" class="navbar-item">INICIO</a>
+            <a href="../../quienes_somos/quienes_somos.html" class="navbar-item">QUIENES SOMOS</a>
+            <a href="../../contacto/contacto.html" class="navbar-item">CONTACTO</a>
+            <a href="../../tienda/tienda_home/tienda.html" class="navbar-item">TIENDA</a>
+        </nav>
+    </header>
+
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                DISTRIBUCIÓN DE VIANDAS
+            </div>
+
+            <form action="" class="form__body">
+                <div class="heladera-details-container">
+                    <label class="input-box">
+                        Cantidad de Viandas a Distribuir
+                        <input type="number" min="1" required>
+                    </label>
+                    <label class="input-box">
+                        Seleccione el Origen y Destino
+                        <div id="map"></div>
+                        <input type="hidden" id="latitudeOrigen" name="latitudeOrigen">
+                        <input type="hidden" id="longitudeOrigen" name="longitudeOrigen">
+                        <input type="hidden" id="latitudeDestino" name="latitudeDestino">
+                        <input type="hidden" id="longitudeDestino" name="longitudeDestino">
+                    </label>
+                    
+                    <div class="btn-clear">
+                        <!-- Botones para eliminar la selección de origen y destino -->
+                        <label>
+                            <button type="button" id="clear">Deseleccionar Recorrido</button>
+                        </label>
+                    </div>
+
+                    <label class="input-box" id="distribucion-container">
+                        Motivo de la Distribución
+                        <select name="motivo" id="motivo">
+                            <option value="falla_heladera">Desperfecto en la Heladera</option>
+                            <option value="falta_viandas">Faltan Viandas en la Heladera</option>
+                            <option value="falta_espacio">La Heladera esta casi llena</option>
+                        </select>
+                    </label>
+                    <label class="input-check">
+                        Acepto los <a href="../../terminosYcondiciones/terminos.html"> terminos y condiciones </a>
+                        <input type="checkbox" required>
+                    </label>
+                </div>
+
+                <div class="submit-button">
+                    <input type="submit" value="SIGUIENTE" id="submitBtn">
+                </div>
+            </form>
+        </div>
+
+        <aside>
+            <div class="aside">
+                <img src="../../static/icono_traslado.png" alt="Icono Traslado" class="img__aside">
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="footer-text">
+            Derechos reservados © 2024 Viandas Donation.
+        </div>
+    </footer>    
+</body>

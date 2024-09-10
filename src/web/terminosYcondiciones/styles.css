@@ -1,44 +1,26 @@
+/* General */
 body {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
 }
 
-header {
-    grid-column-start: 1;
-    grid-column-end: 1;
+a {
+    color: #2980B9;
 }
 
-.img-logo:hover {
-    text-decoration: none;
-}
-
-.img-logo img {
-    height: auto;
-}
-
-.btn-contribuir {
-    text-decoration: none;
-}
-
-.btn-contribuir:hover {
-    text-decoration: none;
-}
-
-.btn-contribuir a:hover {
-    text-decoration: none;
-}
-
-.navbar-item:hover {
-    text-decoration: none;
-}
+/* Main Content */
 
 main {
+    display: flex;
+    justify-content: center;
     padding: 20px;
 }
 
 .terms-container {
-    max-width: 65%;
+    max-width: 800px;
+    width: 100%;
     background-color: #f2f2f2;
     padding: 20px;
     border-radius: 10px;
@@ -49,7 +31,7 @@ main {
     text-align: center;
     font-size: 28px;
     font-weight: bold;
-    color: #C0392B;
+    color: #2980B9;
     margin-bottom: 20px;
 }
 
@@ -65,4 +47,20 @@ main {
     color: #555;
     line-height: 1.6;
     margin-bottom: 20px;
+}
+
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; 
+    background-color: #C0392B; 
+}
+
+.sticky-padding {
+    padding-top: 70px; /* Ajusta este valor según la altura de la navbar */
+}
+
+.hidden-logo {
+    display: none;
 }

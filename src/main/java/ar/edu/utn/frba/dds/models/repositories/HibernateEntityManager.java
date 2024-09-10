@@ -22,7 +22,7 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
       return (Class<T>) tipoDeEntidad.getActualTypeArguments()[0];
     throw new IllegalStateException("Esta clase no tiene parámetros genéricos");
   }
-
+  
   public Stream<?> correrQuery(String query) {
     // CUIDADO: este método nos puede exponer a inyecciones SQL
     //noinspection SqlSourceToSinkFlow

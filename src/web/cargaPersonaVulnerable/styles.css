@@ -3,6 +3,10 @@
     display: none;
 }
 
+header {
+    margin-bottom: 20px;
+}
+
 #direccion {
     grid-column: 1 / -1; /* Ocupa toda la fila en el grid */
     display: none; /* Inicialmente oculto */
