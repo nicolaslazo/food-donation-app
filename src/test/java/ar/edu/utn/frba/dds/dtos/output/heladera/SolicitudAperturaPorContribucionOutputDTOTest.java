@@ -15,9 +15,10 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolicitudAperturaPorContribucionOutputDTOTest {
+  final SolicitudAperturaPorContribucionRepository repositorio = new SolicitudAperturaPorContribucionRepository();
   @BeforeEach
   void setUp() {
-    SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
+    repositorio.deleteAll();
   }
 
   @Test

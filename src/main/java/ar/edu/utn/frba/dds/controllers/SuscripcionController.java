@@ -78,10 +78,10 @@ public class SuscripcionController implements IMqttMessageListener {
 
   /* Convierte un input DTO de solicitud de apertura en una instancia, garantizando que es válida */
   private static SolicitudAperturaPorContribucion verificarSolicitudEsProcesable(
-      SolicitudAperturaPorContribucionInputDTO dtoSolicitudApertura) throws SolicitudInvalidaException {
-    Optional<SolicitudAperturaPorContribucion> optionalSolicitudReferida = SolicitudAperturaPorContribucionRepository
-        .getInstancia()
-        .getSolicitudVigenteAlMomento(dtoSolicitudApertura.getId(),
+          SolicitudAperturaPorContribucionInputDTO dtoSolicitudApertura) throws SolicitudInvalidaException {
+    SolicitudAperturaPorContribucionRepository repositorioSolicitud = new SolicitudAperturaPorContribucionRepository();
+    Optional<SolicitudAperturaPorContribucion> optionalSolicitudReferida = repositorioSolicitud
+        .getSolicitudVigenteAlMomento(Long.valueOf(dtoSolicitudApertura.getId()),
             dtoSolicitudApertura.getEsExtraccion(),
             dtoSolicitudApertura.getFechaRealizada());
 

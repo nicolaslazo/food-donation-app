@@ -8,27 +8,53 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
+@Entity
+@Table(name = "solicitudAperturaPorContribucion")
 public class SolicitudAperturaPorContribucion {
+  @Id
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
+  @GeneratedValue
   @Getter
-  final @NonNull Tarjeta tarjeta;
-  final @NonNull MovimientoViandas razon;
+  Long id;
+
   @Getter
-  final @NonNull ZonedDateTime fechaCreacion;
+  @ManyToOne(targetEntity = Tarjeta.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinColumn(name = "idTarjeta", referencedColumnName = "id")
+  @NonNull Tarjeta tarjeta;
+
+  @ManyToOne (targetEntity = MovimientoViandas.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinColumn(name = "idMovimientoViandas", referencedColumnName = "id")
+  @NonNull MovimientoViandas razon;
+
   @Getter
-  final @NonNull ZonedDateTime fechaVencimiento;
+  @Column(name = "fechaCreacion", nullable = false)
+  @NonNull ZonedDateTime fechaCreacion;
+
   @Getter
+  @Column(name = "fechaVencimiento", nullable = false)
+  @NonNull ZonedDateTime fechaVencimiento;
+
+  @Getter
+  @Column(name = "fechaAperturaEnOrigen")
   ZonedDateTime fechaAperturaEnOrigen = null;
+
   @Getter
+  @Column(name = "fechaAperturaEnDestino")
   ZonedDateTime fechaAperturaEnDestino = null;
-  @Getter
-  @Setter
-  int id;
+
 
   public SolicitudAperturaPorContribucion(Tarjeta tarjeta,
                                           MovimientoViandas razon,
@@ -38,9 +64,12 @@ public class SolicitudAperturaPorContribucion {
     this.fechaCreacion = fechaCreacion;
 
     int tiempoSolicitudAperturaMinutos =
-        Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
+            Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
 
     this.fechaVencimiento = fechaCreacion.plusMinutes(tiempoSolicitudAperturaMinutos);
+  }
+
+  protected SolicitudAperturaPorContribucion() {
   }
 
   // Cubre los casos comunes entre las donaciones y las redistribuciones

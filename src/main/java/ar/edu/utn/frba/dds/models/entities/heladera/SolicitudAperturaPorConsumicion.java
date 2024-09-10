@@ -19,12 +19,12 @@ import java.time.ZonedDateTime;
 @Table(name = "solicitudAperturaPorConsumicion")
 @Getter
 public class SolicitudAperturaPorConsumicion {
-
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
   @GeneratedValue
   @Id
   Long id;
 
-  @ManyToOne
+  @ManyToOne(targetEntity = Tarjeta.class)
   @JoinColumn(name = "idTarjeta", nullable = false)
   @NonNull Tarjeta tarjeta;
 

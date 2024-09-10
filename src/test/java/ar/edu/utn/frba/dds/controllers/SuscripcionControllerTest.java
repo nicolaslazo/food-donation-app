@@ -39,6 +39,7 @@ import static org.mockito.Mockito.verify;
 class SuscripcionControllerTest {
   final CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5609872, -58.501046);
   final SuscripcionRepository repositorio = new SuscripcionRepository();
+  final SolicitudAperturaPorContribucionRepository repositorioSolicitudApertura = new SolicitudAperturaPorContribucionRepository();
   Colaborador colaborador;
   Heladera heladera;
 
@@ -59,7 +60,7 @@ class SuscripcionControllerTest {
 
   @AfterEach
   void tearDown() {
-    SolicitudAperturaPorContribucionRepository.getInstancia().deleteTodas();
+    repositorioSolicitudApertura.deleteAll();
     new HibernatePersistenceReset().execute();
   }
 
