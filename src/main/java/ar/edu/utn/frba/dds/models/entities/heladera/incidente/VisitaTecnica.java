@@ -72,5 +72,4 @@ public class VisitaTecnica {
                        boolean incidenteResuelto) {
     this(tecnico, incidente, fecha, incidenteResuelto, null, null);
   }
-
 }
