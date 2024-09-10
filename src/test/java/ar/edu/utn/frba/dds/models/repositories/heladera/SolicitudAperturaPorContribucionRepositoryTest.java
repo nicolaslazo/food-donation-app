@@ -1,11 +1,12 @@
 package ar.edu.utn.frba.dds.models.repositories.heladera;
 
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
-import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
@@ -19,23 +20,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class SolicitudAperturaPorContribucionRepositoryTest {
-  final Tarjeta tarjetaMock = new Tarjeta(UUID.randomUUID());
-  final DonacionViandas donacionMock = mock(DonacionViandas.class);
-  final SolicitudAperturaPorContribucionRepository repositorio =
+  Tarjeta tarjetaMock = new Tarjeta(UUID.randomUUID());
+  DonacionViandas donacionMock = mock(DonacionViandas.class);
+  SolicitudAperturaPorContribucionRepository repositorio =
       new SolicitudAperturaPorContribucionRepository();
+  SolicitudAperturaPorContribucion solicitud;
+
+  @BeforeEach
+  void setUp() {
+    solicitud = new SolicitudAperturaPorContribucion(
+            tarjetaMock,
+            donacionMock,
+            ZonedDateTime.now()
+    );
+
+    repositorio.insert(solicitud);
+  }
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
   void testGetSolicitudVigente() {
-    SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now());
-
-
-    repositorio.insert(solicitud);
     Optional<SolicitudAperturaPorContribucion> encontrada =
         repositorio.getSolicitudVigente(solicitud.getId(), false);
 
@@ -46,33 +54,37 @@ class SolicitudAperturaPorContribucionRepositoryTest {
   @Test
   void testGetSolicitudVieja() {
     ZonedDateTime ayer = ZonedDateTime.now().minusDays(1);
-    SolicitudAperturaPorContribucion solicitud =
+    SolicitudAperturaPorContribucion solicitudDos =
         new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ayer);
-    repositorio.insert(solicitud);
+    repositorio.insert(solicitudDos);
 
     Optional<SolicitudAperturaPorContribucion> encontrada =
-        repositorio.getSolicitudVigente(solicitud.getId(), false);
+        repositorio.getSolicitudVigente(solicitudDos.getId(), false);
 
     assertFalse(encontrada.isPresent());
   }
 
   @Test
   void testInsertarSolicitud() {
-    SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now());
+    Optional<SolicitudAperturaPorContribucion> encontrada =
+            repositorio.findById(solicitud.getId());
 
-    repositorio.insert(solicitud);
-
-    assertEquals(solicitud, repositorio.findById(solicitud.getId()).get());
+    assertTrue(encontrada.isPresent());
+    assertEquals(solicitud.getId(), encontrada.get().getId());
   }
 
   @Test
   void testUpdateFechaUsadaFallaSiSolicitudVencio() {
-    SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now().minusYears(1));
-    repositorio.insert(solicitud);
+    SolicitudAperturaPorContribucion solicitudTres =
+            new SolicitudAperturaPorContribucion(
+                    tarjetaMock,
+                    donacionMock,
+                    ZonedDateTime.now().minusYears(1));
+
+    repositorio.insert(solicitudTres);
 
     assertThrows(SolicitudInvalidaException.class,
-        () -> repositorio.updateFechaUsada(solicitud.getId(), false, ZonedDateTime.now()));
+        () -> repositorio.updateFechaUsada(solicitudTres.getId(), false, ZonedDateTime.now()));
   }
 
   @Test
@@ -80,11 +92,11 @@ class SolicitudAperturaPorContribucionRepositoryTest {
     final ZonedDateTime haceUnAno = ZonedDateTime.now().minusYears(1);
     final ZonedDateTime haceUnAnoYDiezMinutos = haceUnAno.plusMinutes(10);
 
-    SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, haceUnAno);
-    repositorio.insert(solicitud);
-    repositorio.updateFechaUsada(solicitud.getId(), false, haceUnAnoYDiezMinutos);
+    SolicitudAperturaPorContribucion solicitudCuatro = new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, haceUnAno);
+    repositorio.insert(solicitudCuatro);
+    repositorio.updateFechaUsada(solicitudCuatro.getId(), false, haceUnAnoYDiezMinutos);
 
-    assertEquals(haceUnAnoYDiezMinutos, repositorio.findById(solicitud.getId()).get().getFechaAperturaEnDestino());
+    assertEquals(haceUnAnoYDiezMinutos, repositorio.findById(solicitudCuatro.getId()).get().getFechaAperturaEnDestino());
   }
 
   @Test
@@ -114,12 +126,9 @@ class SolicitudAperturaPorContribucionRepositoryTest {
     assertEquals(ahora, solicitud.getFechaAperturaEnOrigen());
   }
    */
+
   @Test
   void testEliminarTodas() {
-    final SolicitudAperturaPorContribucion solicitud =
-        new SolicitudAperturaPorContribucion(tarjetaMock, donacionMock, ZonedDateTime.now());
-
-    repositorio.insert(solicitud);
     repositorio.deleteAll();
 
     assertTrue(repositorio.getSolicitudVigente(solicitud.getId(), false).isEmpty());
