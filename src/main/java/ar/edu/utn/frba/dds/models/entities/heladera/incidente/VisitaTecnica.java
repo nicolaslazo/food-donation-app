@@ -20,34 +20,33 @@ import java.time.ZonedDateTime;
 @Getter
 public class VisitaTecnica {
 
-  @ManyToOne
+  @ManyToOne(targetEntity = Tecnico.class)
   @JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "idUsuario")
-  @NonNull
-  final Tecnico tecnico;
+  @NonNull Tecnico tecnico;
 
   @ManyToOne
-  @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id")
+  @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id", unique = true)
   @Getter
-  final @NonNull Incidente incidente;
+  @NonNull Incidente incidente;
 
   @Column(name = "fecha", nullable = false)
-  final @NonNull ZonedDateTime fecha;
+  @NonNull ZonedDateTime fecha;
 
   @Column(name = "incidenteResuelto")
   @Getter
-  final boolean incidenteResuelto;
+  Boolean incidenteResuelto;
 
   @Column(name = "descripcion", length = 1000)
-  final String descripcion;
+  String descripcion;
 
   @Column(name = "foto")
-  final URL imagen;
+  URL imagen;
 
   @Id
   @GeneratedValue
   @Getter
   @Setter
-  long id;
+  Long id;
 
   public VisitaTecnica(@NonNull Tecnico tecnico,
                        @NonNull Incidente incidente,
@@ -63,10 +62,15 @@ public class VisitaTecnica {
     this.imagen = imagen;
   }
 
+  protected VisitaTecnica() {
+
+  }
+
   public VisitaTecnica(@NonNull Tecnico tecnico,
                        @NonNull Incidente incidente,
                        @NonNull ZonedDateTime fecha,
                        boolean incidenteResuelto) {
     this(tecnico, incidente, fecha, incidenteResuelto, null, null);
   }
+
 }
