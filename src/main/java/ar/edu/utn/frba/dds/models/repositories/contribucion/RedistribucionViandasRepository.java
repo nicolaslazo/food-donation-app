@@ -2,47 +2,21 @@ package ar.edu.utn.frba.dds.models.repositories.contribucion;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
+import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class RedistribucionViandasRepository {
-  static RedistribucionViandasRepository instancia = null;
-  final List<RedistribucionViandas> redistribuciones;
-
-  public RedistribucionViandasRepository() {
-    this.redistribuciones = new ArrayList<>();
-  }
-
-  public static RedistribucionViandasRepository getInstancia() {
-    if (instancia == null) {
-      instancia = new RedistribucionViandasRepository();
-    }
-
-    return instancia;
-  }
-
-  public Optional<RedistribucionViandas> get(Long id) {
-    return redistribuciones.stream().filter(redistribucion -> redistribucion.getId() == id).findFirst();
-  }
-
+public class RedistribucionViandasRepository extends HibernateEntityManager<RedistribucionViandas, Long> {
   public int getTotal(Colaborador colaborador) {
-    return redistribuciones
-        .stream()
-        .filter(redistribucion -> redistribucion.getColaborador() == colaborador)
+    String query = "SELECT r FROM RedistribucionViandas r WHERE r.colaborador = :colaborador";
+    List<RedistribucionViandas> redistribuciones = entityManager()
+        .createQuery(query, RedistribucionViandas.class)
+        .setParameter("colaborador", colaborador)
+        .getResultList();
+
+    // Sumamos la cantidad de viandas redistribuidas
+    return redistribuciones.stream()
         .mapToInt(RedistribucionViandas::getNumeroViandas)
         .sum();
-  }
-
-  public Long insert(RedistribucionViandas redistribucion) {
-    redistribuciones.add(redistribucion);
-    redistribucion.setId((long) redistribuciones.size());
-
-    return redistribucion.getId();
-  }
-
-  public void deleteTodas() {
-    redistribuciones.clear();
   }
 }

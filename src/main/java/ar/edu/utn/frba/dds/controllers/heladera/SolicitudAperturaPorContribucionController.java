@@ -20,8 +20,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class SolicitudAperturaPorContribucionController implements IMqttMessageListener {
-  final SolicitudAperturaPorContribucionRepository repositorio =
-      SolicitudAperturaPorContribucionRepository.getInstancia();
+  final SolicitudAperturaPorContribucionRepository repositorio = new SolicitudAperturaPorContribucionRepository();
 
   private void checkearPrecondicionesCreacion(Tarjeta tarjeta, MovimientoViandas contribucion)
       throws PermisoDenegadoException {
@@ -46,7 +45,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
         contribucion,
         ZonedDateTime.now());
 
-    SolicitudAperturaPorContribucionRepository.getInstancia().insert(solicitud);
+    repositorio.insert(solicitud);
 
     String formatoTopicDeSolicitudes = "heladeras/%d/solicitudes";
 
@@ -80,7 +79,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
         SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
 
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
-        repositorio.getSolicitudVigenteAlMomento(confirmacion.getId(),
+        repositorio.getSolicitudVigenteAlMomento(Long.valueOf(confirmacion.getId()),
             confirmacion.getEsExtraccion(),
             confirmacion.getFechaRealizada());
 

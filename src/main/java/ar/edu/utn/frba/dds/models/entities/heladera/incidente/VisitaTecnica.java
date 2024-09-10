@@ -3,23 +3,48 @@ package ar.edu.utn.frba.dds.models.entities.heladera.incidente;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.net.URL;
 import java.time.ZonedDateTime;
 
+@Entity
+@Table(name = "visitaTecnica")
+@Getter
 public class VisitaTecnica {
-  final @NonNull Tecnico tecnico;
+  @Column(name = "id", nullable = false, updatable = false, unique = true)
+  @Id
+  @GeneratedValue
   @Getter
-  final @NonNull Incidente incidente;
-  final @NonNull ZonedDateTime fecha;
+  Long id;
+
+  @ManyToOne(targetEntity = Tecnico.class)
+  @JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "idUsuario")
+  @NonNull Tecnico tecnico;
+
+  @ManyToOne
+  @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id", unique = true)
   @Getter
-  final boolean incidenteResuelto;
-  final String descripcion;
-  final URL imagen;
+  @NonNull Incidente incidente;
+
+  @Column(name = "fecha", nullable = false)
+  @NonNull ZonedDateTime fecha;
+
+  @Column(name = "incidenteResuelto")
   @Getter
-  @Setter
-  int id;
+  Boolean incidenteResuelto;
+
+  @Column(name = "descripcion", length = 1000)
+  String descripcion;
+
+  @Column(name = "foto")
+  URL imagen;
 
   public VisitaTecnica(@NonNull Tecnico tecnico,
                        @NonNull Incidente incidente,
@@ -33,6 +58,10 @@ public class VisitaTecnica {
     this.incidenteResuelto = incidenteResuelto;
     this.descripcion = descripcion;
     this.imagen = imagen;
+  }
+
+  protected VisitaTecnica() {
+
   }
 
   public VisitaTecnica(@NonNull Tecnico tecnico,

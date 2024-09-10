@@ -58,8 +58,9 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
   }
 
   public long getCapacidadDisponible(Heladera heladera) {
+    SolicitudAperturaPorContribucionRepository repositorio = new SolicitudAperturaPorContribucionRepository();
     final int viandasEnContribucionesVigentes =
-        SolicitudAperturaPorContribucionRepository.getInstancia().getCantidadViandasPendientes(heladera);
+        repositorio.getCantidadViandasPendientes(heladera);
 
     return heladera.getCapacidadEnViandas() - getCantidadViandasDepositadas(heladera) - viandasEnContribucionesVigentes;
   }

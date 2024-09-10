@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../../static/Logo_viandas_donation.png">
+    <!-- Links StyleSheets -->
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Leaflet PinSearch -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+
+    <script src="../cuidado_heladera/cuidado_heladera.js" defer></script>
+    <script src="script.js" defer></script>
+    <title>VD - Suscribirse</title>
+</head>
+<body>
+<header>
+    <div class="container-logo">
+        <a class="img-logo" href="../../home/home.html">
+            <img src="../../static/Logo_viandas_donation.png" alt="Logo">
+            <h2 class="name-logo"> Viandas Donation </h2>
+        </a>
+        <button class="btn-contribuir">
+            <a href="../../logueo/inicioSesion/index.html">Contribuir Ya</a>
+        </button>
+    </div>
+    <nav class="navbar">
+        <a href="../../home/home.html" class="navbar-item">INICIO</a>
+        <a href="../../quienes_somos/quienes_somos.html" class="navbar-item">QUIENES SOMOS</a>
+        <a href="../../contacto/contacto.html" class="navbar-item">CONTACTO</a>
+        <a href="../../tienda/tienda_home/tienda.html" class="navbar-item">TIENDA</a>
+    </nav>
+</header>
+
+<main class="main__container">
+    <div class="form__container">
+        <div class="form-title">
+            SUSCRIPCION A HELADERA
+        </div>
+
+        <form action="" class="form__body">
+            <div class="heladera-details-container">
+                <label class="input-box">
+                    Tipo de Suscripción
+                    <select name="tipo_suscripcion" id="tipo-suscripcion">
+                        <option value="faltan_viandas">Faltan Viandas en la Heladera </option>
+                        <option value="falta_espacio">Falta Espacio Libre en la Heladera</option>
+                        <option value="falla_heladera">Falla en la Heladera</option>
+                    </select>
+                </label>
+
+                <label class="input-box" id="faltan-viandas-container">
+                    Quiero que me avise cuando faltan _ viandas para estar vacia
+                    <input type="number" min="1" required>
+                </label>
+
+                <label class="input-box" id="falta-espacio-container">
+                    Quiero que me avise cuando falta _ espacio disponible en la Heladera
+                    <input type="number" min="1" required>
+                </label>
+
+                <!-- New Map Input -->
+                <label class="input-box">
+                    Ubicación de la Heladera
+                    <div id="map"></div>
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+                </label>
+
+                <label class="input-check">
+                    Acepto los <a href="../../terminosYcondiciones/terminos.html"> terminos y condiciones </a>
+                    <input type="checkbox" required>
+                </label>
+            </div>
+
+            <div class="submit-button">
+                <input type="submit" value="SUSCRIBIRSE">
+            </div>
+        </form>
+    </div>
+
+    <aside>
+        <div class="aside">
+            <img src="../../static/icono_aside_suscripcion.png" alt="Icono de Suscripcion" class="img__aside">
+        </div>
+    </aside>
+</main>
+
+<footer>
+    <div class="footer-text">
+        Derechos reservados © 2024 Viandas Donation.
+    </div>
+</footer>
+
+</body>
+</html>

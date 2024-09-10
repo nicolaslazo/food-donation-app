@@ -20,7 +20,7 @@ import java.time.ZonedDateTime;
 @Table(name = "solicitudAperturaPorConsumicion")
 @Getter
 public class SolicitudAperturaPorConsumicion {
-
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
   @GeneratedValue
   @Id
   Long id;

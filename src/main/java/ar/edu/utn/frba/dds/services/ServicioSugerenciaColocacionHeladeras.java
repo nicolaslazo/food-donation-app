@@ -47,10 +47,10 @@ public class ServicioSugerenciaColocacionHeladeras {
   }
 
   public List<CoordenadasGeograficas> solicitarSugerencias(AreaGeografica area) throws IOException {
-    CoordenadasGeograficas coordenadas = area.centro();
+    CoordenadasGeograficas coordenadas = area.getCentro();
 
     Call<List<CoordenadasGeograficas>> request =
-        interfaz.sugerencias(coordenadas.getLatitud(), coordenadas.getLongitud(), area.radioEnMetros());
+        interfaz.sugerencias(coordenadas.getLatitud(), coordenadas.getLongitud(), area.getRadioEnMetros());
 
     Response<List<CoordenadasGeograficas>> response = request.execute();
 

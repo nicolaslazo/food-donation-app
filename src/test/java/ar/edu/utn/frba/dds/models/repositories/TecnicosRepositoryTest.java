@@ -1,94 +1,79 @@
 package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TecnicosRepositoryTest {
-  TecnicoRepository repositorio = TecnicoRepository.getInstancia();
-  Tecnico tecnico;
+  CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
+
+  Tecnico tecnico = new Tecnico(
+    new Documento(TipoDocumento.DNI, 123),
+    "",
+    "",
+    LocalDate.now(),
+    "1",
+    new AreaGeografica( obelisco, 100)
+  );
+
+  Tecnico tecnicoDos = new Tecnico(
+      new Documento(TipoDocumento.DNI, 123),
+      "",
+      "",
+      LocalDate.now(),
+      "2",
+      new AreaGeografica(obelisco, 100)
+  );
 
   @BeforeEach
   void setUp() {
-    tecnico = Mockito.mock(Tecnico.class);
-    Mockito.when(tecnico.getCuil()).thenReturn("123456");
-
-    Tecnico tecnico1 = Mockito.mock(Tecnico.class);
-    Mockito.when(tecnico1.getCuil()).thenReturn("1");
-    repositorio.insert(tecnico1);
-
-    Tecnico tecnico2 = Mockito.mock(Tecnico.class);
-    Mockito.when(tecnico2.getCuil()).thenReturn("2");
-    repositorio.insert(tecnico2);
+   new TecnicoRepository().insert(tecnico);
   }
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteTodos();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
-  void repositorioSeInstancia() {
-    assertInstanceOf(TecnicoRepository.class, repositorio);
-  }
-
-  @Test
-  void insertarTecnicoSinFallar() {
-    repositorio.insert(tecnico);
-    Assertions.assertTrue(repositorio.getTecnicos().contains(tecnico));
+  void buscarPorId() {
+    Optional<Tecnico> encontrado = new TecnicoRepository().findById(tecnico.getId());
+    assertTrue(encontrado.isPresent());
+    assertEquals(tecnico.getId(), encontrado.get().getId());
   }
 
   @Test
   void obtenerTodosLostecnicos() {
-    repositorio.insert(tecnico);
+    new TecnicoRepository().insert(tecnicoDos);
+    Stream<Tecnico> encontrados = new TecnicoRepository().findAll();
 
-    assertEquals(3, repositorio.getTecnicos().size());
+    assertEquals(2, encontrados.count());
   }
 
   @Test
   void testGetTecnicoNoExistente() {
-    Optional<Tecnico> encontrado = repositorio.get("999999");
-    Assertions.assertFalse(encontrado.isPresent(), "El técnico no existe");
+    new TecnicoRepository().delete(tecnico);
+    Optional<Tecnico> noEncontrado = new TecnicoRepository().findById(tecnico.getId());
+    assertTrue(noEncontrado.isEmpty());
   }
 
   @Test
-  void testGetTecnicoExistente() {
-    repositorio.insert(tecnico);
+  void testDeleteTodosLosTecnicos() {
+    new TecnicoRepository().deleteAll();
+    Stream<Tecnico> vacio = new TecnicoRepository().findAll();
 
-
-    Optional<Tecnico> encontrado = repositorio.get("123456");
-    Assertions.assertTrue(encontrado.isPresent(), "El técnico debería estar presente");
-    assertEquals(tecnico, encontrado.get(), "técnico encontrado");
-  }
-
-  @Test
-  void testDeleteTecnicoExistente() {
-    repositorio.insert(tecnico);
-    boolean resultado = repositorio.delete("123456");
-    Assertions.assertTrue(resultado, "El técnico debería haber sido eliminado");
-    Optional<Tecnico> encontrado = repositorio.get("123456");
-    Assertions.assertFalse(encontrado.isPresent(), "El técnico no debería estar presente después de ser eliminado");
-  }
-
-  @Test
-  void testDeleteTecnicoNoExistente() {
-    boolean resultado = repositorio.delete("999999");
-    Assertions.assertFalse(resultado, "El técnico no debería haber sido eliminado porque no existe");
-  }
-
-  @Test
-  void testDeleteTodosLimpiaElRepositorio() {
-    repositorio.deleteTodos();
-
-    assertTrue(repositorio.get("401").isEmpty());
+    assertEquals(0, vacio.count());
   }
 }
