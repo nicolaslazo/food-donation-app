@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.models.entities.heladera.incidente;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +18,11 @@ import java.time.ZonedDateTime;
 @Table(name = "visitaTecnica")
 @Getter
 public class VisitaTecnica {
+  @Column(name = "id", nullable = false, updatable = false, unique = true)
+  @Id
+  @GeneratedValue
+  @Getter
+  Long id;
 
   @ManyToOne(targetEntity = Tecnico.class)
   @JoinColumn(name = "idTecnico", nullable = false, referencedColumnName = "idUsuario")
@@ -41,12 +45,6 @@ public class VisitaTecnica {
 
   @Column(name = "foto")
   URL imagen;
-
-  @Id
-  @GeneratedValue
-  @Getter
-  @Setter
-  Long id;
 
   public VisitaTecnica(@NonNull Tecnico tecnico,
                        @NonNull Incidente incidente,
