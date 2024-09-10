@@ -8,14 +8,12 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Transient;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.CascadeType;
@@ -26,20 +24,18 @@ import java.util.Optional;
 @Entity
 @Table(name = "solicitudAperturaPorContribucion")
 public class SolicitudAperturaPorContribucion {
-
-  @Getter
-  @Setter
   @Id
-  @Column(name = "id", nullable = false)
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
   @GeneratedValue
+  @Getter
   Long id;
 
   @Getter
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToOne(targetEntity = Tarjeta.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "idTarjeta", referencedColumnName = "id")
   @NonNull Tarjeta tarjeta;
 
-  @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToOne (targetEntity = MovimientoViandas.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinColumn(name = "idMovimientoViandas", referencedColumnName = "id")
   @NonNull MovimientoViandas razon;
 
@@ -71,6 +67,9 @@ public class SolicitudAperturaPorContribucion {
             Integer.parseInt(ConfigLoader.getInstancia().getProperty("heladeras.tiempoSolicitudAperturaMinutos"));
 
     this.fechaVencimiento = fechaCreacion.plusMinutes(tiempoSolicitudAperturaMinutos);
+  }
+
+  protected SolicitudAperturaPorContribucion() {
   }
 
   // Cubre los casos comunes entre las donaciones y las redistribuciones
