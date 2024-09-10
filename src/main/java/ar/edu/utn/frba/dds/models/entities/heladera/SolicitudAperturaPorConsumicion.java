@@ -33,6 +33,10 @@ public class SolicitudAperturaPorConsumicion {
   @JoinColumn(name = "idVianda", nullable = false, referencedColumnName = "id")
   @NonNull Vianda vianda;
 
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Heladera.class)
+  @JoinColumn(name = "idHeladera", nullable = false, updatable = false, referencedColumnName = "id")
+  @NonNull Heladera heladera;
+
   @Column(name = "fechaCreacion", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaCreacion;
 
@@ -44,9 +48,11 @@ public class SolicitudAperturaPorConsumicion {
 
   public SolicitudAperturaPorConsumicion(@NonNull Tarjeta tarjeta,
                                          @NonNull Vianda vianda,
+                                         @NonNull Heladera heladera,
                                          @NonNull ZonedDateTime fechaCreacion) {
     this.tarjeta = tarjeta;
     this.vianda = vianda;
+    this.heladera = heladera;
     this.fechaCreacion = fechaCreacion;
 
     int tiempoSolicitudAperturaMinutos =
