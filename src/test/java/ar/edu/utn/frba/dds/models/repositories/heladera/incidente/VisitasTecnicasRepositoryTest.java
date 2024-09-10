@@ -17,6 +17,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.RollbackException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
@@ -45,7 +46,12 @@ class VisitasTecnicasRepositoryTest {
 
   final Incidente incidente = new Incidente(heladera, TipoIncidente.FRAUDE, ZonedDateTime.now());
 
-  Tecnico tecnico = new Tecnico(new Documento(TipoDocumento.DNI, 1), " ", " ", LocalDate.now(), " ", new AreaGeografica(obelisco, 1));
+  Tecnico tecnico = new Tecnico(
+          new Documento(TipoDocumento.DNI, 1),
+          " ",
+          " ", LocalDate.now(),
+          " ", new AreaGeografica(obelisco, 1)
+  );
 
   @BeforeEach
   void setUp() {
@@ -57,26 +63,28 @@ class VisitasTecnicasRepositoryTest {
   void tearDown() {
     new HibernatePersistenceReset().execute();
   }
+
   @Test
   void testVisitaSinResolucionNoResuelveIncidente() throws RepositoryException {
-    repositorio.insert(new VisitaTecnica(mock(Tecnico.class), incidente, ZonedDateTime.now(), false));
+    repositorio.insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), false));
 
     assertFalse(repositorio.isIncidenteResuelto(incidente));
   }
 
   @Test
   void testVisitaResuelveIncidente() throws RepositoryException {
-    repositorio.insert(new VisitaTecnica(mock(Tecnico.class), incidente, ZonedDateTime.now(), true));
+    repositorio.insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), true));
 
     assertTrue(repositorio.isIncidenteResuelto(incidente));
   }
 
   @Test
-  void insertarVisitaParaIncidenteResueltoFalla() throws RepositoryException {
-    repositorio.insert(new VisitaTecnica(mock(Tecnico.class), incidente, ZonedDateTime.now(), true));
+  void insertarVisitaParaIncidenteResueltoFalla()  {
+    repositorio.insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), true));
 
-    assertThrows(RepositoryException.class,
+    assertThrows(RollbackException.class,
         () -> repositorio.insert(
-            new VisitaTecnica(mock(Tecnico.class), incidente, ZonedDateTime.now(), true)));
+            new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), true))
+    );
   }
 }
