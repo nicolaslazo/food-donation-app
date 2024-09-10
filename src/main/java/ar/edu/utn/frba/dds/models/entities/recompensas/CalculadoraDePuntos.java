@@ -22,9 +22,8 @@ public class CalculadoraDePuntos {
       Double.parseDouble(coeficientesConfig.getProperty("puntaje.coeficiente.heladerasActivas"));
 
   public static long calcular(Colaborador colaborador) {
-    return (long)
-        (new DineroRepository().getTotal(colaborador) * coeficientePesosDonados +
-        RedistribucionViandasRepository.getInstancia().getTotal(colaborador) * coeficienteViandasDistribuidas +
+    return (long) (new DineroRepository().getTotal(colaborador) * coeficientePesosDonados +
+        new RedistribucionViandasRepository().getTotal(colaborador) * coeficienteViandasDistribuidas +
         (new DonacionViandasRepository().getTotal(colaborador)) * coeficienteViandasDonadas +
         (new EntregaTarjetasRepository().getTotal(colaborador)) * coeficienteTarjetasRepartidas +
         (new CuidadoHeladerasRepository().getMesesActivosCumulativos(colaborador)) * coeficienteHeladerasActivas);
