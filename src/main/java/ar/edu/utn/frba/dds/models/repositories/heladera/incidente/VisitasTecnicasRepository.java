@@ -2,45 +2,28 @@ package ar.edu.utn.frba.dds.models.repositories.heladera.incidente;
 
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.VisitaTecnica;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
+import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
-public class VisitasTecnicasRepository {
-  private static VisitasTecnicasRepository instancia = null;
-  final List<VisitaTecnica> visitas;
+public class VisitasTecnicasRepository extends HibernateEntityManager<VisitaTecnica, Long> {
+  public boolean isIncidenteResuelto(Incidente incidente) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Long> query = cb.createQuery(Long.class);
+    Root<VisitaTecnica> root = query.from(VisitaTecnica.class);
 
-  private VisitasTecnicasRepository() {
-    visitas = new ArrayList<>();
+    query.select(cb.count(root))
+        .where(
+            cb.equal(root.get("incidente"), incidente),
+            cb.isTrue(root.get("incidenteResuelto"))
+        );
+
+    Long count = em.createQuery(query).getSingleResult();
+    return count > 0;
   }
 
-  public static VisitasTecnicasRepository getInstancia() {
-    if (instancia == null) instancia = new VisitasTecnicasRepository();
-
-    return instancia;
-  }
-
-  public Optional<VisitaTecnica> get(int id) {
-    return visitas.stream().filter(visita -> visita.getId() == id).findFirst();
-  }
-
-  public boolean getIsResuelto(Incidente incidente) {
-    return visitas.stream().anyMatch(visita -> visita.getIncidente() == incidente && visita.isIncidenteResuelto());
-  }
-
-  public int insert(VisitaTecnica visita) throws RepositoryException {
-    if (getIsResuelto(visita.getIncidente()))
-      throw new RepositoryException("No se pueden agregar visitas a incidentes resueltos");
-
-    visitas.add(visita);
-    visita.setId(visitas.size());
-
-    return visita.getId();
-  }
-
-  public void deleteTodas() {
-    visitas.clear();
-  }
 }
