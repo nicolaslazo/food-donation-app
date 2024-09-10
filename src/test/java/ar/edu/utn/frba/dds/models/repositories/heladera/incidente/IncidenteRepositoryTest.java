@@ -32,7 +32,8 @@ public class IncidenteRepositoryTest {
       new CoordenadasGeograficas(-34d, -58d),
       colaborador,
       1,
-      ZonedDateTime.now());
+      ZonedDateTime.now(),
+      "");
   Incidente incidente;
 
   @BeforeEach

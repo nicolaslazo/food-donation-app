@@ -15,19 +15,23 @@ public final class CuidadoHeladeraInputDTO {
   @NonNull String idColaboradorSerializado;
   double latitud;
   double longitud;
+  @Getter
+  @NonNull String barrio;
 
   public CuidadoHeladeraInputDTO(
       @NonNull String nombreHeladera,
       int capacidadEnViandas,
       @NonNull String idColaboradorSerializado,
       double latitud,
-      double longitud
+      double longitud,
+      @NonNull String barrio
   ) {
     this.nombreHeladera = nombreHeladera;
     this.capacidadEnViandas = capacidadEnViandas;
     this.idColaboradorSerializado = idColaboradorSerializado;
     this.latitud = latitud;
     this.longitud = longitud;
+    this.barrio = barrio;
   }
 
   public static CuidadoHeladeraInputDTO desdeJson(@NonNull String json) {

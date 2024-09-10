@@ -43,7 +43,8 @@ class VisitasTecnicasRepositoryTest {
       obelisco,
       colaborador,
       50,
-      ZonedDateTime.now().minusMonths(5)
+      ZonedDateTime.now().minusMonths(5),
+      ""
   );
 
   final Incidente incidente = new Incidente(heladera, TipoIncidente.FRAUDE, ZonedDateTime.now());

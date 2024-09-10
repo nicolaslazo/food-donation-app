@@ -34,7 +34,8 @@ class HeladerasRepositoryTest {
       new CoordenadasGeograficas(-34d, -58d),
       colaborador,
       60,
-      ZonedDateTime.now().minusMonths(7)
+      ZonedDateTime.now().minusMonths(7),
+      ""
   );
 
   @BeforeEach
@@ -43,7 +44,8 @@ class HeladerasRepositoryTest {
         obelisco,
         colaborador,
         50,
-        ZonedDateTime.now().minusMonths(5)
+        ZonedDateTime.now().minusMonths(5),
+        ""
     );
 
     new HeladerasRepository().insert(heladera);

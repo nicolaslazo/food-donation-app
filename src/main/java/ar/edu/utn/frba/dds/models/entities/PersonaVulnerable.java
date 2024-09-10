@@ -23,16 +23,16 @@ import java.util.UUID;
 @Table(name = "personaVulnerable")
 public class PersonaVulnerable {
   @Id
-  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "binary(16)")
   UUID id;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
   @MapsId
-  @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, updatable = false)
+  @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, updatable = false, columnDefinition = "binary(16)")
   @NonNull Usuario usuario;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "idReclutador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
+  @JoinColumn(name = "idReclutador", referencedColumnName = "idUsuario", nullable = false, updatable = false, columnDefinition = "binary(16)")
   @Getter
   @NonNull Colaborador reclutador;
 
@@ -40,7 +40,7 @@ public class PersonaVulnerable {
   @NonNull ZonedDateTime fechaRegistro;
 
   @OneToOne(fetch = FetchType.LAZY, targetEntity = DireccionResidencia.class)
-  @JoinColumn(name = "domicilio", unique = true)
+  @JoinColumn(name = "domicilio", unique = true, columnDefinition = "binary(16)")
   DireccionResidencia domicilio;
 
   @Column(name = "menoresACargo", nullable = false)

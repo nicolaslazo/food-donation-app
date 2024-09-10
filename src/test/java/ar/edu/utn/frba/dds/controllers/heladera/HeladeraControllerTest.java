@@ -168,7 +168,8 @@ class HeladeraControllerTest {
           new CoordenadasGeograficas(-34d, -58d - i),
           colaborador,
           10,
-          ZonedDateTime.now()));
+          ZonedDateTime.now(),
+          ""));
     }
 
     final Heladera heladeraTarget = heladeras.get(0);

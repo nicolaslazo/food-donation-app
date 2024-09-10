@@ -1,45 +1,28 @@
 package ar.edu.utn.frba.dds.controllers;
 
-import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
-import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
-import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
-import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
-import ar.edu.utn.frba.dds.services.mensajeria.mail.EnviadorMail;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 class SuscripcionControllerTest {
   final CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5609872, -58.501046);
   final SuscripcionRepository repositorio = new SuscripcionRepository();
-  final SolicitudAperturaPorContribucionRepository repositorioSolicitudApertura = new SolicitudAperturaPorContribucionRepository();
   Colaborador colaborador;
   Heladera heladera;
 
@@ -55,12 +38,12 @@ class SuscripcionControllerTest {
         obelisco,
         colaborador,
         5,
-        ZonedDateTime.now());
+        ZonedDateTime.now(),
+        "");
   }
 
   @AfterEach
   void tearDown() {
-    repositorioSolicitudApertura.deleteAll();
     new HibernatePersistenceReset().execute();
   }
 
@@ -104,7 +87,8 @@ class SuscripcionControllerTest {
 //              new CoordenadasGeograficas(-34d, -58d - i),
 //              colaborador,
 //              10,
-//              ZonedDateTime.now());
+//              ZonedDateTime.now(),
+//              "");
 //
 //      heladeras.add(heladeraNueva);
 //      new HeladerasRepository().insert(heladeraNueva);

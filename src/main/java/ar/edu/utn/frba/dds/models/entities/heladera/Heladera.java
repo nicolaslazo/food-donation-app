@@ -43,13 +43,16 @@ public class Heladera {
   @NonNull ZonedDateTime fechaInstalacion;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
+  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false, columnDefinition = "binary(16)")
   @Getter
   @NonNull Colaborador encargado;
 
   @Embedded
   @Getter
   CoordenadasGeograficas ubicacion;
+
+  @Column(name = "barrio", nullable = false, updatable = false)
+  @NonNull String barrio;
 
   @Column(name = "ultimaTemperaturaRegistradaEnCelsius")
   @Getter
@@ -63,12 +66,14 @@ public class Heladera {
                   CoordenadasGeograficas ubicacion,
                   Colaborador encargado,
                   Integer capacidadEnViandas,
-                  ZonedDateTime fechaInstalacion) {
+                  ZonedDateTime fechaInstalacion,
+                  String barrio) {
     this.nombre = nombre;
     this.ubicacion = ubicacion;
     this.encargado = encargado;
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
+    this.barrio = barrio;
   }
 
   protected Heladera() {

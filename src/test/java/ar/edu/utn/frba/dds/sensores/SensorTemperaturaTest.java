@@ -33,7 +33,8 @@ class SensorTemperaturaTest {
         null,
         colaborador,
         10,
-        ZonedDateTime.now().minusMonths(6)
+        ZonedDateTime.now().minusMonths(6),
+        ""
     );
 
     new HeladerasRepository().insert(heladera);
