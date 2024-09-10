@@ -63,9 +63,10 @@ public class VisitaTecnica {
     this.imagen = imagen;
   }
 
-  protected VisitaTecnica(){
+  protected VisitaTecnica() {
 
   }
+
   public VisitaTecnica(@NonNull Tecnico tecnico,
                        @NonNull Incidente incidente,
                        @NonNull ZonedDateTime fecha,
