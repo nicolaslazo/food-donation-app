@@ -1,0 +1,203 @@
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* MAIN SECTION */
+
+body{
+    background-color: #f2f2f2;
+}
+
+.main__container {
+    margin-top: 20px;
+    display: flex;
+}
+
+.form__container {
+    grid-column: 1/2;
+    background-color: #f2f2f2;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    align-content: center;
+    border-radius: 20px;
+    width: 40%;
+    justify-self: center;
+    box-shadow: 0 0 10px #0006;
+}
+
+.form-title {
+    font-weight: bold;
+    padding: 10px 20px;
+    background: #C0392B;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.heladera-details-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 10px;
+    font-size: 14px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box input{
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+}
+
+.input-box input:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+#input-text-area {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+    resize: none; 
+    min-width: 100%; 
+    min-height: 100px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+}
+
+.input-box select {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+}
+
+.input-box select:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+input[type="file"] {
+     display: none; /* Ocultamos el botón original */
+ }
+
+.custom-file-upload {
+    display: flex;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #2980B9;
+    color: #fff;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.custom-file-upload:hover {
+    background-color: #2074A3;
+}
+
+#file-name {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.input-check {
+    margin-top: 10px;
+}
+
+.input-check input {
+    margin-left: 10px;
+}
+
+.submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    min-width: 100%;
+    margin-bottom: 20px;
+}
+
+.submit-button input{
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.input-box-img{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box-img input[type="file"] {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.input-box-img input[type="file"]:hover {
+    background-color: #e0e0e0;
+}
+
+.input-box-img input[type="file"]:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+/* ACLARACION */
+
+.aclaracion-campos{
+    font-size: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* MAP SECTION */
+
+#map {
+    border-radius: 20px;
+    margin-top: 10px;
+    border: solid 1px #0006;
+    min-height: 400px;
+    min-width: 400px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 1.5em;
+    pointer-events: none;
+    margin: 5px 0;
+}

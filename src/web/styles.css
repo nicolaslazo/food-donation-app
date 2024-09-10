@@ -21,7 +21,6 @@ header {
     background-color: #C0392B;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
 }
 
 .container-logo {
