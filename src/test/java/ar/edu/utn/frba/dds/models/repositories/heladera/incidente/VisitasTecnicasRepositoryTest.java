@@ -21,9 +21,7 @@ import javax.persistence.RollbackException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class VisitasTecnicasRepositoryTest {
@@ -45,6 +43,7 @@ class VisitasTecnicasRepositoryTest {
   );
 
   final Incidente incidente = new Incidente(heladera, TipoIncidente.FRAUDE, ZonedDateTime.now());
+  final Incidente incidente2 = new Incidente(heladera, TipoIncidente.ALTA_TEMPERATURA, ZonedDateTime.now());
 
   Tecnico tecnico = new Tecnico(
           new Documento(TipoDocumento.DNI, 1),
@@ -57,11 +56,42 @@ class VisitasTecnicasRepositoryTest {
   void setUp() {
     tecnicoRepository.insert(tecnico);
     repositorioIncidentes.insert(incidente);
+    repositorioIncidentes.insert(incidente2);
   }
 
   @AfterEach
   void tearDown() {
     new HibernatePersistenceReset().execute();
+  }
+
+  @Test
+  void testGetPorId() {
+    VisitaTecnica visitaTecnica = new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), false);
+
+    repositorio.insert(visitaTecnica);
+
+    assertEquals(visitaTecnica, repositorio.findById(visitaTecnica.getId()).orElseThrow());
+  }
+
+  @Test
+  void testInsertarRedistribucionSinFallar() {
+    assertDoesNotThrow(()-> new VisitasTecnicasRepository().insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), false)));
+  }
+
+  @Test
+  void testEliminarTodas() {
+    repositorio.insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), false));
+    repositorio.deleteAll();
+    assertEquals(0, repositorio.findAll().count());
+  }
+
+  @Test
+  void getTodosRetornaTodosLosContenidos() {
+
+    repositorio.insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), false));
+    repositorio.insert(new VisitaTecnica(tecnico, incidente2, ZonedDateTime.now(), false));
+
+    assertEquals(2, repositorio.findAll().count());
   }
 
   @Test
