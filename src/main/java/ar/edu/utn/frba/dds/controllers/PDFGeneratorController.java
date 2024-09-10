@@ -52,7 +52,7 @@ public class PDFGeneratorController {
 
   static void generarReporteViandasColaborador() {
     Map<Colaborador, Long> cantidadPorColaborador =
-        DonacionViandasRepository.getInstancia().getCantidadDonacionesPorColaboradorSemanaAnterior();
+            new DonacionViandasRepository().getCantidadDonacionesPorColaboradorSemanaAnterior();
     Map<String, Long> cantidadPorNombreDeColaborador = new HashMap<>();
 
     for (Map.Entry<Colaborador, Long> entrada : cantidadPorColaborador.entrySet())

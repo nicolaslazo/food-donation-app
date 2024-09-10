@@ -5,15 +5,33 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
+@Entity
+@Table(name = "RedistribucionViandas")
+
 public class RedistribucionViandas extends MovimientoViandas {
   // Algunos de estos se mantienen nulificables para el cargador masivo CSV
+
   @Getter
-  final Heladera origen;
-  final MotivoDeDistribucion motivo;
+  @ManyToOne
+  @JoinColumn(name = "idHeladeraOrigen", referencedColumnName = "id")
+  Heladera origen;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "motivo")
+  MotivoDeDistribucion motivo;
+
+  @Column(name = "fechaIniciada")
   ZonedDateTime fechaIniciada = null;
 
   public RedistribucionViandas(Colaborador colaborador,
@@ -24,6 +42,9 @@ public class RedistribucionViandas extends MovimientoViandas {
     super(colaborador, viandas, destino);
     this.origen = origen;
     this.motivo = motivo;
+  }
+
+  protected RedistribucionViandas() {
   }
 
   @Override
