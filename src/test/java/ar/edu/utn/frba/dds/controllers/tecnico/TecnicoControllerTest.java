@@ -23,18 +23,22 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TecnicoControllerTest {
     TecnicoController tecnicoController = new TecnicoController();
-    TecnicoRepository tecnicoRepository  = new TecnicoRepository();
-    TecnicoInputDTO dataTecnico = new TecnicoInputDTO(
-            "DNI",
-            123,
-            "Primero",
-            "Primero",
-            LocalDate.now(),
-            "101239",
-            -34.5609872,
-            -58.501046,
-            100F
-    );
+    TecnicoRepository tecnicoRepository = new TecnicoRepository();
+
+    // JSON del TecnicoInputDTO
+    String jsonDataTecnico = """
+        {
+            "tipoDocumento": "DNI",
+            "numeroDocumento": 123,
+            "primerNombre": "Primero",
+            "apellido": "Primero",
+            "fechaNacimiento": "2024-09-27",
+            "cuil": "101239",
+            "latitud": -34.5609872,
+            "longitud": -58.501046,
+            "radioEnMetros": 100.0
+        }
+        """;
 
     Usuario admin;
 
@@ -56,14 +60,18 @@ public class TecnicoControllerTest {
     }
 
     @Test
-    public void testCrearColaborador() throws PermisoDenegadoException {
-        tecnicoController.crearTecnico(dataTecnico,admin);
+    public void testCrearTecnico() throws PermisoDenegadoException {
+        // Obtener el DTO desde el JSON
+        TecnicoInputDTO dataTecnico = TecnicoInputDTO.desdeJson(jsonDataTecnico);
+
+        tecnicoController.crearTecnico(dataTecnico, admin);
         Stream<Tecnico> tecnicos = tecnicoRepository.findAll();
         assertEquals(1, tecnicos.count());
     }
 
     @Test
     public void testFallaCreacionPorNoTenerPermiso() throws PermisoDenegadoException {
+        TecnicoInputDTO dataTecnico = TecnicoInputDTO.desdeJson(jsonDataTecnico);
         Usuario usuarioDummy = new Usuario(
                 new Documento(TipoDocumento.DNI, 12345),
                 "user",
@@ -72,6 +80,6 @@ public class TecnicoControllerTest {
                 Set.of(new RolesRepository().findByName("TECNICO").get())
         );
         assertThrows(PermisoDenegadoException.class, () ->
-                tecnicoController.crearTecnico(dataTecnico,usuarioDummy));
+                tecnicoController.crearTecnico(dataTecnico, usuarioDummy));
     }
 }

@@ -24,17 +24,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ColaboradorControllerTest {
     ColaboradorController colaboradorController = new ColaboradorController();
     ColaboradorRepository colaboradorRepository = new ColaboradorRepository();
-    ColaboradorInputDTO dataColaborador = new ColaboradorInputDTO(
-            "DNI",
-            123,
-            "Primero",
-            "Primero",
-            LocalDate.now(),
-            -34.5609872,
-            -58.501046
-    );
-
     Usuario admin;
+
+    // JSON del ColaboradorInputDTO
+    String jsonDataColaborador = """
+        {
+            "tipoDocumento": "DNI",
+            "numeroDocumento": 123,
+            "primerNombre": "Primero",
+            "apellido": "Primero",
+            "fechaNacimiento": "2024-09-27",
+            "latitud": -34.5609872,
+            "longitud": -58.501046
+        }
+        """;
 
     @BeforeEach
     public void setUp() {
@@ -55,13 +58,17 @@ public class ColaboradorControllerTest {
 
     @Test
     public void testCrearColaborador() throws PermisoDenegadoException {
-        colaboradorController.crearColaborador(dataColaborador,admin);
+        // Obtener el DTO desde el JSON
+        ColaboradorInputDTO dataColaborador = ColaboradorInputDTO.desdeJson(jsonDataColaborador);
+
+        colaboradorController.crearColaborador(dataColaborador, admin);
         Stream<Colaborador> colaboradores = colaboradorRepository.findAll();
         assertEquals(1, colaboradores.count());
     }
 
     @Test
     public void testFallaCreacionPorNoTenerPermiso() throws PermisoDenegadoException {
+        ColaboradorInputDTO dataColaborador = ColaboradorInputDTO.desdeJson(jsonDataColaborador);
         Usuario usuarioDummy = new Usuario(
                 new Documento(TipoDocumento.DNI, 12345),
                 "user",
@@ -70,6 +77,6 @@ public class ColaboradorControllerTest {
                 Set.of(new RolesRepository().findByName("TECNICO").get())
         );
         assertThrows(PermisoDenegadoException.class, () ->
-                colaboradorController.crearColaborador(dataColaborador,usuarioDummy));
+                colaboradorController.crearColaborador(dataColaborador, usuarioDummy));
     }
 }
