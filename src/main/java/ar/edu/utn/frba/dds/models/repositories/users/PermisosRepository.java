@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class PermisosRepository extends HibernateEntityManager<Permiso, UUID> {
-  public Optional<Permiso> get(String nombre) {
+  public Optional<Permiso> findByName(String nombre) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Permiso> query = cb.createQuery(Permiso.class);
