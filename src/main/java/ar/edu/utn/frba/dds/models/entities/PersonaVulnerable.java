@@ -10,29 +10,29 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "personaVulnerable")
 public class PersonaVulnerable {
   @Id
-  @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "binary(16)")
-  UUID id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @NonNull Long id;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
-  @MapsId
-  @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, updatable = false, columnDefinition = "binary(16)")
+  @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, updatable = false)
   @NonNull Usuario usuario;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "idReclutador", referencedColumnName = "idUsuario", nullable = false, updatable = false, columnDefinition = "binary(16)")
+  @JoinColumn(name = "idReclutador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @Getter
   @NonNull Colaborador reclutador;
 
@@ -40,7 +40,7 @@ public class PersonaVulnerable {
   @NonNull ZonedDateTime fechaRegistro;
 
   @OneToOne(fetch = FetchType.LAZY, targetEntity = DireccionResidencia.class)
-  @JoinColumn(name = "domicilio", unique = true, columnDefinition = "binary(16)")
+  @JoinColumn(name = "domicilio", unique = true)
   DireccionResidencia domicilio;
 
   @Column(name = "menoresACargo", nullable = false)
