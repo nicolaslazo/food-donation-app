@@ -24,6 +24,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -34,20 +35,18 @@ import javax.persistence.Table;
 @ToString
 public class Tecnico {
   // TODO: el rol capaz debería estar almacenado en un repositorio?
-  @Column(name = "id", nullable = false, unique = true, updatable = false)
+
+  //TODO: Revisar el mapeo, no se si era lo pedido
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id")
+  @MapsId
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @NonNull
-  Long id;
+  Usuario usuario;
 
   @Column(name = "cuil", unique = true, nullable = false, updatable = false)
   @NonNull
   String cuil;
-
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "idUsuario", referencedColumnName = "id")
-  @NonNull
-  Usuario usuario;
 
   @Embedded
   @NonNull

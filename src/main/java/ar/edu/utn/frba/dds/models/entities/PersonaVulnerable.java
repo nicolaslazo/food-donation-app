@@ -23,13 +23,10 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "personaVulnerable")
 public class PersonaVulnerable {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", unique = true, nullable = false, updatable = false)
-  @NonNull Long id;
-
+  //TODO: Revisar el mapeo, no se si era lo pedido
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
   @MapsId
+  @Id
   @JoinColumn(name = "idUsuario", referencedColumnName = "id", nullable = false, updatable = false)
   @NonNull Usuario usuario;
 
