@@ -16,7 +16,7 @@ public class TarjetaController {
   static final TarjetasRepository tarjetasRepository = new TarjetasRepository();
 
   public static Tarjeta crear(@NonNull UUID uuid, @NonNull Usuario creador) throws RepositoryException, PermisoDenegadoException {
-    creador.assertTienePermiso("crearTarjetas", "Sólo administradores pueden crear tarjetas");
+    creador.assertTienePermiso("Crear-Tarjetas", "Sólo administradores pueden crear tarjetas");
 
     Tarjeta tarjetaNueva = new Tarjeta(uuid);
 
@@ -29,7 +29,7 @@ public class TarjetaController {
       throws PermisoDenegadoException {
     proveedor
         .getUsuario()
-        .assertTienePermiso("asignarTarjetas", "Sólo colaboradores pueden entregar tarjetas");
+        .assertTienePermiso("Asignar-Tarjetas", "Sólo colaboradores pueden entregar tarjetas");
 
     if (tarjetasRepository.getVigentePara(recipiente).isPresent())
       throw new PermisoDenegadoException("Este usuario ya tiene una tarjeta asignada");
@@ -39,7 +39,7 @@ public class TarjetaController {
 
   public static void darDeBaja(@NonNull Tarjeta tarjeta, @NonNull Usuario responsable) throws PermisoDenegadoException {
     responsable
-        .assertTienePermiso("darBajaTarjetas", "Sólo administradores pueden dar tarjetas de baja");
+        .assertTienePermiso("Dar-Baja-Tarjetas", "Sólo administradores pueden dar tarjetas de baja");
 
     tarjeta.setDeBaja(responsable, ZonedDateTime.now());
   }
