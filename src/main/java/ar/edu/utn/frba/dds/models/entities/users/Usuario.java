@@ -56,11 +56,11 @@ public class Usuario {
   @Setter
   private List<Contacto> contactos = new ArrayList<>();
 
-  @Column(name = "active", nullable = false)
+  @Column(name = "activo", nullable = false)
   @Getter
   @Setter
   @NonNull
-  Boolean active = true;
+  Boolean activo = true;
 
   @Column(name = "apellido", nullable = false)
   @Getter
