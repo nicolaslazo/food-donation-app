@@ -20,6 +20,7 @@ import java.util.Set;
 @Entity
 @Table(name = "rol")
 public class Rol {
+  @Getter
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
