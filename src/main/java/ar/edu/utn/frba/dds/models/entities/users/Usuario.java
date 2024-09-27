@@ -32,7 +32,7 @@ import java.util.Set;
 @Table(name = "usuario")
 @ToString
 public class Usuario {
-  // Idealmente estaríamos usando números de trámite en vez de UUIDs pero el cargador CSV no los soporta
+  // Idealmente estaríamos usando números de trámite en vez de autoincreases pero el cargador CSV no los soporta
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
