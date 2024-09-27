@@ -12,31 +12,44 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.annotations.Type;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
+
 
 @Entity
 @Table(name = "usuario")
 @ToString
 public class Usuario {
+  // Idealmente estaríamos usando números de trámite en vez de UUIDs pero el cargador CSV no los soporta
+  @Column(name = "id", unique = true, nullable = false, updatable = false)
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Getter
+  @NonNull
+  Long id;
+
   @Column(name = "documento", unique = true, nullable = false, updatable = false)
   @Embedded
   @Getter
-  @NonNull Documento documento;
+  @NonNull
+  Documento documento;
 
   @Column(name = "primerNombre", nullable = false)
   @Getter
-  @NonNull String primerNombre;
+  @NonNull
+  String primerNombre;
 
   @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
   @Getter
@@ -44,34 +57,32 @@ public class Usuario {
   private List<Contacto> contactos = new ArrayList<>();
 
   @Column(name = "active", nullable = false)
-  @Getter @Setter
-  @NonNull Boolean active = true;
+  @Getter
+  @Setter
+  @NonNull
+  Boolean active = true;
 
   @Column(name = "apellido", nullable = false)
   @Getter
-  @NonNull String apellido;
+  @NonNull
+  String apellido;
 
   @Column(name = "fechaNacimiento", updatable = false)
   // Nulificable por el cargador CSV
   LocalDate fechaNacimiento;
 
-  // Idealmente estaríamos usando números de trámite en vez de UUIDs pero el cargador CSV no los soporta
-  @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-  @Id
-  @Getter
-  @Type(type = "uuid-char")
-  @NonNull UUID id;
-
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(
-      name = "rolesAsignados",
-      joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "id"))
+          name = "rolesAsignados",
+          joinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "id"),
+          inverseJoinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"))
   @Getter
-  @NonNull Set<Rol> roles;
+  @NonNull
+  Set<Rol> roles;
 
   @Column(name = "contrasenia", nullable = false)
-  @NonNull String contrasenia;
+  @NonNull
+  String contrasenia;
 
   public Usuario(@NonNull Documento documento,
                  @NonNull String primerNombre,
@@ -82,8 +93,7 @@ public class Usuario {
     this.primerNombre = primerNombre;
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
-    this.id = UUID.randomUUID();
-    this.roles = roles;
+    this.roles = new HashSet<>(roles);
     this.contrasenia = GeneradorDeContrasenias.generarContrasenia();
 
     // TODO: Mover al controller creador de colaboradores
