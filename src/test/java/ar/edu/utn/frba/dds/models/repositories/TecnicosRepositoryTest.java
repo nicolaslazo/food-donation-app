@@ -20,26 +20,26 @@ class TecnicosRepositoryTest {
   CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
 
   Tecnico tecnico = new Tecnico(
-    new Documento(TipoDocumento.DNI, 123),
-    "",
-    "",
-    LocalDate.now(),
-    "1",
-    new AreaGeografica( obelisco, 100)
+          new Documento(TipoDocumento.DNI, 123),
+          "Primero",
+          "Primero",
+          LocalDate.now(),
+          "1",
+          new AreaGeografica( obelisco, 100)
   );
 
   Tecnico tecnicoDos = new Tecnico(
-      new Documento(TipoDocumento.DNI, 123),
-      "",
-      "",
-      LocalDate.now(),
-      "2",
-      new AreaGeografica(obelisco, 100)
+          new Documento(TipoDocumento.DNI, 321),
+          "Segundo",
+          "Segundo",
+          LocalDate.now(),
+          "2",
+          new AreaGeografica(obelisco, 50)
   );
 
   @BeforeEach
   void setUp() {
-   new TecnicoRepository().insert(tecnico);
+    new TecnicoRepository().insert(tecnico);
   }
 
   @AfterEach
