@@ -11,21 +11,13 @@ public class SeederPermisos {
 
   @PostConstruct
   public void seedPermisos() {
-    createPermisoIfNotExists("Abrir-Heladera");
-    createPermisoIfNotExists("Crear-Colaborador");
-    createPermisoIfNotExists("Crear-Tecnico");
-    createPermisoIfNotExists("Donar-Viandas");
-    createPermisoIfNotExists("Crear-Tarjetas");
-    createPermisoIfNotExists("Asignar-Tarjetas");
-    createPermisoIfNotExists("Dar-Baja-Tarjetas");
-    createPermisoIfNotExists("Depositar-Viandas");
-  }
-
-  public void createPermisoIfNotExists(String nombrePermiso) {
-    Optional<Permiso> permiso = permisosRepository.findByName(nombrePermiso);
-    if (permiso.isEmpty()) {
-      Permiso newPermiso = new Permiso(nombrePermiso);
-      permisosRepository.insert(newPermiso);
-    }
+    permisosRepository.insert(new Permiso("Abrir-Heladera"));
+    permisosRepository.insert(new Permiso("Asignar-Tarjetas"));
+    permisosRepository.insert(new Permiso("Crear-Colaborador"));
+    permisosRepository.insert(new Permiso("Crear-Tecnico"));
+    permisosRepository.insert(new Permiso("Crear-Tarjetas"));
+    permisosRepository.insert(new Permiso("Dar-Baja-Tarjetas"));
+    permisosRepository.insert(new Permiso("Depositar-Viandas"));
+    permisosRepository.insert(new Permiso("Donar-Viandas"));
   }
 }
