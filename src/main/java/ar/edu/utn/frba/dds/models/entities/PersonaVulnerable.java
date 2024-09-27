@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.ZonedDateTime;
@@ -28,7 +29,8 @@ public class PersonaVulnerable {
   @NonNull Long id;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
-  @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, updatable = false)
+  @MapsId
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id", nullable = false, updatable = false)
   @NonNull Usuario usuario;
 
   @ManyToOne(fetch = FetchType.LAZY)
