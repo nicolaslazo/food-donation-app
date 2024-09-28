@@ -4,11 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.Tecnico;
 
 import lombok.Getter;
 
-
-import java.util.UUID;
-
-
 @Getter
-public class TecnicoRepository extends HibernateEntityManager<Tecnico, UUID> {
+public class TecnicoRepository extends HibernateEntityManager<Tecnico, Long> {
 
 }

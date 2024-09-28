@@ -17,9 +17,9 @@ import static org.mockito.Mockito.when;
 
 class TecnicoTest {
   final CoordenadasGeograficas obelisco =
-      new CoordenadasGeograficas(-34.603706013664166, -58.3815728218273);
+          new CoordenadasGeograficas(-34.603706013664166, -58.3815728218273);
   final CoordenadasGeograficas aCienMetrosDelObelisco =
-      new CoordenadasGeograficas(-34.60375463775254, -58.38264297552039);
+          new CoordenadasGeograficas(-34.60375463775254, -58.38264297552039);
   final Heladera heladeraMock = mock(Heladera.class);
 
   @BeforeEach
@@ -30,26 +30,26 @@ class TecnicoTest {
   @Test
   void afirmaQueHeladeraEstaDentroDeRango() {
     assertTrue(
-        new Tecnico(
-            new Documento(TipoDocumento.DNI, 1),
-            "",
-            "",
-            LocalDate.now(),
-            "123",
-            new AreaGeografica(aCienMetrosDelObelisco, 200f)).isDentroDeRango(heladeraMock)
+            new Tecnico(
+                    new Documento(TipoDocumento.DNI, 1),
+                    "",
+                    "",
+                    LocalDate.now(),
+                    "123",
+                    new AreaGeografica(aCienMetrosDelObelisco, 200f)).isDentroDeRango(heladeraMock)
     );
   }
 
   @Test
   void afirmaQueHeladeraNoEstaDentroDeRango() {
     assertFalse(
-        new Tecnico(
-            new Documento(TipoDocumento.DNI, 1),
-            "",
-            "",
-            LocalDate.now(),
-            "123",
-            new AreaGeografica(aCienMetrosDelObelisco, 50f)).isDentroDeRango(heladeraMock)
+            new Tecnico(
+                    new Documento(TipoDocumento.DNI, 1),
+                    "",
+                    "",
+                    LocalDate.now(),
+                    "123",
+                    new AreaGeografica(aCienMetrosDelObelisco, 50f)).isDentroDeRango(heladeraMock)
     );
   }
 }

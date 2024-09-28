@@ -8,9 +8,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Optional;
-import java.util.UUID;
 
-public class PermisosRepository extends HibernateEntityManager<Permiso, UUID> {
+public class PermisosRepository extends HibernateEntityManager<Permiso, Long> {
   public Optional<Permiso> findByName(String nombre) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
