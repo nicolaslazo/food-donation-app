@@ -24,7 +24,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
 
   private void checkearPrecondicionesCreacion(Tarjeta tarjeta, MovimientoViandas contribucion)
       throws PermisoDenegadoException {
-    tarjeta.assertTienePermiso("depositarViandas",
+    tarjeta.assertTienePermiso("Depositar-Viandas",
         "las viandas sólo pueden ser ingresadas o redistribuidas por colaboradores registrados");
 
     if (contribucion.getColaborador().getUbicacion() == null)
