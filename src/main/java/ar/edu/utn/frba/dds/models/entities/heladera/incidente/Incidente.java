@@ -45,7 +45,7 @@ public class Incidente {
   @ManyToOne(fetch = FetchType.LAZY,
       cascade = {CascadeType.PERSIST, CascadeType.MERGE},
       targetEntity = Colaborador.class)
-  @JoinColumn(name = "colaborador", referencedColumnName = "idUsuario", updatable = false)
+  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", updatable = false)
   Colaborador colaborador;
 
   @Column(name = "descripcion", updatable = false)

@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.CascadeType;
@@ -43,7 +42,7 @@ public class Heladera {
   @NonNull ZonedDateTime fechaInstalacion;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false, columnDefinition = "binary(16)")
+  @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @Getter
   @NonNull Colaborador encargado;
 
