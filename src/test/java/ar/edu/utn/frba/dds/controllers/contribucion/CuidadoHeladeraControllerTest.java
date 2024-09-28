@@ -72,7 +72,8 @@ class CuidadoHeladeraControllerTest {
             "\"capacidadEnViandas\": 1, " +
             "\"idColaboradorSerializado\": \"" + colaborador.getId() + "\", " +
             "\"latitud\": -34.0, " +
-            "\"longitud\": -58.0}");
+            "\"longitud\": -58.0, " +
+            "\"barrio\": \"Barrio\"}");
 
     assertTrue(
         new SuscripcionRepository().find(colaborador, heladera, MotivoDeDistribucion.FALLA_HELADERA).isPresent());

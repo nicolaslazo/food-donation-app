@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 
 import javax.annotation.PostConstruct;
-import java.util.Optional;
 import java.util.Set;
 
 
@@ -34,26 +33,26 @@ public class SeederRoles {
 
     // ROL ADMINISTRADOR
     Rol newRolAdmin = new Rol("ADMINITRADOR", Set.of(
-            permisoCrearColaborador,
-            permisoCrearTecnico,
-            permisoAsignarTarjetas,
-            permisoDarBajaTarjeta,
-            permisoCrearTarjetas
+        permisoCrearColaborador,
+        permisoCrearTecnico,
+        permisoAsignarTarjetas,
+        permisoDarBajaTarjeta,
+        permisoCrearTarjetas
     ));
     rolesRepository.insert(newRolAdmin);
 
     // ROL TECNICO
     Rol newRolTecnico = new Rol("TECNICO", Set.of(
-            permisoAbrirHeladera
+        permisoAbrirHeladera
     ));
     rolesRepository.insert(newRolTecnico);
 
     // ROL COLABORADOR
     Rol newRolColaborador = new Rol("COLABORADOR", Set.of(
-            permisoAbrirHeladera,
-            permisoDonarVianda,
-            permisoAsignarTarjetas,
-            permisoDepositarVianda
+        permisoAbrirHeladera,
+        permisoDonarVianda,
+        permisoAsignarTarjetas,
+        permisoDepositarVianda
     ));
     rolesRepository.insert(newRolColaborador);
   }

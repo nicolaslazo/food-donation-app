@@ -32,7 +32,7 @@ public abstract class Contacto {
   @GeneratedValue
   @NonNull Long id;
 
-  @ManyToOne(cascade = CascadeType.REMOVE)
+  @ManyToOne(cascade = {CascadeType.ALL})
   @JoinColumn(name = "idUsuario", referencedColumnName = "id")
   @NonNull Usuario usuario;
 
