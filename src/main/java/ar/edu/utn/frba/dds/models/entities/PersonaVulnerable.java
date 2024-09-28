@@ -17,22 +17,21 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "personaVulnerable")
 public class PersonaVulnerable {
   @Id
-  @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "binary(16)")
-  UUID id;
+  @Column(name = "id", nullable = false, unique = true)
+  Long id;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
   @MapsId
-  @JoinColumn(name = "id", referencedColumnName = "id", nullable = false, updatable = false, columnDefinition = "binary(16)")
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id", nullable = false, updatable = false)
   @NonNull Usuario usuario;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "idReclutador", referencedColumnName = "idUsuario", nullable = false, updatable = false, columnDefinition = "binary(16)")
+  @JoinColumn(name = "idReclutador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @Getter
   @NonNull Colaborador reclutador;
 
@@ -40,7 +39,7 @@ public class PersonaVulnerable {
   @NonNull ZonedDateTime fechaRegistro;
 
   @OneToOne(fetch = FetchType.LAZY, targetEntity = DireccionResidencia.class)
-  @JoinColumn(name = "domicilio", unique = true, columnDefinition = "binary(16)")
+  @JoinColumn(name = "domicilio", unique = true)
   DireccionResidencia domicilio;
 
   @Column(name = "menoresACargo", nullable = false)

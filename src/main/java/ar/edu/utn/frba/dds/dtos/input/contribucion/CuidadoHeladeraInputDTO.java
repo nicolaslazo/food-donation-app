@@ -12,7 +12,8 @@ public final class CuidadoHeladeraInputDTO {
   @NonNull String nombreHeladera;
   @Getter
   int capacidadEnViandas;
-  @NonNull String idColaboradorSerializado;
+  @Getter
+  @NonNull long idColaborador;
   double latitud;
   double longitud;
   @Getter
@@ -21,14 +22,14 @@ public final class CuidadoHeladeraInputDTO {
   public CuidadoHeladeraInputDTO(
       @NonNull String nombreHeladera,
       int capacidadEnViandas,
-      @NonNull String idColaboradorSerializado,
+      @NonNull long idColaborador,
       double latitud,
       double longitud,
       @NonNull String barrio
   ) {
     this.nombreHeladera = nombreHeladera;
     this.capacidadEnViandas = capacidadEnViandas;
-    this.idColaboradorSerializado = idColaboradorSerializado;
+    this.idColaborador = idColaborador;
     this.latitud = latitud;
     this.longitud = longitud;
     this.barrio = barrio;
@@ -36,10 +37,6 @@ public final class CuidadoHeladeraInputDTO {
 
   public static CuidadoHeladeraInputDTO desdeJson(@NonNull String json) {
     return new Gson().fromJson(json, CuidadoHeladeraInputDTO.class);
-  }
-
-  public UUID getIdColaborador() {
-    return UUID.fromString(idColaboradorSerializado);
   }
 
   public CoordenadasGeograficas getUbicacion() {
