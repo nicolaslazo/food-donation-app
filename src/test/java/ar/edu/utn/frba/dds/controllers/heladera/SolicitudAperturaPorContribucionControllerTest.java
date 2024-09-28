@@ -3,15 +3,12 @@ package ar.edu.utn.frba.dds.controllers.heladera;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
-import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
-import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
-import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
@@ -23,30 +20,35 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Collections;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class SolicitudAperturaPorContribucionControllerTest {
   final MqttBrokerService brokerServiceMock = mock(MqttBrokerService.class);
-  Colaborador colaboradorMock = new Colaborador(mock(Documento.class),"", "", null,null);
   final Tarjeta tarjeta = new Tarjeta(randomUUID());
   final SolicitudAperturaPorContribucionRepository repositorio = new SolicitudAperturaPorContribucionRepository();
+  Colaborador colaboradorMock = new Colaborador(mock(Documento.class), "", "", null, null);
   final DonacionViandas contribucion = new DonacionViandas(colaboradorMock,
-          Collections.singletonList(new Vianda("",ZonedDateTime.now(),ZonedDateTime.now(), colaboradorMock, 0.0, 22)),
-          new Heladera("", new CoordenadasGeograficas(54.3, 54.0), colaboradorMock, 11, ZonedDateTime.now()));
+      Collections.singletonList(new Vianda("",
+          ZonedDateTime.now(),
+          ZonedDateTime.now(),
+          colaboradorMock,
+          0.0,
+          22)),
+      new Heladera("",
+          new CoordenadasGeograficas(54.3, 54.0),
+          colaboradorMock,
+          11,
+          ZonedDateTime.now(),
+          "Barrio"));
 
   @BeforeEach
   void setUp() throws PermisoDenegadoException {
@@ -64,7 +66,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     final Tarjeta tarjetaInutil = new Tarjeta(randomUUID());
 
     assertThrows(PermisoDenegadoException.class,
-            () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(DonacionViandas.class)));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(DonacionViandas.class)));
   }
 
   @Test
@@ -73,7 +75,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
 
     assertThrows(PermisoDenegadoException.class,
-            () -> new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion));
   }
 
   @Test
@@ -84,7 +86,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     when(tarjetaMock.getRecipiente()).thenReturn(mock(Usuario.class));
 
     assertThrows(PermisoDenegadoException.class,
-            () -> new SolicitudAperturaPorContribucionController().crear(tarjetaMock, contribucionMock));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjetaMock, contribucionMock));
   }
 
   @Test
@@ -97,6 +99,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
     assertEquals(1, repositorio.findAll().count());
   }
+
   /*
     @Test
     void testPublicaCreacionPorMqttParaDonacion() throws MqttException, PermisoDenegadoException {
@@ -158,13 +161,13 @@ class SolicitudAperturaPorContribucionControllerTest {
     controlador.repositorio.insert(solicitud);
 
     controlador.messageArrived(
-            "heladeras/1/solicitudes/confirmadas",
-            new MqttMessage("{\"id\":%d,\"esExtraccion\":false,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
-                    .formatted(solicitud.getId(),unSegundoDespuesDeEpoch.toString())
-                    .getBytes()));
+        "heladeras/1/solicitudes/confirmadas",
+        new MqttMessage("{\"id\":%d,\"esExtraccion\":false,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
+            .formatted(solicitud.getId(), unSegundoDespuesDeEpoch.toString())
+            .getBytes()));
 
     ZonedDateTime fechaUsada =
-            repositorio.findById(solicitud.getId()).get().getFechaAperturaEnDestino();
+        repositorio.findById(solicitud.getId()).get().getFechaAperturaEnDestino();
 
     assertEquals(unSegundoDespuesDeEpoch, fechaUsada);
   }

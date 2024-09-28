@@ -9,7 +9,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
-import ar.edu.utn.frba.dds.services.SeederRoles;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +67,7 @@ public class ColaboradorControllerTest {
     }
 
     @Test
-    public void testFallaCreacionPorNoTenerPermiso() throws PermisoDenegadoException {
+    public void testFallaCreacionPorNoTenerPermiso() {
         ColaboradorInputDTO dataColaborador = ColaboradorInputDTO.desdeJson(jsonDataColaborador);
         Usuario usuarioDummy = new Usuario(
                 new Documento(TipoDocumento.DNI, 12345),

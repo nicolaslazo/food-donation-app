@@ -32,7 +32,8 @@ class MovimientosHeladeraRepositoryTest {
       obelisco,
       colaborador,
       50,
-      ZonedDateTime.now().minusMonths(5)
+      ZonedDateTime.now().minusMonths(5),
+      "Barrio"
   );
 
   EventoMovimiento eventoMovimiento = new EventoMovimiento(heladera, ZonedDateTime.now());
