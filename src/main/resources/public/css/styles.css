@@ -1,0 +1,177 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #C0392B;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #fff;
+    padding: 5px 20px;
+}
+
+.img-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.img-logo img {
+    width: 45px;
+    height: 100%;
+}
+
+.name-logo {
+    margin-left: 10px;
+    display: flex;
+    font-size: 22px;
+    font-weight: bolder;
+    color: black;
+}
+
+.btn-contribuir {
+    padding: 10px;
+    background-color: #C0392B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.btn-contribuir:hover {
+    background-color: #B0392B;
+}
+
+.btn-contribuir a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    gap: 20px;
+}
+
+.navbar-item {
+    font-weight: bold;
+    color: #fff;
+    padding: 10px;
+}
+
+.navbar-item:hover {
+    background-color: #B0392B;
+    color: #fff;
+    border-radius: 20px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 30%;
+    height: auto;
+    box-shadow: 0 0 20px #0007;
+    border-radius: 20px;
+}
+
+.form-container {
+    background-color: #f2f2f2;
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #C0392B;
+    padding: 10px;
+    border-radius: 20px 20px 0 0;
+}
+
+.user-details-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box label {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.input-box input {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+}
+
+.input-box input:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+footer {
+    background-color: #9F9D9D;
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-container p {
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+}
+
+.footer-container p a {
+    color: #2980B9;
+}
