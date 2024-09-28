@@ -10,8 +10,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,10 +21,12 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "personaVulnerable")
 public class PersonaVulnerable {
-  //TODO: Revisar el mapeo, no se si era lo pedido
+  @Id
+  @Column(name = "id", nullable = false, unique = true)
+  Long id;
+
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
   @MapsId
-  @Id
   @JoinColumn(name = "idUsuario", referencedColumnName = "id", nullable = false, updatable = false)
   @NonNull Usuario usuario;
 
