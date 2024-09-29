@@ -13,7 +13,7 @@ public final class CuidadoHeladeraInputDTO {
   @Getter
   int capacidadEnViandas;
   @Getter
-  @NonNull long idColaborador;
+  long idColaborador;
   double latitud;
   double longitud;
   @Getter
@@ -22,7 +22,7 @@ public final class CuidadoHeladeraInputDTO {
   public CuidadoHeladeraInputDTO(
       @NonNull String nombreHeladera,
       int capacidadEnViandas,
-      @NonNull long idColaborador,
+      long idColaborador,
       double latitud,
       double longitud,
       @NonNull String barrio

@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -17,43 +18,49 @@ public class SeederRoles {
   @PostConstruct
   public void seedRoles() {
     seederPermisos.seedPermisos();
-    createRoles();
+    createRoleIfNotExists("ADMINISTRADOR");
+    createRoleIfNotExists("TECNICO");
+    createRoleIfNotExists("COLABORADOR");
   }
 
-  private void createRoles() {
-    // OBTENGO LOS PERMISOS
-    Permiso permisoCrearColaborador = permisosRepository.findByName("Crear-Colaborador").get();
-    Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
-    Permiso permisoCrearTarjetas = permisosRepository.findByName("Crear-Tarjetas").get();
-    Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
-    Permiso permisoDarBajaTarjeta = permisosRepository.findByName("Dar-Baja-Tarjetas").get();
-    Permiso permisoAbrirHeladera = permisosRepository.findByName("Abrir-Heladera").get();
-    Permiso permisoDonarVianda = permisosRepository.findByName("Donar-Viandas").get();
-    Permiso permisoDepositarVianda = permisosRepository.findByName("Depositar-Viandas").get();
+  private void createRoleIfNotExists(String rolName) {
+    Optional<Rol> rol = rolesRepository.findByName(rolName);
+    if (rol.isEmpty()) {
+      switch (rolName) {
+        case "ADMINISTRADOR":
+          Permiso permisoCrearColaborador = permisosRepository.findByName("Crear-Colaborador").get();
+          Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
+          Permiso permisoCrearTarjetas = permisosRepository.findByName("Crear-Tarjetas").get();
+          Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
+          Permiso permisoDarBajaTarjeta = permisosRepository.findByName("Dar-Baja-Tarjetas").get();
+          Rol newRolAdmin = new Rol(rolName, Set.of(
+                  permisoCrearColaborador,
+                  permisoCrearTecnico,
+                  permisoAsignarTarjetas,
+                  permisoDarBajaTarjeta,
+                  permisoCrearTarjetas
+          ));
+          rolesRepository.insert(newRolAdmin);
+          break;
+        case "TECNICO":
+          Rol newRolTecnico = new Rol(rolName, Set.of(
+                  permisosRepository.findByName("Abrir-Heladera").get()
+          ));
+          rolesRepository.insert(newRolTecnico);
+          break;
+        case "COLABORADOR":
+          Rol newRolColaborador = new Rol(rolName, Set.of(
+                  permisosRepository.findByName("Abrir-Heladera").get(),
+                  permisosRepository.findByName("Donar-Viandas").get(),
+                  permisosRepository.findByName("Asignar-Tarjetas").get(),
+                  permisosRepository.findByName("Depositar-Viandas").get()
+          ));
+          rolesRepository.insert(newRolColaborador);
+          break;
+        default:
+          throw new RuntimeException("No se puede crear el rol");
+      }
 
-    // ROL ADMINISTRADOR
-    Rol newRolAdmin = new Rol("ADMINITRADOR", Set.of(
-        permisoCrearColaborador,
-        permisoCrearTecnico,
-        permisoAsignarTarjetas,
-        permisoDarBajaTarjeta,
-        permisoCrearTarjetas
-    ));
-    rolesRepository.insert(newRolAdmin);
-
-    // ROL TECNICO
-    Rol newRolTecnico = new Rol("TECNICO", Set.of(
-        permisoAbrirHeladera
-    ));
-    rolesRepository.insert(newRolTecnico);
-
-    // ROL COLABORADOR
-    Rol newRolColaborador = new Rol("COLABORADOR", Set.of(
-        permisoAbrirHeladera,
-        permisoDonarVianda,
-        permisoAsignarTarjetas,
-        permisoDepositarVianda
-    ));
-    rolesRepository.insert(newRolColaborador);
+    }
   }
 }
