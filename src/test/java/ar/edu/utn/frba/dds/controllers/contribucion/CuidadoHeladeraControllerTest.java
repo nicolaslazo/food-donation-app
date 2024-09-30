@@ -46,7 +46,7 @@ class CuidadoHeladeraControllerTest {
                 "{" +
                     "\"nombreHeladera\": \"Heladera\", " +
                     "\"capacidadEnViandas\": 1, " +
-                    "\"idColaboradorSerializado\": \"00000000-0000-0000-0000-000000000000\", " +
+                    "\"idColaborador\": \"" + 343434  + "\" , " +
                     "\"latitud\": -34.0, " +
                     "\"longitud\": -58.0}"));
   }
@@ -57,9 +57,11 @@ class CuidadoHeladeraControllerTest {
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
             "\"capacidadEnViandas\": 1, " +
-            "\"idColaboradorSerializado\": \"" + colaborador.getId() + "\", " +
+            "\"idColaborador\": \"" + colaborador.getId() + "\", " +
             "\"latitud\": -34.0, " +
-            "\"longitud\": -58.0}");
+            "\"longitud\": -58.0, " +
+            "\"barrio\": \"Medrano\"}"
+    );
 
     assertTrue(new HeladerasRepository().findById(heladeraNueva.getId()).isPresent());
   }
@@ -70,9 +72,10 @@ class CuidadoHeladeraControllerTest {
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
             "\"capacidadEnViandas\": 1, " +
-            "\"idColaboradorSerializado\": \"" + colaborador.getId() + "\", " +
+            "\"idColaborador\": \"" + colaborador.getId() + "\", " +
             "\"latitud\": -34.0, " +
-            "\"longitud\": -58.0}");
+            "\"longitud\": -58.0, " +
+            "\"barrio\": \"Medrano\"}");
 
     assertTrue(
         new SuscripcionRepository().find(colaborador, heladera, MotivoDeDistribucion.FALLA_HELADERA).isPresent());

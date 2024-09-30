@@ -12,18 +12,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.UUID;
 
 @Entity
 @Table(name = "direccionResidencia")
 public class DireccionResidencia {
   @Id
-  @Column(name = "id", columnDefinition = "binary(16)")
-  UUID id;
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
+  Long id;
 
   @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
   @MapsId
-  @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false, columnDefinition = "binary(16)")
+  @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false)
   @NonNull Usuario usuario;
 
   @Column(name = "unidad")

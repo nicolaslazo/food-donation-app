@@ -1,10 +1,13 @@
 package ar.edu.utn.frba.dds.dtos.input.tecnico;
 
+import ar.edu.utn.frba.dds.dtos.input.colaborador.ColaboradorInputDTO;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.services.LocalDateAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -34,7 +37,10 @@ public final class TecnicoInputDTO {
   Float radioEnMetros;
 
   public static TecnicoInputDTO desdeJson(@NonNull String json) {
-    return new Gson().fromJson(json, TecnicoInputDTO.class);
+    Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            .create();
+    return gson.fromJson(json, TecnicoInputDTO.class);
   }
 
   public AreaGeografica getAreaGeografica() {

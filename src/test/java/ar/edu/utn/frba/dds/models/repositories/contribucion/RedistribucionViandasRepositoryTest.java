@@ -13,14 +13,14 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RedistribucionViandasRepositoryTest {
   final RedistribucionViandasRepository repositorio = new RedistribucionViandasRepository();
@@ -41,7 +41,8 @@ class RedistribucionViandasRepositoryTest {
       obelisco,
       colaborador,
       50,
-      ZonedDateTime.now().minusMonths(5)
+      ZonedDateTime.now().minusMonths(5),
+      "Barrio"
   );
 
   RedistribucionViandas otraRedistribucion = new RedistribucionViandas(colaborador,
@@ -68,6 +69,7 @@ class RedistribucionViandasRepositoryTest {
     new ColaboradorRepository().insert(colaborador);
     new HeladerasRepository().insert(heladera);
   }
+
   @Test
   void testGetPorId() {
 
@@ -89,7 +91,7 @@ class RedistribucionViandasRepositoryTest {
 
   @Test
   void testInsertarRedistribucionSinFallar() {
-    assertDoesNotThrow(()-> new RedistribucionViandasRepository().insert(redistribucion));
+    assertDoesNotThrow(() -> new RedistribucionViandasRepository().insert(redistribucion));
   }
 
   @Test

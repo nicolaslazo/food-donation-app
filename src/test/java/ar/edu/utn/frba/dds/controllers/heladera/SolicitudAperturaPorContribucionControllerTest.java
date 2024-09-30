@@ -3,18 +3,19 @@ package ar.edu.utn.frba.dds.controllers.heladera;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.DonacionViandas;
-import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
-import ar.edu.utn.frba.dds.models.entities.contribucion.RedistribucionViandas;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
+import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
-import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.junit.jupiter.api.AfterEach;
@@ -30,33 +31,52 @@ import java.util.*;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class SolicitudAperturaPorContribucionControllerTest {
   final MqttBrokerService brokerServiceMock = mock(MqttBrokerService.class);
-  Colaborador colaboradorMock = new Colaborador(mock(Documento.class),"", "", null,null);
-  final Tarjeta tarjeta = new Tarjeta(randomUUID());
-  final SolicitudAperturaPorContribucionRepository repositorio = new SolicitudAperturaPorContribucionRepository();
-  final DonacionViandas contribucion = new DonacionViandas(colaboradorMock,
-          Collections.singletonList(new Vianda("",ZonedDateTime.now(),ZonedDateTime.now(), colaboradorMock, 0.0, 22)),
-          new Heladera("", new CoordenadasGeograficas(54.3, 54.0), colaboradorMock, 11, ZonedDateTime.now()));
+  Colaborador colaborador;
+
+  Tarjeta tarjeta;
+  SolicitudAperturaPorContribucionRepository repositorio;
+  DonacionViandas contribucion;
 
   @BeforeEach
   void setUp() throws PermisoDenegadoException {
-    tarjeta.setEnAlta(colaboradorMock.getUsuario(), colaboradorMock, ZonedDateTime.now());
-    colaboradorMock.setUbicacion(new CoordenadasGeograficas(-34d, -58d));
+    new SeederRoles().seedRoles();
+
+    colaborador = new Colaborador(
+            new Documento(TipoDocumento.DNI, 1),
+            "",
+            "",
+            LocalDate.now(),
+            new CoordenadasGeograficas(-34d, -58d),
+            new RolesRepository().findByName("COLABORADOR").get()
+    );
+
+    tarjeta = new Tarjeta(randomUUID());
+    repositorio = new SolicitudAperturaPorContribucionRepository();
+    contribucion = new DonacionViandas(colaborador,
+            Collections.singletonList(new Vianda("",ZonedDateTime.now(),ZonedDateTime.now(), colaborador, 0.0, 22)),
+            new Heladera(
+                    "",
+                    new CoordenadasGeograficas(54.3, 54.0),
+                    colaborador,
+                    11,
+                    ZonedDateTime.now(),
+                    ""
+            )
+    );
+
+    tarjeta.setEnAlta(colaborador.getUsuario(), colaborador, ZonedDateTime.now());
   }
 
   @AfterEach
   void tearDown() {
-    repositorio.deleteAll();
+    new HibernatePersistenceReset().execute();
   }
 
   @Test
@@ -69,7 +89,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
   @Test
   void testCreacionFallaSiColaboradorSinDomicilio() {
-    colaboradorMock.setUbicacion(null);
+    colaborador.setUbicacion(null);
 
 
     assertThrows(PermisoDenegadoException.class,
