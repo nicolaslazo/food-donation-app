@@ -53,7 +53,7 @@ class TarjetaControllerTest {
             "admin",
             "admin",
             LocalDate.now(),
-            Set.of(new RolesRepository().findByName("TECNICO").get())
+            Set.of()
     );
 
     colaborador = new Colaborador(
