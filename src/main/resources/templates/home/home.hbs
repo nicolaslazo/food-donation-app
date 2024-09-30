@@ -1,0 +1,109 @@
+{{#partial "titulo"}}Home - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/home/styles.css">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <section class="hero">
+        <img src="/public/img/colabora-con-nosotros.jpg" alt="Colaborá con Nosotros">
+    </section>
+
+    <section class="about">
+        <h2>¿Qué hacemos?</h2>
+        <p>
+            En respuesta a la creciente necesidad de acceso a alimentos para personas en situación de vulnerabilidad alimentaria,
+            se ha implementado una iniciativa solidaria para distribuir heladeras en puntos estratégicos a lo largo y ancho
+            del país. Estas heladeras, ubicadas en restaurantes, estaciones de transporte público y otros lugares accesibles,
+            tienen como objetivo facilitar tanto la recepción de alimentos en forma de viandas de parte de los colaboradores
+            como la entrega de alimentos para quienes más lo necesitan.
+        </p>
+
+        <h3>Nuestro sistema</h3>
+        <p>A partir de la problemática identificada y presentada en la sección anterior, se presentan los requerimientos para el diseño y construcción de un sistema que mejora el acceso de alimentos a personas que están atravesando un contexto de vulnerabilidad.</p>
+    </section>
+
+    <section class="collaborate">
+        <h2>Formas de Colaborar</h2>
+        <h3>Donación de dinero</h3>
+        <p>Se deberá indicar la fecha de la donación, un monto y una frecuencia (en caso de que se opte por donar de forma periódica).</p>
+
+        <h3>Donación de Viandas</h3>
+        <p>Se solicitarán los datos de cada vianda.</p>
+
+        <h3>Distribución de viandas</h3>
+        <p>Se deberá indicar la heladera origen, la heladera destino, la cantidad de viandas a mover, el motivo de la distribución y la fecha en que se realizó la distribución.</p>
+
+        <h3>Hacerse cargo de una heladera</h3>
+        <p>En muchos casos, hay empresas como kioscos, restaurantes, estaciones de servicio, etc. que deciden colocar una heladera en la puerta de sus locales.</p>
+    </section>
+
+    <section class="cards">
+        <h2>Tarjetas</h2>
+        <p>Cada colaborar que opte por donar una vianda o distribuirlas entre las heladeras, tendrá acceso a una tarjeta para poder acceder a
+            las heladeras comunitarias. Estas mismas serán entregadas al domicilio especificado.
+        </p>
+
+        <h3>Aclaración</h3>
+        <p>Si optas por hacerte cargo de una heladera únicamente o solo donar dinero, no tendrás acceso a dichas tarjetas.</p>
+    </section>
+
+    <section class="quiero-ayudar">
+        <h2>¿Cómo Empiezo a Contribuir?</h2>
+        <p>
+            Primero debes <a href="/registro/register">crearte una cuenta</a> luego podrás optar por las distintas contribuciones disponibles. <br>
+            Si ya posees una cuenta puedes acceder a las distintas contribuciones disponibles desde el botón inferior.
+        </p>
+        <button class="btn-quiero-ayudar">
+            <a href="/quiero_ayudar">QUIERO AYUDAR</a>
+        </button>
+    </section>
+
+    <section class="subs">
+        <h2>Suscripciones</h2>
+        <p>
+            Los colaboradores que posean una tarjeta podrán suscribirse a las heladeras que se encuentren en zonas donde
+            frecuentan. Estas suscripciones cumplen la función de notificar al colaborador si hay algún tipo de
+            desperfecto o evento.
+        </p>
+
+        <h3>Tipos de Suscripciones</h3>
+        <div class="container-subs">
+            <ul>
+                <li>Quedan únicamente disponibles en la heladera la cantidad de viandas especificada por
+                    el colaborador al momento de su suscripción. Como colaborador puedes optar por rellenar con
+                    cierta cantidad de viandas a la heladera.</li>
+                <li>La heladera está casi llena y podrás optar por distribuir una cierta cantidad de viandas a otra heladera
+                    que se encuentre menos llena en ese momento.</li>
+                <li>Las heladeras pueden notificar algún desperfecto al colaborador suscripto. En este caso, la función del
+                    colaborador será trasladar la totalidad de las viandas que están en la heladera defectuosa a otras heladeras.
+                    Nuestro sistema se encargará de brindarle al colaborador la ubicación de otras heladeras para su traslado.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="rewards">
+        <h2>Reconocimiento</h2>
+        <p>
+            Como muestra de agradecimiento a todos los voluntarios que hayan aportado de cualquier forma a la causa, incorporamos
+            un sistema de puntos para reconocer su trabajo para nuestra tienda virtual. Los puntos acumulados tienen la posibilidad de ser intercambiados
+            por diversos productos y servicios ofrecidos por las empresas asociadas en nuestra plataforma.
+        </p>
+        <h3>Rubros</h3>
+        <div class="container-rubros">
+            <p>
+                Educación, Electrónica, Tecnología, Viajes, Hogar, Gastronomía, Indumentaria, y mucho más...
+            </p>
+        </div>
+    </section>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Copyright © 2024 Viandas Donation. Todos los derechos reservados.</p>
+{{/partial}}
+
+{{> templates/base}}
