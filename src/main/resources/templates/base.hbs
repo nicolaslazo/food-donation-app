@@ -6,27 +6,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="../public/img/Logo_viandas_donation.png">
+    <link rel="shortcut icon" href="/public/img/Logo_viandas_donation.png">
 
     <!-- Stylesheet fundamental de todos los Templates-->
-    <link rel="stylesheet" href="../public/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
 
     <!-- Stylesheet especificos de ese Template -->
-    {{#block "styles"}}
-    {{/block}}
+    {{#block "styles"}}{{/block}}
 
     <!-- Scripts JS especificos de ese Template -->
-    {{#block "scripts-js"}}
-    {{/block}}
+    {{#block "scripts"}}{{/block}}
 
     <!-- Titulo del Template -->
-    <title>{{"titulo"}}</title>
+    <title>{{#block "titulo"}}{{/block}}</title>
 </head>
 <body>
 <header>
     <div class="container-logo">
         <a class="img-logo" href="#">
-            <img src="../public/img/Logo_viandas_donation.png" alt="Logo">
+            <img src="/public/img/Logo_viandas_donation.png" alt="Logo">
             <h2 class="name-logo">Viandas Donation</h2>
         </a>
         <button class="btn-contribuir">
@@ -43,15 +41,13 @@
 
 <!-- Contenido Main del Template -->
 <main>
-    {{#block "contenido"}}
-    {{/block}}
+    {{#block "contenido"}}{{/block}}
 </main>
 
 <!-- Footer - Incluir solo un <p> texto </p> -->
 <footer>
     <div class="footer-container">
-        {{#block "contenido-footer" }}
-        {{/block}}
+        {{#block "contenido-footer" }}{{/block}}
     </div>
 </footer>
 </body>
