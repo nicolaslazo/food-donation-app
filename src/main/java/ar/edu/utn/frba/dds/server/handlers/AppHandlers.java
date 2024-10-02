@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 public class AppHandlers {
   private IHandler[] handlers = new IHandler[]{
-          new AccessDeniedHandler(),
-          new InternalServerErrorHandler()
+      new AccessDeniedHandler(),
+      new InternalServerErrorHandler()
   };
 
   public static void applyHandlers(Javalin app) {
