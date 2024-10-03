@@ -1,44 +1,20 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="../static/Logo_viandas_donation.png">
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
-    <title>Carga Persona Vulnerable</title>
-</head>
-<body>
-    <header>
-        <div class="container-logo">
-            <a class="img-logo" href="../home/home.html">
-                <img src="../static/Logo_viandas_donation.png" alt="Logo">
-                <h2 class="name-logo"> Viandas Donation </h2>
-            </a>
-            <button class="btn-contribuir"> 
-                <a href="../logueo/inicioSesion/index.html">Contribuir Ya</a>
-            </button>
-        </div>
-        <nav class="navbar">
-                <a href="../home/home.html" class="navbar-item">INICIO</a>
-                <a href="../quienes_somos/quienes_somos.html" class="navbar-item">QUIENES SOMOS</a>
-                <a href="../contacto/contacto.html" class="navbar-item">CONTACTO</a>
-                <a href="../tienda/tienda_home/tienda.html" class="navbar-item">QUIERO AYUDAR</a>
-        </nav>
-    </header>
+{{#partial "titulo"}}Carga Persona Vulnerable - Viandas Donation{{/partial}}
 
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/carga_persona_vulnerable/styles.css">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/carga_persona_vulnerable/script.js" defer></script>
+{{/partial}}
+
+{{#partial "contenido"}}
     <main>
         <div class="container">
             <div class="title">REGISTRAR PERSONA VULNERABLE</div>
 
             <form action="" class="form-container">
-
                 <div class="user-details-container">
-
                     <label class="input-box" for="name">
                         Nombre
                         <input type="text" id="name" placeholder="Nombre" required>
@@ -97,18 +73,17 @@
                     </div>
 
                     <div class="question-checkbox">
-                    <p>¿Posee documento de identidad?</p>
+                        <p>¿Posee documento de identidad?</p>
                         <input type="checkbox" id="tiene-dni" name="tiene-dni" value="yes">
-                    </label>
                     </div>
 
                     <div id="posee-documento" class="hidden">
                         <label class="input-box">Tipo de Documento
-                        <select id="documento" name="documento" required>
-                            <option value="dni">DNI</option>
-                            <option value="lc">LIBRETA CIVICA</option>
-                            <option value="le">LIBRETA DE ENROLAMIENTO</option>
-                        </select>
+                            <select id="documento" name="documento" required>
+                                <option value="dni">DNI</option>
+                                <option value="lc">LIBRETA CIVICA</option>
+                                <option value="le">LIBRETA DE ENROLAMIENTO</option>
+                            </select>
                         </label>
                         <label class="input-box">
                             Número Documento
@@ -130,18 +105,16 @@
                 <div class="submit-register">
                     <input type="submit" value="REGISTRAR">
                 </div>
-
             </form>
         </div>
     </main>
+{{/partial}}
 
-    <footer>
-        <div class="footer-container">
-            <p>
-                Haciendo clic en alguno de los botones de registro de
-                arriba, aceptas nuestros <a href="../terminosYcondiciones/terminos.html">Términos</a> y <a href="../terminosYcondiciones/terminos.html">Política de Privacidad</a>.
-            </p>
-        </div>
-    </footer>
-</body>
-</html>
+{{#partial "contenido-footer"}}
+    <p>
+        Haciendo clic en alguno de los botones de registro de
+        arriba, aceptas nuestros <a href="/terminos">Términos</a> y <a href="/terminos">Política de Privacidad</a>.
+    </p>
+{{/partial}}
+
+{{> templates/base}}
