@@ -5,6 +5,8 @@ import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
 import io.javalin.Javalin;
 
+import java.util.Arrays;
+
 public class Router {
 
   public static void init(Javalin app) {
@@ -16,8 +18,7 @@ public class Router {
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
-      ctx.result("An internal error occurred: " + e.getMessage());
-      e.printStackTrace(); // Optional: print the stack trace to the console
+      ctx.result("Internal server error: " + Arrays.toString(e.getStackTrace()));
     });
   }
 }
