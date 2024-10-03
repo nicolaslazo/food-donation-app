@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.config.ConfigLoader;
+import ar.edu.utn.frba.dds.server.handlers.AppHandlers;
 import com.github.jknack.handlebars.Handlebars;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
@@ -23,6 +24,7 @@ public class Server {
       int port = Integer.parseInt(ConfigLoader.getInstancia().getProperty("server_port"));
       app = Javalin.create(config()).start(port);
 
+      AppHandlers.applyHandlers(app);
       Router.init(app);
 
       if (Boolean.parseBoolean(ConfigLoader.getInstancia().getProperty("dev_mode"))) {
@@ -34,7 +36,7 @@ public class Server {
   private static Consumer<JavalinConfig> config() {
     return config -> {
       config.staticFiles.add(staticFiles -> {
-        staticFiles.hostedPath = "/";
+        staticFiles.hostedPath = "/public";
         staticFiles.directory = "/public";
       });
 
