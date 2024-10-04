@@ -47,6 +47,7 @@ public class Tecnico {
   @NonNull
   AreaGeografica areaAsignada;
 
+  //Este constructor es para la carga CSV
   public Tecnico(@NonNull Documento documento,
                  @NonNull String primerNombre,
                  @NonNull String apellido,
@@ -58,24 +59,28 @@ public class Tecnico {
         primerNombre,
         apellido,
         fechaNacimiento,
+        null,
         new HashSet<>(List.of())
     );  // TODO: Agregar permisos
     this.cuil = cuil;
     this.areaAsignada = areaAsignada;
   }
 
+  //Constructor principal
   public Tecnico(@NonNull Documento documento,
                  @NonNull String primerNombre,
                  @NonNull String apellido,
                  @NonNull LocalDate fechaNacimiento,
                  @NonNull String cuil,
                  @NonNull AreaGeografica areaAsignada,
+                 String contrasenia,
                  @NonNull Rol rolTecnico) {
     this.usuario = new Usuario(
         documento,
         primerNombre,
         apellido,
         fechaNacimiento,
+        contrasenia,
         new HashSet<>(List.of(rolTecnico))
     );  // TODO: Agregar permisos
     this.cuil = cuil;
