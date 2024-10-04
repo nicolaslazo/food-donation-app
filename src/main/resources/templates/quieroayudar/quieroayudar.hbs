@@ -1,0 +1,77 @@
+{{#partial "titulo"}}Quiero Ayudar - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/quiero_ayudar/styles.css">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main>
+        <section class="quiero-ayudar-section">
+            <div class="quiero-ayudar-container">
+                <h1>QUIERO AYUDAR</h1>
+                <p>Selecciona tu acción.</p>
+
+                <div class="options-container">
+                    <div class="option-card">
+                        <img src="/public/img/quiero_ayudar/icono_reporte.png" alt="Icono Reporte">
+                        <h2>Reportar</h2>
+                        <p>Puedes reportar alguna falla técnica observada en una heladera.</p>
+                        <button class="btn-opcion">
+                            <a href="/falla-tecnica">Reportar</a>
+                        </button>
+                    </div>
+                    <div class="option-card">
+                        <img src="/public/img/quiero_ayudar/icono_contribucion.png" alt="Servicios">
+                        <h2>Contribuir</h2>
+                        <p>Selecciona una o varias formas de contribuir posibles hasta el momento.</p>
+                        <button class="btn-opcion">
+                            <a href="/formas-colaboracion">Contribuir</a>
+                        </button>
+                    </div>
+                    <div class="option-card">
+                        <img src="/public/img/quiero_ayudar/icono_carga_informacion.png" alt="Icono de Carga de Datos">
+                        <h2>Registrar Persona Vulnerable</h2>
+                        <p>Dar de alta en el sistema a una persona vulnerable.</p>
+                        <button class="btn-opcion">
+                            <a href="/carga-persona-vulnerable">Registrar</a>
+                        </button>
+                    </div>
+                    <div class="option-card">
+                        <img src="/public/img/quiero_ayudar/icono_visualizacion_reportes.png" alt="Icono de Reportes">
+                        <h2>Ver Reportes</h2>
+                        <p>Puedes visualizar todos los reportes cargados en el sistema.</p>
+                        <button class="btn-opcion">
+                            <a href="/reportes-semanales">Visualizar</a>
+                        </button>
+                    </div>
+                    <div class="option-card">
+                        <img src="/public/img/quiero_ayudar/icono_alerta.png" alt="Icono de Alerta">
+                        <h2>Ver Alertas</h2>
+                        <p>Puedes visualizar todas las alertas de las heladeras en el momento.</p>
+                        <button class="btn-opcion">
+                            <a href="/alertas">Visualizar</a>
+                        </button>
+                    </div>
+                    <div class="option-card">
+                        <img src="/public/img/quiero_ayudar/icono_carga_archivo.png" alt="Icono de Carga de Datos">
+                        <h2>Cargar CSV</h2>
+                        <p>Como administrador puedes cargar un archivo CSV al sistema.</p>
+                        <button class="btn-opcion">
+                            <a href="/carga-masiva">Cargar</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Copyright © 2024 Viandas Donation. Todos los derechos reservados.</p>
+{{/partial}}
+
+{{> templates/base}}
