@@ -10,11 +10,13 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import ar.edu.utn.frba.dds.services.mensajeria.mail.EnviadorMail;
 import org.junit.jupiter.api.AfterEach;
@@ -76,13 +78,16 @@ class HeladeraControllerTest {
             "",
             LocalDate.now(),
             "123",
-            new AreaGeografica(aCienMetrosDelObelisco, 50f))
+            new AreaGeografica(aCienMetrosDelObelisco, 50f),
+            "123",
+            new Rol("TECNICO"))
     );
     assertTrue(HeladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
   }
 
   @Test
   void testPriorizaTecnicoMasCercanoEnCasoDeVariosDisponibles() {
+    Rol rolTecnico = new Rol("TECNICO");
     final CoordenadasGeograficas aCincuentaMetrosDelObelisco =
         new CoordenadasGeograficas(-34.603725171426916, -58.38211380719743);
     Tecnico tecnicoDeseado = new Tecnico(
@@ -91,8 +96,11 @@ class HeladeraControllerTest {
         "",
         LocalDate.now(),
         "123",
-        new AreaGeografica(aCincuentaMetrosDelObelisco, 1000f));
-
+        new AreaGeografica(aCincuentaMetrosDelObelisco, 1000f),
+        "123",
+        rolTecnico
+        );
+    new RolesRepository().insert(rolTecnico);
     new TecnicoRepository().insert(tecnicoDeseado);
     new TecnicoRepository().insert(
         new Tecnico(
@@ -101,7 +109,9 @@ class HeladeraControllerTest {
             "",
             LocalDate.now(),
             "456",
-            new AreaGeografica(aCienMetrosDelObelisco, 1000f))
+            new AreaGeografica(aCienMetrosDelObelisco, 1000f),
+            "123",
+            rolTecnico)
     );
 
     assertEquals(Optional.of(tecnicoDeseado), HeladeraController.encontrarTecnicoMasCercano(heladeraMock));
