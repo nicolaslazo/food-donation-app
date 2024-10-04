@@ -95,8 +95,11 @@ public class Usuario {
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
     this.roles = new HashSet<>(roles);
-    if(contrasenia == null) { this.contrasenia = GeneradorDeContrasenias.generarContrasenia(); }
     this.contrasenia = contrasenia;
+    if (contrasenia == null) {
+      this.contrasenia = GeneradorDeContrasenias.generarContrasenia();
+    }
+
 
     // TODO: Mover al controller creador de colaboradores
     // new EnviadorDeMails().enviarMail(mail.destinatario(), this.contrasenia);
