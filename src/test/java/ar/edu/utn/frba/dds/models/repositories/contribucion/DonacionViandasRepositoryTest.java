@@ -42,6 +42,7 @@ class DonacionViandasRepositoryTest {
       "",
       "",
       LocalDate.now(),
+      null,
       new HashSet<>());
 
   Vianda vianda = new Vianda("Uno",
