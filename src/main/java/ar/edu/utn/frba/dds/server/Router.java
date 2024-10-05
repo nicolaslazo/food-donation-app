@@ -1,11 +1,11 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
+import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
-import ar.edu.utn.frba.dds.controllers.session.SessionController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
 import io.javalin.Javalin;
 
@@ -24,6 +24,8 @@ public class Router {
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
     app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
+
+    app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
 
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 

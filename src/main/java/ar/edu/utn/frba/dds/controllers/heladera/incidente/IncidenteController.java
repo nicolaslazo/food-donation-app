@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
+import io.javalin.http.Context;
 import lombok.NonNull;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -69,5 +70,9 @@ public class IncidenteController implements IMqttMessageListener {
     if (optionalHeladera.isEmpty()) throw new Exception("La heladera correspondiente a esta alerta no existe");
 
     crearAlerta(optionalHeladera.get(), TipoIncidente.fromString(mensaje.tipoIncidente()), mensaje.getFecha());
+  }
+
+  public void index(Context context) {
+    context.render("incidentes/falla-tecnica/falla-tecnica.hbs");
   }
 }
