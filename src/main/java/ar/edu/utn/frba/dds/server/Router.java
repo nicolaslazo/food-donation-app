@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
+import ar.edu.utn.frba.dds.controllers.tienda.TiendaController;
 import io.javalin.Javalin;
 
 import java.util.Arrays;
@@ -14,6 +15,13 @@ public class Router {
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
 
     app.get("/", new HomeController()::index);
+    
+    app.get("/tienda", new TiendaController()::index);
+    app.get("/tienda/ofrecerProducto", new TiendaController()::ofrecerProducto);
+    app.get("/tienda/ofrecerServicio", new TiendaController()::ofrecerServicio);
+    app.get("/tienda/canjearProductos", new TiendaController()::canjearProductos);
+    app.get("/tienda/canjearServicios", new TiendaController()::canjearServicios);
+
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
 

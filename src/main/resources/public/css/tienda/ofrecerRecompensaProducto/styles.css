@@ -1,0 +1,126 @@
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    display: none;
+}
+
+.modal-content {
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #C0392B;
+}
+
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.btn-canjear-modal {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-canjear-modal:hover {
+    background-color: #21618C;
+}
+
+#no-services-message {
+    display: none;
+    text-align: center;
+    font-size: 18px;
+    color: #C0392B;
+    margin-top: 20px;
+}
+
+/*Elimina el cosito del costado para aumentar en unidad los numeros*/
+input[type="number"] {
+    -moz-appearance: textfield; /* Para Firefox */
+    -webkit-appearance: none; /* Para Chrome y Safari */
+    appearance: none; /* General */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* Elimina márgenes adicionales */
+}
+
+.input-box select {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+    font-size: 16px;
+    appearance: none;
+}
+
+select
+{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+    font-size: 13px;
+    appearance: none;
+}
+
+.input-box {
+    margin-bottom: 10px; /* Espaciado uniforme entre cada input */
+    margin-top:0px;
+}
+
+.btn-delete {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #4c4b4b;
+    align-self: flex-end;
+    margin-bottom: 8px;
+}
+
+.btn-delete:hover {
+    color: #353434;
+}
+
+.service-actions {
+    display: flex;
+    align-items: center; /* Centra los elementos verticalmente */
+    gap: 10px; /* Añade espacio entre los botones */
+}
+
+.btn-edit {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #4c4b4b;
+    align-self: flex-end;
+    margin-bottom: 8px;
+}
+
+.btn-edit:hover {
+    color: #353434;
+}
+
