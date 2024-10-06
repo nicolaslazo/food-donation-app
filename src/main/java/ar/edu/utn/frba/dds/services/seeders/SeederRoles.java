@@ -45,13 +45,13 @@ public class SeederRoles {
           break;
         case "TECNICO":
           Rol newRolTecnico = new Rol(rolName, Set.of(
-                  permisosRepository.findByName("Abrir-Heladera").get()
+                  permisosRepository.findByName("Abrir-Heladera-Contribucion").get()
           ));
           rolesRepository.insert(newRolTecnico);
           break;
         case "COLABORADOR":
           Rol newRolColaborador = new Rol(rolName, Set.of(
-                  permisosRepository.findByName("Abrir-Heladera").get(),
+                  permisosRepository.findByName("Abrir-Heladera-Contribucion").get(),
                   permisosRepository.findByName("Donar-Viandas").get(),
                   permisosRepository.findByName("Asignar-Tarjetas").get(),
                   permisosRepository.findByName("Depositar-Viandas").get()
@@ -59,7 +59,9 @@ public class SeederRoles {
           rolesRepository.insert(newRolColaborador);
           break;
         case "PERSONAVULNERABLE":
-          Rol newRolPersonaVulnerable = new Rol(rolName, Set.of());
+          Rol newRolPersonaVulnerable = new Rol(rolName, Set.of(
+              permisosRepository.findByName("Abrir-Heladera-Consumicion").get()
+          ));
           rolesRepository.insert(newRolPersonaVulnerable);
           break;
         default:
