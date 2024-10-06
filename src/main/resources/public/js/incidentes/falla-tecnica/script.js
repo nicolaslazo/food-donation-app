@@ -35,5 +35,5 @@ L.control.pinSearch({
         console.log('Buscando:', query);
     },
     focusOnMarker: true,
-    maxSearchResults: 6
+    maxSearchResults: 3
 }).addTo(map);
