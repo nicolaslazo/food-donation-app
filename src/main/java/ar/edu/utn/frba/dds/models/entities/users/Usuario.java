@@ -88,13 +88,14 @@ public class Usuario {
                  @NonNull String primerNombre,
                  @NonNull String apellido,
                  LocalDate fechaNacimiento,
+                 String contrasenia,
                  @NonNull Set<Rol> roles) {
     this.documento = documento;
     this.primerNombre = primerNombre;
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
     this.roles = new HashSet<>(roles);
-    this.contrasenia = GeneradorDeContrasenias.generarContrasenia();
+    this.contrasenia = contrasenia != null ? contrasenia : GeneradorDeContrasenias.generarContrasenia();
 
     // TODO: Mover al controller creador de colaboradores
     // new EnviadorDeMails().enviarMail(mail.destinatario(), this.contrasenia);

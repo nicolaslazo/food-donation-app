@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.VisitaTecnica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
@@ -54,7 +55,9 @@ class VisitasTecnicasRepositoryTest {
           new Documento(TipoDocumento.DNI, 1),
           " ",
           " ", LocalDate.now(),
-          " ", new AreaGeografica(obelisco, 1)
+          " ", new AreaGeografica(obelisco, 1),
+          null,
+          new Rol("TECNICO")
   );
 
   @BeforeEach
