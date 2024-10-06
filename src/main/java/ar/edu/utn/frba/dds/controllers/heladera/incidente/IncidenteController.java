@@ -18,7 +18,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
-import java.util.Optional;
+import java.util.*;
 
 public class IncidenteController implements IMqttMessageListener {
   static IncidenteController instancia = null;
@@ -73,6 +73,9 @@ public class IncidenteController implements IMqttMessageListener {
   }
 
   public void index(Context context) {
-    context.render("incidentes/falla-tecnica/falla-tecnica.hbs");
+    Map<String, Object> model = new HashMap<>();
+    List<Heladera> heladeras = new HeladerasRepository().findAll().toList();
+    model.put("heladeras", heladeras);
+    context.render("incidentes/falla-tecnica/falla-tecnica.hbs", model);
   }
 }
