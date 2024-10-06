@@ -1,0 +1,149 @@
+{{#partial "titulo"}}Registro - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/logueo/registro/styles.css">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/logueo/registro/script.js" defer></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main>
+        <div class="container">
+            <div class="title">REGISTRAR USUARIO</div>
+
+            <form action="/registro" method="post" class="form-container">
+                <div id="error-messages" role="alert"></div>
+
+                <div class="user-details-container">
+                    <label class="input-box" for="primerNombre">
+                        Nombre
+                        <input type="text" id="primerNombre" name="primerNombre" required minlength="2" maxlength="50"
+                               placeholder="Ingrese su nombre">
+                    </label>
+
+                    <label class="input-box" for="apellido">
+                        Apellido
+                        <input type="text" id="apellido" name="apellido" required minlength="2" maxlength="50"
+                               placeholder="Ingrese su apellido">
+                    </label>
+
+                    <label class="input-box" for="email">
+                        Correo Electrónico
+                        <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
+                    </label>
+
+                    <label class="input-box" for="fechaNacimiento">
+                        Fecha de Nacimiento
+                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                    </label>
+
+                    <label class="input-box" for="password">
+                        Contraseña
+                        <input type="password" id="password" name="password" required minlength="8"
+                               placeholder="Mínimo 8 caracteres">
+                    </label>
+
+                    <label class="input-box" for="confirmPassword">
+                        Confirme Contraseña
+                        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8"
+                               placeholder="Repita su contraseña">
+                    </label>
+
+                    <label class="input-box" for="tipoDocumento">
+                        Tipo Documento
+                        <select id="tipoDocumento" name="tipoDocumento">
+                            <option value="dni">DNI</option>
+                            <option value="lc">LIBRETA CIVICA</option>
+                            <option value="le">LIBRETA DE ENROLAMIENTO</option>
+                        </select>
+                    </label>
+
+                    <label class="input-box" for="documento">
+                        Numero de Documento
+                        <input type="text" id="documento" name="documento" required
+                               placeholder="Sin guiones ni espacios">
+                    </label>
+
+                    <label class="input-box" for="numeroCelular">
+                        Numero Celular
+                        <input type="tel" id="numeroCelular" name="numeroCelular" required
+                               placeholder="Sin código de área">
+                    </label>
+                </div>
+
+                <div class="user-details-container">
+                    <label class="input-box" for="pais">
+                        País
+                        <input type="text" id="pais" name="pais">
+                    </label>
+
+                    <label class="input-box" for="provincia">
+                        Provincia
+                        <input type="text" id="provincia" name="provincia">
+                    </label>
+
+                    <label class="input-box" for="ciudad">
+                        Ciudad
+                        <input type="text" id="ciudad" name="ciudad">
+                    </label>
+
+                    <label class="input-box" for="calle">
+                        Calle
+                        <input type="text" id="calle" name="calle">
+                    </label>
+
+                    <label class="input-box" for="altura">
+                        Altura/Número
+                        <input type="number" id="altura" name="altura" min="0">
+                    </label>
+
+                    <label class="input-box" for="unidad">
+                        Unidad
+                        <input type="text" id="unidad" name="unidad">
+                    </label>
+
+                    <label class="input-box" for="piso">
+                        Piso
+                        <input type="text" id="piso" name="piso">
+                    </label>
+                </div>
+
+                <div class="user-details-container">
+                    <label class="input-box" for="persona-juridica">
+                        ¿Es una Persona Jurídica?
+                        <select id="persona-juridica" name="personaJuridica">
+                            <option value="no">No</option>
+                            <option value="si">Sí</option>
+                        </select>
+                    </label>
+
+                    <label class="input-box" id="container-tipo-persona-juridica" for="tipo-persona-juridica">
+                        Tipo Persona Jurídica
+                        <select id="tipo-persona-juridica" name="tipoPersonaJuridica">
+                            <option value="">Seleccione un tipo</option>
+                            <option value="gubernamental">GUBERNAMENTAL</option>
+                            <option value="ong">ONG</option>
+                            <option value="empresa">EMPRESA</option>
+                            <option value="institucion">INSTITUCION</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="submit-register">
+                    <input type="submit" value="REGISTRAR">
+                </div>
+            </form>
+        </div>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>
+        Haciendo clic en alguno de los botones de registro de
+        arriba, aceptas nuestros <a href="/terminos">Términos</a> y <a href="/terminos">Política de Privacidad</a>.
+    </p>
+{{/partial}}
+
+{{> templates/base}}

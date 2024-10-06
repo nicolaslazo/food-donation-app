@@ -6,13 +6,16 @@ import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
-import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
+import io.javalin.http.Context;
 
 public class ColaboradorController {
   ColaboradorRepository colaboradorRepository = new ColaboradorRepository();
-  PermisosRepository permisosRepository = new PermisosRepository();
   RolesRepository rolesRepository = new RolesRepository();
+
+  public void index(Context context) {
+    context.render("logueo/registro/registro.hbs");
+  }
 
   public void crearColaborador(ColaboradorInputDTO data, Usuario usuarioCreador) throws PermisoDenegadoException {
     usuarioCreador.assertTienePermiso(
