@@ -4,6 +4,8 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
+import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -22,8 +24,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Entity
@@ -51,13 +53,16 @@ public class Colaborador {
                      @NonNull String apellido,
                      LocalDate fechaNacimiento,
                      CoordenadasGeograficas ubicacion) {
+    new SeederRoles().seedRoles();
+
     this.usuario = new Usuario(
-            documento,
-            primerNombre,
-            apellido,
-            fechaNacimiento,
-            null,
-            new HashSet<>(Set.of()));
+        documento,
+        primerNombre,
+        apellido,
+        fechaNacimiento,
+        null,
+        // Si tiene documento tiene que ser una persona física
+        new HashSet<>(List.of(new RolesRepository().findByName("COLABORADORFISICO").get())));
     this.ubicacion = ubicacion;
   }
 
@@ -68,15 +73,13 @@ public class Colaborador {
                      CoordenadasGeograficas ubicacion,
                      String contrasenia,
                      Rol rolColaborador) {
-    Set<Rol> rolesColaborador = new HashSet<>();
-    rolesColaborador.add(rolColaborador);
     this.usuario = new Usuario(
-            documento,
-            primerNombre,
-            apellido,
-            fechaNacimiento,
-            contrasenia,
-            rolesColaborador);
+        documento,
+        primerNombre,
+        apellido,
+        fechaNacimiento,
+        contrasenia,
+        new HashSet<>(List.of(rolColaborador)));
     this.ubicacion = ubicacion;
   }
 
