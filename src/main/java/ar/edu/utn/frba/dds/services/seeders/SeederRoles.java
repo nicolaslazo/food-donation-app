@@ -20,7 +20,8 @@ public class SeederRoles {
     seederPermisos.seedPermisos();
     createRoleIfNotExists("ADMINISTRADOR");
     createRoleIfNotExists("TECNICO");
-    createRoleIfNotExists("COLABORADOR");
+    createRoleIfNotExists("COLABORADORFISICO");
+    createRoleIfNotExists("COLABORADORJURIDICO");
     createRoleIfNotExists("PERSONAVULNERABLE");
   }
 
@@ -49,14 +50,20 @@ public class SeederRoles {
           ));
           rolesRepository.insert(newRolTecnico);
           break;
-        case "COLABORADOR":
-          Rol newRolColaborador = new Rol(rolName, Set.of(
+        case "COLABORADORFISICO":
+          Rol newRolColaboradorFisico = new Rol(rolName, Set.of(
                   permisosRepository.findByName("Abrir-Heladera-Contribucion").get(),
                   permisosRepository.findByName("Donar-Viandas").get(),
                   permisosRepository.findByName("Asignar-Tarjetas").get(),
                   permisosRepository.findByName("Depositar-Viandas").get()
           ));
-          rolesRepository.insert(newRolColaborador);
+          rolesRepository.insert(newRolColaboradorFisico);
+          break;
+        case "COLABORADORJURIDICO":
+          Rol newRolColaboradorJuridico = new Rol(rolName, Set.of(
+            permisosRepository.findByName("Administrar-Recompensas").get()
+          ));
+          rolesRepository.insert(newRolColaboradorJuridico);
           break;
         case "PERSONAVULNERABLE":
           Rol newRolPersonaVulnerable = new Rol(rolName, Set.of(
