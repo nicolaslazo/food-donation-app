@@ -35,7 +35,8 @@ public class ColaboradorControllerTest {
             "apellido": "Primero",
             "fechaNacimiento": "2024-09-27",
             "latitud": -34.5609872,
-            "longitud": -58.501046
+            "longitud": -58.501046,
+            "contrasenia": "pepe123"
         }
         """;
 
@@ -47,6 +48,7 @@ public class ColaboradorControllerTest {
                 "admin",
                 "admin",
                 LocalDate.now(),
+                null,
                 Set.of(new RolesRepository().findByName("ADMINISTRADOR").get())
         );
     }
@@ -74,6 +76,7 @@ public class ColaboradorControllerTest {
                 "user",
                 "dummy",
                 LocalDate.now(),
+                null,
                 Set.of(new RolesRepository().findByName("TECNICO").get())
         );
         assertThrows(PermisoDenegadoException.class, () ->

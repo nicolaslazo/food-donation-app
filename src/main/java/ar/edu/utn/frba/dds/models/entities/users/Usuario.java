@@ -40,10 +40,9 @@ public class Usuario {
   @NonNull
   Long id;
 
-  @Column(name = "documento", unique = true, nullable = false, updatable = false)
+  @Column(name = "documento", unique = true)
   @Embedded
   @Getter
-  @NonNull
   Documento documento;
 
   @Column(name = "primerNombre", nullable = false)
@@ -84,17 +83,18 @@ public class Usuario {
   @NonNull
   String contrasenia;
 
-  public Usuario(@NonNull Documento documento,
+  public Usuario(Documento documento,
                  @NonNull String primerNombre,
                  @NonNull String apellido,
                  LocalDate fechaNacimiento,
+                 String contrasenia,
                  @NonNull Set<Rol> roles) {
     this.documento = documento;
     this.primerNombre = primerNombre;
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
     this.roles = new HashSet<>(roles);
-    this.contrasenia = GeneradorDeContrasenias.generarContrasenia();
+    this.contrasenia = contrasenia != null ? contrasenia : GeneradorDeContrasenias.generarContrasenia();
 
     // TODO: Mover al controller creador de colaboradores
     // new EnviadorDeMails().enviarMail(mail.destinatario(), this.contrasenia);

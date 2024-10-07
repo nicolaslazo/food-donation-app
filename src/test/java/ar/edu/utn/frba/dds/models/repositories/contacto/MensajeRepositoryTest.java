@@ -26,6 +26,7 @@ public class MensajeRepositoryTest {
       "",
       "",
       LocalDate.now(),
+      null,
       new HashSet<>());
 
   Telegram contacto = new Telegram(usuario, "usuario");

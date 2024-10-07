@@ -36,7 +36,8 @@ public class TecnicoControllerTest {
           "cuil": "101239",
           "latitud": -34.5609872,
           "longitud": -58.501046,
-          "radioEnMetros": 100.0
+          "radioEnMetros": 100.0,
+          "contrasenia": "pepe123"
       }
       """;
 
@@ -50,6 +51,7 @@ public class TecnicoControllerTest {
         "admin",
         "admin",
         LocalDate.now(),
+        null,
         Set.of(new RolesRepository().findByName("ADMINISTRADOR").get())
     );
   }
@@ -77,6 +79,7 @@ public class TecnicoControllerTest {
         "user",
         "dummy",
         LocalDate.now(),
+        null,
         Set.of(new RolesRepository().findByName("TECNICO").get())
     );
     assertThrows(PermisoDenegadoException.class, () ->
