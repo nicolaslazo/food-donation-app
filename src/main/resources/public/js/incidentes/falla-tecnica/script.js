@@ -12,7 +12,7 @@ L.tileLayer(
 
 // Marcadores para las heladeras
 heladeras.forEach(function (heladera) {
-   L.marker([heladera.lat, heladera.long], {title: heladera.nombre}).bindPopup(heladera.nombre).openPopup().addTo(map);
+   L.marker([heladera.lat, heladera.long], {title: heladera.nombre, id: heladera.idHeladera}).bindPopup(heladera.nombre).openPopup().addTo(map);
 });
 var marker;
 
@@ -23,16 +23,14 @@ map.on('click', function(e) {
     if (marker) {
         marker.setLatLng(e.latlng);
     }
-
-    document.getElementById('latitude').value = lat;
-    document.getElementById('longitude').value = lng;
 });
 
 // Integración de Leaflet.PinSearch
-L.control.pinSearch({
+let pinSearchControl = L.control.pinSearch({
     placeholder: 'Buscar heladera...',
     onSearch: function(query) {
         console.log('Buscando:', query);
+        document.getElementById("idHeladera").value = pinSearchControl._findMarkerByTitle(query).options.id;
     },
     focusOnMarker: true,
     maxSearchResults: 3
