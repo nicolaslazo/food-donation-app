@@ -6,6 +6,7 @@
 
 {{#partial "scripts"}}
     <script src="/public/js/logueo/registro/script.js" defer></script>
+    <script src="/public/js/logueo/registro/tabs.js" defer></script>
 {{/partial}}
 
 {{#partial "contenido"}}
@@ -13,30 +14,93 @@
         <div class="container">
             <div class="title">REGISTRAR USUARIO</div>
 
-            <form action="/registro" method="post" class="form-container">
-                <div id="error-messages" role="alert"></div>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="persona-fisica">Persona Física</button>
+                <button class="tab-button" data-tab="persona-juridica">Persona Jurídica</button>
+            </div>
+
+            <form action="/colaborador/registro" method="post" class="form-container" id="registro-form">
+                <div class="tab-content" id="persona-fisica-content">
+                    <div class="user-details-container">
+                        <label class="input-box" for="primerNombre">
+                            Nombre
+                            <input type="text" id="primerNombre" name="primerNombre" required minlength="2"
+                                   maxlength="50"
+                                   placeholder="Ingrese su nombre">
+                        </label>
+
+                        <label class="input-box" for="apellido">
+                            Apellido
+                            <input type="text" id="apellido" name="apellido" required minlength="2" maxlength="50"
+                                   placeholder="Ingrese su apellido">
+                        </label>
+
+                        <label class="input-box" for="email">
+                            Correo Electrónico
+                            <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
+                        </label>
+
+                        <label class="input-box" for="fechaNacimiento">
+                            Fecha de Nacimiento
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                        </label>
+
+                        <label class="input-box" for="tipoDocumento">
+                            Tipo Documento
+                            <select id="tipoDocumento" name="tipoDocumento">
+                                <option value="dni">DNI</option>
+                                <option value="lc">LIBRETA CIVICA</option>
+                                <option value="le">LIBRETA DE ENROLAMIENTO</option>
+                            </select>
+                        </label>
+
+                        <label class="input-box" for="documento">
+                            Numero de Documento
+                            <input type="text" id="documento" name="documento" required
+                                   placeholder="Sin guiones ni espacios">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="persona-juridica-content" style="display: none;">
+                    <div class="user-details-container">
+                        <label class="input-box" for="primerNombre">
+                            Razón Social
+                            <input type="text" id="primerNombre" name="primerNombre" required minlength="2"
+                                   maxlength="100"
+                                   placeholder="Ingrese la razón social">
+                        </label>
+
+                        <label class="input-box" for="cuit">
+                            CUIT
+                            <input type="text" id="cuit" name="cuit" required
+                                   placeholder="XX-XXXXXXXX-X">
+                        </label>
+
+                        <label class="input-box" for="email">
+                            Correo Electrónico
+                            <input type="email" id="email" name="email" required
+                                   placeholder="ejemplo@empresa.com">
+                        </label>
+
+                        <label class="input-box" for="tipoPersonaJuridica">
+                            Tipo de Persona Jurídica
+                            <select id="tipoPersonaJuridica" name="tipoPersonaJuridica" required>
+                                <option value="">Seleccione un tipo</option>
+                                <option value="gubernamental">GUBERNAMENTAL</option>
+                                <option value="ong">ONG</option>
+                                <option value="empresa">EMPRESA</option>
+                                <option value="institucion">INSTITUCION</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
 
                 <div class="user-details-container">
-                    <label class="input-box" for="primerNombre">
-                        Nombre
-                        <input type="text" id="primerNombre" name="primerNombre" required minlength="2" maxlength="50"
-                               placeholder="Ingrese su nombre">
-                    </label>
-
-                    <label class="input-box" for="apellido">
-                        Apellido
-                        <input type="text" id="apellido" name="apellido" required minlength="2" maxlength="50"
-                               placeholder="Ingrese su apellido">
-                    </label>
-
-                    <label class="input-box" for="email">
-                        Correo Electrónico
-                        <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
-                    </label>
-
-                    <label class="input-box" for="fechaNacimiento">
-                        Fecha de Nacimiento
-                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                    <label class="input-box" for="telefono">
+                        Numero Celular
+                        <input type="tel" id="telefono" name="telefono" required
+                               placeholder="Sin código de área">
                     </label>
 
                     <label class="input-box" for="password">
@@ -45,32 +109,11 @@
                                placeholder="Mínimo 8 caracteres">
                     </label>
 
-                    <label class="input-box" for="confirmPassword">
-                        Confirme Contraseña
-                        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8"
-                               placeholder="Repita su contraseña">
-                    </label>
-
-                    <label class="input-box" for="tipoDocumento">
-                        Tipo Documento
-                        <select id="tipoDocumento" name="tipoDocumento">
-                            <option value="dni">DNI</option>
-                            <option value="lc">LIBRETA CIVICA</option>
-                            <option value="le">LIBRETA DE ENROLAMIENTO</option>
-                        </select>
-                    </label>
-
-                    <label class="input-box" for="documento">
-                        Numero de Documento
-                        <input type="text" id="documento" name="documento" required
-                               placeholder="Sin guiones ni espacios">
-                    </label>
-
-                    <label class="input-box" for="numeroCelular">
-                        Numero Celular
-                        <input type="tel" id="numeroCelular" name="numeroCelular" required
-                               placeholder="Sin código de área">
-                    </label>
+<!--                    <label class="input-box" for="confirmPassword">-->
+<!--                        Confirme Contraseña-->
+<!--                        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8"-->
+<!--                               placeholder="Repita su contraseña">-->
+<!--                    </label>-->
                 </div>
 
                 <div class="user-details-container">
@@ -110,27 +153,6 @@
                     </label>
                 </div>
 
-                <div class="user-details-container">
-                    <label class="input-box" for="persona-juridica">
-                        ¿Es una Persona Jurídica?
-                        <select id="persona-juridica" name="personaJuridica">
-                            <option value="no">No</option>
-                            <option value="si">Sí</option>
-                        </select>
-                    </label>
-
-                    <label class="input-box" id="container-tipo-persona-juridica" for="tipo-persona-juridica">
-                        Tipo Persona Jurídica
-                        <select id="tipo-persona-juridica" name="tipoPersonaJuridica">
-                            <option value="">Seleccione un tipo</option>
-                            <option value="gubernamental">GUBERNAMENTAL</option>
-                            <option value="ong">ONG</option>
-                            <option value="empresa">EMPRESA</option>
-                            <option value="institucion">INSTITUCION</option>
-                        </select>
-                    </label>
-                </div>
-
                 <div class="submit-register">
                     <input type="submit" value="REGISTRAR">
                 </div>
@@ -141,8 +163,8 @@
 
 {{#partial "contenido-footer"}}
     <p>
-        Haciendo clic en alguno de los botones de registro de
-        arriba, aceptas nuestros <a href="/terminos">Términos</a> y <a href="/terminos">Política de Privacidad</a>.
+        Haciendo clic en el botón de registro,
+        aceptas nuestros <a href="/terminos">Términos</a> y <a href="/terminos">Política de Privacidad</a>.
     </p>
 {{/partial}}
 
