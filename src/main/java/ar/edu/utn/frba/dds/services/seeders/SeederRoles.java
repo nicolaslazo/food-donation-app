@@ -20,7 +20,9 @@ public class SeederRoles {
     seederPermisos.seedPermisos();
     createRoleIfNotExists("ADMINISTRADOR");
     createRoleIfNotExists("TECNICO");
-    createRoleIfNotExists("COLABORADOR");
+    createRoleIfNotExists("COLABORADORFISICO");
+    createRoleIfNotExists("COLABORADORJURIDICO");
+    createRoleIfNotExists("PERSONAVULNERABLE");
   }
 
   private void createRoleIfNotExists(String rolName) {
@@ -44,18 +46,30 @@ public class SeederRoles {
           break;
         case "TECNICO":
           Rol newRolTecnico = new Rol(rolName, Set.of(
-                  permisosRepository.findByName("Abrir-Heladera").get()
+                  permisosRepository.findByName("Abrir-Heladera-Contribucion").get()
           ));
           rolesRepository.insert(newRolTecnico);
           break;
-        case "COLABORADOR":
-          Rol newRolColaborador = new Rol(rolName, Set.of(
-                  permisosRepository.findByName("Abrir-Heladera").get(),
+        case "COLABORADORFISICO":
+          Rol newRolColaboradorFisico = new Rol(rolName, Set.of(
+                  permisosRepository.findByName("Abrir-Heladera-Contribucion").get(),
                   permisosRepository.findByName("Donar-Viandas").get(),
                   permisosRepository.findByName("Asignar-Tarjetas").get(),
                   permisosRepository.findByName("Depositar-Viandas").get()
           ));
-          rolesRepository.insert(newRolColaborador);
+          rolesRepository.insert(newRolColaboradorFisico);
+          break;
+        case "COLABORADORJURIDICO":
+          Rol newRolColaboradorJuridico = new Rol(rolName, Set.of(
+            permisosRepository.findByName("Administrar-Recompensas").get()
+          ));
+          rolesRepository.insert(newRolColaboradorJuridico);
+          break;
+        case "PERSONAVULNERABLE":
+          Rol newRolPersonaVulnerable = new Rol(rolName, Set.of(
+              permisosRepository.findByName("Abrir-Heladera-Consumicion").get()
+          ));
+          rolesRepository.insert(newRolPersonaVulnerable);
           break;
         default:
           throw new RuntimeException("No se puede crear el rol");

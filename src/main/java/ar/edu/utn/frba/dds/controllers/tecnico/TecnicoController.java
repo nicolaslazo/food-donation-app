@@ -29,6 +29,7 @@ public class TecnicoController {
             data.getFechaNacimiento(),
             data.getCuil(),
             data.getAreaGeografica(),
+            data.getContrasenia(),
             rolTecnico
     );
     tecnicoRepository.insert(newTecnico);

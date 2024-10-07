@@ -54,7 +54,8 @@ class SolicitudAperturaPorContribucionControllerTest {
             "",
             LocalDate.now(),
             new CoordenadasGeograficas(-34d, -58d),
-            new RolesRepository().findByName("COLABORADOR").get()
+            null,
+            new RolesRepository().findByName("COLABORADORFISICO").get()
     );
 
     tarjeta = new Tarjeta(randomUUID());

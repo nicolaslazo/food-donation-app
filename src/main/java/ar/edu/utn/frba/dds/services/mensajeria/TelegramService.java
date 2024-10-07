@@ -37,6 +37,7 @@ public class TelegramService extends TelegramLongPollingBot {
         "Nicolas",
         "Lazo",
         LocalDate.now(),
+        null,
         new HashSet<>());
     new ContactosRepository().insert(new Telegram(nicolas, "sawtooth_waves"));
     TelegramService servicio = TelegramService.getInstancia();
