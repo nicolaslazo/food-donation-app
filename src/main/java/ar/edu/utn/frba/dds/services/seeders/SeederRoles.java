@@ -21,6 +21,7 @@ public class SeederRoles {
     createRoleIfNotExists("ADMINISTRADOR");
     createRoleIfNotExists("TECNICO");
     createRoleIfNotExists("COLABORADOR");
+    createRoleIfNotExists("PERSONAVULNERABLE");
   }
 
   private void createRoleIfNotExists(String rolName) {
@@ -44,18 +45,24 @@ public class SeederRoles {
           break;
         case "TECNICO":
           Rol newRolTecnico = new Rol(rolName, Set.of(
-                  permisosRepository.findByName("Abrir-Heladera").get()
+                  permisosRepository.findByName("Abrir-Heladera-Contribucion").get()
           ));
           rolesRepository.insert(newRolTecnico);
           break;
         case "COLABORADOR":
           Rol newRolColaborador = new Rol(rolName, Set.of(
-                  permisosRepository.findByName("Abrir-Heladera").get(),
+                  permisosRepository.findByName("Abrir-Heladera-Contribucion").get(),
                   permisosRepository.findByName("Donar-Viandas").get(),
                   permisosRepository.findByName("Asignar-Tarjetas").get(),
                   permisosRepository.findByName("Depositar-Viandas").get()
           ));
           rolesRepository.insert(newRolColaborador);
+          break;
+        case "PERSONAVULNERABLE":
+          Rol newRolPersonaVulnerable = new Rol(rolName, Set.of(
+              permisosRepository.findByName("Abrir-Heladera-Consumicion").get()
+          ));
+          rolesRepository.insert(newRolPersonaVulnerable);
           break;
         default:
           throw new RuntimeException("No se puede crear el rol");

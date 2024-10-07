@@ -52,30 +52,15 @@ public class Tecnico {
                  @NonNull String apellido,
                  @NonNull LocalDate fechaNacimiento,
                  @NonNull String cuil,
-                 @NonNull AreaGeografica areaAsignada) {
-    this.usuario = new Usuario(
-        documento,
-        primerNombre,
-        apellido,
-        fechaNacimiento,
-        new HashSet<>(List.of())
-    );  // TODO: Agregar permisos
-    this.cuil = cuil;
-    this.areaAsignada = areaAsignada;
-  }
-
-  public Tecnico(@NonNull Documento documento,
-                 @NonNull String primerNombre,
-                 @NonNull String apellido,
-                 @NonNull LocalDate fechaNacimiento,
-                 @NonNull String cuil,
                  @NonNull AreaGeografica areaAsignada,
+                 String contrasenia,
                  @NonNull Rol rolTecnico) {
     this.usuario = new Usuario(
         documento,
         primerNombre,
         apellido,
         fechaNacimiento,
+        contrasenia,
         new HashSet<>(List.of(rolTecnico))
     );  // TODO: Agregar permisos
     this.cuil = cuil;
