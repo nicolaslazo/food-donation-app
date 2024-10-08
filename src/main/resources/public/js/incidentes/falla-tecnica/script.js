@@ -12,14 +12,16 @@ L.tileLayer(
 
 // Marcadores para las heladeras
 heladeras.forEach(function (heladera) {
-   L.marker([heladera.lat, heladera.long], {title: heladera.nombre, id: heladera.idHeladera}).bindPopup(heladera.nombre).openPopup().addTo(map);
+   var marcador = L.marker([heladera.lat, heladera.long], {title: heladera.nombre, id: heladera.idHeladera}).bindPopup(heladera.nombre).openPopup().addTo(map);
+   marcador.on('click', function (e){
+       document.getElementById("idHeladera").value = marcador.options.id;
+   })
 });
 var marker;
 
 map.on('click', function(e) {
     var lat = e.latlng.lat;
     var lng = e.latlng.lng;
-
     if (marker) {
         marker.setLatLng(e.latlng);
     }
