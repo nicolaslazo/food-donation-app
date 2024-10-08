@@ -43,7 +43,7 @@
     min-width: 100%;
 }
 
-.submit-register input {
+.submit-register {
     padding: 10px 20px;
     background-color: #2980B9;
     color: #fff;
