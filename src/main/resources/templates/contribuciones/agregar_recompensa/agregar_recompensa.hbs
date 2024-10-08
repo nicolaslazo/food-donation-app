@@ -1,0 +1,80 @@
+{{#partial "titulo"}}Ofrecer Recompensas - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
+    <link rel="stylesheet" href="/public/css/contribucion/agregar_recompensa/styles.css">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                RECOMPENSA
+            </div>
+
+            <form action="" class="form__body">
+                <div class="heladera-details-container">
+                    <!-- Existing Inputs -->
+                    <label class="input-box">
+                        Nombre del Producto/Servicio 
+                        <input type="text" required>
+                    </label>
+                    <label class="input-box">
+                        Costo de Puntos
+                        <input type="number" min="1" required>
+                    </label>
+                    <label class="input-box" id="rubro-container">
+                        Rubro
+                        <select name="rubro" id="rubro">
+                            <option value="educacion">Educación</option>
+                            <option value="electronica">Electrónica</option>
+                            <option value="entretenimiento">Entretenimiento</option>
+                            <option value="gastronomia">Gastronomía</option>
+                            <option value="hogar">Hogar</option>
+                            <option value="indumentaria">Indumentaria</option>
+                            <option value="juguetes">Juguetes</option>
+                            <option value="librerias">Librerías</option>
+                            <option value="mascotas">Mascotas</option>
+                            <option value="salud_y_bienestar">Salud y Bienestar</option>
+                            <option value="supermercado">Supermercado</option>
+                            <option value="vehiculos">Vehículos</option>
+                            <option value="viajes">Viajes</option>
+                            <option value="otros">Otros</option>
+                        </select>
+                    </label>
+                    <label class="input-box">
+                        Stock Inicial
+                        <input type="number" min="1" required>
+                    </label>
+                    <label class="input-box-img">
+                        Imagen del Producto/Servicio
+                        <input type="file" accept="image/*" required>
+                    </label>
+                    
+                    <label class="input-check">
+                        Acepto los <a href="/terminos"> terminos y condiciones </a>
+                        <input type="checkbox" required>
+                    </label>
+                </div>
+
+                <div class="submit-button">
+                    <input type="submit" value="ENVIAR SOLICITUD">
+                </div>
+            </form>
+        </div>
+
+        <aside>
+            <div class="aside">
+                <img src="/public/img/contribuciones/icono_reward.png" alt="Icono Recompensa" class="img__aside">
+            </div>
+        </aside>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Derechos reservados © 2024 Viandas Donation.</p>
+{{/partial}}

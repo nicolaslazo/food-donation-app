@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
+import ar.edu.utn.frba.dds.controllers.contribucion.AgregarRecompensasController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
@@ -18,8 +19,8 @@ public class Router {
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
-
     app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
+    app.get("/agregar-recompensa", new AgregarRecompensasController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
