@@ -102,11 +102,14 @@ public class Usuario {
   }
 
   // Constructor para colaboradores jurídicos
-  public Usuario(@NonNull TipoPersonaJuridica tipoPersonaJuridica,
-                 @NonNull String nombre,
-                 @NonNull LocalDate fechaCreacion,
-                 @NonNull String contraseniaHasheada,
-                 @NonNull HashSet<Rol> roles) {
+  public Usuario(
+      @NonNull Documento cuit,
+      @NonNull TipoPersonaJuridica tipoPersonaJuridica,
+      @NonNull String nombre,
+      @NonNull LocalDate fechaCreacion,
+      @NonNull String contraseniaHasheada,
+      @NonNull HashSet<Rol> roles) {
+    this.documento = cuit;
     this.tipoPersonaJuridica = tipoPersonaJuridica;
     this.primerNombre = nombre;
     this.fechaNacimiento = fechaCreacion;
