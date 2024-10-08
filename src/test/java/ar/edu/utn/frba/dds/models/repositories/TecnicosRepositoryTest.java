@@ -5,9 +5,9 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
-
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,37 +16,41 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TecnicosRepositoryTest {
   CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
-  Rol rolTecnico = new Rol("TECNICO");
-
-  Tecnico tecnico = new Tecnico(
-          new Documento(TipoDocumento.DNI, 123),
-          "Primero",
-          "Primero",
-          LocalDate.now(),
-          "1",
-          new AreaGeografica( obelisco, 100),
-          "123",
-          rolTecnico
-  );
-
-  Tecnico tecnicoDos = new Tecnico(
-          new Documento(TipoDocumento.DNI, 321),
-          "Segundo",
-          "Segundo",
-          LocalDate.now(),
-          "2",
-          new AreaGeografica(obelisco, 50),
-          "321",
-          rolTecnico
-  );
+  Tecnico tecnico;
+  Tecnico tecnicoDos;
 
   @BeforeEach
   void setUp() {
-    new RolesRepository().insert(rolTecnico);
+    new SeederRoles().seedRoles();
+    Rol rolTecnico = new RolesRepository().findByName("TECNICO").get();
+
+    tecnico = new Tecnico(
+        new Documento(TipoDocumento.DNI, 123),
+        "Primero",
+        "Primero",
+        LocalDate.now(),
+        "1",
+        new AreaGeografica(obelisco, 100),
+        "123",
+        rolTecnico
+    );
+
+    tecnicoDos = new Tecnico(
+        new Documento(TipoDocumento.DNI, 321),
+        "Segundo",
+        "Segundo",
+        LocalDate.now(),
+        "2",
+        new AreaGeografica(obelisco, 50),
+        "321",
+        rolTecnico
+    );
+
     new TecnicoRepository().insert(tecnico);
   }
 

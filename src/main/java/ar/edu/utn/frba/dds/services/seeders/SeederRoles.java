@@ -20,7 +20,8 @@ public class SeederRoles {
     seederPermisos.seedPermisos();
     createRoleIfNotExists("ADMINISTRADOR");
     createRoleIfNotExists("TECNICO");
-    createRoleIfNotExists("COLABORADOR");
+    createRoleIfNotExists("COLABORADORFISICO");
+    createRoleIfNotExists("COLABORADORJURIDICO");
     createRoleIfNotExists("PERSONAVULNERABLE");
   }
 
@@ -35,28 +36,34 @@ public class SeederRoles {
           Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
           Permiso permisoDarBajaTarjeta = permisosRepository.findByName("Dar-Baja-Tarjetas").get();
           Rol newRolAdmin = new Rol(rolName, Set.of(
-                  permisoCrearColaborador,
-                  permisoCrearTecnico,
-                  permisoAsignarTarjetas,
-                  permisoDarBajaTarjeta,
-                  permisoCrearTarjetas
+              permisoCrearColaborador,
+              permisoCrearTecnico,
+              permisoAsignarTarjetas,
+              permisoDarBajaTarjeta,
+              permisoCrearTarjetas
           ));
           rolesRepository.insert(newRolAdmin);
           break;
         case "TECNICO":
           Rol newRolTecnico = new Rol(rolName, Set.of(
-                  permisosRepository.findByName("Abrir-Heladera-Contribucion").get()
+              permisosRepository.findByName("Abrir-Heladera-Contribucion").get()
           ));
           rolesRepository.insert(newRolTecnico);
           break;
-        case "COLABORADOR":
-          Rol newRolColaborador = new Rol(rolName, Set.of(
-                  permisosRepository.findByName("Abrir-Heladera-Contribucion").get(),
-                  permisosRepository.findByName("Donar-Viandas").get(),
-                  permisosRepository.findByName("Asignar-Tarjetas").get(),
-                  permisosRepository.findByName("Depositar-Viandas").get()
+        case "COLABORADORFISICO":
+          Rol newRolColaboradorFisico = new Rol(rolName, Set.of(
+              permisosRepository.findByName("Abrir-Heladera-Contribucion").get(),
+              permisosRepository.findByName("Donar-Viandas").get(),
+              permisosRepository.findByName("Asignar-Tarjetas").get(),
+              permisosRepository.findByName("Depositar-Viandas").get()
           ));
-          rolesRepository.insert(newRolColaborador);
+          rolesRepository.insert(newRolColaboradorFisico);
+          break;
+        case "COLABORADORJURIDICO":
+          Rol newRolColaboradorJuridico = new Rol(rolName, Set.of(
+              permisosRepository.findByName("Administrar-Recompensas").get()
+          ));
+          rolesRepository.insert(newRolColaboradorJuridico);
           break;
         case "PERSONAVULNERABLE":
           Rol newRolPersonaVulnerable = new Rol(rolName, Set.of(

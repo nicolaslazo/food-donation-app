@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +22,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,7 +33,6 @@ import java.util.Set;
 @Table(name = "usuario")
 @ToString
 public class Usuario {
-  // Idealmente estaríamos usando números de trámite en vez de autoincreases pero el cargador CSV no los soporta
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,25 +45,22 @@ public class Usuario {
   @Getter
   Documento documento;
 
+  @Enumerated(EnumType.STRING)
+  @Column(name = "tipoPersonaJuridica")
+  TipoPersonaJuridica tipoPersonaJuridica;
+
   @Column(name = "primerNombre", nullable = false)
   @Getter
   @NonNull
   String primerNombre;
 
-  @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
-  @Getter
-  @Setter
-  private List<Contacto> contactos = new ArrayList<>();
-
   @Column(name = "activo", nullable = false)
   @Getter
   @Setter
-  @NonNull
-  Boolean activo = true;
+  @NonNull Boolean activo = true;
 
-  @Column(name = "apellido", nullable = false)
+  @Column(name = "apellido")
   @Getter
-  @NonNull
   String apellido;
 
   @Column(name = "fechaNacimiento", updatable = false)
@@ -72,32 +69,49 @@ public class Usuario {
 
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(
-          name = "rolesAsignados",
-          joinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"))
+      name = "rolesAsignados",
+      joinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"))
   @Getter
-  @NonNull
-  Set<Rol> roles;
+  @NonNull Set<Rol> roles;
 
   @Column(name = "contrasenia", nullable = false)
-  @NonNull
-  String contrasenia;
+  @NonNull String contraseniaHasheada;
 
-  public Usuario(Documento documento,
+  @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+  @Getter
+  @Setter
+  private List<Contacto> contactos = new ArrayList<>();
+
+  // Constructor para personas físicas
+  public Usuario(@NonNull Documento documento,
                  @NonNull String primerNombre,
                  @NonNull String apellido,
                  LocalDate fechaNacimiento,
-                 String contrasenia,
-                 @NonNull Set<Rol> roles) {
+                 String contraseniaHasheada,
+                 @NonNull HashSet<Rol> roles) {
     this.documento = documento;
     this.primerNombre = primerNombre;
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
-    this.roles = new HashSet<>(roles);
-    this.contrasenia = contrasenia != null ? contrasenia : GeneradorDeContrasenias.generarContrasenia();
+    this.roles = roles;
+    this.contraseniaHasheada = contraseniaHasheada != null ? contraseniaHasheada : GeneradorDeContrasenias.generarContrasenia();
 
     // TODO: Mover al controller creador de colaboradores
     // new EnviadorDeMails().enviarMail(mail.destinatario(), this.contrasenia);
+  }
+
+  // Constructor para colaboradores jurídicos
+  public Usuario(@NonNull TipoPersonaJuridica tipoPersonaJuridica,
+                 @NonNull String nombre,
+                 @NonNull LocalDate fechaCreacion,
+                 @NonNull String contraseniaHasheada,
+                 @NonNull HashSet<Rol> roles) {
+    this.tipoPersonaJuridica = tipoPersonaJuridica;
+    this.primerNombre = nombre;
+    this.fechaNacimiento = fechaCreacion;
+    this.contraseniaHasheada = contraseniaHasheada;
+    this.roles = roles;
   }
 
   protected Usuario() {
