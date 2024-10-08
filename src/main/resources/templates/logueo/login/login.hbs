@@ -9,7 +9,7 @@
         <div class="container">
             <div class="title">INICIO SESION</div>
 
-            <form method="post" action="/login" class="form-container">
+            <form method="post" action="/colaborador/login" class="form-container">
 
                 <div class="user-details-container">
                     <!-- EMAIL INPUT -->
@@ -31,6 +31,13 @@
                 </div>
             </form>
 
+            <!-- MENSAJE DE ERROR -->
+            {{#if error}}
+                <div class="error-message">
+                    <p>{{error}}</p>
+                </div>
+            {{/if}}
+
             <!-- OLVIDE MI CONTRASEÑA -->
             <div class="forgot-password">
                 <a href="#">¿Olvidaste tu contraseña?</a>
@@ -48,3 +55,5 @@
 {{#partial "contenido-footer"}}
     <p>Haciendo clic en alguno de los botones de inicio de sesión de arriba, aceptas nuestros <a href="/terminos">Términos</a> y <a href="/terminos">Política de Privacidad.</a></p>
 {{/partial}}
+
+{{> templates/base}}
