@@ -45,6 +45,7 @@ class TarjetaControllerTest {
             "admin",
             "admin",
             LocalDate.now(),
+            null,
             Set.of(new RolesRepository().findByName("ADMINISTRADOR").get())
     );
 
@@ -53,6 +54,7 @@ class TarjetaControllerTest {
             "admin",
             "admin",
             LocalDate.now(),
+            null,
             Set.of()
     );
 
@@ -62,6 +64,7 @@ class TarjetaControllerTest {
             "",
             LocalDate.now(),
             new CoordenadasGeograficas(-34d, -58d),
+            null,
             new RolesRepository().findByName("COLABORADOR").get()
     );
 
@@ -112,6 +115,7 @@ class TarjetaControllerTest {
             "",
             LocalDate.now(),
             new CoordenadasGeograficas(-34d, -58d),
+            null,
             new RolesRepository().findByName("TECNICO").get()
     );
 

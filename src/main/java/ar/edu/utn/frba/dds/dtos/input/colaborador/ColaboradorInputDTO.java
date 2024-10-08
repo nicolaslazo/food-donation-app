@@ -29,6 +29,7 @@ public final class ColaboradorInputDTO {
   Double latitud;
   @NonNull
   Double longitud;
+  String contrasenia;
 
   public static ColaboradorInputDTO desdeJson(@NonNull String json) {
     Gson gson = new GsonBuilder()

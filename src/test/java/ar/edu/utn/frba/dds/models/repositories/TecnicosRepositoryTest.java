@@ -6,6 +6,8 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 
+import ar.edu.utn.frba.dds.models.entities.users.Rol;
+import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TecnicosRepositoryTest {
   CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
+  Rol rolTecnico = new Rol("TECNICO");
 
   Tecnico tecnico = new Tecnico(
           new Documento(TipoDocumento.DNI, 123),
@@ -25,7 +28,9 @@ class TecnicosRepositoryTest {
           "Primero",
           LocalDate.now(),
           "1",
-          new AreaGeografica( obelisco, 100)
+          new AreaGeografica( obelisco, 100),
+          "123",
+          rolTecnico
   );
 
   Tecnico tecnicoDos = new Tecnico(
@@ -34,11 +39,14 @@ class TecnicosRepositoryTest {
           "Segundo",
           LocalDate.now(),
           "2",
-          new AreaGeografica(obelisco, 50)
+          new AreaGeografica(obelisco, 50),
+          "321",
+          rolTecnico
   );
 
   @BeforeEach
   void setUp() {
+    new RolesRepository().insert(rolTecnico);
     new TecnicoRepository().insert(tecnico);
   }
 

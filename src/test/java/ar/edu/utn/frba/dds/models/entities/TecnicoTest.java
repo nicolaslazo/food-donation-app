@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,10 @@ class TecnicoTest {
                     "",
                     LocalDate.now(),
                     "123",
-                    new AreaGeografica(aCienMetrosDelObelisco, 200f)).isDentroDeRango(heladeraMock)
+                    new AreaGeografica(aCienMetrosDelObelisco, 200f),
+                    "",
+                    new Rol("TECNICO")
+            ).isDentroDeRango(heladeraMock)
     );
   }
 
@@ -49,7 +53,10 @@ class TecnicoTest {
                     "",
                     LocalDate.now(),
                     "123",
-                    new AreaGeografica(aCienMetrosDelObelisco, 50f)).isDentroDeRango(heladeraMock)
+                    new AreaGeografica(aCienMetrosDelObelisco, 50f),
+                    "123",
+                    new Rol("TECNICO")
+            ).isDentroDeRango(heladeraMock)
     );
   }
 }

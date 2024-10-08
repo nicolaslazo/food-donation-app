@@ -27,6 +27,7 @@ public class ColaboradorController {
             data.getApellido(),
             data.getFechaNacimiento(),
             data.getCoordenadasGeograficas(),
+            data.getContrasenia(),
             rolColaborador);
     colaboradorRepository.insert(newColaborador);
   }

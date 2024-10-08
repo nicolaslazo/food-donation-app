@@ -41,6 +41,7 @@ class EntregaTarjetasRepositoryTest {
           "",
           "",
           LocalDate.now(),
+          null,
           new HashSet<>());
   Tarjeta tarjeta = new Tarjeta(UUID.randomUUID());
   Tarjeta tarjetaDos = new Tarjeta(UUID.randomUUID());

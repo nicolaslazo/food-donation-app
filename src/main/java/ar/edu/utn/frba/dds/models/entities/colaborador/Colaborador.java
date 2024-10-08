@@ -56,6 +56,7 @@ public class Colaborador {
             primerNombre,
             apellido,
             fechaNacimiento,
+            null,
             new HashSet<>(Set.of()));
     this.ubicacion = ubicacion;
   }
@@ -65,6 +66,7 @@ public class Colaborador {
                      @NonNull String apellido,
                      LocalDate fechaNacimiento,
                      CoordenadasGeograficas ubicacion,
+                     String contrasenia,
                      Rol rolColaborador) {
     Set<Rol> rolesColaborador = new HashSet<>();
     rolesColaborador.add(rolColaborador);
@@ -73,6 +75,7 @@ public class Colaborador {
             primerNombre,
             apellido,
             fechaNacimiento,
+            contrasenia,
             rolesColaborador);
     this.ubicacion = ubicacion;
   }
