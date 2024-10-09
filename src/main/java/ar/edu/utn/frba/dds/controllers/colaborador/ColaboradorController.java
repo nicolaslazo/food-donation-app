@@ -38,7 +38,7 @@ public class ColaboradorController {
           new Documento(TipoDocumento.CUIT, Integer.parseInt(context.formParam("cuit"))),
           TipoPersonaJuridica.fromString(context.formParam("tipoPersonaJuridica")),
           context.formParam("primerNombre"),
-//          LocalDate.parse(context.formParam("fechaCreacion")),  TODO: No tenemos un campo para la fecha de creación
+          // LocalDate.parse(context.formParam("fechaCreacion")),  TODO: No tenemos un campo para la fecha de creación
           null,
           context.formParam("password")
       );
