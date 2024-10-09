@@ -49,7 +49,7 @@ public class SeederUsuarios {
             "Benitez",
             LocalDate.now().minusYears(22),
             new CoordenadasGeograficas(54D, 54D),
-            DigestUtils.sha256Hex("osvaldo123"),
+            "osvaldo123",
             new RolesRepository().findByName("COLABORADORFISICO").get()
     );
     Email emailColaboradorFisico = new Email(colaboradorFisico.getUsuario(), "colaboradorFisico@gmail.com");
@@ -61,7 +61,7 @@ public class SeederUsuarios {
             TipoPersonaJuridica.EMPRESA,
             "Central Nuclear",
             LocalDate.now().minusYears(50),
-            DigestUtils.sha256Hex("burns123")
+            "burns123"
     );
     Email emailColaboradorJuridico = new Email(colaboradorJuridico.getUsuario(), "centralNuclear@gmail.com");
     new ColaboradorRepository().insert(colaboradorJuridico);
