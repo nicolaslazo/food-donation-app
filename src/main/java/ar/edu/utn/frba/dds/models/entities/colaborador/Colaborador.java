@@ -89,7 +89,7 @@ public class Colaborador {
       @NonNull Documento cuit,
       @NonNull TipoPersonaJuridica tipoPersonaJuridica,
       @NonNull String razonSocial,
-      @NonNull LocalDate fechaCreacion,
+      LocalDate fechaCreacion,
       @NonNull String contrasenia) {
     this.usuario = new Usuario(
         cuit,

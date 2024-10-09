@@ -106,7 +106,7 @@ public class Usuario {
       @NonNull Documento cuit,
       @NonNull TipoPersonaJuridica tipoPersonaJuridica,
       @NonNull String nombre,
-      @NonNull LocalDate fechaCreacion,
+      LocalDate fechaCreacion,
       @NonNull String contraseniaHasheada,
       @NonNull HashSet<Rol> roles) {
     this.documento = cuit;
