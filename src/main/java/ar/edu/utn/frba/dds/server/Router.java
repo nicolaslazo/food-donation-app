@@ -25,13 +25,14 @@ public class Router {
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
     app.get("/colaborador/registro", new ColaboradorController()::index);
+    app.post("/colaborador/registro", new ColaboradorController()::create);
     app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
 
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
-      ctx.result("Internal server error: " + Arrays.toString(e.getStackTrace()));
+      ctx.result("Internal server error: " + e.getMessage() + "\n\n" + Arrays.toString(e.getStackTrace()));
     });
   }
 }
