@@ -73,14 +73,14 @@ public class Colaborador {
                      @NonNull String apellido,
                      LocalDate fechaNacimiento,
                      CoordenadasGeograficas ubicacion,
-                     String contrasenia,
+                     String contraseniaPlaintext,
                      Rol rolColaborador) {
     this.usuario = new Usuario(
         documento,
         primerNombre,
         apellido,
         fechaNacimiento,
-        contrasenia,
+        DigestUtils.sha256Hex(contraseniaPlaintext),
         new HashSet<>(List.of(rolColaborador)));
     this.ubicacion = ubicacion;
   }
@@ -90,13 +90,13 @@ public class Colaborador {
       @NonNull TipoPersonaJuridica tipoPersonaJuridica,
       @NonNull String razonSocial,
       LocalDate fechaCreacion,
-      @NonNull String contrasenia) {
+      @NonNull String contraseniaPlaintext) {
     this.usuario = new Usuario(
         cuit,
         tipoPersonaJuridica,
         razonSocial,
         fechaCreacion,
-        DigestUtils.sha256Hex(contrasenia),
+        DigestUtils.sha256Hex(contraseniaPlaintext),
         new HashSet<>(List.of(new RolesRepository().findByName("COLABORADORJURIDICO").get())));
   }
 

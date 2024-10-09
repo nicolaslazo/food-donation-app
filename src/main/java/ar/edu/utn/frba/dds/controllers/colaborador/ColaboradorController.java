@@ -30,7 +30,7 @@ public class ColaboradorController {
           context.formParam("apellido"),
           LocalDate.parse(context.formParam("fechaNacimiento")),
           null,
-          context.formParam("passwordFisica"),
+          context.formParam("password"),
           new RolesRepository().findByName("COLABORADORFISICO").get()
       );
     } else { // Es una persona jurídica
