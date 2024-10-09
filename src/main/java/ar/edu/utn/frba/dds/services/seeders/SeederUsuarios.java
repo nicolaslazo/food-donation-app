@@ -32,7 +32,7 @@ public class SeederUsuarios {
             new HashSet<>(Set.of(new RolesRepository().findByName("ADMINISTRADOR").get()))
     );
 
-    Email emailUsuario = new Email(usuarioAdmin,"admin@gmail.com");
+    Email emailUsuario = new Email(usuarioAdmin, "admin@gmail.com");
     new UsuariosRepository().insert(usuarioAdmin);
     new ContactosRepository().insert(emailUsuario);
 
@@ -41,7 +41,7 @@ public class SeederUsuarios {
             "Osvaldo",
             "Benitez",
             LocalDate.now().minusYears(22),
-            new CoordenadasGeograficas(54D,54D),
+            new CoordenadasGeograficas(54D, 54D),
             DigestUtils.sha256Hex("osvaldo123"),
             new RolesRepository().findByName("COLABORADORFISICO").get()
     );
