@@ -6,7 +6,6 @@
 
 {{#partial "scripts"}}
     <script src="/public/js/logueo/registro/script.js" defer></script>
-    <script src="/public/js/logueo/registro/tabs.js" defer></script>
 {{/partial}}
 
 {{#partial "contenido"}}
@@ -35,7 +34,7 @@
                                    placeholder="Ingrese su apellido">
                         </label>
 
-                        <label class="input-box" for="email">
+                        <label class="input-box" for="emailFisico">
                             Correo Electrónico
                             <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
                         </label>
@@ -48,9 +47,9 @@
                         <label class="input-box" for="tipoDocumento">
                             Tipo Documento
                             <select id="tipoDocumento" name="tipoDocumento">
-                                <option value="dni">DNI</option>
-                                <option value="lc">LIBRETA CIVICA</option>
-                                <option value="le">LIBRETA DE ENROLAMIENTO</option>
+                                <option value="DNI">DNI</option>
+                                <option value="LC">LIBRETA CIVICA</option>
+                                <option value="LE">LIBRETA DE ENROLAMIENTO</option>
                             </select>
                         </label>
 
@@ -64,22 +63,22 @@
 
                 <div class="tab-content" id="persona-juridica-content" style="display: none;">
                     <div class="user-details-container">
-                        <label class="input-box" for="primerNombre">
+                        <label class="input-box" for="razonSocial">
                             Razón Social
-                            <input type="text" id="primerNombre" name="primerNombre" required minlength="2"
+                            <input type="text" id="razonSocial" name="razonSocial" required minlength="2"
                                    maxlength="100"
                                    placeholder="Ingrese la razón social">
                         </label>
 
                         <label class="input-box" for="cuit">
                             CUIT
-                            <input type="text" id="cuit" name="cuit" required
+                            <input type="number" id="cuit" name="cuit" required
                                    placeholder="XXXXXXXXXXX">
                         </label>
 
-                        <label class="input-box" for="email">
+                        <label class="input-box" for="emailJuridico">
                             Correo Electrónico
-                            <input type="email" id="email" name="email" required
+                            <input type="email" id="emailJuridico" name="emailJuridico" required
                                    placeholder="ejemplo@empresa.com">
                         </label>
 
@@ -87,10 +86,10 @@
                             Tipo de Persona Jurídica
                             <select id="tipoPersonaJuridica" name="tipoPersonaJuridica" required>
                                 <option value="">Seleccione un tipo</option>
-                                <option value="gubernamental">GUBERNAMENTAL</option>
-                                <option value="ong">ONG</option>
-                                <option value="empresa">EMPRESA</option>
-                                <option value="institucion">INSTITUCION</option>
+                                <option value="GUBERNAMENTAL">GUBERNAMENTAL</option>
+                                <option value="ONG">ONG</option>
+                                <option value="EMPRESA">EMPRESA</option>
+                                <option value="INSTITUCION">INSTITUCION</option>
                             </select>
                         </label>
                     </div>
