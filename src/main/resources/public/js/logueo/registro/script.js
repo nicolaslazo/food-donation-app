@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const tabs = document.querySelectorAll('.tab-button');
     const contenidos = document.querySelectorAll('.tab-content');
     const form = document.getElementById('registro-form');
+    const camposDireccionObligatorios = ['pais', 'provincia', 'ciudad', 'codigoPostal', 'calle', 'altura'];
 
     function togglearCamposRequeridos(tabContent, requerido) {
         const inputs = tabContent.querySelectorAll('input, select');
@@ -10,6 +11,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 input.setAttribute('required', '');
             } else {
                 input.removeAttribute('required');
+            }
+        });
+    }
+
+    function validarCamposDireccion() {
+        const algunCampoDireccionLleno = camposDireccionObligatorios.some(campo =>
+            document.getElementById(campo).value.trim() !== ''
+        );
+
+        camposDireccionObligatorios.forEach(campo => {
+            const elemento = document.getElementById(campo);
+            if (algunCampoDireccionLleno) {
+                elemento.setAttribute('required', '');
+            } else {
+                elemento.removeAttribute('required');
             }
         });
     }
@@ -36,6 +52,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Mostrar la primera pestaña por defecto y hacer sus campos requeridos
     tabs[0].click();
 
+    // Agregar event listeners a los campos de dirección
+    camposDireccionObligatorios.forEach(campo => {
+        document.getElementById(campo).addEventListener('input', validarCamposDireccion);
+    });
+
     // Validar el formulario antes de enviarlo
     form.addEventListener('submit', function (event) {
         const tabActiva = document.querySelector('.tab-button.active');
@@ -45,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let formValido = true;
 
         inputsActivos.forEach(input => {
-            if (input.hasAttribute('required') && !input.value) {
+            if (input.hasAttribute('required') && !input.value.trim()) {
                 formValido = false;
                 input.classList.add('error');
             } else {
@@ -53,11 +74,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        // Validar campos de dirección
+        validarCamposDireccion();
+
         if (!formValido) {
             event.preventDefault();
             alert('Por favor, complete todos los campos requeridos.');
+        } else {
+            alert('Colaborador creado exitosamente');
         }
-
-        alert('Colaborador creado exitosamente');
     });
 });
