@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
+import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
@@ -24,13 +25,15 @@ public class Router {
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
+    app.get("/colaborador/registro", new ColaboradorController()::index);
+    app.post("/colaborador/registro", new ColaboradorController()::create);
     app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
 
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
-      ctx.result("Internal server error: " + Arrays.toString(e.getStackTrace()));
+      ctx.result("Internal server error: " + e.getMessage() + "\n\n" + Arrays.toString(e.getStackTrace()));
     });
   }
 }

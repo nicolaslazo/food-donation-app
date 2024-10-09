@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -90,23 +91,32 @@ public class Usuario {
                  LocalDate fechaNacimiento,
                  String contraseniaHasheada,
                  @NonNull HashSet<Rol> roles) {
+    String contraseniaGenerada;
+    if (contraseniaHasheada == null) {
+      contraseniaGenerada = GeneradorDeContrasenias.generarContrasenia();
+      contraseniaHasheada = DigestUtils.sha256Hex(contraseniaGenerada);
+    }
+
     this.documento = documento;
     this.primerNombre = primerNombre;
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
     this.roles = roles;
-    this.contraseniaHasheada = contraseniaHasheada != null ? contraseniaHasheada : GeneradorDeContrasenias.generarContrasenia();
+    this.contraseniaHasheada = contraseniaHasheada;
 
     // TODO: Mover al controller creador de colaboradores
     // new EnviadorDeMails().enviarMail(mail.destinatario(), this.contrasenia);
   }
 
   // Constructor para colaboradores jurídicos
-  public Usuario(@NonNull TipoPersonaJuridica tipoPersonaJuridica,
-                 @NonNull String nombre,
-                 @NonNull LocalDate fechaCreacion,
-                 @NonNull String contraseniaHasheada,
-                 @NonNull HashSet<Rol> roles) {
+  public Usuario(
+      @NonNull Documento cuit,
+      @NonNull TipoPersonaJuridica tipoPersonaJuridica,
+      @NonNull String nombre,
+      LocalDate fechaCreacion,
+      @NonNull String contraseniaHasheada,
+      @NonNull HashSet<Rol> roles) {
+    this.documento = cuit;
     this.tipoPersonaJuridica = tipoPersonaJuridica;
     this.primerNombre = nombre;
     this.fechaNacimiento = fechaCreacion;
