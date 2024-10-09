@@ -17,7 +17,7 @@ public class Router {
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
 
     app.get("/colaborador/login", new SessionController()::index);
-    app.get("/colaborador/login", new SessionController()::create);
+    app.post("/colaborador/login", new SessionController()::create);
 
     app.get("/", new HomeController()::index);
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
