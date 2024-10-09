@@ -80,7 +80,7 @@ public class Colaborador {
         primerNombre,
         apellido,
         fechaNacimiento,
-        contraseniaPlaintext != null? DigestUtils.sha256Hex(contraseniaPlaintext) : null,
+        contraseniaPlaintext != null ? DigestUtils.sha256Hex(contraseniaPlaintext) : null,
         new HashSet<>(List.of(rolColaborador)));
     this.ubicacion = ubicacion;
   }
