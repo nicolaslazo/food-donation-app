@@ -36,3 +36,5 @@ Finalmente, corremos el servidor
 ```bash
 uvicorn main:app --reload
 ```
+
+Una vez que esté corriendo, se puede consultar la documentación navegando a http://127.0.0.1:8000/docs
