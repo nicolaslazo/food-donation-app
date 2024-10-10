@@ -36,10 +36,6 @@ public class Router {
 
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
 
-    app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
-
-    app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
-
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
