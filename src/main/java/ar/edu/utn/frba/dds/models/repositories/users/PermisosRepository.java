@@ -34,7 +34,7 @@ public class PermisosRepository extends HibernateEntityManager<Permiso, Long> {
     Join<Usuario, Rol> roles = rootUsuario.join("roles");
     Join<Rol, Permiso> permisos = roles.join("permisos");
 
-    query.select(permisos) .where(cb.equal(rootUsuario.get("id"), usuario.getId())) .distinct(true);
+    query.select(permisos).where(cb.equal(rootUsuario.get("id"), usuario.getId())).distinct(true);
 
     return em.createQuery(query).getResultStream();
   }
