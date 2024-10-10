@@ -10,6 +10,6 @@ public class Initializer {
     // Acá irían los datos para popular los repositorios
     new SeederRoles().seedRoles();
     new SeederUsuarios().seederUsuarios();
-    new SeederHeladera().SeederHeladera();
+    new SeederHeladera().seederHeladera();
   }
 }
