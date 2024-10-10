@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.server;
 
+import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
@@ -23,6 +24,7 @@ public class Router {
     app.get("/", new HomeController()::index);
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
+    app.get("/carga-csv", new CargaCSVController()::index);
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
     app.get("/colaborador/registro", new ColaboradorController()::index);
