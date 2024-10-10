@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.users;
 
+import lombok.Getter;
 import lombok.NonNull;
 
 import javax.persistence.Column;
@@ -19,12 +20,11 @@ public class Permiso {
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @NonNull
-  Long id;
+  @NonNull Long id;
 
   @Column(name = "nombre", unique = true, nullable = false, updatable = false)
-  @NonNull
-  String nombre;
+  @Getter
+  @NonNull String nombre;
 
   @Column(name = "descripcion")
   String descripcion;
