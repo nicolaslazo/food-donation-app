@@ -50,7 +50,7 @@ public class PersonaVulnerableController {
         DigestUtils.sha256Hex(context.formParam("password")),
         new HashSet<>(List.of(new RolesRepository().findByName("PERSONAVULNERABLE").get()))
     );
-    Email email = new Email(usuario, context.formParam("email"));
+    final Email email = new Email(usuario, context.formParam("email"));
     DireccionResidencia residencia = Boolean.parseBoolean(context.formParam("tiene-domicilio")) ?
         new DireccionResidencia(
             usuario,
@@ -64,7 +64,7 @@ public class PersonaVulnerableController {
             context.formParam("pais"))
         : null;
     // TODO: REEMPLAZAR
-//    Colaborador reclutador = new ColaboradorRepository().findById(context.sessionAttribute("user_id")).get();
+    //Colaborador reclutador = new ColaboradorRepository().findById(context.sessionAttribute("user_id")).get();
     Colaborador reclutador = new ColaboradorRepository().findAll().findFirst().get();
 
     PersonaVulnerable personaVulnerable = new PersonaVulnerable(
