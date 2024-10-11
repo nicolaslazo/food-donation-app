@@ -48,7 +48,7 @@ public class PersonaVulnerable {
   public PersonaVulnerable(@NonNull Usuario usuario,
                            @NonNull Colaborador reclutador,
                            @NonNull ZonedDateTime fechaRegistro,
-                           @NonNull DireccionResidencia domicilio,
+                           DireccionResidencia domicilio,
                            int menoresACargo) {
     this.usuario = usuario;
     this.reclutador = reclutador;
