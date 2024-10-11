@@ -66,7 +66,7 @@ public class CuidadoHeladeraController {
 
   public void create(Context context) {
     //TODO: Hardcodeo al usuario en sesión para hacer el testeo
-    Colaborador colaboradorHardcodeado = new ColaboradorRepository().findById(2L).get();
+    Colaborador colaboradorHardcodeado = new ColaboradorRepository().findById(3L).get();
 
     CuidadoHeladeraInputDTO cuidadoHeladeraInputDTO = new CuidadoHeladeraInputDTO(
             context.formParam("nombreHeladera"),
@@ -82,7 +82,10 @@ public class CuidadoHeladeraController {
     context.redirect("/");
 
     //Testeo lo IDs
-    System.out.println(colaboradorHardcodeado.getId());
-    System.out.println(heladeraNueva.getId());
+    System.out.println(
+            "Id Colaborador: "  + colaboradorHardcodeado.getId() + "\n" +
+            "Nombre Completo Colaborador: " + colaboradorHardcodeado.getNombreCompleto()
+    );
+    System.out.println("Id Heladera: " + heladeraNueva.getId());
   }
 }
