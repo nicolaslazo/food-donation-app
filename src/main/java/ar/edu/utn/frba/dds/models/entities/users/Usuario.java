@@ -85,7 +85,7 @@ public class Usuario {
   private List<Contacto> contactos = new ArrayList<>();
 
   // Constructor para personas físicas
-  public Usuario(@NonNull Documento documento,
+  public Usuario(Documento documento,
                  @NonNull String primerNombre,
                  @NonNull String apellido,
                  LocalDate fechaNacimiento,

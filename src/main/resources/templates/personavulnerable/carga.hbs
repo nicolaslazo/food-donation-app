@@ -1,11 +1,11 @@
 {{#partial "titulo"}}Carga Persona Vulnerable - Viandas Donation{{/partial}}
 
 {{#partial "styles"}}
-    <link rel="stylesheet" href="/public/css/carga_persona_vulnerable/styles.css">
+    <link rel="stylesheet" href="/public/css/personavulnerable/carga/styles.css">
 {{/partial}}
 
 {{#partial "scripts"}}
-    <script src="/public/js/carga_persona_vulnerable/script.js" defer></script>
+    <script src="/public/js/personavulnerable/carga/script.js" defer></script>
 {{/partial}}
 
 {{#partial "contenido"}}
@@ -13,21 +13,33 @@
         <div class="container">
             <div class="title">REGISTRAR PERSONA VULNERABLE</div>
 
-            <form action="" class="form-container">
+            <form method="post" action="/persona-vulnerable/registro" class="form-container"
+                  id="persona-vulnerable-form">
                 <div class="user-details-container">
                     <label class="input-box" for="name">
                         Nombre
-                        <input type="text" id="name" placeholder="Nombre" required>
+                        <input type="text" id="name" name="name" placeholder="Nombre" required>
                     </label>
 
                     <label class="input-box" for="surname">
                         Apellido
-                        <input type="text" id="surname" placeholder="Apellido" required>
+                        <input type="text" id="surname" name="surname" placeholder="Apellido" required>
                     </label>
 
                     <label class="input-box" for="dob">
                         Fecha de Nacimiento
-                        <input type="date" id="dob" required>
+                        <input type="date" id="dob" name="dob" required>
+                    </label>
+
+                    <label class="input-box" for="email">
+                        Correo Electrónico
+                        <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
+                    </label>
+
+                    <label class="input-box" for="password">
+                        Contraseña
+                        <input type="password" id="password" name="password" required minlength="8"
+                               placeholder="Mínimo 8 caracteres">
                     </label>
 
                     <div class="question-checkbox">
@@ -38,37 +50,37 @@
                     <div id="direccion" class="hidden">
                         <label class="input-box">
                             País
-                            <input type="text" required>
+                            <input type="text" id="pais" name="pais">
                         </label>
 
                         <label class="input-box">
                             Provincia
-                            <input type="text" required>
+                            <input type="text" id="provincia" name="provincia">
                         </label>
 
                         <label class="input-box">
                             Ciudad
-                            <input type="text" required>
+                            <input type="text" id="ciudad" name="ciudad">
                         </label>
 
                         <label class="input-box">
                             Calle
-                            <input type="text" required>
+                            <input type="text" id="calle" name="calle">
                         </label>
 
                         <label class="input-box">
                             Altura/Número
-                            <input type="number" min="0" required>
+                            <input type="number" id="altura" name="altura" min="0">
                         </label>
 
                         <label class="input-box">
                             Unidad
-                            <input type="text" required>
+                            <input type="text" id="unidad" name="unidad">
                         </label>
 
                         <label class="input-box">
                             Piso
-                            <input type="text" required>
+                            <input type="text" id="piso" name="piso">
                         </label>
                     </div>
 
@@ -79,7 +91,7 @@
 
                     <div id="posee-documento" class="hidden">
                         <label class="input-box">Tipo de Documento
-                            <select id="documento" name="documento" required>
+                            <select id="documento" name="documento">
                                 <option value="dni">DNI</option>
                                 <option value="lc">LIBRETA CIVICA</option>
                                 <option value="le">LIBRETA DE ENROLAMIENTO</option>
@@ -87,24 +99,32 @@
                         </label>
                         <label class="input-box">
                             Número Documento
-                            <input type="text" id="numero-documento" required>
+                            <input type="text" id="numero-documento" name="numero-documento">
                         </label>
                     </div>
 
                     <label class="input-box" for="menores-cargo">
                         Menores a cargo
-                        <input type="number" id="menores-cargo" placeholder="Número" required>
+                        <input type="number" id="menores-cargo" name="menores-cargo" min="0" placeholder="Número"
+                               required>
                     </label>
 
-                    <label class="input-box" for="name">
+                    <label class="input-box" for="tarjeta">
                         ID Tarjeta
-                        <input type="text" id="tarjeta" placeholder="xxxxxxxxxxx" required>
+                        <input type="text" id="tarjeta" name="tarjeta" placeholder="xxxxxxxxxxx" required>
                     </label>
                 </div>
 
                 <div class="submit-register">
                     <input type="submit" value="REGISTRAR">
                 </div>
+
+                <!-- MENSAJE DE ERROR -->
+                {{#if error}}
+                    <div class="error-message">
+                        <p>{{error}}</p>
+                    </div>
+                {{/if}}
             </form>
         </div>
     </main>
