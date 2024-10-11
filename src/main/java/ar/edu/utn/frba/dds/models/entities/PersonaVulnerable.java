@@ -23,6 +23,7 @@ import java.time.ZonedDateTime;
 public class PersonaVulnerable {
   @Id
   @Column(name = "id", nullable = false, unique = true)
+  @Getter
   Long id;
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
