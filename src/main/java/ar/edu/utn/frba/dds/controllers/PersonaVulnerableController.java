@@ -27,12 +27,12 @@ import java.util.UUID;
 
 public class PersonaVulnerableController {
   public void index(Context context) {
-    context.render("cargapersonavulnerable/personavulnerable.hbs");
+    context.render("/personavulnerable/carga.hbs");
   }
 
   public void create(Context context) throws PermisoDenegadoException {
     Optional<Tarjeta> optionalTarjetaAsignada = new TarjetasRepository().findById(UUID.fromString(context.formParam("tarjeta")));
-    if (optionalTarjetaAsignada.isEmpty()) context.result("No existe una tarjeta con este UUID");
+    if (optionalTarjetaAsignada.isEmpty()) throw new RuntimeException("No existe una tarjeta con ese id");
 
     Tarjeta tarjeta = optionalTarjetaAsignada.get();
     if (tarjeta.getFechaAlta() != null) context.result("Esta tarjeta ya fue dada de alta");
@@ -63,7 +63,9 @@ public class PersonaVulnerableController {
             context.formParam("provincia"),
             context.formParam("pais"))
         : null;
-    Colaborador reclutador = new ColaboradorRepository().findById(context.sessionAttribute("user_id")).get();
+    // TODO: REEMPLAZAR
+//    Colaborador reclutador = new ColaboradorRepository().findById(context.sessionAttribute("user_id")).get();
+    Colaborador reclutador = new ColaboradorRepository().findAll().findFirst().get();
 
     PersonaVulnerable personaVulnerable = new PersonaVulnerable(
         usuario,
@@ -76,8 +78,10 @@ public class PersonaVulnerableController {
     tarjeta.setEnAlta(usuario, reclutador, ZonedDateTime.now());
 
     new PersonaVulnerableRepository().insert(personaVulnerable);
-    new DireccionResidenciaRepository().insert(residencia);
+    if (residencia != null) new DireccionResidenciaRepository().insert(residencia);
     new ContactosRepository().insert(email);
     new TarjetasRepository().update(tarjeta);
+
+    System.out.println(new PersonaVulnerableRepository().findById(personaVulnerable.getId()));
   }
 }
