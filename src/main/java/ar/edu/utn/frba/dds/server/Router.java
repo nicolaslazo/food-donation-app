@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
+import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
@@ -37,6 +38,8 @@ public class Router {
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
 
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
+
+    app.get("/contribuciones/cuidado-heladera", new CuidadoHeladeraController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
