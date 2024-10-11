@@ -34,8 +34,8 @@ public class Router {
 
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
-    app.get("/persona-vulnerable/registro", new PersonaVulnerableController()::index, permisoAsignarTarjetas);
-    app.post("/persona-vulnerable/registro", new PersonaVulnerableController()::create, permisoAsignarTarjetas);
+    app.get("/persona-vulnerable/registro", new PersonaVulnerableController()::index/*, TODO: VOLVER A PONER permisoAsignarTarjetas */);
+    app.post("/persona-vulnerable/registro", new PersonaVulnerableController()::create/* , TODO: VOLVER A PONER permisoAsignarTarjetas */);
 
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 
