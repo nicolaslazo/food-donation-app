@@ -5,10 +5,12 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.DireccionResidencia;
+import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.TipoPersonaJuridica;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.ubicacion.DireccionResidenciaRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import io.javalin.http.Context;
 
@@ -66,6 +68,8 @@ public class ColaboradorController {
     }
 
     context.sessionAttribute("user_id", colaborador.getId());
+    context.sessionAttribute("permisos",
+        new PermisosRepository().findAll(colaborador.getUsuario()).map(Permiso::getNombre).toList());
     context.redirect("/");
   }
 }

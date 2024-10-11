@@ -1,7 +1,7 @@
-package ar.edu.utn.frba.dds.models.repositories;
+package ar.edu.utn.frba.dds.models.repositories.users;
 
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
-import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
+import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
