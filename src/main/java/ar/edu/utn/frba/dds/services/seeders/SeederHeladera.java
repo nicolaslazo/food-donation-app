@@ -15,7 +15,7 @@ public class SeederHeladera {
 
   @PostConstruct
   public void seederHeladera() {
-    Heladera heladerauno = new Heladera(
+    Heladera heladeraUno = new Heladera(
         "Primera Heladera",
         new CoordenadasGeograficas(-34.6025246, -58.3843585),
         unColaborador,
@@ -23,7 +23,7 @@ public class SeederHeladera {
         ZonedDateTime.now(),
         "San Nicolas"
     );
-    Heladera heladerados = new Heladera(
+    Heladera heladeraDos = new Heladera(
         "Segunda Heladera",
         new CoordenadasGeograficas(-34.6024605, -58.3812774),
         unColaborador,
@@ -31,7 +31,7 @@ public class SeederHeladera {
         ZonedDateTime.now(),
         "San Nicolas"
     );
-    Heladera heladeratre = new Heladera(
+    Heladera heladeraTres = new Heladera(
         "Tercera Heladera",
         new CoordenadasGeograficas(-34.6047476, -58.3795161),
         unColaborador,
@@ -40,16 +40,16 @@ public class SeederHeladera {
         "San Nicolas"
     );
     Heladera heladeraMedrano = new Heladera(
-        "heladera de medrano",
+        "Heladera Medrano",
         new CoordenadasGeograficas(-34.598607968791924, -58.420107873800205),
         unColaborador,
         22,
         ZonedDateTime.now(),
         "Almagro"
     );
-    heladerasRepository.insert(heladerauno);
-    heladerasRepository.insert(heladerados);
-    heladerasRepository.insert(heladeratre);
+    heladerasRepository.insert(heladeraUno);
+    heladerasRepository.insert(heladeraDos);
+    heladerasRepository.insert(heladeraTres);
     heladerasRepository.insert(heladeraMedrano);
   }
 }
