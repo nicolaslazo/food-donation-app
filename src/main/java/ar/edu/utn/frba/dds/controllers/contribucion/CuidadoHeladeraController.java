@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.repositories.PersonaVulnerableRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
@@ -37,10 +38,51 @@ public class CuidadoHeladeraController {
     return heladeraNueva;
   }
 
+  public static Heladera tomarCuidadoHeladera(CuidadoHeladeraInputDTO dtoCuidado) {
+    Colaborador encargado = new ColaboradorRepository()
+            .findById(dtoCuidado.getIdColaborador())
+            .orElseThrow();
+
+    Heladera heladeraNueva = new Heladera(dtoCuidado.getNombreHeladera(),
+            dtoCuidado.getUbicacion(),
+            encargado,
+            dtoCuidado.getCapacidadEnViandas(),
+            ZonedDateTime.now(),
+            dtoCuidado.getBarrio());
+
+    new HeladerasRepository().insert(heladeraNueva);
+    new SuscripcionRepository()
+            .insert(new Suscripcion(encargado, heladeraNueva, MotivoDeDistribucion.FALLA_HELADERA, null));
+
+    return heladeraNueva;
+  }
+
   public void index(Context context) {
     Map<String, Object> model = new HashMap<>();
     List<Heladera> heladeras = new HeladerasRepository().findAll().toList();
     model.put("heladeras", heladeras);
     context.render("contribuciones/cuidado_heladera/cuidado_heladera.hbs", model);
+  }
+
+  public void create(Context context) {
+    //TODO: Hardcodeo al usuario en sesión para hacer el testeo
+    Colaborador colaboradorHardcodeado = new ColaboradorRepository().findById(2L).get();
+
+    CuidadoHeladeraInputDTO cuidadoHeladeraInputDTO = new CuidadoHeladeraInputDTO(
+            context.formParam("nombreHeladera"),
+            Integer.parseInt(context.formParam("cantidadViandas")),
+            // Long.parseLong(context.sessionAttribute("user_id")),
+            colaboradorHardcodeado.getId(),
+            Double.parseDouble(context.formParam("latitud")),
+            Double.parseDouble(context.formParam("longitud")),
+            context.formParam("barrio")
+    );
+    Heladera heladeraNueva = tomarCuidadoHeladera(cuidadoHeladeraInputDTO);
+    new HeladerasRepository().insert(heladeraNueva);
+    context.redirect("/");
+
+    //Testeo lo IDs
+    System.out.println(colaboradorHardcodeado.getId());
+    System.out.println(heladeraNueva.getId());
   }
 }

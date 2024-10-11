@@ -46,6 +46,7 @@ public class Router {
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 
     app.get("/contribuciones/cuidado-heladera", new CuidadoHeladeraController()::index);
+    app.post("/contribuciones/cuidado-heladera", new CuidadoHeladeraController()::create);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
