@@ -80,12 +80,5 @@ public class CuidadoHeladeraController {
     Heladera heladeraNueva = tomarCuidadoHeladera(cuidadoHeladeraInputDTO);
     new HeladerasRepository().insert(heladeraNueva);
     context.redirect("/");
-
-    //Testeo lo IDs
-    System.out.println(
-            "Id Colaborador: "  + colaboradorHardcodeado.getId() + "\n" +
-            "Nombre Completo Colaborador: " + colaboradorHardcodeado.getNombreCompleto()
-    );
-    System.out.println("Id Heladera: " + heladeraNueva.getId());
   }
 }
