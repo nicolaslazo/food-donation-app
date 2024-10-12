@@ -80,6 +80,7 @@ public class IncidenteController implements IMqttMessageListener {
     Map<String, Object> model = new HashMap<>();
     List<Heladera> heladeras = new HeladerasRepository().findAll().toList();
     model.put("heladeras", heladeras);
+    model.put("usuarioAutenticado", context.sessionAttribute("usuarioAutenticado"));
     context.render("incidentes/falla-tecnica/falla-tecnica.hbs", model);
   }
 }

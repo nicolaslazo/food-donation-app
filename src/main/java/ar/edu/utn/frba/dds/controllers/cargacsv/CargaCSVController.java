@@ -2,9 +2,17 @@ package ar.edu.utn.frba.dds.controllers.cargacsv;
 
 import io.javalin.http.Context;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CargaCSVController {
   public void index(Context context) {
-    context.render("cargacsv/cargacsv.hbs");
+    Map<String, Object> model = new HashMap<>();
+
+    // Verifica si el usuario está autenticado
+    model.put("usuarioAutenticado", context.sessionAttribute("usuarioAutenticado"));
+
+    context.render("cargacsv/cargacsv.hbs", model);
   }
 }
 

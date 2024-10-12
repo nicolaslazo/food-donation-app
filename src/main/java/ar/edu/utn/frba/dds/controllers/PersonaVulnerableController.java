@@ -21,14 +21,21 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 public class PersonaVulnerableController {
   public void index(Context context) {
-    context.render("/personavulnerable/carga.hbs");
+    Map<String, Object> model = new HashMap<>();
+
+    // Verifica si el usuario está autenticado
+    model.put("usuarioAutenticado", context.sessionAttribute("usuarioAutenticado"));
+
+    context.render("/personavulnerable/carga.hbs", model);
   }
 
   public void create(Context context) throws PermisoDenegadoException {
