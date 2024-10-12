@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.controllers.session;
 
-import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
@@ -18,11 +17,11 @@ public class SessionController {
   public void create(Context context) {
     try {
       Usuario usuario = new UsuariosRepository().findByEmailAndPassword(
-              context.formParam("email"),
-              DigestUtils.sha256Hex(context.formParam("password"))
+          context.formParam("email"),
+          DigestUtils.sha256Hex(context.formParam("password"))
       );
       context.sessionAttribute("user_id", usuario.getId());
-      context.sessionAttribute("permisos", new PermisosRepository().findAll(usuario).map(Permiso::getNombre).toList());
+      context.sessionAttribute("permisos", new PermisosRepository().findAll(usuario).toList());
       context.redirect("/");
 
     } catch (Exception e) {

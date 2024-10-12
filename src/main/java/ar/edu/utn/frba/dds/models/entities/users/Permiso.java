@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.models.entities.users;
 
+import io.javalin.security.RouteRole;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -10,13 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "permiso")
-public class Permiso {
+public class Permiso implements RouteRole, Serializable {
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
