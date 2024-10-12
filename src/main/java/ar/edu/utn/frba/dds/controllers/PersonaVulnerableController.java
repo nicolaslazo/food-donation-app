@@ -71,13 +71,12 @@ public class PersonaVulnerableController {
         residencia,
         Integer.parseInt(context.formParam("menores-cargo"))
     );
-    Email email = new Email(usuario, context.formParam("email"));
 
     tarjeta.setEnAlta(usuario, reclutador, ZonedDateTime.now());
 
     new PersonaVulnerableRepository().insert(personaVulnerable);
     if (residencia != null) new DireccionResidenciaRepository().insert(residencia);
-    new ContactosRepository().insert(email);
+    new ContactosRepository().insert(new Email(usuario, context.formParam("email")));
     new TarjetasRepository().update(tarjeta);
 
     context.redirect("/quiero-ayudar", HttpStatus.OK);
