@@ -27,9 +27,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
-    background-color: #fff;
     padding: 5px 20px;
+    background-color: #fff;
 }
 
 .img-logo {
@@ -52,6 +51,29 @@ header {
     color: black;
 }
 
+.container-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Botón de login/cerrar sesión */
+.btn-login {
+    padding: 10px;
+    background-color: #C0392B;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.btn-login:hover {
+    background-color: #B0392B;
+}
+
+/* Botón Contribuir Ya (sin cambios) */
 .btn-contribuir {
     padding: 10px;
     background-color: #C0392B;
@@ -71,6 +93,7 @@ header {
     text-decoration: none;
     color: #fff;
 }
+
 
 .navbar {
     display: flex;
@@ -175,3 +198,5 @@ footer {
 .footer-container p a {
     color: #2980B9;
 }
+
+
