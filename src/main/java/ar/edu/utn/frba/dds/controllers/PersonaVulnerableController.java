@@ -51,7 +51,6 @@ public class PersonaVulnerableController {
         DigestUtils.sha256Hex(context.formParam("password")),
         new HashSet<>(List.of(new RolesRepository().findByName("PERSONAVULNERABLE").get()))
     );
-    Email email = new Email(usuario, context.formParam("email"));
     DireccionResidencia residencia = Boolean.parseBoolean(context.formParam("tiene-domicilio")) ?
         new DireccionResidencia(
             usuario,
@@ -72,6 +71,7 @@ public class PersonaVulnerableController {
         residencia,
         Integer.parseInt(context.formParam("menores-cargo"))
     );
+    Email email = new Email(usuario, context.formParam("email"));
 
     tarjeta.setEnAlta(usuario, reclutador, ZonedDateTime.now());
 
