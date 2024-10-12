@@ -9,12 +9,14 @@ import ar.edu.utn.frba.dds.models.repositories.PersonaVulnerableRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import io.javalin.http.Context;
 
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class CuidadoHeladeraController {
   public static Heladera tomarCuidadoHeladera(String dtoCuidadoJson) {
@@ -39,9 +41,12 @@ public class CuidadoHeladeraController {
   }
 
   public static Heladera tomarCuidadoHeladera(CuidadoHeladeraInputDTO dtoCuidado) {
-    Colaborador encargado = new ColaboradorRepository()
-            .findById(dtoCuidado.getIdColaborador())
-            .orElseThrow();
+    Optional<Colaborador> encargadoOpcional = new ColaboradorRepository()
+            .findById(dtoCuidado.getIdColaborador());
+    Colaborador encargado;
+    encargado = encargadoOpcional.orElseGet(() -> new Colaborador(
+            new UsuariosRepository().findById(dtoCuidado.getIdColaborador()).get()
+    ));
 
     Heladera heladeraNueva = new Heladera(dtoCuidado.getNombreHeladera(),
             dtoCuidado.getUbicacion(),
