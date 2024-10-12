@@ -16,6 +16,7 @@ import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.ubicacion.DireccionResidenciaRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.time.LocalDate;
@@ -50,7 +51,6 @@ public class PersonaVulnerableController {
         DigestUtils.sha256Hex(context.formParam("password")),
         new HashSet<>(List.of(new RolesRepository().findByName("PERSONAVULNERABLE").get()))
     );
-    final Email email = new Email(usuario, context.formParam("email"));
     DireccionResidencia residencia = Boolean.parseBoolean(context.formParam("tiene-domicilio")) ?
         new DireccionResidencia(
             usuario,
@@ -63,10 +63,7 @@ public class PersonaVulnerableController {
             context.formParam("provincia"),
             context.formParam("pais"))
         : null;
-    // TODO: REEMPLAZAR
-    //Colaborador reclutador = new ColaboradorRepository().findById(context.sessionAttribute("user_id")).get();
-    Colaborador reclutador = new ColaboradorRepository().findAll().findFirst().get();
-
+    Colaborador reclutador = new ColaboradorRepository().findById(context.sessionAttribute("user_id")).get();
     PersonaVulnerable personaVulnerable = new PersonaVulnerable(
         usuario,
         reclutador,
@@ -79,9 +76,9 @@ public class PersonaVulnerableController {
 
     new PersonaVulnerableRepository().insert(personaVulnerable);
     if (residencia != null) new DireccionResidenciaRepository().insert(residencia);
-    new ContactosRepository().insert(email);
+    new ContactosRepository().insert(new Email(usuario, context.formParam("email")));
     new TarjetasRepository().update(tarjeta);
 
-    System.out.println(new PersonaVulnerableRepository().findById(personaVulnerable.getId()));
+    context.redirect("/quiero-ayudar", HttpStatus.OK);
   }
 }
