@@ -21,6 +21,7 @@ public class SessionController {
           DigestUtils.sha256Hex(context.formParam("password"))
       );
       context.sessionAttribute("user_id", usuario.getId());
+      context.sessionAttribute("usuarioAutenticado", true);
       context.sessionAttribute("permisos", new PermisosRepository().findAll(usuario).toList());
       context.redirect("/");
 
@@ -29,5 +30,22 @@ public class SessionController {
       modelo.put("error", "usuario o contraseña invalidas");
       context.render("logueo/login/login.hbs", modelo);
     }
+  }
+
+  public void delete(Context context) {
+    // Invalidamos la sesión
+    context.sessionAttribute("user_id", null);
+    context.sessionAttribute("usuarioAutenticado", false);
+    context.sessionAttribute("permisos", null);
+    context.redirect("/");
+  }
+
+  public void sessionInfo(Context context) {
+    Boolean usuarioAutenticado = (Boolean) context.sessionAttribute("usuarioAutenticado");
+    if (usuarioAutenticado == null) {
+      usuarioAutenticado = false;
+    }
+    context.sessionAttribute("usuarioAutenticado", usuarioAutenticado);
+    System.out.println("Usuario Autenticado?: " + usuarioAutenticado);
   }
 }
