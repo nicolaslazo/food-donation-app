@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
+import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.session.SessionController;
@@ -36,6 +37,8 @@ public class Router {
     app.post("/colaborador/registro", new ColaboradorController()::create);
     app.get("/persona-vulnerable/registro", new PersonaVulnerableController()::index, permisoAsignarTarjetas);
     app.post("/persona-vulnerable/registro", new PersonaVulnerableController()::create, permisoAsignarTarjetas);
+
+    app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
 
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 
