@@ -10,7 +10,9 @@ heladeras.forEach(function (heladera) {
     var marcador = L.marker([heladera.lat, heladera.long], {title: heladera.nombre, id: heladera.idHeladera}).bindPopup(heladera.nombre).openPopup().addTo(map);
     marcador.on('click', function (e){
         document.getElementById("idHeladera").value = marcador.options.id;
-    })
+        document.getElementById("isNewLocation").value = "false"; // Marcamos que es una heladera existente
+        alert("Esta ubicación ya está ocupada por una heladera existente. Por favor, elija una nueva.");
+    });
 });
 
 // Definir la variable marker fuera del evento
@@ -19,6 +21,10 @@ var marker;
 map.on('click', function(e) {
     var lat = e.latlng.lat;
     var lng = e.latlng.lng;
+
+    // Verificamos si el colaborador está seleccionando una nueva ubicación
+    document.getElementById("idHeladera").value = ""; // Limpiamos el valor de idHeladera
+    document.getElementById("isNewLocation").value = "true"; // Marcamos que es una nueva locación
 
     // Obtener el nombre de la heladera desde el input
     var heladeraName = document.getElementById('heladera-name').value || 'Nueva heladera';
@@ -39,14 +45,28 @@ map.on('click', function(e) {
     document.getElementById('longitude').value = lng;
 });
 
-
 // Integración de Leaflet.PinSearch
 let pinSearchControl = L.control.pinSearch({
     placeholder: 'Buscar heladera...',
     onSearch: function(query) {
         console.log('Buscando:', query);
-        document.getElementById("idHeladera").value = pinSearchControl._findMarkerByTitle(query).options.id;
+        var markerFound = pinSearchControl._findMarkerByTitle(query);
+        if (markerFound) {
+            document.getElementById("idHeladera").value = markerFound.options.id;
+            document.getElementById("isNewLocation").value = "false"; // Marcamos que es una heladera existente
+            alert("Está seleccionando una heladera existente. Debe elegir una nueva ubicación.");
+        }
     },
     focusOnMarker: true,
     maxSearchResults: 3
 }).addTo(map);
+
+// Validación antes del envío del formulario
+document.querySelector('form').addEventListener('submit', function(e) {
+    var isNewLocation = document.getElementById("isNewLocation").value;
+
+    if (isNewLocation === "false") {
+        e.preventDefault(); // Bloqueamos el envío
+        alert("Debe seleccionar una nueva ubicación para la heladera. No puede usar una existente.");
+    }
+});
