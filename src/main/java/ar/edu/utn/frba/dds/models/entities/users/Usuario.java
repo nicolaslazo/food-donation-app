@@ -139,4 +139,8 @@ public class Usuario {
   public void assertTienePermiso(@NonNull String nombrePermiso, @NonNull String razon) throws PermisoDenegadoException {
     if (!tienePermiso(nombrePermiso)) throw new PermisoDenegadoException(razon);
   }
+
+  public void agregarRol(@NonNull Rol rol) {
+    roles.add(rol);
+  }
 }

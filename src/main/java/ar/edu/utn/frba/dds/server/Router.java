@@ -22,6 +22,7 @@ public class Router {
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
+    Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
 
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
 
@@ -43,8 +44,8 @@ public class Router {
 
     app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index);
 
-    app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index);
-    app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create);
+    app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
+    app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create, permisoCuidarHeladera);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
