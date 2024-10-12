@@ -65,14 +65,10 @@ public class CuidadoHeladeraController {
   }
 
   public void create(Context context) {
-    //TODO: Hardcodeo al usuario en sesión para hacer el testeo
-    Colaborador colaboradorHardcodeado = new ColaboradorRepository().findById(3L).get();
-
     CuidadoHeladeraInputDTO cuidadoHeladeraInputDTO = new CuidadoHeladeraInputDTO(
             context.formParam("nombreHeladera"),
             Integer.parseInt(context.formParam("cantidadViandas")),
-            // Long.parseLong(context.sessionAttribute("user_id")),
-            colaboradorHardcodeado.getId(),
+            context.sessionAttribute("user_id"),
             Double.parseDouble(context.formParam("latitud")),
             Double.parseDouble(context.formParam("longitud")),
             context.formParam("barrio")
