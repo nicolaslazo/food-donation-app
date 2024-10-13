@@ -30,10 +30,7 @@ import java.util.UUID;
 
 public class PersonaVulnerableController {
   public void index(Context context) {
-    Map<String, Object> model = new HashMap<>();
-
-    // Verifica si el usuario está autenticado
-    model.put("usuarioAutenticado", context.sessionAttribute("usuarioAutenticado"));
+    Map<String, Object> model = context.attribute("model");
 
     context.render("/personavulnerable/carga.hbs", model);
   }
