@@ -15,7 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,7 +37,8 @@ public class TecnicoControllerTest {
           "cuil": "101239",
           "latitud": -34.5609872,
           "longitud": -58.501046,
-          "radioEnMetros": 100.0
+          "radioEnMetros": 100.0,
+          "contrasenia": "pepe123"
       }
       """;
 
@@ -50,7 +52,8 @@ public class TecnicoControllerTest {
         "admin",
         "admin",
         LocalDate.now(),
-        Set.of(new RolesRepository().findByName("ADMINISTRADOR").get())
+        null,
+        new HashSet<>(List.of(new RolesRepository().findByName("ADMINISTRADOR").get()))
     );
   }
 
@@ -77,7 +80,8 @@ public class TecnicoControllerTest {
         "user",
         "dummy",
         LocalDate.now(),
-        Set.of(new RolesRepository().findByName("TECNICO").get())
+        null,
+        new HashSet<>(List.of(new RolesRepository().findByName("TECNICO").get()))
     );
     assertThrows(PermisoDenegadoException.class, () ->
         tecnicoController.crearTecnico(dataTecnico, usuarioDummy));

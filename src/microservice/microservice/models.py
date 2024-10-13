@@ -49,8 +49,8 @@ class SolicitudAperturaPorConsumicion(Base):
 class Tarjeta(Base):
     __tablename__ = "tarjeta"
 
-    id = Column(Uuid, primary_key=True)
-    idRecipiente = Column(Uuid, ForeignKey("usuario.id"))
+    id = Column(Integer, primary_key=True)
+    idRecipiente = Column(Integer, ForeignKey("usuario.id"))
 
     recipiente = relationship("Usuario", foreign_keys=[idRecipiente])
     solicitudes = relationship(
@@ -64,7 +64,7 @@ class Tarjeta(Base):
 class Usuario(Base):
     __tablename__ = "usuario"
 
-    id = Column(Uuid, primary_key=True)
+    id = Column(Integer, primary_key=True)
     primerNombre = Column(String, nullable=False)
     apellido = Column(String, nullable=False)
 
