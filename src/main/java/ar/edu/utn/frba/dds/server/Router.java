@@ -22,6 +22,7 @@ public class Router {
 
     app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
     app.get("/contacto", new ContactoController()::index);
+    app.post("/contacto", new ContactoController()::create);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
