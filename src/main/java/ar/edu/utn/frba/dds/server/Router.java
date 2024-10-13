@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.session.SessionController;
+import ar.edu.utn.frba.dds.controllers.tecnico.TecnicoController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
@@ -47,6 +48,7 @@ public class Router {
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 
     app.get("/recompensa/crear", new AgregarRecompensasController()::index);
+    app.get("/agregartecnico", new TecnicoController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);

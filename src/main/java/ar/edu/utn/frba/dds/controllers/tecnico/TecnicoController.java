@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
+import io.javalin.http.Context;
 
 
 public class TecnicoController {
@@ -34,4 +35,7 @@ public class TecnicoController {
     );
     tecnicoRepository.insert(newTecnico);
   }
-}
+
+  public void index(Context context) {
+    context.render("agregartecnico/agregartecnico.hbs");
+}}
