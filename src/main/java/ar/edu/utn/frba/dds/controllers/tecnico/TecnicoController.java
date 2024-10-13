@@ -38,4 +38,6 @@ public class TecnicoController {
 
   public void index(Context context) {
     context.render("agregartecnico/agregartecnico.hbs");
-}}
+  }
+
+}
