@@ -48,7 +48,7 @@ public class Router {
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 
     app.get("/recompensa/crear", new AgregarRecompensasController()::index);
-    app.get("/agregartecnico", new TecnicoController()::index);
+    app.get("/tecnico/crear", new TecnicoController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);

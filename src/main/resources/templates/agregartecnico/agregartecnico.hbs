@@ -67,10 +67,19 @@
                         <input type="hidden" id="longitude" name="longitud">
                     </label>
 
-                    <label class="input-box">
-                        Radio de covertura
-                        <input type="number" id="radio-cobertura" name="radio-cobertura">
+
+
+                    <label class="input-box" for="radius">
+                        Radio (en kilómetros)
+                        <input type="number" id="radius" name="radius" placeholder="Ingresa el radio en km" disabled>
                     </label>
+
+                    <div class="btn-clear">
+                        <label>
+                            <button id="clear" type="button" onclick="actualizarRadio()">Actualizar radio</button>
+                        </label>
+                    </div>
+
                     <label class="input-check">
                         Acepto los <a href="/terminos"> terminos y condiciones </a>
                         <input type="checkbox" required>
