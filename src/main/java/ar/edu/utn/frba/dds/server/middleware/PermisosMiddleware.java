@@ -1,25 +1,30 @@
 package ar.edu.utn.frba.dds.server.middleware;
 
+import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
-import io.javalin.http.Handler;
-import org.jetbrains.annotations.NotNull;
+import io.javalin.security.RouteRole;
 
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 public class PermisosMiddleware {
-  public static Handler requerirPermiso(@NotNull String permisoRequerido) {
-    return ctx -> {
-      Set<String> nombresPermisos = PermisosMiddleware.getNombresDePermisosDeContext(ctx);
-      if (!nombresPermisos.contains(permisoRequerido)) {
-        throw new PermisoDenegadoException("El usuario logueado no tiene el permiso: " + permisoRequerido);
-      }
-    };
+  public static void apply(Javalin app) {
+    app.beforeMatched(ctx -> {
+      List<Permiso> permisosUsuario = getPermisos(ctx);
+      Set<RouteRole> permisosRequeridos = ctx.routeRoles();
+      System.out.println(ctx.path());
+      System.out.println(permisosUsuario);
+      System.out.println(permisosRequeridos);
+
+      if (!permisosUsuario.containsAll(permisosRequeridos))
+        throw new PermisoDenegadoException(
+            "El usuario no está logueado o no tiene permisos para acceder a este recurso");
+    });
   }
 
-  private static Set<String> getNombresDePermisosDeContext(Context ctx) {
-    return (Set<String>) Optional.ofNullable(ctx.sessionAttribute("permisos")).orElse(new HashSet<>());
+  private static List<Permiso> getPermisos(Context ctx) {
+    return (ctx.sessionAttribute("permisos") != null) ? ctx.sessionAttribute("permisos") : List.of();
   }
 }

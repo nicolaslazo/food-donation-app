@@ -3,10 +3,14 @@ package ar.edu.utn.frba.dds.models.entities.colaborador;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
+import ar.edu.utn.frba.dds.models.entities.users.TipoPersonaJuridica;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
+import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,8 +26,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Entity
@@ -51,13 +55,16 @@ public class Colaborador {
                      @NonNull String apellido,
                      LocalDate fechaNacimiento,
                      CoordenadasGeograficas ubicacion) {
+    new SeederRoles().seedRoles();
+
     this.usuario = new Usuario(
-            documento,
-            primerNombre,
-            apellido,
-            fechaNacimiento,
-            null,
-            new HashSet<>(Set.of()));
+        documento,
+        primerNombre,
+        apellido,
+        fechaNacimiento,
+        null,
+        // Si tiene documento tiene que ser una persona física
+        new HashSet<>(List.of(new RolesRepository().findByName("COLABORADORFISICO").get())));
     this.ubicacion = ubicacion;
   }
 
@@ -66,18 +73,35 @@ public class Colaborador {
                      @NonNull String apellido,
                      LocalDate fechaNacimiento,
                      CoordenadasGeograficas ubicacion,
-                     String contrasenia,
+                     String contraseniaPlaintext,
                      Rol rolColaborador) {
-    Set<Rol> rolesColaborador = new HashSet<>();
-    rolesColaborador.add(rolColaborador);
     this.usuario = new Usuario(
-            documento,
-            primerNombre,
-            apellido,
-            fechaNacimiento,
-            contrasenia,
-            rolesColaborador);
+        documento,
+        primerNombre,
+        apellido,
+        fechaNacimiento,
+        contraseniaPlaintext != null ? DigestUtils.sha256Hex(contraseniaPlaintext) : null,
+        new HashSet<>(List.of(rolColaborador)));
     this.ubicacion = ubicacion;
+  }
+
+  public Colaborador(
+      @NonNull Documento cuit,
+      @NonNull TipoPersonaJuridica tipoPersonaJuridica,
+      @NonNull String razonSocial,
+      LocalDate fechaCreacion,
+      @NonNull String contraseniaPlaintext) {
+    this.usuario = new Usuario(
+        cuit,
+        tipoPersonaJuridica,
+        razonSocial,
+        fechaCreacion,
+        DigestUtils.sha256Hex(contraseniaPlaintext),
+        new HashSet<>(List.of(new RolesRepository().findByName("COLABORADORJURIDICO").get())));
+  }
+
+  public Colaborador(@NonNull Usuario usuario) {
+    this.usuario = usuario;
   }
 
   protected Colaborador() {

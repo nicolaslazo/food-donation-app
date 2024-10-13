@@ -1,0 +1,75 @@
+{{#partial "titulo"}}Rerportar Falla Técnica - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/incidentes/falla-tecnica/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Leaflet PinSearch -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <!-- Leaflet JS -->
+    <script src="/public/js/incidentes/falla-tecnica/script.js" defer></script>
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+    <script>
+        let heladeras = [{{#each heladeras}}
+        {
+            idHeladera: {{this.id}},
+            lat: {{this.ubicacion.latitud}},
+            long: {{this.ubicacion.longitud}},
+            nombre: "{{this.nombre}}"
+        } {{#unless @last}},{{/unless}}
+    {{/each}}]
+    </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                REPORTAR FALLA TECNICA
+            </div>
+            <form method="POST" action="/incidentes/reportar-falla" class="form__body">
+                <div class="heladera-details-container">
+                    <label class="input-box">
+                        Heladera Defectuosa *
+                        <div id="map"></div>
+                        <input type="hidden" id="idHeladera" name="idHeladera">
+                    </label>
+                    <!-- Existing Inputs -->
+                    <label class="input-box">
+                        Descripción de la Falla Técnica
+                        <textarea name="descripcion-falla" id="input-text-area" maxlength="255"></textarea>
+                    </label>
+                    <label class="input-box">
+                        Fecha de la Falla Técnica *
+                        <input name ="fecha" type="date" required>
+                    </label>
+                    <label class="custom-file-upload">
+                        Imagen de la Falla Técnica
+                        <input name="imagen" type="file"  accept="image/*">
+                    </label>
+                    <label class="input-check">
+                        Acepto los <a href="/terminos"> terminos y condiciones </a>
+                        <input name="terminos-y-condiciones" type="checkbox" required>
+                    </label>
+                </div>
+
+                <div class="submit-button">
+                    <input type="submit" value="ENVIAR SOLICITUD">
+                </div>
+
+                <div class="aclaracion-campos"> Los campos con * son obligatorios </div>
+            </form>
+        </div>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Copyright © 2024 Viandas Donation. Todos los derechos reservados.</p>
+{{/partial}}
+
+{{> templates/base}}

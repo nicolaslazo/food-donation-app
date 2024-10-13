@@ -1,14 +1,45 @@
 from collections import defaultdict
+from typing import List
+
+from fastapi import Depends, FastAPI
+from pydantic import BaseModel, Field
+from sqlalchemy.orm import Session
 
 from db import get_db
-from fastapi import Depends, FastAPI
 from models import Heladera, SolicitudAperturaPorConsumicion, Tarjeta, Usuario
-from sqlalchemy.orm import Session
 
 app = FastAPI()
 
 
-@app.get("/personas-por-barrio")
+class PersonaPorBarrioResponse(BaseModel):
+    barrio: str = Field(..., description="Nombre del barrio")
+    cantidad: int = Field(..., description="Cantidad de personas en el barrio")
+    nombres: List[str] = Field(
+        ..., description="Lista de nombres completos de las personas en el barrio"
+    )
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "barrio": "Constitución",
+                "cantidad": 5,
+                "nombres": [
+                    "Juan Perez",
+                    "Maria Gomez",
+                    "Carlos Lopez",
+                    "Ana Martinez",
+                    "Luis Rodriguez",
+                ],
+            }
+        }
+
+
+@app.get(
+    "/personas-por-barrio",
+    response_model=List[PersonaPorBarrioResponse],
+    summary="Lista las personas que solicitaron al menos una vianda, agrupadas por el barrio donde lo hicieron",
+    description="Lista las personas que solicitaron al menos una vianda, agrupadas por el barrio donde lo hicieron",
+)
 def personas_por_barrio(db: Session = Depends(get_db)):
     resultados = (
         db.query(Heladera.barrio, Usuario.primerNombre, Usuario.apellido)

@@ -1,0 +1,59 @@
+{{#partial "titulo"}} Inicio Sesión - Viandas Donation {{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/logueo/login/styles.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main>
+        <div class="container">
+            <div class="title">INICIO SESION</div>
+
+            <form method="post" action="/colaborador/login" class="form-container">
+
+                <div class="user-details-container">
+                    <!-- EMAIL INPUT -->
+                    <label class="input-box">
+                        Email
+                        <input type="email" name="email" required>
+                    </label>
+
+                    <!-- CONTRASEÑA INPUT -->
+                    <label class="input-box">
+                        Contraseña
+                        <input type="password" name="password" required>
+                    </label>
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <div class="submit-register">
+                    <input type="submit" value="INICIAR">
+                </div>
+            </form>
+
+            <!-- MENSAJE DE ERROR -->
+            {{#if error}}
+                <div class="error-message">
+                    <p>{{error}}</p>
+                </div>
+            {{/if}}
+
+            <!-- OLVIDE MI CONTRASEÑA -->
+            <div class="forgot-password">
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <!-- REGISTRO -->
+            <div class="inicio-bottom">
+                <p>¿Todavía no tienes una cuenta?</p>
+                <button class="btn-register"><a href="#">REGISTRO</a></button>
+            </div>
+        </div>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Haciendo clic en alguno de los botones de inicio de sesión de arriba, aceptas nuestros <a href="/terminos">Términos</a> y <a href="/terminos">Política de Privacidad.</a></p>
+{{/partial}}
+
+{{> templates/base}}

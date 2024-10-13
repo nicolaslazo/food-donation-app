@@ -1,0 +1,148 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 30%;
+    height: auto;
+    box-shadow: 0 0 20px #0007;
+    border-radius: 20px;
+}
+
+.form-container {
+    background-color: #f2f2f2;
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #C0392B;
+    padding: 10px;
+    border-radius: 20px 20px 0 0;
+}
+
+.user-details-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box label {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.input-box input {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+}
+
+.input-box input:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+.submit-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    min-width: 100%;
+}
+
+.submit-register input {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.submit-register input:hover {
+    background-color: #2074A3;
+    color: #fff;
+    border-radius: 20px;
+}
+
+.forgot-password {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.forgot-password a {
+    color: #C0392B;
+    text-decoration: underline;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.inicio-bottom {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #C0392B;
+    color: #fff;
+    padding: 10px;
+    min-height: 40px;
+    border-radius: 0 0 20px 20px;
+}
+
+.inicio-bottom p {
+    font-size: 14px;
+    margin: 0px;
+}
+
+.btn-register {
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    padding: 5px 10px;
+    font-family: "Montserrat";
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-register a{
+    color: #000;
+    text-decoration: none;
+}
+
+.btn-register a:active{
+    color: #000;
+}
+
+.error-message {
+    color: #FF0000;
+    background-color: #FDD;
+    border: 1px solid #FF0000;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
