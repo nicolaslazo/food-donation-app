@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.server;
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
+import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
@@ -16,14 +17,13 @@ import ar.edu.utn.frba.dds.server.middleware.AuthMiddleware;
 import io.javalin.Javalin;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Router {
 
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
+    Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
 
     app.before(ctx -> new SessionController().sessionInfo(ctx));
 
@@ -48,6 +48,8 @@ public class Router {
     // Contribucion/*
     app.before("/contribucion/*", new AuthMiddleware());
     app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index);
+    app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
+    app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create, permisoCuidarHeladera);
 
     // Registro Persona Vulnerable
     app.before("/persona-vulnerable/registro", new AuthMiddleware());
