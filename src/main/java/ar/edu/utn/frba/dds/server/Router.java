@@ -25,7 +25,7 @@ public class Router {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
 
-    app.before(ctx -> new SessionController().sessionInfo(ctx) );
+    app.before(ctx -> new SessionController().sessionInfo(ctx));
 
     // --- Ruta Públicas ---
     app.get("/colaborador/login", new SessionController()::index);
