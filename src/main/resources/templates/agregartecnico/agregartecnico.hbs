@@ -1,8 +1,7 @@
 {{#partial "titulo"}}Agregar Tecnico - Viandas Donation{{/partial}}
 
 {{#partial "styles"}}
-    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
-    <link rel="stylesheet" href="/public/css/contribuciones/distribuir_vianda/styles.css">
+    <link rel="stylesheet" href="/public/css/agregartecnico/styles.css">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
@@ -11,17 +10,6 @@
 {{#partial "scripts"}}
     <script src="/public/js/sticky_nav_bar.js" defer></script>
     <script src="/public/js/agregartecnico/script.js" defer></script>
-    <!-- Recuperacón de las heladeras -->
-    <script>
-        let heladeras = [{{#each heladeras}}
-        {
-            idHeladera: {{this.id}},
-                lat: {{this.ubicacion.latitud}},
-                long: {{this.ubicacion.longitud}},
-                nombre: "{{this.nombre}}"
-            } {{#unless @last}},{{/unless}}
-    {{/each}}]
-    </script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <!-- Leaflet PinSearch -->
@@ -29,42 +17,59 @@
 {{/partial}}
 
 {{#partial "contenido"}}
-    <main class="main__container">
-        <div class="form__container">
-            <div class="form-title">
-                DISTRIBUCIÓN DE VIANDAS
-            </div>
-
-            <form method="post" action="/contribucion/distribuicion-vianda" class="form__body">
-                <div class="heladera-details-container">
-                    <label class="input-box">
-                        Cantidad de Viandas a Distribuir
-                        <input type="number" min="1" required name="numeroViandas">
-                    </label>
-                    <label class="input-box">
-                        Seleccione el Origen y Destino
-                        <div id="map"></div>
-                        <input type="hidden" id="latitudeOrigen" name="latitudeOrigen" >
-                        <input type="hidden" id="longitudeOrigen" name="longitudeOrigen" >
-                        <input type="hidden" id="latitudeDestino" name="latitudeDestino" >
-                        <input type="hidden" id="longitudeDestino" name="longitudeDestino" >
-                        <input type="hidden" id="idHeladera" name="idHeladera">
+    <main>
+            <div class="container">
+                <div class="title">REGISTRAR PERSONA VULNERABLE</div>
+            <form method="post" action="/agregartecnico" class="form-container">
+                <div class="user-details-container">
+                    <label class="input-box" for="name">
+                        Nombre
+                        <input type="text" id="name" name="nombre" required>
                     </label>
 
-                    <div class="btn-clear">
-                        <!-- Botones para eliminar la selección de origen y destino -->
-                        <label>
-                            <button type="button" id="clear">Deseleccionar Recorrido</button>
+                    <label class="input-box" for="surname">
+                        Apellido
+                        <input type="text" id="surname" name="apellido"  required>
+                    </label>
+
+                        <label class="input-box">Tipo de Documento
+                            <select id="documento" name="documento" required>
+                                <option value="dni">DNI</option>
+                                <option value="lc">LIBRETA CIVICA</option>
+                                <option value="le">LIBRETA DE ENROLAMIENTO</option>
+                            </select>
                         </label>
-                    </div>
+                        <label class="input-box">
+                            Número Documento
+                            <input type="number" id="numero-documento" name="numero-documento" required>
+                        </label>
 
-                    <label class="input-box" id="distribucion-container">
-                        Motivo de la Distribución
-                        <select name="motivo" id="motivo">
-                            <option value="falla_heladera" name="fallaHeladera">Desperfecto en la Heladera</option>
-                            <option value="falta_viandas" name="faltaViandas">Faltan Viandas en la Heladera</option>
-                            <option value="falta_espacio" name="faltaEspacio">La Heladera esta casi llena</option>
-                        </select>
+                    <label class="input-box" for="surname">
+                        CUIL
+                        <input type="number" id="cuil" name="cuil" required>
+                    </label>
+
+                        <label class="input-box">Medio de Contacto
+                            <select id="tipo-contacto" name="tipo-contacto">
+                                <option value="email">EMAIL</option>
+                                <option value="telegram">TELEGRAM</option>
+                            </select>
+                        </label>
+                        <label class="input-box">
+                            Contacto
+                            <input type="text" id="numero-documento" name="numero-documento">
+                        </label>
+
+                    <label class="input-box">
+                        Dirección de Entrega
+                        <div id="map"></div>
+                        <input type="hidden" id="latitude" name="latitud">
+                        <input type="hidden" id="longitude" name="longitud">
+                    </label>
+
+                    <label class="input-box">
+                        Radio de covertura
+                        <input type="number" id="radio-cobertura" name="radio-cobertura">
                     </label>
                     <label class="input-check">
                         Acepto los <a href="/terminos"> terminos y condiciones </a>
@@ -72,11 +77,11 @@
                     </label>
                 </div>
 
-                <div class="submit-button">
+                <div class="submit-register">
                     <input type="submit" value="SIGUIENTE" id="submitBtn">
                 </div>
             </form>
-        </div>
+            </div>
     </main>
 {{/partial}}
 

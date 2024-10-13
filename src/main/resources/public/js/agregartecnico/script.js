@@ -19,3 +19,16 @@ map.on('click', function(e) {
     // Añadir un marcador en la ubicación clicada
     var marker = L.marker([lat, lng]).addTo(map);
 });
+
+    function cambiarTipoInput() {
+        const tipoContacto = document.getElementById('tipo-contacto').value;
+        const inputContacto = document.getElementById('numero-documento');
+
+        if (tipoContacto === 'telegram') {
+            inputContacto.type = 'number';
+            inputContacto.placeholder = 'Ingrese su número de Telegram';
+        } else {
+            inputContacto.type = 'text';
+            inputContacto.placeholder = 'Ingrese su dirección de correo';
+        }
+    }

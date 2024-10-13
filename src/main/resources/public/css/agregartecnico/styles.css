@@ -90,3 +90,20 @@ input[type="number"]::-webkit-inner-spin-button {
     color: #fff;
     border-radius: 20px;
 }
+
+
+#map {
+    border-radius: 20px;
+    margin-top: 10px;
+    border: solid 1px #0006;
+    min-height: 400px;
+    min-width: 400px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 1.5em;
+    pointer-events: none;
+    margin: 5px 0;
+}
