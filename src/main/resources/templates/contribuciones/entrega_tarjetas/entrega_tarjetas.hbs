@@ -1,0 +1,67 @@
+{{#partial "titulo"}}Entrega Tarjetas - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="/public/js/contribuciones/entrega_tarjetas/entrega_tarjetas.js" defer></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Leaflet PinSearch -->
+    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                SOLICITUD DE TARJETAS
+            </div>
+
+            <form class="form__body" method="post" action="/contribucion/entrega-tarjetas">
+                <div class="heladera-details-container">
+                    <!-- Existing Inputs -->
+                    <label class="input-box">
+                        Cantidad de Tarjetas Solicitadas *
+                        <input type="number" min="1" max="10" placeholder="Se pueden solicitar entre 1 a 10 tarjetas" name="cantidadTarjetas" required>
+                    </label>
+                    <!-- New Map Input -->
+                    <label class="input-box">
+                        Dirección de Entrega
+                        <div id="map"></div>
+                        <input type="hidden" id="latitude" name="latitud">
+                        <input type="hidden" id="longitude" name="longitud">
+                    </label>
+
+                    <label class="input-check">
+                        Acepto los <a href="/terminos"> terminos y condiciones </a>
+                        <input type="checkbox" required>
+                    </label>
+                </div>
+
+                <div class="submit-button">
+                    <input type="submit" value="ENVIAR SOLICITUD">
+                </div>
+
+                <div class="aclaracion-campos"> Los campos con * son obligatorios </div>
+
+            </form>
+        </div>
+
+        <aside>
+            <div class="aside">
+                <img src="/public/img/contribuciones/icono_tarjeta.png" alt="Icono de Tarjeta" class="img__aside">
+            </div>
+        </aside>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Derechos reservados © 2024 Viandas Donation.</p>
+{{/partial}}
+
+{{> templates/base}}
