@@ -1,21 +1,70 @@
-// Inicializar el mapa en el div con id 'map' y centrarlo en unas coordenadas (por ejemplo, Buenos Aires)
-var map = L.map('map').setView([-34.6037, -58.3816], 13); // Coordenadas de Buenos Aires con zoom nivel 13
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.form__body');
+    const direccionContainer = document.getElementById('direccion-container');
+    const botonAgregarDireccion = document.getElementById('agregar-direccion');
+    const camposDireccionObligatorios = ['pais', 'provincia', 'ciudad', 'codigoPostal', 'calle', 'altura'];
 
-// Cargar y añadir una capa de mapa desde OpenStreetMap
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 18
-}).addTo(map);
+    // Mostrar/Ocultar los campos de dirección cuando se haga clic en el botón
+    botonAgregarDireccion.addEventListener('click', function () {
+        if (direccionContainer.style.display === 'none') {
+            direccionContainer.style.display = 'block';
+            botonAgregarDireccion.textContent = 'Ocultar Dirección de Entrega';
+        } else {
+            direccionContainer.style.display = 'none';
+            botonAgregarDireccion.textContent = 'Agregar Dirección de Entrega';
+            // Limpiar los campos y remover los requeridos si se oculta
+            camposDireccionObligatorios.forEach(campo => {
+                const elemento = document.getElementById(campo);
+                elemento.value = ''; // Limpiar los valores
+                elemento.removeAttribute('required'); // Quitar el atributo 'required'
+            });
+        }
+    });
 
-// Cuando se hace clic en el mapa, actualizar los campos de latitud y longitud
-map.on('click', function(e) {
-    var lat = e.latlng.lat;
-    var lng = e.latlng.lng;
+    // Función para hacer que los campos de dirección sean requeridos si se completa uno de ellos
+    function validarCamposDireccion() {
+        const algunCampoDireccionLleno = camposDireccionObligatorios.some(campo =>
+            document.getElementById(campo).value.trim() !== ''
+        );
 
-    // Actualizar los campos ocultos con la latitud y longitud seleccionadas
-    document.getElementById('latitude').value = lat;
-    document.getElementById('longitude').value = lng;
+        camposDireccionObligatorios.forEach(campo => {
+            const elemento = document.getElementById(campo);
+            if (algunCampoDireccionLleno) {
+                elemento.setAttribute('required', '');
+            } else {
+                elemento.removeAttribute('required');
+            }
+        });
+    }
 
-    // Añadir un marcador en la ubicación clicada
-    var marker = L.marker([lat, lng]).addTo(map);
+    // Agregar event listeners a los campos de dirección
+    camposDireccionObligatorios.forEach(campo => {
+        document.getElementById(campo).addEventListener('input', validarCamposDireccion);
+    });
+
+    // Validar el formulario antes de enviarlo
+    form.addEventListener('submit', function (event) {
+        let formValido = true;
+
+        // Validar campos de dirección
+        validarCamposDireccion();
+
+        // Validar que los campos obligatorios estén completos
+        const inputsRequeridos = form.querySelectorAll('input[required]');
+        inputsRequeridos.forEach(input => {
+            if (!input.value.trim()) {
+                formValido = false;
+                input.classList.add('error');  // Agrega clase 'error' si el campo está vacío
+            } else {
+                input.classList.remove('error');
+            }
+        });
+
+        if (!formValido) {
+            event.preventDefault();
+            alert('Por favor, complete todos los campos requeridos.');
+        } else {
+            alert('Solicitud enviada exitosamente');
+        }
+    });
 });
