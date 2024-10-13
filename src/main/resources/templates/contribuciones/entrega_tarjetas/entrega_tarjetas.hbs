@@ -2,17 +2,11 @@
 
 {{#partial "styles"}}
     <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
+    <link rel="stylesheet" href="/public/css/contribuciones/entrega_tarjetas/styles.css">
 {{/partial}}
 
 {{#partial "scripts"}}
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="/public/js/contribuciones/entrega_tarjetas/entrega_tarjetas.js" defer></script>
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <!-- Leaflet PinSearch -->
-    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
 {{/partial}}
 
 {{#partial "contenido"}}
@@ -29,13 +23,59 @@
                         Cantidad de Tarjetas Solicitadas *
                         <input type="number" min="1" max="10" placeholder="Se pueden solicitar entre 1 a 10 tarjetas" name="cantidadTarjetas" required>
                     </label>
-                    <!-- New Map Input -->
-                    <label class="input-box">
-                        Dirección de Entrega
-                        <div id="map"></div>
-                        <input type="hidden" id="latitude" name="latitud">
-                        <input type="hidden" id="longitude" name="longitud">
-                    </label>
+
+                    <!-- Botón para agregar dirección -->
+                    <div class="direccion-toggle">
+                        <label>
+                            <button type="button" id="agregar-direccion">
+                                Agregar Dirección de Entrega
+                            </button>
+                        </label>
+                    </div>
+
+                    <!-- Campos de Dirección ocultos inicialmente -->
+                    <div class="user-details-container" id="direccion-container" style="display: none;">
+                        <h3>Dirección Entrega</h3>
+                        <label class="input-box" for="pais">
+                            País
+                            <input type="text" id="pais" name="pais">
+                        </label>
+
+                        <label class="input-box" for="provincia">
+                            Provincia
+                            <input type="text" id="provincia" name="provincia">
+                        </label>
+
+                        <label class="input-box" for="ciudad">
+                            Ciudad
+                            <input type="text" id="ciudad" name="ciudad">
+                        </label>
+
+                        <label class="input-box" for="codigoPostal">
+                            Código postal
+                            <input type="text" id="codigoPostal" name="codigoPostal">
+                        </label>
+
+                        <label class="input-box" for="calle">
+                            Calle
+                            <input type="text" id="calle" name="calle">
+                        </label>
+
+                        <label class="input-box" for="altura">
+                            Altura/Número
+                            <input type="number" id="altura" name="altura" min="0">
+                        </label>
+
+                        <label class="input-box" for="unidad">
+                            Unidad
+                            <input type="text" id="unidad" name="unidad">
+                        </label>
+
+                        <label class="input-box" for="piso">
+                            Piso
+                            <input type="text" id="piso" name="piso">
+                        </label>
+                    </div>
 
                     <label class="input-check">
                         Acepto los <a href="/terminos"> terminos y condiciones </a>
@@ -48,7 +88,6 @@
                 </div>
 
                 <div class="aclaracion-campos"> Los campos con * son obligatorios </div>
-
             </form>
         </div>
 
