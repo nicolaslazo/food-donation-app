@@ -16,6 +16,8 @@ import ar.edu.utn.frba.dds.server.middleware.AuthMiddleware;
 import io.javalin.Javalin;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Router {
 
@@ -23,7 +25,7 @@ public class Router {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
 
-    app.before(ctx -> new SessionController().sessionInfo(ctx));
+    app.before(ctx -> new SessionController().sessionInfo(ctx) );
 
     // --- Ruta Públicas ---
     app.get("/colaborador/login", new SessionController()::index);
