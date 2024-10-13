@@ -73,6 +73,11 @@ header {
     background-color: #B0392B;
 }
 
+.btn-login a {
+    text-decoration: none;
+    color: #fff;
+}
+
 /* Botón Contribuir Ya (sin cambios) */
 .btn-contribuir {
     padding: 10px;
