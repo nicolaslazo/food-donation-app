@@ -3,6 +3,7 @@ package ar.edu.utn.frba.dds.server;
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
+import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
@@ -21,6 +22,7 @@ public class Router {
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
+    Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
 
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
 
@@ -40,7 +42,10 @@ public class Router {
 
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
 
-    app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
+    app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index);
+
+    app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
+    app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create, permisoCuidarHeladera);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);

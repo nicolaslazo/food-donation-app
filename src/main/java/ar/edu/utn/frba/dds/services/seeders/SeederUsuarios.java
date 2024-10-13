@@ -67,6 +67,37 @@ public class SeederUsuarios {
     new ColaboradorRepository().insert(colaboradorJuridico);
     new ContactosRepository().insert(emailColaboradorJuridico);
 
+    // ------ COLABORADORES & ADMINISTRADORES ------
+    Colaborador colaboradorFisicoAdministrador = new Colaborador(
+            new Documento(TipoDocumento.DNI, 45250000),
+            "Waylon",
+            "Smithers",
+            LocalDate.now().minusYears(40),
+            new CoordenadasGeograficas(54D, 54D),
+            "smithers",
+            new RolesRepository().findByName("COLABORADORFISICO").get()
+    );
+    colaboradorFisicoAdministrador.getUsuario().agregarRol(
+            new RolesRepository().findByName("ADMINISTRADOR").get()
+    );
+    Email emialSmithers = new Email(colaboradorFisicoAdministrador.getUsuario(), "smithers@gmail.com");
+    new ColaboradorRepository().insert(colaboradorFisicoAdministrador);
+    new ContactosRepository().insert(emialSmithers);
+
+    Colaborador colaboradorJuridicoAdministrador = new Colaborador(
+            new Documento(TipoDocumento.CUIT, 2045250000),
+            TipoPersonaJuridica.INSTITUCION,
+            "Escuela Primaria Springfield",
+            LocalDate.now().minusYears(60),
+            "skinner"
+    );
+    colaboradorJuridicoAdministrador.getUsuario().agregarRol(
+            new RolesRepository().findByName("ADMINISTRADOR").get()
+    );
+    Email emailEscuela = new Email(colaboradorJuridicoAdministrador.getUsuario(), "escuela@gmail.com");
+    new ColaboradorRepository().insert(colaboradorJuridicoAdministrador);
+    new ContactosRepository().insert(emailEscuela);
+
     // ------ TÉCNICOS ------
     Tecnico tecnicoUno = new Tecnico(
             new Documento(TipoDocumento.DNI, 45000111),
