@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.session.SessionController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
+import ar.edu.utn.frba.dds.controllers.verreportes.PDFGeneratorController;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import io.javalin.Javalin;
