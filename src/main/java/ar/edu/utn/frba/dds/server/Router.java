@@ -52,5 +52,4 @@ public class Router {
       ctx.result("Internal server error: " + e.getMessage() + "\n\n" + Arrays.toString(e.getStackTrace()));
     });
   }
-  }
 }
