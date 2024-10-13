@@ -20,7 +20,7 @@ public class Router {
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
     app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
-    app.get("/agregar-recompensa", new AgregarRecompensasController()::index);
+    app.get("/recompensa/crear", new AgregarRecompensasController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
