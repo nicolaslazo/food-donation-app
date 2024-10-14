@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
+import ar.edu.utn.frba.dds.controllers.quienessomos.QuienesSomosController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.session.SessionController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
@@ -37,9 +38,12 @@ public class Router {
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
 
+    // Terminos
+    app.get("/terminos", new TerminosYCondicionesController()::index);
+
     // Rutas de la Navbar
     app.get("/", new HomeController()::index);
-    app.get("/terminos", new TerminosYCondicionesController()::index);
+    app.get("/quienes-somos", new QuienesSomosController()::index);
 
     // --- Rutas Protegidas que requieren autenticación ---
     // Incidente/*
