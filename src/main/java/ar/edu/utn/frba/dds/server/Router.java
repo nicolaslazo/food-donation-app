@@ -28,7 +28,6 @@ public class Router {
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
-    Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
     Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
     Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
@@ -54,7 +53,9 @@ public class Router {
     // Incidente/*
     app.before("incidentes/*", new AuthMiddleware());
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
-    app.get("/recompensa/crear", new AgregarRecompensasController()::index);
+
+    //Tecnico
+    app.before("/tecnico/crear", new AuthMiddleware());
     app.get("/tecnico/crear", new TecnicoController()::index, permisoCrearTecnico);
 
     // Contribucion/*

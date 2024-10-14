@@ -31,16 +31,13 @@ public class SeederRoles {
       switch (rolName) {
         case "ADMINISTRADOR":
           Permiso permisoCrearColaborador = permisosRepository.findByName("Crear-Colaborador").get();
-          Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
           Permiso permisoCrearTarjetas = permisosRepository.findByName("Crear-Tarjetas").get();
           Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
           Permiso permisoDarBajaTarjeta = permisosRepository.findByName("Dar-Baja-Tarjetas").get();
-          Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
           Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
           Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
           Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
           Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
-          Permiso permisoCrearReporte = permisosRepository.findByName("Crear-Reportes").get();
           Permiso permisoVerReporte = permisosRepository.findByName("Ver-Reportes").get();
           Permiso permisoRegistrarPersonaVulnerable = permisosRepository.findByName("Registrar-Persona-Vulnerable").get();
           Permiso permisoRealizarContribucion = permisosRepository.findByName("Realizar-Contribucion").get();
@@ -58,7 +55,6 @@ public class SeederRoles {
               permisoCuidarHeladera,
               permisoDonarDinero,
               permisoSolicitarTarjetas,
-              permisoCrearReporte,
               permisoVerReporte,
               permisoRegistrarPersonaVulnerable,
               permisoRealizarContribucion,
