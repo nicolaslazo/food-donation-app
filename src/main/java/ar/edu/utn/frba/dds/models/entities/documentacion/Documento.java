@@ -4,11 +4,14 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Objects;
 
 @Embeddable
 @Getter
 public class Documento {
+  @Enumerated(EnumType.STRING)
   @NonNull TipoDocumento tipo;
   @NonNull Integer valor;
 

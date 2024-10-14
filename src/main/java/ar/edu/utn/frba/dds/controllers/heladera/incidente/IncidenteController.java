@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
+import io.javalin.http.Context;
 import lombok.NonNull;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -17,7 +18,11 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.net.URL;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
 
 public class IncidenteController implements IMqttMessageListener {
   static IncidenteController instancia = null;
@@ -69,5 +74,12 @@ public class IncidenteController implements IMqttMessageListener {
     if (optionalHeladera.isEmpty()) throw new Exception("La heladera correspondiente a esta alerta no existe");
 
     crearAlerta(optionalHeladera.get(), TipoIncidente.fromString(mensaje.tipoIncidente()), mensaje.getFecha());
+  }
+
+  public void index(Context context) {
+    Map<String, Object> model = context.attribute("model");
+    List<Heladera> heladeras = new HeladerasRepository().findAll().toList();
+    model.put("heladeras", heladeras);
+    context.render("incidentes/falla-tecnica/falla-tecnica.hbs", model);
   }
 }

@@ -1,0 +1,75 @@
+{{#partial "titulo"}}Donación Dinero - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
+    <link rel="stylesheet" href="/public/css/contribuciones/donacion_dinero/styles.css">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+    <script src="/public/js/contribuciones/donacion_dinero/script.js" defer></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                DONACIÓN DE DINERO
+            </div>
+
+            <form method="post" action="/contribucion/donacion-dinero" class="form__body">
+                <div class="heladera-details-container">
+                    <label class="input-box">
+                        Monto a Donar
+                        <input name="monto" type="number" min="1" required>
+                    </label>
+                    <label class="input-box">
+                        Donación Periódica
+                        <select name="donacionPeriodica" id="donacion-periodica">
+                            <option value="false">No</option>
+                            <option value="true">Sí</option>
+                        </select>
+                    </label>
+                    <label class="input-box" id="frecuencia-container">
+                        <select name="frecuencia" id="frecuencia">
+                            <option value="">Seleccione una frecuencia</option>
+                            <option value="7">Semanal</option>
+                            <option value="30">Mensual</option>
+                            <option value="90">Trimestral</option>
+                            <option value="365">Anual</option>
+                        </select>
+                    </label>
+                    <label class="input-box">
+                        Número de Tarjeta
+                        <input name="numeroTarjeta" type="tel" minlength="13" maxlength="18" pattern="\d{13,18}"
+                               required>
+                    </label>
+                    <label class="input-box">
+                        CDS (Código de Seguridad)
+                        <input name="codigoSeguridad" type="tel" minlength="3" maxlength="3" pattern="\d{3}" required>
+                    </label>
+                    <label class="input-check">
+                        Acepto los <a href="/terminos">términos y condiciones</a>
+                        <input type="checkbox" name="aceptaTerminos" required>
+                    </label>
+                </div>
+
+                <div class="submit-button">
+                    <input type="submit" value="ENVIAR SOLICITUD">
+                </div>
+            </form>
+        </div>
+
+        <aside>
+            <div class="aside">
+                <img src="/public/img/contribuciones/donacionPlata.png" alt="Icono Dinero" class="img__aside">
+            </div>
+        </aside>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Derechos reservados © 2024 Viandas Donation.</p>
+{{/partial}}
+
+{{> templates/base}}

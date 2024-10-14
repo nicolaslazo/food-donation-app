@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CalculadoraDistancia;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
@@ -55,6 +56,8 @@ public class Tecnico {
                  @NonNull AreaGeografica areaAsignada,
                  String contrasenia,
                  @NonNull Rol rolTecnico) {
+    new SeederRoles().seedRoles();
+
     this.usuario = new Usuario(
         documento,
         primerNombre,
