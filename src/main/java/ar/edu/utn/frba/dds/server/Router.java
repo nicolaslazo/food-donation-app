@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
+import ar.edu.utn.frba.dds.controllers.contacto.ContactoController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
@@ -46,6 +47,8 @@ public class Router {
     // Rutas de la Navbar
     app.get("/", new HomeController()::index);
     app.get("/quienes-somos", new QuienesSomosController()::index);
+    app.get("/contacto", new ContactoController()::index);
+    app.post("/contacto", new ContactoController()::create);
 
     // --- Rutas Protegidas que requieren autenticación ---
     // Incidente/*
@@ -59,6 +62,7 @@ public class Router {
     app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index, permisoDonarDinero);
     app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
     app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
+    app.post("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::create, permisoSolicitarTarjetas);
     app.get("/contribucion/donacion-vianda", new DonacionViandaController()::index, permisoDonarViandas);
 
     // Registro Persona Vulnerable
