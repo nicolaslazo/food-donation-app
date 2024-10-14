@@ -24,6 +24,7 @@ public class PermisosRepositoryTest {
 
   @Test
   void testFindAllDevuelveTodosLosPermisosParaUnUsuario() {
+    //TODO: Es poco mantenible este Test, cada vez que agregemos un permiso nuevo hay que actualizarlo :/
     Colaborador colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
         "",
         "",
@@ -44,6 +45,7 @@ public class PermisosRepositoryTest {
             "Donar-Viandas",
             "Asignar-Tarjetas",
             "Depositar-Viandas",
+            "Solicitar-Tarjetas",
             "Permiso-Custom1",
             "Permiso-Custom2"),
         new PermisosRepository().findAll(colaborador.getUsuario()).map(Permiso::getNombre).toList());
