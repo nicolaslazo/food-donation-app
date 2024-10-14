@@ -13,7 +13,7 @@ public class FormasColaboracionController {
     model.put("puedeDonarDinero", tienePermiso(permisos, "Donar-Dinero"));
     model.put("puedeDonarViandas", tienePermiso(permisos, "Donar-Viandas"));
     model.put("puedeCuidarHeladera", tienePermiso(permisos, "Cuidar-Heladera"));
-    model.put("puedeDistribuirViandas", tienePermiso(permisos, "Distribuir-Viandas"));
+    model.put("puedeDistribuirVianda", tienePermiso(permisos, "Distribuir-Viandas"));
     model.put("puedeSubirRecompensa", tienePermiso(permisos, "Subir-Recompensa"));
     model.put("puedeSuscribirse", tienePermiso(permisos, "Suscribirse-Heladera"));
 

@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.controllers.contacto.ContactoController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
+import ar.edu.utn.frba.dds.controllers.contribucion.DistribuirViandaController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
@@ -29,6 +30,7 @@ public class Router {
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
     Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
+    Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
 
     app.before(ctx -> new SessionController().sessionInfo(ctx));
 
@@ -60,6 +62,7 @@ public class Router {
     app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index, permisoDonarDinero);
     app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
     app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
+    app.get("/contribucion/distribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
 
     // Registro Persona Vulnerable
     app.before("/persona-vulnerable/registro", new AuthMiddleware());
@@ -75,8 +78,6 @@ public class Router {
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.before("/formas-colaboracion", new AuthMiddleware());
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
-
-    app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
