@@ -20,7 +20,7 @@
     <main>
             <div class="container">
                 <div class="title">REGISTRAR PERSONA VULNERABLE</div>
-            <form method="post" action="/agregartecnico" class="form-container">
+            <form method="post" action="/tecnico/crear" class="form-container">
                 <div class="user-details-container">
                     <label class="input-box" for="name">
                         Nombre
@@ -41,7 +41,7 @@
                         </label>
                         <label class="input-box">
                             Número Documento
-                            <input type="number" id="numero-documento" name="numero-documento" required>
+                            <input type="number" id="numero-documento" name="numeroDocumento" required>
                         </label>
 
                     <label class="input-box" for="surname">
@@ -50,28 +50,27 @@
                     </label>
 
                         <label class="input-box">Medio de Contacto
-                            <select id="tipo-contacto" name="tipo-contacto">
+                            <select id="tipo-contacto" name="tipoContacto">
                                 <option value="email">EMAIL</option>
                                 <option value="telegram">TELEGRAM</option>
                             </select>
                         </label>
                         <label class="input-box">
                             Contacto
-                            <input type="text" id="numero-documento" name="numero-documento">
+                            <input type="text" id="contacto" name="contacto">
                         </label>
 
                     <label class="input-box">
-                        Dirección de Entrega
+                        Area cobertura
                         <div id="map"></div>
                         <input type="hidden" id="latitude" name="latitud">
                         <input type="hidden" id="longitude" name="longitud">
                     </label>
 
 
-
                     <label class="input-box" for="radius">
                         Radio (en kilómetros)
-                        <input type="number" id="radius" name="radius" placeholder="Ingresa el radio en km" disabled>
+                        <input type="number" id="radius" name="radio" placeholder="Ingresa el radio en km" disabled>
                     </label>
 
                     <div class="btn-clear">
