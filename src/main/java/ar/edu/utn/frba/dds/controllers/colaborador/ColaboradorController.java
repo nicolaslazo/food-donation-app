@@ -14,10 +14,12 @@ import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public class ColaboradorController {
   public void index(Context context) {
-    context.render("logueo/registro/registro.hbs");
+    Map<String, Object> model = context.attribute("model");
+    context.render("logueo/registro/registro.hbs", model);
   }
 
   public void create(Context context) {

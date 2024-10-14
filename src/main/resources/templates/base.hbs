@@ -27,13 +27,27 @@
             <img src="/public/img/Logo_viandas_donation.png" alt="Logo">
             <h2 class="name-logo">Viandas Donation</h2>
         </a>
-        <button class="btn-contribuir">
-            <a href="/quiero-ayudar">Contribuir Ya</a>
-        </button>
+        <div class="container-buttons">
+            <!-- Botón de Inicio/Cierre de sesión -->
+            {{#if usuarioAutenticado}}
+                <form action="/colaborador/logout" method="post">
+                    <button type="submit" class="btn-login">Cerrar Sesión</button>
+                </form>
+            {{else}}
+                <button class="btn-login">
+                    <a href="/colaborador/login">Iniciar Sesión</a>
+                </button>
+            {{/if}}
+
+            <!-- Botón de Contribuir Ya -->
+            <button class="btn-contribuir">
+                <a href="/quiero-ayudar">Contribuir Ya</a>
+            </button>
+        </div>
     </div>
     <nav class="navbar">
         <a href="/" class="navbar-item">INICIO</a>
-        <a href="#" class="navbar-item">QUIENES SOMOS</a>
+        <a href="/quienes-somos" class="navbar-item">QUIENES SOMOS</a>
         <a href="#" class="navbar-item">CONTACTO</a>
         <a href="#" class="navbar-item">TIENDA</a>
     </nav>

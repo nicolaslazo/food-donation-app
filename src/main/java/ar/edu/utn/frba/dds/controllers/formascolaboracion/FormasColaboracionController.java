@@ -3,13 +3,12 @@ package ar.edu.utn.frba.dds.controllers.formascolaboracion;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import io.javalin.http.Context;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class FormasColaboracionController {
   public void index(Context context) {
-    Map<String, Object> model = new HashMap<>();
+    Map<String, Object> model = context.attribute("model");
     List<Permiso> permisos = context.sessionAttribute("permisos");
     model.put("puedeDonarDinero", tienePermiso(permisos, "Donar-Dinero"));
     model.put("puedeDonarViandas", tienePermiso(permisos, "Donar-Viandas"));

@@ -1,32 +1,14 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="styles.css">
-    <title>Quiénes Somos - Viandas Donation</title>
-</head>
-<body>
-    <header>
-        <div class="container-logo">
-            <a class="img-logo" href="../home/home.html"> 
-                <img src="../static/Logo_viandas_donation.png" alt="Logo">
-                <h2 class="name-logo"> Viandas Donation </h2>
-            </a>
-            <button class="btn-contribuir"> 
-                <a href="../logueo/inicioSesion/index.html">Contribuir Ya</a> 
-            </button>
-        </div>
-        <nav class="navbar">
-            <a href="../home/home.html" class="navbar-item">INICIO</a>
-            <a href="quienes_somos.html" class="navbar-item">QUIENES SOMOS</a>
-            <a href="../contacto/contacto.html" class="navbar-item">CONTACTO</a>
-            <a href="../tienda/tienda_home/tienda.html" class="navbar-item">TIENDA</a>
-        </nav>
-    </header>
+{{#partial "titulo"}}Quienes Somos - Viandas Donation{{/partial}}
 
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/quienessomos/styles.css">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js"></script>
+{{/partial}}
+
+{{#partial "contenido"}}
     <main>
         <section class="quienes-somos">
             <h1>Quiénes Somos</h1>
@@ -37,7 +19,7 @@
             <p>
                 Estas heladeras se encuentran ubicadas en restaurantes, estaciones de transporte público y otros establecimientos de fácil acceso. Cualquier persona puede colaborar dejando alimentos que luego serán distribuidos entre aquellos que más lo necesitan.
             </p>
-            
+
             <h2>Nuestro sistema</h2>
             <p>
                 Nuestro sistema está diseñado para asegurar que las heladeras se mantengan siempre abastecidas y en buenas condiciones. A través de un software especializado, monitoreamos en tiempo real el estado de cada heladera y coordinamos la logística de distribución de alimentos.
@@ -73,13 +55,10 @@
             </p>
         </section>
     </main>
+{{/partial}}
 
-    <footer>
-        <div class="footer-container">
-            <p>
-                Copyright © 2024 Viandas Donation. Todos los derechos reservados.
-            </p>
-        </div>
-    </footer>
-</body>
-</html>
+{{#partial "contenido-footer"}}
+    <p>Copyright © 2024 Viandas Donation. Todos los derechos reservados.</p>
+{{/partial}}
+
+{{> templates/base}}
