@@ -31,7 +31,7 @@ public class Router {
     app.get("/", new HomeController()::index);
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
-    app.get("/verReportes", new PDFGeneratorController()::index);
+    app.get("/reportes", new PDFGeneratorController()::index);
     app.get("/carga-csv", new CargaCSVController()::index);
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
