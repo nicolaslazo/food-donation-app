@@ -37,10 +37,9 @@ public class Router {
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
 
+    // Rutas de la Navbar
     app.get("/", new HomeController()::index);
     app.get("/terminos", new TerminosYCondicionesController()::index);
-    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
-    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
     // --- Rutas Protegidas que requieren autenticación ---
     // Incidente/*
@@ -63,6 +62,12 @@ public class Router {
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
     app.get("/carga-csv", new CargaCSVController()::index);
+
+    // Quiero Ayudar & Formas de Colaboración
+    app.before("/quiero-ayudar", new AuthMiddleware());
+    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
+    app.before("/formas-colaboracion", new AuthMiddleware());
+    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
