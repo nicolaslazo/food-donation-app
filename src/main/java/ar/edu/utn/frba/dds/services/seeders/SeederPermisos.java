@@ -22,6 +22,7 @@ public class SeederPermisos {
     createPermisoIfNotExists("Depositar-Viandas");
     createPermisoIfNotExists("Administrar-Recompensas");
     createPermisoIfNotExists("Cuidar-Heladera");
+    createPermisoIfNotExists("Solicitar-Tarjetas");
   }
 
   public void createPermisoIfNotExists(String nombrePermiso) {
