@@ -41,6 +41,8 @@ public class Router {
     app.post("/colaborador/logout", new SessionController()::delete);
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
+    app.get("/contacto", new ContactoController()::index);
+    app.post("/contacto", new ContactoController()::create);
 
     // Terminos
     app.get("/terminos", new TerminosYCondicionesController()::index);
@@ -81,9 +83,6 @@ public class Router {
     app.before("/formas-colaboracion", new AuthMiddleware());
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
-    app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
-    app.get("/contacto", new ContactoController()::index);
-    app.post("/contacto", new ContactoController()::create);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
