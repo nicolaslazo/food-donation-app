@@ -37,12 +37,6 @@ public class Router {
     app.get("/colaborador/login", new SessionController()::index);
     app.post("/colaborador/login", new SessionController()::create);
 
-    app.get("/", new HomeController()::index);
-    app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
-    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
-    app.get("/ver-reportes", new PDFGeneratorController()::index, permisoVerReportes);
-    app.get("/carga-csv", new CargaCSVController()::index);
-    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
     app.post("/colaborador/logout", new SessionController()::delete);
     app.get("/colaborador/registro", new ColaboradorController()::index);
@@ -77,6 +71,10 @@ public class Router {
     app.before("/carga-csv", new AuthMiddleware());
     app.get("/carga-csv", new CargaCSVController()::index);
 
+    //Reportes
+    app.before("/ver-reportes", new AuthMiddleware());
+    app.get("/ver-reportes", new PDFGeneratorController()::index, permisoVerReportes);
+    
     // Quiero Ayudar & Formas de Colaboración
     app.before("/quiero-ayudar", new AuthMiddleware());
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
