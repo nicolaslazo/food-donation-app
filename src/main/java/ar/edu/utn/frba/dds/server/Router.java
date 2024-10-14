@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.controllers.contribucion.AgregarRecompensasController
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
+import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
@@ -23,29 +24,32 @@ public class Router {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
+    Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
+    Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
+    Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
 
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
-
+    
     app.get("/colaborador/login", new SessionController()::index);
     app.post("/colaborador/login", new SessionController()::create);
-
     app.get("/", new HomeController()::index);
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.get("/carga-csv", new CargaCSVController()::index);
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
     app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
-
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
     app.get("/persona-vulnerable/registro", new PersonaVulnerableController()::index, permisoAsignarTarjetas);
     app.post("/persona-vulnerable/registro", new PersonaVulnerableController()::create, permisoAsignarTarjetas);
-
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
-
     app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index);
-
     app.get("/recompensa/crear", new AgregarRecompensasController()::index, permisoCrearRecompensa);
+    app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
+    app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create, permisoCuidarHeladera);
+    app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index, permisoDonarDinero);
+    app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
+    app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
