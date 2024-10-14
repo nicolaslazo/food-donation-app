@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
+import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
@@ -24,6 +25,7 @@ public class Router {
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
     Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
+    Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
 
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
 
@@ -47,6 +49,7 @@ public class Router {
     app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create, permisoCuidarHeladera);
     app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index, permisoDonarDinero);
     app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
+    app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
