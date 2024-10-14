@@ -6,9 +6,14 @@ import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository
 import ar.edu.utn.frba.dds.models.repositories.contribucion.DineroRepository;
 import io.javalin.http.Context;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DonacionDineroController {
   public void index(Context context) {
-    context.render("contribuciones/donacion_dinero/donacion_dinero.hbs");
+    Map<String, Object> model = context.attribute("model");
+
+    context.render("contribuciones/donacion_dinero/donacion_dinero.hbs", model);
   }
 
   public void create(Context context) {
