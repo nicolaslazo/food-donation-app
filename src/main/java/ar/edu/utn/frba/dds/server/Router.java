@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
+import ar.edu.utn.frba.dds.controllers.contacto.ContactoController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
@@ -72,6 +73,10 @@ public class Router {
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.before("/formas-colaboracion", new AuthMiddleware());
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
+
+    app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
+    app.get("/contacto", new ContactoController()::index);
+    app.post("/contacto", new ContactoController()::create);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
