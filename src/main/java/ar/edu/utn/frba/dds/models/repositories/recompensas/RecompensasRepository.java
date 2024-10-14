@@ -8,12 +8,12 @@ import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
 public class RecompensasRepository extends HibernateEntityManager<Recompensa, Long> {
 
-    public List<Recompensa> getAllMyRecompensas(Colaborador colaborador) {
-        return this.findAll().filter(r -> r.getProveedor() == colaborador).toList();
-    }
+  public List<Recompensa> getAllMyRecompensas(Colaborador colaborador) {
+    return this.findAll().filter(r -> r.getProveedor() == colaborador).toList();
+  }
 
-    public void deleteByID(Long id) {
-        Recompensa recompensa = findById(id).get();
-        delete(recompensa);
-    }
+  public void deleteByID(Long id) {
+    Recompensa recompensa = findById(id).get();
+    delete(recompensa);
+  }
 }

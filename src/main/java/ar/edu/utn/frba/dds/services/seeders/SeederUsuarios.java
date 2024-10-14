@@ -135,12 +135,12 @@ public class SeederUsuarios {
     Recompensa recompensa1 = new Recompensa("Auriculares", colaboradorJuridico, 100D, 10, RubroRecompensa.ELECTRONICA, null);
     Recompensa recompensa2 = new Recompensa("PC GAMER", colaboradorJuridico, 300D, 3, RubroRecompensa.ELECTRONICA, null);
     Recompensa recompensa3 = new Recompensa("TV", colaboradorJuridicoAdministrador, 400D, 10, RubroRecompensa.ENTRETENIMIENTO, null);
-    Canjeo canje1 = new Canjeo(colaboradorJuridico, recompensa1, ZonedDateTime.now());
     new RecompensasRepository().insert(recompensa1);
     new RecompensasRepository().insert(recompensa2);
     new RecompensasRepository().insert(recompensa3);
     new DineroRepository().insert(new Dinero(colaboradorJuridico, 1000, 1));
     new DineroRepository().insert(new Dinero(colaboradorJuridico, 600, 10));
+    Canjeo canje1 = new Canjeo(colaboradorJuridico, recompensa1, ZonedDateTime.now());
     new CanjeosRepository().insert(canje1);
 
     // ------ PERSONAS VULNERABLES ------
