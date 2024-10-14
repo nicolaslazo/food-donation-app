@@ -39,7 +39,7 @@ public class SeederUsuarios {
             new HashSet<>(Set.of(new RolesRepository().findByName("ADMINISTRADOR").get()))
     );
     Email emailUsuario = new Email(usuarioAdmin, "admin@gmail.com");
-    new UsuariosRepository().insert(usuarioAdmin);
+    new ColaboradorRepository().insert(new Colaborador(usuarioAdmin));
     new ContactosRepository().insert(emailUsuario);
 
     // ------ COLABORADORES ------
