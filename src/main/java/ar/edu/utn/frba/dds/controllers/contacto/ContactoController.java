@@ -19,6 +19,7 @@ public class ContactoController {
     entidad.setMessage(dto.getMensaje());
     return entidad;
   }
+
   public void create(Context context) {
     FormularioDeContactoDTO formularioDeContactoDTO = new FormularioDeContactoDTO(
         context.formParam("nombre"),
