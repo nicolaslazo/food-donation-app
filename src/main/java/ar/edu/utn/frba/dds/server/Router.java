@@ -26,6 +26,7 @@ public class Router {
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
     Permiso permisoAdministrarProductos = permisosRepository.findByName("Administrar-Productos-Servicios").get();
+    Permiso permisoCanjearProductos = permisosRepository.findByName("CanjearProductos").get();
     Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
 
@@ -37,12 +38,12 @@ public class Router {
     app.get("/", new HomeController()::index);
     
     app.get("/tienda", new TiendaController()::index);    
-    app.post("/tienda/ofrecerProducto/createProducto", new TiendaController()::createProducto);
-    app.delete("/tienda/ofrecerProducto/deleteProducto/{id}", new TiendaController()::deleteProducto);
-    app.post("/tienda/ofrecerProducto/{id}", new TiendaController()::modifyProducto);
-    app.get("/tienda/ofrecerProducto", new TiendaController()::ofrecerProducto);
-    app.get("/tienda/canjearProductos", new TiendaController()::canjearProductos);
-    app.post("/tienda/canjearProductos/{id}", new TiendaController()::canjearProductosPost);
+    app.post("/tienda/ofrecerProducto/createProducto", new TiendaController()::createProducto, permisoAdministrarProductos);
+    app.delete("/tienda/ofrecerProducto/deleteProducto/{id}", new TiendaController()::deleteProducto, permisoAdministrarProductos);
+    app.post("/tienda/ofrecerProducto/{id}", new TiendaController()::modifyProducto, permisoAdministrarProductos);
+    app.get("/tienda/ofrecerProducto", new TiendaController()::ofrecerProducto, permisoAdministrarProductos);
+    app.get("/tienda/canjearProductos", new TiendaController()::canjearProductos, permisoCanjearProductos);
+    app.post("/tienda/canjearProductos/{id}", new TiendaController()::canjearProductosPost, permisoCanjearProductos);
 
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
