@@ -25,6 +25,7 @@ public class Router {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
+    Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
 
     app.before(ctx -> new SessionController().sessionInfo(ctx));
@@ -48,9 +49,10 @@ public class Router {
 
     // Contribucion/*
     app.before("/contribucion/*", new AuthMiddleware());
-    app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index);
     app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
     app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create, permisoCuidarHeladera);
+    app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index, permisoDonarDinero);
+    app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
     app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
 
     // Registro Persona Vulnerable
