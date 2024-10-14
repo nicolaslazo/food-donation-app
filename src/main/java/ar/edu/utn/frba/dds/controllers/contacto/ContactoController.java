@@ -5,10 +5,14 @@ import ar.edu.utn.frba.dds.models.entities.FormularioContacto;
 import ar.edu.utn.frba.dds.models.repositories.FormularioContactoRepository;
 import io.javalin.http.Context;
 
+import java.util.Map;
+
 public class ContactoController {
 
   public void index(Context context) {
-    context.render("contacto/contacto.hbs");
+    Map<String, Object> model = context.attribute("model");
+
+    context.render("contacto/contacto.hbs", model);
   }
 
   private FormularioContacto convertirDTOAEntidad(FormularioDeContactoDTO dto) {
