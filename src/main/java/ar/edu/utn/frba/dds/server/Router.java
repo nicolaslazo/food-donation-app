@@ -24,6 +24,7 @@ public class Router {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
+    Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
 
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
 
@@ -48,7 +49,7 @@ public class Router {
     app.get("/contribuciones/donacion-dinero", new DonacionDineroController()::index);
 
     app.get("/recompensa/crear", new AgregarRecompensasController()::index);
-    app.get("/tecnico/crear", new TecnicoController()::index);
+    app.get("/tecnico/crear", new TecnicoController()::index, permisoCrearTecnico);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);

@@ -31,11 +31,11 @@ public class SeederRoles {
       switch (rolName) {
         case "ADMINISTRADOR":
           Permiso permisoCrearColaborador = permisosRepository.findByName("Crear-Colaborador").get();
-          Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
           Permiso permisoCrearTarjetas = permisosRepository.findByName("Crear-Tarjetas").get();
           Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
           Permiso permisoDarBajaTarjeta = permisosRepository.findByName("Dar-Baja-Tarjetas").get();
           Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
+          Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
           Rol newRolAdmin = new Rol(rolName, Set.of(
               permisoCrearColaborador,
               permisoCrearTecnico,
