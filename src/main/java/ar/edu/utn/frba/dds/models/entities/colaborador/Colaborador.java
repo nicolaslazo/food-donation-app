@@ -100,6 +100,10 @@ public class Colaborador {
         new HashSet<>(List.of(new RolesRepository().findByName("COLABORADORJURIDICO").get())));
   }
 
+  public Colaborador(@NonNull Usuario usuario) {
+    this.usuario = usuario;
+  }
+
   protected Colaborador() {
   }
 

@@ -1,0 +1,87 @@
+{{#partial "titulo"}}Cuidado Heladera - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <!-- Links StyleSheets -->
+    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
+    <link rel="stylesheet" href="/public/css/contribuciones/cuidado_heladera/styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/contribuciones/cuidado_heladera/cuidado_heladera.js" defer></script>
+    <script>
+        let heladeras = [{{#each heladeras}}
+            {
+                idHeladera: {{this.id}},
+                lat: {{this.ubicacion.latitud}},
+                long: {{this.ubicacion.longitud}},
+                nombre: "{{this.nombre}}"
+            } {{#unless @last}},{{/unless}}
+        {{/each}}]
+    </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Leaflet PinSearch -->
+    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                CUIDADO DE HELADERA
+            </div>
+
+            <form method="post" action="/contribucion/cuidado-heladera" class="form__body">
+                <div class="heladera-details-container">
+                    <!-- Existing Inputs -->
+                    <label class="input-box">
+                        Nombre de la Heladera
+                        <input name="nombreHeladera" type="text" id="heladera-name" required>
+                    </label>
+                    <label class="input-box">
+                        Cantidad de Viandas
+                        <input name="cantidadViandas" type="number" min="1" required>
+                    </label>
+                    <!-- New Map Input -->
+                    <label class="input-box">
+                        Ubicación en el mapa
+                        <div id="map"></div>
+                        <input name="latitud" type="hidden" id="latitude">
+                        <input name="longitud" type="hidden" id="longitude">
+                        <input type="hidden" id="idHeladera" name="idHeladera">
+                        <<!-- Verificación de que el punto ingresado es nuevo, se asume verdadero al principio -->
+                        <input type="hidden" id="isNewLocation" name="isNewLocation" value="true">
+                    </label>
+                    <label class="input-box">
+                        Barrio donde estará ubicada la Heladera
+                        <input name="barrio" type="text" required>
+                    </label>
+
+                    <label class="input-check">
+                        Acepto los <a href="/terminos"> terminos y condiciones </a>
+                        <input type="checkbox" required>
+                    </label>
+                </div>
+
+                <div class="submit-button">
+                    <input type="submit" value="ENVIAR SOLICITUD">
+                </div>
+            </form>
+        </div>
+
+        <aside>
+            <div class="aside">
+                <img src="/public/img/contribuciones/heladera.png" alt="Icono Heladera" class="img__aside">
+            </div>
+        </aside>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Derechos reservados © 2024 Viandas Donation.</p>
+{{/partial}}
+
+{{> templates/base}}

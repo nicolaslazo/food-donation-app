@@ -21,7 +21,18 @@ public class SeederPermisos {
     createPermisoIfNotExists("Dar-Baja-Tarjetas");
     createPermisoIfNotExists("Depositar-Viandas");
     createPermisoIfNotExists("Administrar-Recompensas");
+    createPermisoIfNotExists("Cuidar-Heladera");
+    createPermisoIfNotExists("Donar-Dinero");
+    createPermisoIfNotExists("Solicitar-Tarjetas");
+    createPermisoIfNotExists("Crear-Reportes");
     createPermisoIfNotExists("Ver-Reportes");
+    createPermisoIfNotExists("Registrar-Persona-Vulnerable");
+    createPermisoIfNotExists("Realizar-Contribucion");
+    createPermisoIfNotExists("Ver-Alertas");
+    createPermisoIfNotExists("Cargar-CSV");
+    createPermisoIfNotExists("Suscribirse-Heladera");
+    createPermisoIfNotExists("Subir-Recompensa");
+    createPermisoIfNotExists("Distribuir-Viandas");
   }
 
   public void createPermisoIfNotExists(String nombrePermiso) {
