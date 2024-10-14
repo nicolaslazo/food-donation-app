@@ -20,7 +20,7 @@ public class PDFGeneratorController {
     model.put("reportes", reportes);
 
     // Renderizar la vista Handlebars
-    context.render("verReportes/verreportes.hbs",model);
+    context.render("verReportes/verreportes.hbs", model);
   }
 
 }

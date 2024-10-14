@@ -74,7 +74,7 @@ public class Router {
     //Reportes
     app.before("/ver-reportes", new AuthMiddleware());
     app.get("/ver-reportes", new PDFGeneratorController()::index, permisoVerReportes);
-    
+
     // Quiero Ayudar & Formas de Colaboración
     app.before("/quiero-ayudar", new AuthMiddleware());
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
