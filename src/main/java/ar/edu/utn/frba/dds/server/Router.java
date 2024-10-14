@@ -33,22 +33,6 @@ public class Router {
 
 
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
-    
-    app.get("/colaborador/login", new SessionController()::index);
-    app.post("/colaborador/login", new SessionController()::create);
-    app.get("/", new HomeController()::index);
-    app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
-    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
-    app.get("/carga-csv", new CargaCSVController()::index);
-    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
-    app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
-    app.get("/colaborador/registro", new ColaboradorController()::index);
-    app.post("/colaborador/registro", new ColaboradorController()::create);
-    app.get("/persona-vulnerable/registro", new PersonaVulnerableController()::index, permisoAsignarTarjetas);
-    app.post("/persona-vulnerable/registro", new PersonaVulnerableController()::create, permisoAsignarTarjetas);
-    app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
-    app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index);
-    app.get("/recompensa/crear", new AgregarRecompensasController()::index, permisoCrearRecompensa);
 
     app.before(ctx -> new SessionController().sessionInfo(ctx));
 
@@ -93,6 +77,9 @@ public class Router {
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.before("/formas-colaboracion", new AuthMiddleware());
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
+
+    //Tienda
+    app.get("/recompensa/crear", new AgregarRecompensasController()::index, permisoCrearRecompensa);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
