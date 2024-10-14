@@ -33,14 +33,13 @@ public class Router {
     app.get("/colaborador/login", new SessionController()::index);
     app.post("/colaborador/login", new SessionController()::create);
     app.post("/colaborador/logout", new SessionController()::delete);
-
-    app.get("/", new HomeController()::index);
-    app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
-    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
-    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
-
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
+
+    app.get("/", new HomeController()::index);
+    app.get("/terminos", new TerminosYCondicionesController()::index);
+    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
+    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
     // --- Rutas Protegidas que requieren autenticación ---
     // Incidente/*
@@ -52,6 +51,7 @@ public class Router {
     app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index);
     app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
     app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create, permisoCuidarHeladera);
+    app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
 
     // Registro Persona Vulnerable
     app.before("/persona-vulnerable/registro", new AuthMiddleware());
@@ -61,8 +61,6 @@ public class Router {
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
     app.get("/carga-csv", new CargaCSVController()::index);
-
-    app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
