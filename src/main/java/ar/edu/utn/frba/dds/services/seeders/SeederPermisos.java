@@ -24,7 +24,6 @@ public class SeederPermisos {
     createPermisoIfNotExists("Cuidar-Heladera");
     createPermisoIfNotExists("Donar-Dinero");
     createPermisoIfNotExists("Solicitar-Tarjetas");
-    createPermisoIfNotExists("Crear-Reportes");
     createPermisoIfNotExists("Ver-Reportes");
     createPermisoIfNotExists("Registrar-Persona-Vulnerable");
     createPermisoIfNotExists("Realizar-Contribucion");
