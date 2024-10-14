@@ -24,6 +24,7 @@ public class Router {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
+    Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
 
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
@@ -44,11 +45,10 @@ public class Router {
 
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
 
-    app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index);
-
     app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
     app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create, permisoCuidarHeladera);
-
+    app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index, permisoDonarDinero);
+    app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
     app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
 
     app.exception(Exception.class, (e, ctx) -> {

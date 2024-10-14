@@ -36,6 +36,7 @@ public class SeederRoles {
           Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
           Permiso permisoDarBajaTarjeta = permisosRepository.findByName("Dar-Baja-Tarjetas").get();
           Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
+          Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
           Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
           Rol newRolAdmin = new Rol(rolName, Set.of(
               permisoCrearColaborador,
@@ -44,6 +45,7 @@ public class SeederRoles {
               permisoDarBajaTarjeta,
               permisoCrearTarjetas,
               permisoCuidarHeladera,
+              permisoDonarDinero,
               permisoSolicitarTarjetas
           ));
           rolesRepository.insert(newRolAdmin);
@@ -60,6 +62,7 @@ public class SeederRoles {
               permisosRepository.findByName("Donar-Viandas").get(),
               permisosRepository.findByName("Asignar-Tarjetas").get(),
               permisosRepository.findByName("Depositar-Viandas").get(),
+              permisosRepository.findByName("Donar-Dinero").get(),
               permisosRepository.findByName("Solicitar-Tarjetas").get()
           ));
           rolesRepository.insert(newRolColaboradorFisico);
@@ -67,7 +70,8 @@ public class SeederRoles {
         case "COLABORADORJURIDICO":
           Rol newRolColaboradorJuridico = new Rol(rolName, Set.of(
               permisosRepository.findByName("Administrar-Recompensas").get(),
-              permisosRepository.findByName("Cuidar-Heladera").get()
+              permisosRepository.findByName("Cuidar-Heladera").get(),
+              permisosRepository.findByName("Donar-Dinero").get()
           ));
           rolesRepository.insert(newRolColaboradorJuridico);
           break;

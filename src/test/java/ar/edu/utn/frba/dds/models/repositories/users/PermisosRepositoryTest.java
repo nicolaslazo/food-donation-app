@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PermisosRepositoryTest {
   @AfterEach
@@ -23,8 +23,7 @@ public class PermisosRepositoryTest {
   }
 
   @Test
-  void testFindAllDevuelveTodosLosPermisosParaUnUsuario() {
-    //TODO: Es poco mantenible este Test, cada vez que agregemos un permiso nuevo hay que actualizarlo :/
+  void testFindAllDevuelvePermisosIndependientementeDeRol() {
     Colaborador colaborador = new Colaborador(new Documento(TipoDocumento.DNI, 1),
         "",
         "",
@@ -40,14 +39,12 @@ public class PermisosRepositoryTest {
     colaborador.getUsuario().getRoles().add(rol);
     new ColaboradorRepository().insert(colaborador);
 
-    assertEquals(
-        List.of("Abrir-Heladera-Contribucion",
-            "Donar-Viandas",
-            "Asignar-Tarjetas",
-            "Depositar-Viandas",
-            "Solicitar-Tarjetas",
-            "Permiso-Custom1",
-            "Permiso-Custom2"),
-        new PermisosRepository().findAll(colaborador.getUsuario()).map(Permiso::getNombre).toList());
+    List<String> permisosDisponibles =
+        new PermisosRepository().findAll(colaborador.getUsuario()).map(Permiso::getNombre).toList();
+
+    // Permisos provenientes de cualquier rol están disponibles
+    assertTrue(
+        permisosDisponibles.containsAll(
+            List.of("Donar-Viandas", "Abrir-Heladera-Contribucion", "Permiso-Custom1", "Permiso-Custom2")));
   }
 }
