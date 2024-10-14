@@ -1,0 +1,90 @@
+{{#partial "titulo"}}Donación Vianda - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
+    <link rel="stylesheet" href="/public/css/contribuciones/donacion_vianda/styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+    <script src="/public/js/contribuciones/donacion_vianda/donacion_vianda.js" defer></script>
+    <script>
+        let heladeras = [{{#each heladeras}}
+            {
+                idHeladera: {{this.id}},
+                lat: {{this.ubicacion.latitud}},
+                long: {{this.ubicacion.longitud}},
+                nombre: "{{this.nombre}}"
+            } {{#unless @last}},{{/unless}}
+        {{/each}}]
+    </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Leaflet PinSearch -->
+    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                DONACIÓN DE VIANDA
+            </div>
+
+            <form method="post" action="/contribucion/donacion-vianda" class="form__body">
+                <div class="heladera-details-container">
+                    <!-- Existing Inputs -->
+                    <label class="input-box">
+                        Descripción de la Vianda *
+                        <textarea name="descripcionVianda" id="input-text-area" maxlength="255" required></textarea>
+                    </label>
+                    <label class="input-box">
+                        Fecha de Caducidad *
+                        <input name="fechaCaducidad" type="date" required>
+                    </label>
+                    <label class="input-box">
+                        Peso de la Vianda
+                        <input name="pesoVianda" type="number" min="1" placeholder="En Gramos">
+                    </label>
+                    <label class="input-box">
+                        Calorias
+                        <input name="calorias" type="number" min="1" placeholder="En Joule">
+                    </label>
+                    <label class="input-box">
+                        Heladera a Depositar *
+                        <div id="map"></div>
+                        <input type="hidden" id="latitude" name="latitud">
+                        <input type="hidden" id="longitude" name="longitud">
+                        <input type="hidden" id="idHeladera" name="idHeladera">
+                    </label>
+                    <label class="input-check">
+                        Acepto los <a href="/terminos"> terminos y condiciones </a>
+                        <input type="checkbox" required>
+                    </label>
+                </div>
+
+                <div class="submit-button">
+                    <input type="submit" value="ENVIAR SOLICITUD">
+                </div>
+
+                <div class="aclaracion-campos"> Los campos con * son obligatorios </div>
+
+            </form>
+        </div>
+
+        <aside>
+            <div class="aside">
+                <img src="/public/img/contribuciones/donacionVianda.png" alt="Icono de Vianda" class="img__aside">
+            </div>
+        </aside>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Derechos reservados © 2024 Viandas Donation.</p>
+{{/partial}}
+
+{{> templates/base}}
