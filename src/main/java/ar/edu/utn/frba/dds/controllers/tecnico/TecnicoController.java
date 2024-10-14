@@ -10,6 +10,8 @@ import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import io.javalin.http.Context;
 
+import java.util.Map;
+
 
 public class TecnicoController {
   TecnicoRepository tecnicoRepository = new TecnicoRepository();
@@ -37,7 +39,8 @@ public class TecnicoController {
   }
 
   public void index(Context context) {
-    context.render("agregartecnico/agregartecnico.hbs");
+    Map<String, Object> model = context.attribute("model");
+    context.render("agregartecnico/agregartecnico.hbs", model);
   }
 
 }
