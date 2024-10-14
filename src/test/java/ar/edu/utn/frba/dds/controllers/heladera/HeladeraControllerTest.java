@@ -1,45 +1,32 @@
 package ar.edu.utn.frba.dds.controllers.heladera;
 
-import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
-import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
-import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
-import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
-import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
-import ar.edu.utn.frba.dds.services.mensajeria.mail.EnviadorMail;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class HeladeraControllerTest {
@@ -53,9 +40,14 @@ class HeladeraControllerTest {
       new CoordenadasGeograficas(-34.603706013664166, -58.3815728218273);
   CoordenadasGeograficas aCienMetrosDelObelisco =
       new CoordenadasGeograficas(-34.60375463775254, -58.38264297552039);
+  Rol rolTecnico;
+
 
   @BeforeEach
   void setUp() {
+    new SeederRoles().seedRoles();
+    rolTecnico = new RolesRepository().findByName("TECNICO").get();
+
     when(heladeraMock.getUbicacion()).thenReturn(obelisco);
   }
 
@@ -80,14 +72,13 @@ class HeladeraControllerTest {
             "123",
             new AreaGeografica(aCienMetrosDelObelisco, 50f),
             "123",
-            new Rol("TECNICO"))
+            rolTecnico)
     );
     assertTrue(HeladeraController.encontrarTecnicoMasCercano(heladeraMock).isEmpty());
   }
 
   @Test
   void testPriorizaTecnicoMasCercanoEnCasoDeVariosDisponibles() {
-    Rol rolTecnico = new Rol("TECNICO");
     final CoordenadasGeograficas aCincuentaMetrosDelObelisco =
         new CoordenadasGeograficas(-34.603725171426916, -58.38211380719743);
     Tecnico tecnicoDeseado = new Tecnico(
@@ -99,8 +90,7 @@ class HeladeraControllerTest {
         new AreaGeografica(aCincuentaMetrosDelObelisco, 1000f),
         "123",
         rolTecnico
-        );
-    new RolesRepository().insert(rolTecnico);
+    );
     new TecnicoRepository().insert(tecnicoDeseado);
     new TecnicoRepository().insert(
         new Tecnico(

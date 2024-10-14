@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,31 +21,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HeladerasRepositoryTest {
   CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
-
-  Colaborador colaborador = new Colaborador(
-      new Documento(TipoDocumento.DNI, 1),
-      "",
-      "",
-      LocalDate.now(),
-      new CoordenadasGeograficas(-30d, -50d));
-
+  Colaborador colaborador;
   Heladera heladera;
-
-  Heladera otraHeladera = new Heladera("Otra heladera",
-      new CoordenadasGeograficas(-34d, -58d),
-      colaborador,
-      60,
-      ZonedDateTime.now().minusMonths(7),
-      ""
-  );
+  Heladera otraHeladera;
 
   @BeforeEach
   void setUp() {
+    new SeederRoles().seedRoles();
+
+    colaborador = new Colaborador(
+        new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        new CoordenadasGeograficas(-30d, -50d));
     heladera = new Heladera("Una heladera",
         obelisco,
         colaborador,
         50,
         ZonedDateTime.now().minusMonths(5),
+        ""
+    );
+    otraHeladera = new Heladera("Otra heladera",
+        new CoordenadasGeograficas(-34d, -58d),
+        colaborador,
+        60,
+        ZonedDateTime.now().minusMonths(7),
         ""
     );
 
@@ -62,15 +64,6 @@ class HeladerasRepositoryTest {
     assertTrue(encontrada.isPresent());
     assertEquals(heladera.getId(), encontrada.get().getId());
   }
-
-// TODO: Borrar si nunca buscamos por ubicación
-//  @Test
-//  void testGetPorUbicacion() {
-//    Optional<Heladera> found = new HeladerasRepository().find(obelisco);
-//
-//    assertTrue(found.isPresent());
-//    assertEquals(obelisco, found.get().getUbicacion());
-//  }
 
   @Test
   void testInsert() {
