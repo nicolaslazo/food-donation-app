@@ -62,6 +62,7 @@ public class Router {
     app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index, permisoDonarDinero);
     app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
     app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
+    app.get("/contribucion/recompensa/crear", new AgregarRecompensasController()::index, permisoCrearRecompensa);
 
     // Registro Persona Vulnerable
     app.before("/persona-vulnerable/registro", new AuthMiddleware());
@@ -77,9 +78,6 @@ public class Router {
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.before("/formas-colaboracion", new AuthMiddleware());
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
-
-    //Tienda
-    app.get("/recompensa/crear", new AgregarRecompensasController()::index, permisoCrearRecompensa);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
