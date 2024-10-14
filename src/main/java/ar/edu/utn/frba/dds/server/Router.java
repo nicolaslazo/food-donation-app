@@ -15,6 +15,7 @@ import ar.edu.utn.frba.dds.controllers.session.SessionController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
+import ar.edu.utn.frba.dds.server.middleware.AuthMiddleware;
 import io.javalin.Javalin;
 
 import java.util.Arrays;
@@ -28,30 +29,49 @@ public class Router {
     Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
 
-    app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
+    app.before(ctx -> new SessionController().sessionInfo(ctx));
 
+    // --- Ruta Públicas ---
     app.get("/colaborador/login", new SessionController()::index);
     app.post("/colaborador/login", new SessionController()::create);
-
-    app.get("/", new HomeController()::index);
-    app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
-    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
-    app.get("/carga-csv", new CargaCSVController()::index);
-    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
-    app.get("/quienes-somos", new QuienesSomosController()::index);
-
+    app.post("/colaborador/logout", new SessionController()::delete);
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
-    app.get("/persona-vulnerable/registro", new PersonaVulnerableController()::index, permisoAsignarTarjetas);
-    app.post("/persona-vulnerable/registro", new PersonaVulnerableController()::create, permisoAsignarTarjetas);
 
+    // Terminos
+    app.get("/terminos", new TerminosYCondicionesController()::index);
+
+    // Rutas de la Navbar
+    app.get("/", new HomeController()::index);
+    app.get("/quienes-somos", new QuienesSomosController()::index);
+
+    // --- Rutas Protegidas que requieren autenticación ---
+    // Incidente/*
+    app.before("incidentes/*", new AuthMiddleware());
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
 
+    // Contribucion/*
+    app.before("/contribucion/*", new AuthMiddleware());
     app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
     app.post("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::create, permisoCuidarHeladera);
     app.get("/contribucion/donacion-dinero", new DonacionDineroController()::index, permisoDonarDinero);
     app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
     app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
+
+    // Registro Persona Vulnerable
+    app.before("/persona-vulnerable/registro", new AuthMiddleware());
+    app.get("/persona-vulnerable/registro", new PersonaVulnerableController()::index, permisoAsignarTarjetas);
+    app.post("/persona-vulnerable/registro", new PersonaVulnerableController()::create, permisoAsignarTarjetas);
+
+    // Carga CSV
+    app.before("/carga-csv", new AuthMiddleware());
+    app.get("/carga-csv", new CargaCSVController()::index);
+
+    // Quiero Ayudar & Formas de Colaboración
+    app.before("/quiero-ayudar", new AuthMiddleware());
+    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
+    app.before("/formas-colaboracion", new AuthMiddleware());
+    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
