@@ -2,6 +2,7 @@ package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
 import ar.edu.utn.frba.dds.controllers.contribucion.AgregarRecompensasController;
+import ar.edu.utn.frba.dds.controllers.contacto.ContactoController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
@@ -38,15 +39,6 @@ public class Router {
     // --- Ruta Públicas ---
     app.get("/colaborador/login", new SessionController()::index);
     app.post("/colaborador/login", new SessionController()::create);
-
-    app.get("/", new HomeController()::index);
-    app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
-    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
-    app.get("/carga-csv", new CargaCSVController()::index);
-    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
-    app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
-    app.get("/agregar-recompensa", new AgregarRecompensasController()::index, permisoCrearRecompensa);
-
     app.post("/colaborador/logout", new SessionController()::delete);
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
@@ -88,9 +80,13 @@ public class Router {
     app.before("/formas-colaboracion", new AuthMiddleware());
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
+    app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
+    app.get("/contacto", new ContactoController()::index);
+    app.post("/contacto", new ContactoController()::create);
+
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
-      ctx.result("Internal server error: " + Arrays.toString(e.getStackTrace()));
+      ctx.result("Internal server error: " + e.getMessage() + "\n\n" + Arrays.toString(e.getStackTrace()));
     });
   }
 }
