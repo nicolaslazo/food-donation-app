@@ -45,6 +45,8 @@ public class Router {
     // Rutas de la Navbar
     app.get("/", new HomeController()::index);
     app.get("/quienes-somos", new QuienesSomosController()::index);
+    app.get("/contacto", new ContactoController()::index);
+    app.post("/contacto", new ContactoController()::create);
 
     // --- Rutas Protegidas que requieren autenticación ---
     // Incidente/*
@@ -75,8 +77,6 @@ public class Router {
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
     app.get("/carga-persona-vulnerable", new PersonaVulnerableController()::index);
-    app.get("/contacto", new ContactoController()::index);
-    app.post("/contacto", new ContactoController()::create);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
