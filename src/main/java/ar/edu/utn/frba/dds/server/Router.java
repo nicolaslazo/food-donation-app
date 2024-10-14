@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
 import ar.edu.utn.frba.dds.controllers.contribucion.AgregarRecompensasController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
+import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
