@@ -22,6 +22,7 @@ public class Router {
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
+    Permiso permisoVerReportes = permisosRepository.findByName("Ver-Reportes").get();
 
     app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
 
@@ -31,7 +32,7 @@ public class Router {
     app.get("/", new HomeController()::index);
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
-    app.get("/reportes", new PDFGeneratorController()::index);
+    app.get("/ver-reportes", new PDFGeneratorController()::index, permisoVerReportes);
     app.get("/carga-csv", new CargaCSVController()::index);
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
