@@ -31,6 +31,7 @@ class ContactosRepositoryTest {
       "",
       "",
       LocalDate.now(),
+      null,
       new HashSet<>());
   Usuario usuarioMock = spy(usuario);
 

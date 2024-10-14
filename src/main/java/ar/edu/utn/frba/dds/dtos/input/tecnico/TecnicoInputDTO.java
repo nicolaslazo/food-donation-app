@@ -35,6 +35,7 @@ public final class TecnicoInputDTO {
   Double longitud;
   @NonNull
   Float radioEnMetros;
+  String contrasenia;
 
   public static TecnicoInputDTO desdeJson(@NonNull String json) {
     Gson gson = new GsonBuilder()

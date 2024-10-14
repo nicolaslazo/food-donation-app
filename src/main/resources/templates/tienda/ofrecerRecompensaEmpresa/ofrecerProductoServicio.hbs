@@ -1,4 +1,4 @@
-{{#partial "titulo"}}Ofrecer {{type}}s{{/partial}}
+{{#partial "titulo"}}Ofrecer Productos{{/partial}}
 
 {{#partial "styles"}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -14,69 +14,26 @@
 {{#partial "contenido"}}
 <main>
     <div class="points-container">
-        <h1>{{type}} Ofrecidos</h1>
+        <h1>Producto Ofrecidos</h1>
 
         <label for="category-filter">Filtrar por Categoría:</label>
         <select id="category-filter" onchange="filtrarPorCategoria()">
-            <option value="todos">Todos</option>
-            <option value="educacion">Educación</option>
-            <option value="electronica">Electronica</option>
-            <option value="entretenimiento">Entretenimiento</option>
-            <option value="gastronomia">Gastronomía</option>
-            <option value="hogar">Hogar</option>
-            <option value="indumentaria">Indumentaria</option>
-            <option value="juguetes">Juguetes</option>
-            <option value="librerias">Librerias</option>
-            <option value="mascotas">Mascotas</option>
-            <option value="salud">Salud y Bienestar</option>
-            <option value="supermercado">Supermercado</option>
-            <option value="vehiculos">Vehiculos</option>
-            <option value="viajes">Viajes</option>
-            <option value="otros">Otros</option>
+            <option value="todos"></option>
+            {{#each categorias}}
+                <option value="{{this}}">{{this}}</option>
+            {{/each}}
         </select>
 
         <div class="services-list">
-            <p id="no-services-message">No hay {{type}} de este rubro :(</p>
+            <p id="no-services-message">No hay Producto de este rubro :(</p>
             <div id="services-container">
-                <div class="service-item" data-categoria="gastronomia">
-                    <img src="https://via.placeholder.com/100" alt="Servicio 1">
-                    <div class="service-info">
-                        <h3>{{type}} 1</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Gastronomía</p>
-                    </div>
-                    <div class="service-actions">
-                        <button class="btn-edit" onclick="administrarServicio(1)">
-                            <i class="fa fa-pencil-alt"></i>
-                        </button>
-                        <button class="btn-delete" onclick="mostrarModalEliminar(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="service-item" data-categoria="viajes">
-                    <img src="https://via.placeholder.com/100" alt="Servicio 2">
-                    <div class="service-info">
-                        <h3>{{type}} 2</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Viajes</p>
-                    </div>
-                    <div class="service-actions">
-                        <button class="btn-edit" onclick="administrarServicio(1)">
-                            <i class="fa fa-pencil-alt"></i>
-                        </button>
-                        <button class="btn-delete" onclick="mostrarModalEliminar(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-
+                {{#each recompensas}}
                 <div class="service-item" data-categoria="educacion">
                     <img src="https://via.placeholder.com/100" alt="Servicio 3">
                     <div class="service-info">
-                        <h3>{{type}} 3</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Educación</p>
+                        <h3>{{this.nombre}}</h3>
+                        <p>Valor en Puntos: {{this.costoEnPuntos}}</p>
+                        <p>Categoría: {{this.rubro}}</p>
                     </div>
                     <div class="service-actions">
                         <button class="btn-edit" onclick="administrarServicio(1)">
@@ -87,48 +44,15 @@
                         </button>
                     </div>
                 </div>
-
-                <div class="service-item" data-categoria="salud">
-                    <img src="https://via.placeholder.com/100" alt="Servicio 3">
-                    <div class="service-info">
-                        <h3>{{type}} 4</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Salud y Bienestar</p>
-                    </div>
-                    <div class="service-actions">
-                        <button class="btn-edit" onclick="administrarServicio(1)">
-                            <i class="fa fa-pencil-alt"></i>
-                        </button>
-                        <button class="btn-delete" onclick="mostrarModalEliminar(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="service-item" data-categoria="educacion">
-                    <img src="https://via.placeholder.com/100" alt="Servicio 3">
-                    <div class="service-info">
-                        <h3>{{type}} 5</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Educación</p>
-                    </div>
-                    <div class="service-actions">
-                        <button class="btn-edit" onclick="administrarServicio(1)">
-                            <i class="fa fa-pencil-alt"></i>
-                        </button>
-                        <button class="btn-delete" onclick="mostrarModalEliminar(this)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
+                {{/each}}
             </div>
         </div>
-        <button class="btn-admin" onclick="abrirModalAgregarServicio()">Agregar {{type}}</button>
+        <button class="btn-admin" onclick="abrirModalAgregarServicio()">Agregar Producto</button>
     </div>
 
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h2>Modificar {{type}}: <span id="producto">Nombre</span></h2>
+            <h2>Modificar producto: <span id="producto">Nombre</span></h2>
             <form id="form-modificar-valores">
                 <div class ="input-box">
                     <p>Puntos necesarios: </p>
@@ -146,37 +70,26 @@
 
     <div class="modal" id="modal-agregar-servicio">
         <div class="modal-content">
-            <h2>Agregar Nuevo {{type}}</h2>
-            <form id="form-agregar-servicio">
+            <h2>Agregar Nuevo Producto</h2>
+            <form id="form-agregar-servicio" method="POST" action="/tienda/ofrecerProducto/createProducto">
                 <div class="input-box">
-                    <p>Nombre del {{type}}:</p>
-                    <input type="text" id="nombre-servicio" required>
+                    <p>Nombre del Producto:</p>
+                    <input type="text" id="nombre-servicio" name="nombreServicio" name="nombreServicio" required>
                 </div>
                 <div class="input-box">
-                    <p>Puntos del {{type}}:</p>
-                    <input type="number" id="puntos-servicio" required>
+                    <p>Puntos del Producto:</p>
+                    <input type="number" id="puntos-servicio" name="puntosServicio" required>
                 </div>
                 <div class="input-box">
                     <p>Stock:</p>
-                    <input type="number" id="stock-servicio" required>
+                    <input type="number" id="stock-servicio" name="stockServicio" required>
                 </div>
                 <div class ="input-box">
                     <p>Categoría:</p>
-                    <select id="categoria-servicio">
-                        <option value="educacion">Educación</option>
-                        <option value="electronica">Electronica</option>
-                        <option value="entretenimiento">Entretenimiento</option>
-                        <option value="gastronomia">Gastronomía</option>
-                        <option value="hogar">Hogar</option>
-                        <option value="indumentaria">Indumentaria</option>
-                        <option value="juguetes">Juguetes</option>
-                        <option value="librerias">Librerias</option>
-                        <option value="mascotas">Mascotas</option>
-                        <option value="salud">Salud y Bienestar</option>
-                        <option value="supermercado">Supermercado</option>
-                        <option value="vehiculos">Vehiculos</option>
-                        <option value="viajes">Viajes</option>
-                        <option value="otros">Otros</option>
+                    <select id="categoria-servicio" name="categoriaServicio">
+                        {{#each categorias}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
                     </select>
                 </div>
                 <button type="submit" class="btn-canjear-modal" >Agregar</button>
@@ -187,14 +100,13 @@
 
     <div class="modal" id="modalEliminar">
         <div class="modal-content">
-            <h2>Eliminar {{type}}</h2>
-            <p>¿Está seguro de que desea eliminar este {{type}}?</p>
+            <h2>Eliminar Producto</h2>
+            <p>¿Está seguro de que desea eliminar este Producto?</p>
             <p>Esta acción no se puede deshacer.</p>
-            <button class="btn-close" onclick="eliminarConfirmado()">Eliminar</button>
+            <button class="btn-close" type="submit" onclick="eliminarConfirmado()">Eliminar</button>
             <button class="btn-close" onclick="cerrarModalEliminar()">Cancelar</button>
         </div>
     </div>
-
 </main>
 {{/partial}}
 

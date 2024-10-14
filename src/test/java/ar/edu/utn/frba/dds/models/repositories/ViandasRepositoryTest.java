@@ -48,6 +48,7 @@ class ViandasRepositoryTest {
         "",
         "",
         LocalDate.now(),
+        null,
         new HashSet<>());
     vianda = new Vianda("",
         ZonedDateTime.now().plusWeeks(1),

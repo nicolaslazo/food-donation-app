@@ -23,7 +23,9 @@ public class CanjeosRepository extends HibernateEntityManager<Canjeo, Long> {
     query.select(cb.sum(root.get("recompensa").get("costoEnPuntos")))
         .where(cb.equal(root.get("colaborador"), colaborador));
 
-    return em.createQuery(query).getSingleResult();
+    Long res = em.createQuery(query).getSingleResult();
+
+    return res != null ? res : 0L;
   }
 
   public long getPuntosDisponibles(Colaborador colaborador) {

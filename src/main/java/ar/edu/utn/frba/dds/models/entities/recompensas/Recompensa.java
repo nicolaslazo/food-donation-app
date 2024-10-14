@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +21,7 @@ import java.net.URL;
 
 @Entity
 @Table(name = "recompensa")
+@ToString
 public class Recompensa {
   @Id
   @GeneratedValue
@@ -28,9 +30,11 @@ public class Recompensa {
   @NonNull Long id;
 
   @Column(name = "nombre", nullable = false)
+  @Getter
   @NonNull String nombre;
 
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @Getter
   @JoinColumn(name = "idProveedor", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @NonNull Colaborador proveedor;
 
@@ -44,6 +48,7 @@ public class Recompensa {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "rubro", nullable = false, updatable = false)
+  @Getter
   @NonNull RubroRecompensa rubro;
 
   @Column(name = "imagen")

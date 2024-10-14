@@ -11,7 +11,8 @@ public class SeederPermisos {
 
   @PostConstruct
   public void seedPermisos() {
-    createPermisoIfNotExists("Abrir-Heladera");
+    createPermisoIfNotExists("Abrir-Heladera-Contribucion");
+    createPermisoIfNotExists("Abrir-Heladera-Consumicion");
     createPermisoIfNotExists("Crear-Colaborador");
     createPermisoIfNotExists("Crear-Tecnico");
     createPermisoIfNotExists("Donar-Viandas");
@@ -19,6 +20,9 @@ public class SeederPermisos {
     createPermisoIfNotExists("Asignar-Tarjetas");
     createPermisoIfNotExists("Dar-Baja-Tarjetas");
     createPermisoIfNotExists("Depositar-Viandas");
+    createPermisoIfNotExists("Administrar-Recompensas");
+    createPermisoIfNotExists("Cuidar-Heladera");
+    createPermisoIfNotExists("Administrar-Productos-Servicios");
   }
 
   public void createPermisoIfNotExists(String nombrePermiso) {

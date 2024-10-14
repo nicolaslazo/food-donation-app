@@ -16,7 +16,6 @@ import java.time.ZonedDateTime;
 @Table(name = "mensajesSuscripciones")
 @Getter
 public class Mensaje {
-
   @Id
   @GeneratedValue
   @Column(name = "id", nullable = false, updatable = false, unique = true)
@@ -40,4 +39,6 @@ public class Mensaje {
     this.fechaEnvio = fechaEnvio;
   }
 
+  protected Mensaje() {
+  }
 }

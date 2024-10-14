@@ -23,7 +23,7 @@ function filtrarPorCategoria() {
 }
 
 window.onload = function() {
-    mostrarModal();
+    // mostrarModal();
 };
 
 //ADMINISTRAR SERVICIO
@@ -95,7 +95,7 @@ function abrirModalAgregarServicio() {
 }
 
 document.getElementById('form-agregar-servicio').onsubmit = function(event) {
-    event.preventDefault();
+    // event.preventDefault();
 
     const nombreServicio = document.getElementById('nombre-servicio').value;
     const puntosServicio = document.getElementById('puntos-servicio').value;

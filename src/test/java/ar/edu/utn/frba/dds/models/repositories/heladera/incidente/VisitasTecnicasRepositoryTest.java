@@ -11,8 +11,9 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.VisitaTecnica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
-import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,45 +22,56 @@ import javax.persistence.RollbackException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class VisitasTecnicasRepositoryTest {
   final VisitasTecnicasRepository repositorio = new VisitasTecnicasRepository();
   final IncidenteRepository repositorioIncidentes = new IncidenteRepository();
-  final TecnicoRepository tecnicoRepository= new TecnicoRepository();
+  Incidente incidente;
   CoordenadasGeograficas obelisco = new CoordenadasGeograficas(-34.5611745, -58.4287506);
-  Colaborador colaborador = new Colaborador(
-      new Documento(TipoDocumento.DNI, 1),
-      "",
-      "",
-      LocalDate.now(),
-      new CoordenadasGeograficas(-30d, -50d));
-  Heladera heladera = new Heladera("Una heladera",
-      obelisco,
-      colaborador,
-      50,
-      ZonedDateTime.now().minusMonths(5),
-      ""
-  );
+  Colaborador colaborador;
+  Heladera heladera;
+  Incidente incidente2;
 
-  final Incidente incidente = new Incidente(heladera, TipoIncidente.FRAUDE, ZonedDateTime.now());
-  final Incidente incidente2 = new Incidente(heladera, TipoIncidente.ALTA_TEMPERATURA, ZonedDateTime.now());
-
-  Tecnico tecnico = new Tecnico(
-          new Documento(TipoDocumento.DNI, 1),
-          " ",
-          " ", LocalDate.now(),
-          " ", new AreaGeografica(obelisco, 1)
-  );
+  Tecnico tecnico;
 
   @BeforeEach
   void setUp() {
-    tecnicoRepository.insert(tecnico);
+    new SeederRoles().seedRoles();
+
+    colaborador = new Colaborador(
+        new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        new CoordenadasGeograficas(-30d, -50d));
+
+    tecnico = new Tecnico(
+        new Documento(TipoDocumento.DNI, 1),
+        " ",
+        " ", LocalDate.now(),
+        " ", new AreaGeografica(obelisco, 1),
+        null,
+        new RolesRepository().findByName("TECNICO").get()
+    );
+
+    heladera = new Heladera("Una heladera",
+        obelisco,
+        colaborador,
+        50,
+        ZonedDateTime.now().minusMonths(5),
+        ""
+    );
+
+    incidente = new Incidente(heladera, TipoIncidente.FRAUDE, ZonedDateTime.now());
+    incidente2 = new Incidente(heladera, TipoIncidente.ALTA_TEMPERATURA, ZonedDateTime.now());
+
+    new TecnicoRepository().insert(tecnico);
     repositorioIncidentes.insert(incidente);
     repositorioIncidentes.insert(incidente2);
   }
@@ -80,7 +92,7 @@ class VisitasTecnicasRepositoryTest {
 
   @Test
   void testInsertarRedistribucionSinFallar() {
-    assertDoesNotThrow(()-> new VisitasTecnicasRepository().insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), false)));
+    assertDoesNotThrow(() -> new VisitasTecnicasRepository().insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), false)));
   }
 
   @Test
@@ -100,21 +112,21 @@ class VisitasTecnicasRepositoryTest {
   }
 
   @Test
-  void testVisitaSinResolucionNoResuelveIncidente() throws RepositoryException {
+  void testVisitaSinResolucionNoResuelveIncidente() {
     repositorio.insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), false));
 
     assertFalse(repositorio.isIncidenteResuelto(incidente));
   }
 
   @Test
-  void testVisitaResuelveIncidente() throws RepositoryException {
+  void testVisitaResuelveIncidente() {
     repositorio.insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), true));
 
     assertTrue(repositorio.isIncidenteResuelto(incidente));
   }
 
   @Test
-  void insertarVisitaParaIncidenteResueltoFalla()  {
+  void insertarVisitaParaIncidenteResueltoFalla() {
     repositorio.insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), true));
 
     assertThrows(RollbackException.class,

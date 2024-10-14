@@ -19,8 +19,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,7 +34,7 @@ class TarjetaControllerTest {
   final TarjetasRepository tarjetasRepository = new TarjetasRepository();
   Tarjeta tarjeta;
   Usuario administrador;
-  Usuario administradorDummy;
+  Usuario administradorInutil;
   Colaborador colaborador;
 
   @BeforeEach
@@ -41,34 +42,35 @@ class TarjetaControllerTest {
     new SeederRoles().seedRoles();
 
     administrador = new Usuario(
-            new Documento(TipoDocumento.DNI, 321),
-            "admin",
-            "admin",
-            LocalDate.now(),
-            Set.of(new RolesRepository().findByName("ADMINISTRADOR").get())
+        new Documento(TipoDocumento.DNI, 321),
+        "admin",
+        "admin",
+        LocalDate.now(),
+        null,
+        new HashSet<>(List.of(new RolesRepository().findByName("ADMINISTRADOR").get()))
     );
-
-    administradorDummy = new Usuario(
-            new Documento(TipoDocumento.DNI, 321),
-            "admin",
-            "admin",
-            LocalDate.now(),
-            Set.of()
+    administradorInutil = new Usuario(
+        new Documento(TipoDocumento.DNI, 321),
+        "admin",
+        "admin",
+        LocalDate.now(),
+        null,
+        new HashSet<>()
     );
-
     colaborador = new Colaborador(
-            new Documento(TipoDocumento.DNI, 1),
-            "",
-            "",
-            LocalDate.now(),
-            new CoordenadasGeograficas(-34d, -58d),
-            new RolesRepository().findByName("COLABORADOR").get()
+        new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        new CoordenadasGeograficas(-34d, -58d),
+        null,
+        new RolesRepository().findByName("COLABORADORFISICO").get()
     );
 
     new UsuariosRepository().insert(administrador);
-    new UsuariosRepository().insert(administradorDummy);
+    new UsuariosRepository().insert(administradorInutil);
     new ColaboradorRepository().insert(colaborador);
-    tarjeta = TarjetaController.crear(UUID.randomUUID(),administrador);
+    tarjeta = TarjetaController.crear(UUID.randomUUID(), administrador);
   }
 
   @AfterEach
@@ -87,7 +89,7 @@ class TarjetaControllerTest {
 
   @Test
   void testCrearTarjetaSinPermisosFalla() {
-    assertThrows(PermisoDenegadoException.class, () -> TarjetaController.crear(UUID.randomUUID(), administradorDummy));
+    assertThrows(PermisoDenegadoException.class, () -> TarjetaController.crear(UUID.randomUUID(), administradorInutil));
   }
 
   @Test
@@ -101,22 +103,23 @@ class TarjetaControllerTest {
     assertTrue(verificacion.isPresent());
     assertNotNull(verificacion.get().getFechaAlta());
     assertEquals(administrador, verificacion.get().getRecipiente());
-    assertEquals(colaborador,verificacion.get().getProveedor());
+    assertEquals(colaborador, verificacion.get().getProveedor());
   }
 
   @Test
   void testAltaFallaSiProveedorNoEsColaborador() {
     Colaborador colaboradorDummy = new Colaborador(
-            new Documento(TipoDocumento.DNI, 2),
-            "",
-            "",
-            LocalDate.now(),
-            new CoordenadasGeograficas(-34d, -58d),
-            new RolesRepository().findByName("TECNICO").get()
+        new Documento(TipoDocumento.DNI, 2),
+        "",
+        "",
+        LocalDate.now(),
+        new CoordenadasGeograficas(-34d, -58d),
+        null,
+        new RolesRepository().findByName("TECNICO").get()
     );
 
     assertThrows(PermisoDenegadoException.class,
-            () -> TarjetaController.darDeAlta(tarjeta, administrador, colaboradorDummy));
+        () -> TarjetaController.darDeAlta(tarjeta, administrador, colaboradorDummy));
   }
 
   @Test
@@ -132,6 +135,6 @@ class TarjetaControllerTest {
 
   @Test
   void testBajaFallaSiResponsableNoEsAdministrador() {
-    assertThrows(PermisoDenegadoException.class, () -> TarjetaController.darDeBaja(tarjeta, administradorDummy));
+    assertThrows(PermisoDenegadoException.class, () -> TarjetaController.darDeBaja(tarjeta, administradorInutil));
   }
 }
