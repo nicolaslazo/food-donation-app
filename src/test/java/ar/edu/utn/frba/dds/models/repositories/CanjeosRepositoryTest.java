@@ -22,7 +22,7 @@ class CanjeosRepositoryTest {
   );
   Recompensa recompensa = new Recompensa("Recompensa dummy",
       mock(Colaborador.class),
-      10L,
+      10D,
       1,
       RubroRecompensa.OTROS,
       null);

@@ -34,7 +34,7 @@ class RecompensasRepositoryTest {
         new CoordenadasGeograficas(-34., -58.));
     recompensa = new Recompensa("Recompensa dummy",
         colaborador,
-        100L,
+        100D,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
@@ -68,13 +68,13 @@ class RecompensasRepositoryTest {
 
     Recompensa otraRecompensa = new Recompensa("Recompensa dummy",
         colaborador,
-        100L,
+        100D,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
     Recompensa otraRecompensaMas = new Recompensa("Recompensa dummy",
         colaborador,
-        100L,
+        100D,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
@@ -92,13 +92,13 @@ class RecompensasRepositoryTest {
 
     Recompensa otraRecompensa = new Recompensa("Recompensa dummy",
         colaborador,
-        100L,
+        100D,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
     Recompensa otraRecompensaMas = new Recompensa("Recompensa dummy",
         colaborador,
-        100L,
+        100D,
         1,
         RubroRecompensa.ELECTRONICA,
         null);

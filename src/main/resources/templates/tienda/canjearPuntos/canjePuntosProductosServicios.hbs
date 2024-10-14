@@ -14,76 +14,31 @@
 {{#partial "contenido"}}
 <main>
     <div class="points-container">
-        <h1>Puntos Disponibles: <span id="points">1200</span></h1>
+        <h1>Puntos Disponibles: <span id="points">{{my-puntos}}</span></h1>
 
         <label for="category-filter">Filtrar por Categoría:</label>
         <select id="category-filter" onchange="filtrarPorCategoria()">
-            <option value="todos">Todos</option>
-            <option value="educacion">Educación</option>
-            <option value="electronica">Electronica</option>
-            <option value="entretenimiento">Entretenimiento</option>
-            <option value="gastronomia">Gastronomía</option>
-            <option value="hogar">Hogar</option>
-            <option value="indumentaria">Indumentaria</option>
-            <option value="juguetes">Juguetes</option>
-            <option value="librerias">Librerias</option>
-            <option value="mascotas">Mascotas</option>
-            <option value="salud">Salud y Bienestar</option>
-            <option value="supermercado">Supermercado</option>
-            <option value="vehiculos">Vehiculos</option>
-            <option value="viajes">Viajes</option>
-            <option value="otros">Otros</option>
+            <option value="todos"></option>
+            {{#each categorias}}
+                <option value="{{this}}">{{this}}</option>
+            {{/each}}
         </select>
 
         <div class="services-list">
             <h2>Productos Disponibles para Canjear</h2>
             <p id="no-services-message">No hay productos de este rubro :(</p>
             <div id="services-container">
+                {{#each items}}
                 <div class="service-item" data-categoria="gastronomia">
                     <img src="https://via.placeholder.com/100" alt="Servicio 1">
                     <div class="service-info">
-                        <h3>Producto 1</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Gastronomía</p>
+                        <h3>{{this.nombre}}</h3>
+                        <p>Valor en Puntos: {{this.costoEnPuntos}}</p>
+                        <p>Categoría: {{this.rubro}}</p>
                     </div>
-                    <button class="btn-canjear-lista" onclick="canjearServicio(1)">Canjear</button>
+                    <button class="btn-canjear-lista" onclick="canjearServicio({{this.id}})">Canjear</button>
                 </div>
-                <div class="service-item" data-categoria="viajes">
-                    <img src="https://via.placeholder.com/100" alt="Servicio 2">
-                    <div class="service-info">
-                        <h3>Producto 2</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Viajes</p>
-                    </div>
-                    <button class="btn-canjear-lista" onclick="canjearServicio(2)">Canjear</button>
-                </div>
-                <div class="service-item" data-categoria="educacion">
-                    <img src="https://via.placeholder.com/100" alt="Servicio 3">
-                    <div class="service-info">
-                        <h3>Producto 3</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Educación</p>
-                    </div>
-                    <button class="btn-canjear-lista" onclick="canjearServicio(3)">Canjear</button>
-                </div>
-                <div class="service-item" data-categoria="salud">
-                    <img src="https://via.placeholder.com/100" alt="Servicio 3">
-                    <div class="service-info">
-                        <h3>Producto 4</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Salud y Bienestar</p>
-                    </div>
-                    <button class="btn-canjear-lista" onclick="canjearServicio(4)">Canjear</button>
-                </div>
-                <div class="service-item" data-categoria="educacion">
-                    <img src="https://via.placeholder.com/100" alt="Servicio 3">
-                    <div class="service-info">
-                        <h3>Producto 5</h3>
-                        <p>Valor en Puntos: xxx</p>
-                        <p>Categoría: Educación</p>
-                    </div>
-                    <button class="btn-canjear-lista" onclick="canjearServicio(5)">Canjear</button>
-                </div>
+                {{/each}}
             </div>
         </div>
     </div>

@@ -36,10 +36,10 @@
                         <p>Categoría: {{this.rubro}}</p>
                     </div>
                     <div class="service-actions">
-                        <button class="btn-edit" onclick="administrarServicio(1)">
+                        <button class="btn-edit" onclick="administrarServicio({{this.id}})">
                             <i class="fa fa-pencil-alt"></i>
                         </button>
-                        <button class="btn-delete" onclick="mostrarModalEliminar(this)">
+                        <button class="btn-delete" onclick="mostrarModalEliminar(this, {{this.id}})">
                             <i class="fa fa-trash"></i>
                         </button>
                     </div>
@@ -56,11 +56,11 @@
             <form id="form-modificar-valores">
                 <div class ="input-box">
                     <p>Puntos necesarios: </p>
-                    <input type="number" id="edit-points" required>
+                    <input type="number" id="edit-points" name="puntos" required>
                 </div>
                 <div class ="input-box">
                     <p>Stock: </p>
-                    <input type="number" id="edit-stocks" required>
+                    <input type="number" id="edit-stocks" name="stock" required>
                 </div>
                 <button type="submit" class="btn-canjear-modal">Aceptar</button>
                 <button type="button" class="btn-close" onclick="cerrarModal()">Cancelar</button>

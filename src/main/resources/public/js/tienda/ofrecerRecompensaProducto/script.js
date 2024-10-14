@@ -28,6 +28,8 @@ window.onload = function() {
 
 //ADMINISTRAR SERVICIO
 
+let serviceId;
+
 function confirmarModificacion() {
     alert('¡Modificación realizada con éxito!');
     cerrarModal();
@@ -35,28 +37,7 @@ function confirmarModificacion() {
 
 document.getElementById('form-modificar-valores').onsubmit = function(event) {
     event.preventDefault();
-
-    const puntos = document.getElementById('edit-points').value;
-    const stock = document.getElementById('edit-stocks').value;
-
-    if (puntos && stock) {
-        confirmarModificacion();
-    } else {
-    }
-};
-
-function administrarServicio(serviceId) {
-
-    document.getElementById('modal').style.display = 'block';
-
-    const pointsContainer = document.querySelector('.points-container');
-    pointsContainer.classList.add('blur-background');
-
-    pointsContainer.style.pointerEvents = 'none';
-}
-
-document.getElementById('form-modificar-valores').onsubmit = function(event) {
-    event.preventDefault();
+    const formData = new FormData(this);
 
     const puntos = document.getElementById('edit-points').value;
     const stock = document.getElementById('edit-stocks').value;
@@ -66,8 +47,37 @@ document.getElementById('form-modificar-valores').onsubmit = function(event) {
         return;
     }
 
+    fetch('/tienda/ofrecerProducto/' + serviceId, {
+        method: 'POST',
+        body: formData
+    })
+
     confirmarModificacion();
 };
+
+function administrarServicio(id) {
+    serviceId = id;
+    document.getElementById('modal').style.display = 'block';
+
+    const pointsContainer = document.querySelector('.points-container');
+    pointsContainer.classList.add('blur-background');
+
+    pointsContainer.style.pointerEvents = 'none';
+}
+
+// document.getElementById('form-modificar-valores').onsubmit = function(event) {
+//     event.preventDefault();
+
+//     const puntos = document.getElementById('edit-points').value;
+//     const stock = document.getElementById('edit-stocks').value;
+
+//     if (puntos < 0 || stock < 0) {
+//         alert('El valor de puntos y el stock no pueden ser negativos.');
+//         return;
+//     }
+
+//     confirmarModificacion();
+// };
 
 function cerrarModal() {
     document.getElementById('modal').style.display = 'none';
@@ -75,6 +85,8 @@ function cerrarModal() {
     const pointsContainer = document.querySelector('.points-container');
     pointsContainer.classList.remove('blur-background');
     pointsContainer.style.pointerEvents = 'auto';
+    // Recargar la página actual
+    location.reload();
 }
 
 //AGREGAR SERVICIO
@@ -108,10 +120,11 @@ document.getElementById('form-agregar-servicio').onsubmit = function(event) {
 
 //ELIMINAR SERVICIO
 let servicioAEliminar;
+let idServicioAEliminar;
 
-function mostrarModalEliminar(button) {
+function mostrarModalEliminar(button, id) {
     servicioAEliminar = button.closest('.service-item');
-    console.log(servicioAEliminar);
+    idServicioAEliminar = id;
     document.getElementById('modalEliminar').style.display = 'block';
 
     const pointsContainer = document.querySelector('.points-container');
@@ -129,6 +142,9 @@ function cerrarModalEliminar() {
 
 function eliminarConfirmado() {
     if (servicioAEliminar) {
+        fetch('/tienda/ofrecerProducto/deleteProducto/' + idServicioAEliminar, {
+            method: 'DELETE', // Especificas que es una solicitud DELETE
+        });
         servicioAEliminar.remove();
         alert('Servicio eliminado con éxito');
         cerrarModalEliminar();

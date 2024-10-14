@@ -13,24 +13,24 @@ import javax.persistence.criteria.Root;
 import java.util.stream.Stream;
 
 public class CanjeosRepository extends HibernateEntityManager<Canjeo, Long> {
-  public long findPuntosGastados(Colaborador colaborador) {
+  public Double findPuntosGastados(Colaborador colaborador) {
     // TODO: Cambiar el tipo de Recompensa.costoEnPuntos a @NonNull Long
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery<Long> query = cb.createQuery(Long.class);
+    CriteriaQuery<Double> query = cb.createQuery(Double.class);
     Root<Canjeo> root = query.from(Canjeo.class);
 
     query.select(cb.sum(root.get("recompensa").get("costoEnPuntos")))
         .where(cb.equal(root.get("colaborador"), colaborador));
 
-    Long res = em.createQuery(query).getSingleResult();
+    Double res = em.createQuery(query).getSingleResult();
 
-    return res != null ? res : 0L;
+    return res != null ? res : 0D;
   }
 
-  public long getPuntosDisponibles(Colaborador colaborador) {
-    long puntosTotales = CalculadoraDePuntos.calcular(colaborador);
-    long puntosGastados = findPuntosGastados(colaborador);
+  public Double getPuntosDisponibles(Colaborador colaborador) {
+    Double puntosTotales = CalculadoraDePuntos.calcular(colaborador);
+    Double puntosGastados = findPuntosGastados(colaborador);
 
     return puntosTotales - puntosGastados;
   }

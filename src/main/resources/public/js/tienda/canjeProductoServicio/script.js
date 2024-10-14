@@ -26,8 +26,10 @@ function filtrarPorCategoria() {
 window.onload = function() {
 };
 
-function canjearServicio(serviceId) {
+let serviceId;
 
+function canjearServicio(id) {
+    serviceId = id;
     document.getElementById('modal').style.display = 'block';
 
     const pointsContainer = document.querySelector('.points-container');
@@ -44,9 +46,14 @@ function cerrarModal() {
     pointsContainer.classList.remove('blur-background');
 
     pointsContainer.style.pointerEvents = 'auto';
+    // Recargar la página actual
+    location.reload();
 }
 
 function confirmarCanje() {
+    fetch('/tienda/canjearProductos/' + serviceId, {
+        method: 'POST',
+    })
     alert('¡Canje realizado con éxito!');
     cerrarModal();
 }

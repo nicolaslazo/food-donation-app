@@ -11,4 +11,9 @@ public class RecompensasRepository extends HibernateEntityManager<Recompensa, Lo
     public List<Recompensa> getAllMyRecompensas(Colaborador colaborador) {
         return this.findAll().filter(r -> r.getProveedor() == colaborador).toList();
     }
+
+    public void deleteByID(Long id) {
+        Recompensa recompensa = findById(id).get();
+        delete(recompensa);
+    }
 }

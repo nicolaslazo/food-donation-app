@@ -35,9 +35,11 @@ public class Router {
     
     app.get("/tienda", new TiendaController()::index);    
     app.post("/tienda/ofrecerProducto/createProducto", new TiendaController()::createProducto);
-    app.delete("/tienda/ofrecerProducto/deleteProducto", new TiendaController()::deleteProducto);
+    app.delete("/tienda/ofrecerProducto/deleteProducto/{id}", new TiendaController()::deleteProducto);
+    app.post("/tienda/ofrecerProducto/{id}", new TiendaController()::modifyProducto);
     app.get("/tienda/ofrecerProducto", new TiendaController()::ofrecerProducto);
     app.get("/tienda/canjearProductos", new TiendaController()::canjearProductos);
+    app.post("/tienda/canjearProductos/{id}", new TiendaController()::canjearProductosPost);
 
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);

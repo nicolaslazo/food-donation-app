@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
+import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
@@ -17,6 +18,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.DineroRepository;
 import ar.edu.utn.frba.dds.models.repositories.recompensas.CanjeosRepository;
 import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
@@ -133,14 +135,16 @@ public class SeederUsuarios {
     new ContactosRepository().insert(emailTecnicoDos);
 
     // ------ AÑADO RECOMPENSAS -------
-    Recompensa recompensa1 = new Recompensa("Auriculares", colaboradorJuridico, 100L, 10, RubroRecompensa.ELECTRONICA, null);
-    Recompensa recompensa2 = new Recompensa("PC GAMER", colaboradorJuridico, 300L, 3, RubroRecompensa.ELECTRONICA, null);
-    Recompensa recompensa3 = new Recompensa("TV", colaboradorJuridicoAdministrador, 400L, 10, RubroRecompensa.ENTRETENIMIENTO, null);
+    Recompensa recompensa1 = new Recompensa("Auriculares", colaboradorJuridico, 100D, 10, RubroRecompensa.ELECTRONICA, null);
+    Recompensa recompensa2 = new Recompensa("PC GAMER", colaboradorJuridico, 300D, 3, RubroRecompensa.ELECTRONICA, null);
+    Recompensa recompensa3 = new Recompensa("TV", colaboradorJuridicoAdministrador, 400D, 10, RubroRecompensa.ENTRETENIMIENTO, null);
+    Canjeo canje1 = new Canjeo(colaboradorJuridico, recompensa1, ZonedDateTime.now());
     new RecompensasRepository().insert(recompensa1);
     new RecompensasRepository().insert(recompensa2);
     new RecompensasRepository().insert(recompensa3);
-//     Canjeo canje = new Canjeo(colaboradorJuridico, new Recompensa("Auriculares", colaboradorJuridico, null, null, null, null), ZonedDateTime.now());
-//     new CanjeosRepository().insert();
+    new DineroRepository().insert(new Dinero(colaboradorJuridico, 1000, 1));
+    new DineroRepository().insert(new Dinero(colaboradorJuridico, 600, 10));
+    new CanjeosRepository().insert(canje1);
 
     // ------ PERSONAS VULNERABLES ------
     //TODO: No tenemos repositorios de personas vulnerables

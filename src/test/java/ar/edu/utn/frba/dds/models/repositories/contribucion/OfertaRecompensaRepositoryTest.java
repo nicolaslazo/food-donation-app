@@ -24,7 +24,7 @@ public class OfertaRecompensaRepositoryTest {
 
   Recompensa recompensa = new Recompensa("Recompensa dummy",
       colaborador,
-      100L,
+      100D,
       1,
       RubroRecompensa.ELECTRONICA,
       null);
@@ -51,13 +51,13 @@ public class OfertaRecompensaRepositoryTest {
 
     Recompensa otraRecompensa = new Recompensa("Recompensa dummy",
         colaborador,
-        100L,
+        100D,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
     Recompensa otraRecompensaMas = new Recompensa("Recompensa dummy",
         colaborador,
-        100L,
+        100D,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
@@ -80,13 +80,13 @@ public class OfertaRecompensaRepositoryTest {
 
     Recompensa otraRecompensa = new Recompensa("Recompensa dummy",
         colaborador,
-        100L,
+        100D,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
     Recompensa otraRecompensaMas = new Recompensa("Recompensa dummy",
         colaborador,
-        100L,
+        100D,
         1,
         RubroRecompensa.ELECTRONICA,
         null);
