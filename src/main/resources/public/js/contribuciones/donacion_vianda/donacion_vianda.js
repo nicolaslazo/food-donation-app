@@ -1,85 +1,46 @@
-var map = L.map('map').setView([-34.6037, -58.3816], 13); // Coordenadas iniciales centradas en Buenos Aires
+// Inicializar el mapa centrado en Buenos Aires
+var map = L.map('map').setView([-34.6037, -58.3816], 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 18,
 }).addTo(map);
 
-// Marcadores para las heladeras
+// Añadir los marcadores de heladeras desde la base de datos
 heladeras.forEach(function (heladera) {
-    var marcador = L.marker([heladera.lat, heladera.long], {title: heladera.nombre, id: heladera.idHeladera}).bindPopup(heladera.nombre).openPopup().addTo(map);
-    marcador.on('click', function (e){
-        document.getElementById("idHeladera").value = marcador.options.id;
-    })
+    var marker = L.marker([heladera.lat, heladera.long], {title: heladera.nombre, id: heladera.idHeladera})
+        .bindPopup(heladera.nombre)
+        .addTo(map);
+
+    // Asignar evento al hacer clic en el marcador
+    marker.on('click', function (e) {
+        document.getElementById('latitude').value = heladera.lat;
+        document.getElementById('longitude').value = heladera.long;
+        document.getElementById('idHeladera').value = heladera.idHeladera;
+    });
 });
 
-// Definir la variable marker fuera del evento
-var marker;
-
-// Variable para almacenar el marcador seleccionado
-var selectedMarker = null;
-
-// Evento al hacer clic en el mapa
-map.on('click', function(e) {
-    var lat = e.latlng.lat;
-    var lng = e.latlng.lng;
-
-    // Obtener el nombre de la heladera desde el input
-    var heladeraName = document.getElementById('heladera-name').value || 'Nueva heladera';
-
-    // Si ya hay un marcador seleccionado, actualiza su posición
-    if (selectedMarker) {
-        selectedMarker.setLatLng(e.latlng);
-        selectedMarker.bindPopup(heladeraName).openPopup();
-
-        // Actualizar los inputs de latitud y longitud
-        document.getElementById('latitude').value = lat;
-        document.getElementById('longitude').value = lng;
-
-        // Deseleccionar el marcador después de moverlo
-        selectedMarker = null;
-    } else {
-        // Crear un nuevo marcador si no hay uno seleccionado
-        var marker = L.marker(e.latlng, {
-            draggable: true // Permitir arrastrar el marcador
-        }).addTo(map);
-
-        marker.bindPopup(heladeraName).openPopup();
-
-        // Actualizar los inputs de latitud y longitud
-        document.getElementById('latitude').value = lat;
-        document.getElementById('longitude').value = lng;
-
-        // Evento al hacer clic en el marcador
-        marker.on('click', function() {
-            // Seleccionar este marcador para moverlo
-            selectedMarker = marker;
-
-            // Actualizar los inputs con la posición actual del marcador
-            var position = marker.getLatLng();
-            document.getElementById('latitude').value = position.lat;
-            document.getElementById('longitude').value = position.lng;
-        });
-
-        // Evento al arrastrar el marcador para actualizar las coordenadas
-        marker.on('dragend', function(e) {
-            var newLatLng = e.target.getLatLng();
-            document.getElementById('latitude').value = newLatLng.lat;
-            document.getElementById('longitude').value = newLatLng.lng;
-        });
-    }
-});
-
-// Integración de Leaflet.PinSearch
-let pinSearchControl = L.control.pinSearch({
+// Integración de Leaflet.PinSearch para buscar heladeras
+L.control.pinSearch({
     placeholder: 'Buscar heladera...',
     onSearch: function(query) {
-        console.log('Buscando:', query);
-        document.getElementById("idHeladera").value = pinSearchControl._findMarkerByTitle(query).options.id;
+        var resultado = heladeras.find(heladera => heladera.nombre.toLowerCase().includes(query.toLowerCase()));
+        if (resultado) {
+            var latlng = L.latLng(resultado.lat, resultado.long);
+            map.setView(latlng, 15);  // Centramos el mapa en la heladera encontrada
+            var marker = L.marker(latlng, {title: resultado.nombre, id: resultado.idHeladera}).addTo(map);
+            marker.bindPopup(resultado.nombre).openPopup();
+            document.getElementById('latitude').value = resultado.lat;
+            document.getElementById('longitude').value = resultado.long;
+            document.getElementById('idHeladera').value = resultado.idHeladera;
+        } else {
+            alert('No se encontró la heladera');
+        }
     },
-    focusOnMarker: true,
+    focusOnMarker: false,
     maxSearchResults: 3
 }).addTo(map);
+
 
 document.addEventListener('DOMContentLoaded', function () {
     updateViandas();
