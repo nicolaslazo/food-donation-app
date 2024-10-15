@@ -17,12 +17,12 @@ import java.util.List;
 @Getter
 public class EntregaTarjetas extends Contribucion {
   @OneToMany(targetEntity = Tarjeta.class, cascade = {CascadeType.ALL}, orphanRemoval = true)
-  @JoinColumn(name = "idEntrega", referencedColumnName = "id", unique = true)
-  List<Tarjeta> tarjetasRepartidas;
+  @JoinColumn(name = "idEntrega", referencedColumnName = "id")
+  List<Tarjeta> tarjetasSolicitadas;
 
   public EntregaTarjetas(@NonNull Colaborador colaborador, @NonNull List<Tarjeta> tarjetas) {
     super(colaborador);
-    this.tarjetasRepartidas = tarjetas;
+    this.tarjetasSolicitadas = tarjetas;
   }
 
   protected EntregaTarjetas() {}
@@ -36,6 +36,6 @@ public class EntregaTarjetas extends Contribucion {
   }
 
   public int getNumeroTarjetas() {
-    return tarjetasRepartidas.size();
+    return tarjetasSolicitadas.size();
   }
 }
