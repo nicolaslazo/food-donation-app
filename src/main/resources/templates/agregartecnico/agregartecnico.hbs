@@ -19,7 +19,7 @@
 {{#partial "contenido"}}
     <main>
             <div class="container">
-                <div class="title">REGISTRAR PERSONA VULNERABLE</div>
+                <div class="title">REGISTRAR TÉCNICO</div>
             <form method="post" action="/tecnico/crear" class="form-container">
                 <div class="user-details-container">
                     <label class="input-box" for="name">
@@ -51,12 +51,12 @@
 
                     <label class="input-box">
                         Contacto de Email
-                        <input type="text" id="contacto" name="EmailContacto" required>
+                        <input type="email" id="email" name="email" required>
                     </label>
 
                     <label class="input-box">
                         Contraseña acceso a Viandas Donation
-                        <input type="text" id="contrasenia" name="contrasenia" required>
+                        <input type="password" id="password" name="password" required>
                     </label>
 
                     <label class="input-box">
