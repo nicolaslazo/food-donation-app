@@ -16,6 +16,7 @@ import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quienessomos.QuienesSomosController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.session.SessionController;
+import ar.edu.utn.frba.dds.controllers.tecnico.TecnicoController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
@@ -30,14 +31,12 @@ public class Router {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
+    Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
     Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
     Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
     Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
-
-
-    app.get("/prueba", ctx -> ctx.result("Hola mundo!"));
 
     app.before(ctx -> new SessionController().sessionInfo(ctx));
 
@@ -62,6 +61,10 @@ public class Router {
     app.before("incidentes/*", new AuthMiddleware());
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
 
+    //Tecnico
+    app.before("/tecnico/crear", new AuthMiddleware());
+    app.get("/tecnico/crear", new TecnicoController()::index, permisoCrearTecnico);
+
     // Contribucion/*
     app.before("/contribucion/*", new AuthMiddleware());
     app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
@@ -70,8 +73,8 @@ public class Router {
     app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
     app.get("/contribucion/agregar-recompensa", new AgregarRecompensasController()::index, permisoCrearRecompensa);
     app.post("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::create, permisoSolicitarTarjetas);
+    app.get("/contribucion/donacion-vianda", new DonacionViandaController()::index, permisoDonarViandas);
     app.get("/contribucion/distribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
-
 
     // Registro Persona Vulnerable
     app.before("/persona-vulnerable/registro", new AuthMiddleware());
