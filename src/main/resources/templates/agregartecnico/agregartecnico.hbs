@@ -1,12 +1,10 @@
 {{#partial "titulo"}}Agregar Tecnico - Viandas Donation{{/partial}}
-
 {{#partial "styles"}}
     <link rel="stylesheet" href="/public/css/agregartecnico/styles.css">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
 {{/partial}}
-
 {{#partial "scripts"}}
     <script src="/public/js/sticky_nav_bar.js" defer></script>
     <script src="/public/js/agregartecnico/script.js" defer></script>
@@ -15,90 +13,70 @@
     <!-- Leaflet PinSearch -->
     <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
 {{/partial}}
-
 {{#partial "contenido"}}
     <main>
-            <div class="container">
-                <div class="title">REGISTRAR TÉCNICO</div>
+        <div class="container">
+            <div class="title">REGISTRAR TÉCNICO</div>
             <form method="post" action="/tecnico/crear" class="form-container">
                 <div class="user-details-container">
                     <label class="input-box" for="name">
                         Nombre
                         <input type="text" id="name" name="nombre" required>
                     </label>
-
                     <label class="input-box" for="surname">
                         Apellido
                         <input type="text" id="surname" name="apellido"  required>
                     </label>
-
-                        <label class="input-box">Tipo de Documento
-                            <select id="documento" name="documento" required>
-                                <option value="dni">DNI</option>
-                                <option value="lc">LIBRETA CIVICA</option>
-                                <option value="le">LIBRETA DE ENROLAMIENTO</option>
-                            </select>
-                        </label>
-                        <label class="input-box">
-                            Número Documento
-                            <input type="number" id="numero-documento" name="numeroDocumento" required>
-                        </label>
-
+                    <label class="input-box">Tipo de Documento
+                        <select id="documento" name="documento" required>
+                            <option value="dni">DNI</option>
+                            <option value="lc">LIBRETA CIVICA</option>
+                            <option value="le">LIBRETA DE ENROLAMIENTO</option>
+                        </select>
+                    </label>
+                    <label class="input-box">
+                        Número Documento
+                        <input type="number" id="numero-documento" name="numeroDocumento" required>
+                    </label>
                     <label class="input-box" for="surname">
                         CUIL
                         <input type="number" id="cuil" name="cuil" required>
                     </label>
-
                     <label class="input-box">
                         Contacto de Email
                         <input type="email" id="email" name="email" required>
                     </label>
-
                     <label class="input-box">
                         Contraseña acceso a Viandas Donation
                         <input type="password" id="password" name="password" required>
                     </label>
-
                     <label class="input-box">
                         Contacto de Telegram (opcional)
                         <input type="number" id="contacto" name="TelegramContacto">
                     </label>
-
                     <label class="input-box">
                         Area cobertura
                         <div id="map"></div>
                         <input type="hidden" id="latitude" name="latitud">
                         <input type="hidden" id="longitude" name="longitud">
                     </label>
-
-
                     <label class="input-box" for="radius">
                         Radio (en kilómetros)
                         <input type="number" id="radius" name="radio" placeholder="Ingresa el radio en km" disabled>
                     </label>
-
-                    <div class="btn-clear">
-                        <label>
-                            <button id="clear" type="button" onclick="actualizarRadio()">Actualizar radio</button>
-                        </label>
-                    </div>
-
                     <label class="input-check">
                         Acepto los <a href="/terminos"> terminos y condiciones </a>
                         <input type="checkbox" required>
                     </label>
                 </div>
-
                 <div class="submit-register">
                     <input type="submit" value="SIGUIENTE" id="submitBtn">
                 </div>
             </form>
-            </div>
+        </div>
     </main>
 {{/partial}}
-
 {{#partial "contenido-footer"}}
     <p>Derechos reservados © 2024 Viandas Donation.</p>
 {{/partial}}
-
 {{> templates/base}}
