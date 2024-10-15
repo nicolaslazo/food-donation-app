@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.controllers.contacto.ContactoController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
+import ar.edu.utn.frba.dds.controllers.contribucion.DistribuirViandaController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionViandaController;
 import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
@@ -31,6 +32,7 @@ public class Router {
     Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
     Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
+    Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
 
     app.before(ctx -> new SessionController().sessionInfo(ctx));
 
@@ -64,6 +66,7 @@ public class Router {
     app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
     app.post("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::create, permisoSolicitarTarjetas);
     app.get("/contribucion/donacion-vianda", new DonacionViandaController()::index, permisoDonarViandas);
+    app.get("/contribucion/distribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
 
     // Registro Persona Vulnerable
     app.before("/persona-vulnerable/registro", new AuthMiddleware());
