@@ -16,7 +16,7 @@ public class PDFGeneratorController {
     reportes.add(new ReportesDTO("Reporte cantidad de Viandas Retiradas/Colocadas por Heladera", "/public/static/ReporteMovimientosHeladera.pdf"));
     reportes.add(new ReportesDTO("Cantidad de Viandas por colaborador", "/public/static/ReporteViandasPorColaborador.pdf"));
 
-    Map<String, Object> model = new HashMap<>();
+    Map<String, Object> model = context.attribute("model");
     model.put("reportes", reportes);
 
     // Renderizar la vista Handlebars
