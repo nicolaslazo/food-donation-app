@@ -26,3 +26,31 @@
 .vianda-inputs label {
     margin-bottom: 10px;
 }
+
+.input-box textarea {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+    resize: none; /* Evita que se pueda cambiar el tamaño del textarea */
+    font-family: montserrat;
+    font-size: 12px;
+    min-height: 100px; /* Puedes ajustar la altura según necesites */
+}
+
+.input-box textarea:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+.vianda-title {
+    font-family: montserrat;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    border-radius: 10px;
+}
