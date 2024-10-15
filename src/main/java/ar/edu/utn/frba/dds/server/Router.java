@@ -1,10 +1,12 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
+import ar.edu.utn.frba.dds.controllers.contribucion.AgregarRecompensasController;
 import ar.edu.utn.frba.dds.controllers.contacto.ContactoController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
 import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
+import ar.edu.utn.frba.dds.controllers.contribucion.DistribuirViandaController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionViandaController;
 import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
@@ -14,6 +16,7 @@ import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quienessomos.QuienesSomosController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.session.SessionController;
+import ar.edu.utn.frba.dds.controllers.tecnico.TecnicoController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
@@ -27,10 +30,13 @@ public class Router {
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
+    Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
+    Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
     Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
     Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
+    Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
 
     app.before(ctx -> new SessionController().sessionInfo(ctx));
 
@@ -55,6 +61,10 @@ public class Router {
     app.before("incidentes/*", new AuthMiddleware());
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
 
+    //Tecnico
+    app.before("/tecnico/crear", new AuthMiddleware());
+    app.get("/tecnico/crear", new TecnicoController()::index, permisoCrearTecnico);
+
     // Contribucion/*
     app.before("/contribucion/*", new AuthMiddleware());
     app.get("/contribucion/cuidado-heladera", new CuidadoHeladeraController()::index, permisoCuidarHeladera);
@@ -63,7 +73,9 @@ public class Router {
     app.post("/contribucion/donacion-dinero", new DonacionDineroController()::create, permisoDonarDinero);
     app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
     app.post("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::create, permisoSolicitarTarjetas);
+    app.get("/contribucion/agregar-recompensa", new AgregarRecompensasController()::index, permisoCrearRecompensa);
     app.get("/contribucion/donacion-vianda", new DonacionViandaController()::index, permisoDonarViandas);
+    app.get("/contribucion/distribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
     //app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);
 
     // Registro Persona Vulnerable

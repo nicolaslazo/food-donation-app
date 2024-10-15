@@ -31,15 +31,16 @@ public class SeederRoles {
       switch (rolName) {
         case "ADMINISTRADOR":
           Permiso permisoCrearColaborador = permisosRepository.findByName("Crear-Colaborador").get();
-          Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
           Permiso permisoCrearTarjetas = permisosRepository.findByName("Crear-Tarjetas").get();
           Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
           Permiso permisoDarBajaTarjeta = permisosRepository.findByName("Dar-Baja-Tarjetas").get();
+          Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
+          Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
           Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
           Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
           Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
-          Permiso permisoCrearReporte = permisosRepository.findByName("Crear-Reportes").get();
           Permiso permisoVerReporte = permisosRepository.findByName("Ver-Reportes").get();
+          Permiso permisoCrearReporte = permisosRepository.findByName("Crear-Reportes").get();
           Permiso permisoRegistrarPersonaVulnerable = permisosRepository.findByName("Registrar-Persona-Vulnerable").get();
           Permiso permisoRealizarContribucion = permisosRepository.findByName("Realizar-Contribucion").get();
           Permiso permisoVerAlertas = permisosRepository.findByName("Ver-Alertas").get();
@@ -54,11 +55,11 @@ public class SeederRoles {
               permisoAsignarTarjetas,
               permisoDarBajaTarjeta,
               permisoCrearTarjetas,
+              permisoCrearRecompensa,
               permisoCuidarHeladera,
               permisoDonarDinero,
               permisoDonarViandas,
               permisoSolicitarTarjetas,
-              permisoCrearReporte,
               permisoVerReporte,
               permisoRegistrarPersonaVulnerable,
               permisoRealizarContribucion,
@@ -66,7 +67,8 @@ public class SeederRoles {
               permisoCargaCSV,
               permisoSuscribirseHeladera,
               permisoSubirRecompensa,
-              permisoDistribuirViandas
+              permisoDistribuirViandas,
+              permisoCrearReporte
           ));
           rolesRepository.insert(newRolAdmin);
           break;
@@ -94,6 +96,7 @@ public class SeederRoles {
         case "COLABORADORJURIDICO":
           Rol newRolColaboradorJuridico = new Rol(rolName, Set.of(
               permisosRepository.findByName("Administrar-Recompensas").get(),
+              permisosRepository.findByName("Crear-Recompensas").get(),
               permisosRepository.findByName("Donar-Dinero").get(),
               permisosRepository.findByName("Cuidar-Heladera").get(),
               permisosRepository.findByName("Realizar-Contribucion").get(),
