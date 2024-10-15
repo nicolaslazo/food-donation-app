@@ -43,9 +43,30 @@
                         </select>
                     </label>
 
-                    <!-- Contenedor de Viandas que se completarán dinámicamente -->
+                    <!-- Contenedor de Viandas -->
                     <div id="viandas-container">
-                        <!-- Aquí se insertarán las viandas dinámicamente -->
+                        <!-- Esta es la primera vianda que se muestra por defecto -->
+                        <div class="vianda-section" id="vianda-1">
+                            <button type="button" class="vianda-title" onclick="toggleSection(this.nextElementSibling)">Datos Vianda 1</button>
+                            <div class="vianda-inputs">
+                                <label class="input-box">
+                                    Descripción de la Vianda *
+                                    <textarea name="descripcionVianda_1" maxlength="255" required></textarea>
+                                </label>
+                                <label class="input-box">
+                                    Fecha de Caducidad *
+                                    <input name="fechaCaducidad_1" type="date" required>
+                                </label>
+                                <label class="input-box">
+                                    Peso de la Vianda
+                                    <input name="pesoVianda_1" type="number" min="1" placeholder="En Gramos">
+                                </label>
+                                <label class="input-box">
+                                    Calorías
+                                    <input name="calorias_1" type="number" min="1" placeholder="En Calorías">
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     <label class="input-check">
