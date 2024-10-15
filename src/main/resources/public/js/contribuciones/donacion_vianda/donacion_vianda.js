@@ -80,3 +80,59 @@ let pinSearchControl = L.control.pinSearch({
     focusOnMarker: true,
     maxSearchResults: 3
 }).addTo(map);
+
+document.addEventListener('DOMContentLoaded', function () {
+    updateViandas();
+});
+
+function updateViandas() {
+    const cantidad = document.getElementById('cantidad').value;
+    const viandasContainer = document.getElementById('viandas-container');
+    viandasContainer.innerHTML = ''; // Limpiamos el contenido previo
+
+    for (let i = 1; i <= cantidad; i++) {
+        const viandaDiv = document.createElement('div');
+        viandaDiv.classList.add('vianda-section');
+
+        // Crear un título desplegable para cada vianda
+        const title = document.createElement('button');
+        title.setAttribute('type', 'button');
+        title.classList.add('vianda-title');
+        title.innerText = `Datos Vianda ${i}`;
+        title.onclick = () => toggleSection(viandaDiv);
+
+        // Contenedor de inputs
+        const inputsDiv = document.createElement('div');
+        inputsDiv.classList.add('vianda-inputs');
+        inputsDiv.innerHTML = `
+            <label class="input-box">
+                Descripción de la Vianda *
+                <textarea name="descripcionVianda_${i}" maxlength="255" required></textarea>
+            </label>
+            <label class="input-box">
+                Fecha de Caducidad *
+                <input name="fechaCaducidad_${i}" type="date" required>
+            </label>
+            <label class="input-box">
+                Peso de la Vianda
+                <input name="pesoVianda_${i}" type="number" min="1" placeholder="En Gramos">
+            </label>
+            <label class="input-box">
+                Calorías
+                <input name="calorias_${i}" type="number" min="1" placeholder="En Calorías">
+            </label>
+        `;
+
+        viandaDiv.appendChild(title);
+        viandaDiv.appendChild(inputsDiv);
+        viandasContainer.appendChild(viandaDiv);
+    }
+}
+
+function toggleSection(section) {
+    const inputs = section.querySelector('.vianda-inputs');
+    inputs.style.display = inputs.style.display === 'none' ? 'block' : 'none';
+}
+
+
+
