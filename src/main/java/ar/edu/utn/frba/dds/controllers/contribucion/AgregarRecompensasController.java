@@ -7,6 +7,6 @@ import java.util.Map;
 public class AgregarRecompensasController {
   public void index(Context context) {
     Map<String, Object> model = context.attribute("model");
-    context.render("\"contribuciones/agregar_recompensa/agregar_recompensa.hbs", model);
+    context.render("contribuciones/agregar_recompensa/agregar_recompensa.hbs", model);
   }
 }
