@@ -3,32 +3,26 @@
     height: 200px;
 }
 
-.input-box-img{
+input[type="file"] {
+    display: none;
+}
+
+.input-box-img {
     display: flex;
-    flex-direction: column;
-}
-
-.input-box-img input[type="file"] {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 10px 20px;
     cursor: pointer;
-    background-color: #f2f2f2;
-    font-family: "Montserrat", sans-serif;
-    font-size: 14px;
-    color: #333;
-    transition: background-color 0.3s ease;
+    background-color: #2980B9;
+    color: #fff;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-.input-box-img input[type="file"]:hover {
-    background-color: #e0e0e0;
+.input-box-img:hover {
+    background-color: #2074A3;
 }
-
-.input-box-img input[type="file"]:focus {
-    outline: solid 1px #2980B9;
-    border: solid 1px transparent;
-}
-
 
 #map {
     border-radius: 20px;

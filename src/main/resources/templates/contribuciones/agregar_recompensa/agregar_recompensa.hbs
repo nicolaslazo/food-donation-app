@@ -1,31 +1,28 @@
 {{#partial "titulo"}}Ofrecer Recompensas - Viandas Donation{{/partial}}
-
 {{#partial "styles"}}
     <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
     <link rel="stylesheet" href="/public/css/contribuciones/agregar_recompensa/styles.css">
 {{/partial}}
-
 {{#partial "scripts"}}
     <script src="/public/js/sticky_nav_bar.js" defer></script>
+    <script src="/public/js/contribuciones/agregar_recompensa/agregar_recompensa.js" defer></script>
 {{/partial}}
-
 {{#partial "contenido"}}
     <main class="main__container">
         <div class="form__container">
             <div class="form-title">
                 RECOMPENSA
             </div>
-
             <form method="post" action="/contribucion/agregar-recompensa" class="form__body">
                 <div class="heladera-details-container">
                     <!-- Existing Inputs -->
                     <label class="input-box">
-                        Nombre del Producto/Servicio 
-                        <input type="text" required>
+                        Nombre del Producto/Servicio
+                        <input name="nombreRecompensa" type="text" required>
                     </label>
                     <label class="input-box">
                         Costo de Puntos
-                        <input type="number" min="1" required>
+                        <input name="costoPuntos" type="number" min="1" required>
                     </label>
                     <label class="input-box" id="rubro-container">
                         Rubro
@@ -48,25 +45,23 @@
                     </label>
                     <label class="input-box">
                         Stock Inicial
-                        <input type="number" min="1" required>
+                        <input name="stockInicial" type="number" min="1" required>
                     </label>
+                    <!-- SE VALIDA QUE SEA FORMATO .JPG -->
                     <label class="input-box-img">
                         Imagen del Producto/Servicio
-                        <input type="file" accept="image/*" required>
+                        <input name="imagen" type="file" accept="image/*" required>
                     </label>
-                    
                     <label class="input-check">
                         Acepto los <a href="/terminos"> terminos y condiciones </a>
                         <input type="checkbox" required>
                     </label>
                 </div>
-
                 <div class="submit-button">
                     <input type="submit" value="ENVIAR SOLICITUD">
                 </div>
             </form>
         </div>
-
         <aside>
             <div class="aside">
                 <img src="/public/img/contribuciones/icono_reward.png" alt="Icono Recompensa" class="img__aside">
@@ -74,7 +69,6 @@
         </aside>
     </main>
 {{/partial}}
-
 {{#partial "contenido-footer"}}
     <p>Derechos reservados © 2024 Viandas Donation.</p>
 {{/partial}}
