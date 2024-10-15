@@ -2,7 +2,7 @@
 
 {{#partial "styles"}}
     <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
-    <link rel="stylesheet" href="/public/css/contribucion/agregar_recompensa/styles.css">
+    <link rel="stylesheet" href="/public/css/contribuciones/agregar_recompensa/styles.css">
 {{/partial}}
 
 {{#partial "scripts"}}
@@ -16,7 +16,7 @@
                 RECOMPENSA
             </div>
 
-            <form action="" class="form__body">
+            <form method="post" action="/contribucion/agregar-recompensa" class="form__body">
                 <div class="heladera-details-container">
                     <!-- Existing Inputs -->
                     <label class="input-box">
@@ -78,3 +78,4 @@
 {{#partial "contenido-footer"}}
     <p>Derechos reservados © 2024 Viandas Donation.</p>
 {{/partial}}
+{{> templates/base}}
