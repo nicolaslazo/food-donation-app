@@ -43,8 +43,6 @@ public class Router {
     app.post("/colaborador/logout", new SessionController()::delete);
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
-    app.get("/contacto", new ContactoController()::index);
-    app.post("/contacto", new ContactoController()::create);
 
     // Terminos
     app.get("/terminos", new TerminosYCondicionesController()::index);
