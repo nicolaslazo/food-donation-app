@@ -17,7 +17,5 @@ public class DonacionViandaController {
     context.render("contribuciones/donacion_vianda/donacion_vianda.hbs", model);
   }
 
-  public void create(Context context) {
-
-  }
+  //public void create(Context context) {}
 }
