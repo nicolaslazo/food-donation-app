@@ -39,6 +39,7 @@ public class SeederRoles {
           Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
           Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
           Permiso permisoVerReporte = permisosRepository.findByName("Ver-Reportes").get();
+          Permiso permisoCrearReporte = permisosRepository.findByName("Crear-Reportes").get();
           Permiso permisoRegistrarPersonaVulnerable = permisosRepository.findByName("Registrar-Persona-Vulnerable").get();
           Permiso permisoRealizarContribucion = permisosRepository.findByName("Realizar-Contribucion").get();
           Permiso permisoVerAlertas = permisosRepository.findByName("Ver-Alertas").get();
@@ -62,7 +63,8 @@ public class SeederRoles {
               permisoCargaCSV,
               permisoSuscribirseHeladera,
               permisoSubirRecompensa,
-              permisoDistribuirViandas
+              permisoDistribuirViandas,
+              permisoCrearReporte
           ));
           rolesRepository.insert(newRolAdmin);
           break;
