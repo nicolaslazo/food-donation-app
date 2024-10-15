@@ -1,0 +1,94 @@
+{{#partial "titulo"}}Distribuir Vianda - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
+    <link rel="stylesheet" href="/public/css/contribuciones/distribuir_viandas/styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+    <script src="/public/js/contribuciones/distribuir_viandas/distribuir_vianda.js" defer></script>
+    <!-- Recuperacón de las heladeras -->
+    <script>
+        let heladeras = [{{#each heladeras}}
+            {
+                idHeladera: {{this.id}},
+                lat: {{this.ubicacion.latitud}},
+                long: {{this.ubicacion.longitud}},
+                nombre: "{{this.nombre}}"
+            } {{#unless @last}},{{/unless}}
+        {{/each}}]
+    </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Leaflet PinSearch -->
+    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                DISTRIBUCIÓN DE VIANDAS
+            </div>
+
+            <form method="post" action="/contribucion/distribuicion-vianda" class="form__body">
+                <div class="heladera-details-container">
+                    <label class="input-box">
+                        Cantidad de Viandas a Distribuir
+                        <input type="number" min="1" required name="numeroViandas">
+                    </label>
+                    <label class="input-box">
+                        Seleccione el Origen y Destino
+                        <div id="map"></div>
+                        <input type="hidden" id="latitudeOrigen" name="latitudeOrigen" >
+                        <input type="hidden" id="longitudeOrigen" name="longitudeOrigen" >
+                        <input type="hidden" id="latitudeDestino" name="latitudeDestino" >
+                        <input type="hidden" id="longitudeDestino" name="longitudeDestino" >
+                        <input type="hidden" id="idHeladeraOrigen" name="idHeladeraOrigen">
+                        <input type="hidden" id="idHeladeraDestino" name="idHeladeraDestino">
+                    </label>
+
+                    <div class="btn-clear">
+                        <!-- Botones para eliminar la selección de origen y destino -->
+                        <label>
+                            <button type="button" id="clear">Deseleccionar Recorrido</button>
+                        </label>
+                    </div>
+
+                    <label class="input-box" id="distribucion-container">
+                        Motivo de la Distribución
+                        <select name="motivo" id="motivo">
+                            <option value="falla_heladera" name="fallaHeladera">Desperfecto en la Heladera</option>
+                            <option value="falta_viandas" name="faltaViandas">Faltan Viandas en la Heladera</option>
+                            <option value="falta_espacio" name="faltaEspacio">La Heladera esta casi llena</option>
+                        </select>
+                    </label>
+                    <label class="input-check">
+                        Acepto los <a href="/terminos"> terminos y condiciones </a>
+                        <input type="checkbox" required>
+                    </label>
+                </div>
+
+                <div class="submit-button">
+                    <input type="submit" value="SIGUIENTE" id="submitBtn">
+                </div>
+            </form>
+        </div>
+
+        <aside>
+            <div class="aside">
+                <img src="/public/img/contribuciones/icono_traslado.png" alt="Icono Traslado" class="img__aside">
+            </div>
+        </aside>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Derechos reservados © 2024 Viandas Donation.</p>
+{{/partial}}
+
+{{> templates/base}}
