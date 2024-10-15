@@ -25,7 +25,6 @@ public class SeederPermisos {
     createPermisoIfNotExists("Cuidar-Heladera");
     createPermisoIfNotExists("Donar-Dinero");
     createPermisoIfNotExists("Solicitar-Tarjetas");
-    createPermisoIfNotExists("Crear-Reportes");
     createPermisoIfNotExists("Ver-Reportes");
     createPermisoIfNotExists("Registrar-Persona-Vulnerable");
     createPermisoIfNotExists("Realizar-Contribucion");
@@ -34,6 +33,7 @@ public class SeederPermisos {
     createPermisoIfNotExists("Suscribirse-Heladera");
     createPermisoIfNotExists("Subir-Recompensa");
     createPermisoIfNotExists("Distribuir-Viandas");
+    createPermisoIfNotExists("Crear-Reportes");
   }
 
   public void createPermisoIfNotExists(String nombrePermiso) {

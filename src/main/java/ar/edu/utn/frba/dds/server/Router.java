@@ -18,6 +18,7 @@ import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.session.SessionController;
 import ar.edu.utn.frba.dds.controllers.tecnico.TecnicoController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
+import ar.edu.utn.frba.dds.controllers.verreportes.PDFGeneratorController;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.server.middleware.AuthMiddleware;
@@ -30,6 +31,7 @@ public class Router {
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
+    Permiso permisoVerReportes = permisosRepository.findByName("Ver-Reportes").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
     Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
@@ -40,9 +42,10 @@ public class Router {
 
     app.before(ctx -> new SessionController().sessionInfo(ctx));
 
-    // --- Ruta Públicas ---
     app.get("/colaborador/login", new SessionController()::index);
     app.post("/colaborador/login", new SessionController()::create);
+
+
     app.post("/colaborador/logout", new SessionController()::delete);
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
@@ -84,6 +87,10 @@ public class Router {
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
     app.get("/carga-csv", new CargaCSVController()::index);
+
+    //Reportes
+    app.before("/ver-reportes", new AuthMiddleware());
+    app.get("/ver-reportes", new PDFGeneratorController()::index, permisoVerReportes);
 
     // Quiero Ayudar & Formas de Colaboración
     app.before("/quiero-ayudar", new AuthMiddleware());
