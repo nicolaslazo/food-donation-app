@@ -66,11 +66,11 @@ public class SuscripcionController implements IMqttMessageListener {
         .map(Colaborador::getUsuario)
         .flatMap(a -> a.getContactos().stream()).toList()
         .forEach(contacto -> {
-              try {
-                contacto.enviarMensaje(mensaje.toString());
-              } catch (MensajeAContactoException ignored) {} // TODO: Dónde podríamos loggear estas fallas?
-            }
-        );
+          try {
+            contacto.enviarMensaje(mensaje.toString());
+          } catch (MensajeAContactoException ignored) {
+          } // TODO: Dónde podríamos loggear estas fallas?
+        });
   }
 
   public static SuscripcionController getInstancia() {
