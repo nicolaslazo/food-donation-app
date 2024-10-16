@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorContribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CalculadoraDistancia;
+import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.MensajeRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
@@ -43,30 +44,33 @@ public class SuscripcionController implements IMqttMessageListener {
   }
 
   public static void notificarIncidente(Heladera heladera, ZonedDateTime fecha) {
-    // TODO: Checkear que la heladera tenga viandas antes de tirar notificación
-
     StringBuilder mensaje = new StringBuilder(
         String.format("Se detectó una falla en la heladera %s el %s. ", heladera.getNombre(), fecha.toString()));
 
     List<Heladera> destinosSugeridos = new HeladeraController().encontrarHeladerasCercanas(heladera);
 
-    if (!destinosSugeridos.isEmpty())
-      mensaje.append("De así desearlo, puede alocar las viandas afectadas a una de las siguientes heladeras:\n");
+    if (!destinosSugeridos.isEmpty()) {
+      long cantidadViandasAfectadas = new ViandasRepository().findAll(heladera).count();
+      mensaje.append(
+          String.format(
+              "De así desearlo, puede alocar las %s viandas afectadas a una de las siguientes heladeras:\n",
+              cantidadViandasAfectadas));
+    }
 
     for (Heladera sugerencia : destinosSugeridos)
       mensaje.append("\n\t* ").append(sugerencia.getNombre());
-    
+
     new SuscripcionRepository()
         .findAll(heladera, MotivoDeDistribucion.FALLA_HELADERA)
         .map(Suscripcion::getColaborador)
         .map(Colaborador::getUsuario)
         .flatMap(a -> a.getContactos().stream()).toList()
         .forEach(contacto -> {
-          try {
-            contacto.enviarMensaje(mensaje.toString());
-          } catch (MensajeAContactoException ignored) { // TODO: Dónde podríamos loggear estas fallas?
-          }
-        }
+              try {
+                contacto.enviarMensaje(mensaje.toString());
+              } catch (MensajeAContactoException ignored) { // TODO: Dónde podríamos loggear estas fallas?
+              }
+            }
         );
   }
 
@@ -78,7 +82,7 @@ public class SuscripcionController implements IMqttMessageListener {
 
   /* Convierte un input DTO de solicitud de apertura en una instancia, garantizando que es válida */
   private static SolicitudAperturaPorContribucion verificarSolicitudEsProcesable(
-          SolicitudAperturaPorContribucionInputDTO dtoSolicitudApertura) throws SolicitudInvalidaException {
+      SolicitudAperturaPorContribucionInputDTO dtoSolicitudApertura) throws SolicitudInvalidaException {
     SolicitudAperturaPorContribucionRepository repositorioSolicitud = new SolicitudAperturaPorContribucionRepository();
     Optional<SolicitudAperturaPorContribucion> optionalSolicitudReferida = repositorioSolicitud
         .getSolicitudVigenteAlMomento(Long.valueOf(dtoSolicitudApertura.getId()),
