@@ -69,6 +69,7 @@ public class SuscripcionController implements IMqttMessageListener {
           try {
             contacto.enviarMensaje(mensaje.toString());
           } catch (MensajeAContactoException ignored) {
+            return;
           } // TODO: Dónde podríamos loggear estas fallas?
         });
   }
