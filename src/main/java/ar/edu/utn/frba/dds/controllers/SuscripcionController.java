@@ -68,8 +68,7 @@ public class SuscripcionController implements IMqttMessageListener {
         .forEach(contacto -> {
               try {
                 contacto.enviarMensaje(mensaje.toString());
-              } catch (MensajeAContactoException ignored) { // TODO: Dónde podríamos loggear estas fallas?
-              }
+              } catch (MensajeAContactoException ignored) {} // TODO: Dónde podríamos loggear estas fallas?
             }
         );
   }
