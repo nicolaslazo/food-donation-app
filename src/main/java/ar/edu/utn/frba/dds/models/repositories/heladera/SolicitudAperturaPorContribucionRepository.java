@@ -48,9 +48,6 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
             .sum();
   }
 
-
-
-
   public void updateFechaUsada(Long id, boolean paraExtraccion, ZonedDateTime fechaUsada)
           throws Exception {
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
