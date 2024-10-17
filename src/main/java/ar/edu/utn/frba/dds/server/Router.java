@@ -1,10 +1,10 @@
 package ar.edu.utn.frba.dds.server;
 
 import ar.edu.utn.frba.dds.controllers.PersonaVulnerableController;
-import ar.edu.utn.frba.dds.controllers.contribucion.AgregarRecompensasController;
-import ar.edu.utn.frba.dds.controllers.contacto.ContactoController;
 import ar.edu.utn.frba.dds.controllers.cargacsv.CargaCSVController;
 import ar.edu.utn.frba.dds.controllers.colaborador.ColaboradorController;
+import ar.edu.utn.frba.dds.controllers.contacto.ContactoController;
+import ar.edu.utn.frba.dds.controllers.contribucion.AgregarRecompensasController;
 import ar.edu.utn.frba.dds.controllers.contribucion.CuidadoHeladeraController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DistribuirViandaController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
@@ -20,11 +20,14 @@ import ar.edu.utn.frba.dds.controllers.tecnico.TecnicoController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
 import ar.edu.utn.frba.dds.controllers.verreportes.PDFGeneratorController;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
+import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import ar.edu.utn.frba.dds.server.middleware.AuthMiddleware;
 import io.javalin.Javalin;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class Router {
 
@@ -40,10 +43,15 @@ public class Router {
     Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
     Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
 
+    RolesRepository repositorioRoles = new RolesRepository();
+    Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
+    Rol rolColaboradorJuridico = repositorioRoles.findByName("COLABORADORJURIDICO").get();
+    Set<Rol> rolesColaboradores = Set.of(rolColaboradorFisico, rolColaboradorJuridico);
+
     app.before(ctx -> new SessionController().sessionInfo(ctx));
 
     app.get("/colaborador/login", new SessionController()::index);
-    app.post("/colaborador/login", new SessionController()::create);
+    app.post("/colaborador/login", new SessionController(rolesColaboradores)::create);
 
 
     app.post("/colaborador/logout", new SessionController()::delete);
