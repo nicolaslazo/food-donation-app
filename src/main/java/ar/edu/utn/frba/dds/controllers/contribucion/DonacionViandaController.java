@@ -101,20 +101,20 @@ public class DonacionViandaController {
 
     // Creo viandas dependiendo de la cantidad de viandas que se ingresan en el formulario
     List<DonacionViandaInputDTO> dtos = new ArrayList<>();
-    for (int i = 1; i <= Integer.parseInt(context.formParam("cantidad")); i++ ) {
+    for (int i = 1; i <= Integer.parseInt(context.formParam("cantidad")); i++) {
       // Parseo la Fecha que se trabaja con LocalDate desde el formulario
       LocalDate fechaCaducidad = LocalDate.parse(context.formParam(String.format("fechaCaducidad_%s", i)));
       ZonedDateTime fechaCaducidadParseada = fechaCaducidad.atStartOfDay(ZoneId.systemDefault());
 
       // Comienzo con la creación del DTO
       DonacionViandaInputDTO dto = new DonacionViandaInputDTO(
-        context.sessionAttribute("user_id"),
-        context.formParam(String.format("descripcionVianda_%s", i)),
-        fechaCaducidadParseada,
-        fechaDonacionParseada,
-        Double.parseDouble(context.formParam(String.format("pesoVianda_%s", i))),
-        Integer.parseInt(context.formParam(String.format("calorias_%s", i))),
-        idHeladera
+          context.sessionAttribute("user_id"),
+          context.formParam(String.format("descripcionVianda_%s", i)),
+          fechaCaducidadParseada,
+          fechaDonacionParseada,
+          Double.parseDouble(context.formParam(String.format("pesoVianda_%s", i))),
+          Integer.parseInt(context.formParam(String.format("calorias_%s", i))),
+          idHeladera
       );
       dtos.add(dto);
     }
