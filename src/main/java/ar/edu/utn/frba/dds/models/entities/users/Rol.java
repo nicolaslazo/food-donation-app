@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -57,5 +58,17 @@ public class Rol {
 
   public boolean tienePermiso(@NonNull Permiso permiso) {
     return permisos.contains(permiso);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Rol rol)) return false;
+    return Objects.equals(nombre, rol.nombre);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(nombre);
   }
 }

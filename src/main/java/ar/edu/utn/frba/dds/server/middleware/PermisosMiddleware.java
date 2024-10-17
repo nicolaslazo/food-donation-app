@@ -14,9 +14,6 @@ public class PermisosMiddleware {
     app.beforeMatched(ctx -> {
       List<Permiso> permisosUsuario = getPermisos(ctx);
       Set<RouteRole> permisosRequeridos = ctx.routeRoles();
-      System.out.println(ctx.path());
-      System.out.println(permisosUsuario);
-      System.out.println(permisosRequeridos);
 
       if (!permisosUsuario.containsAll(permisosRequeridos))
         throw new PermisoDenegadoException(
