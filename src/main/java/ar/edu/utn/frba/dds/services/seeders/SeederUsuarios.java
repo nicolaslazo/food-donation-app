@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.services.seeders;
 
+import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
@@ -11,8 +12,10 @@ import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.entities.ubicacion.DireccionResidencia;
 import ar.edu.utn.frba.dds.models.entities.users.TipoPersonaJuridica;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
+import ar.edu.utn.frba.dds.models.repositories.PersonaVulnerableRepository;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
@@ -144,31 +147,33 @@ public class SeederUsuarios {
     new CanjeosRepository().insert(canje1);
 
     // ------ PERSONAS VULNERABLES ------
-    //TODO: No tenemos repositorios de personas vulnerables
-    //    Usuario usuarioPersonaVulnerable = new Usuario(
-    //            new Documento(TipoDocumento.DNI, 45999000),
-    //            "Eleanor", //La Loca de los Gatos
-    //            "Abernathy",
-    //            LocalDate.now().minusYears(60),
-    //            DigestUtils.sha256Hex("gatos123"),
-    //            new HashSet<>(Set.of(new RolesRepository().findByName("PERSONAVULNERABLE").get())));
-    //    DireccionResidencia direccionResidencia = new DireccionResidencia(
-    //            usuarioPersonaVulnerable,
-    //            "1",
-    //            "1",
-    //            "1",
-    //            "Medrano",
-    //            "0000",
-    //            "CABA",
-    //            "Buenos Aires",
-    //            "Argentina"
-    //    );
-    //    PersonaVulnerable personaVulnerableUno = new PersonaVulnerable(
-    //            usuarioPersonaVulnerable,
-    //            colaboradorFisico,
-    //            ZonedDateTime.now().minusWeeks(1),
-    //            direccionResidencia,
-    //            5
-    //    );
+    Usuario usuarioPersonaVulnerable = new Usuario(
+        new Documento(TipoDocumento.DNI, 45999000),
+        "Eleanor", //La Loca de los Gatos
+        "Abernathy",
+        LocalDate.now().minusYears(60),
+        DigestUtils.sha256Hex("gatos123"),
+        new HashSet<>(Set.of(new RolesRepository().findByName("PERSONAVULNERABLE").get())));
+    DireccionResidencia direccionResidencia = new DireccionResidencia(
+        usuarioPersonaVulnerable,
+        "1",
+        "1",
+        "1",
+        "Medrano",
+        "0000",
+        "CABA",
+        "Buenos Aires",
+        "Argentina"
+    );
+    PersonaVulnerable personaVulnerableUno = new PersonaVulnerable(
+        usuarioPersonaVulnerable,
+        colaboradorFisico,
+        ZonedDateTime.now().minusWeeks(1),
+        direccionResidencia,
+        5
+    );
+    Email emailPersonaVulnerableUno = new Email(usuarioPersonaVulnerable, "personaVulnerable@gmail.com");
+    new PersonaVulnerableRepository().insert(personaVulnerableUno);
+    new ContactosRepository().insert(emailPersonaVulnerableUno);
   }
 }

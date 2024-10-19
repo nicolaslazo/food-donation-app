@@ -39,7 +39,7 @@ public class PersonaVulnerable {
   @Column(name = "fechaRegistro", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaRegistro;
 
-  @OneToOne(fetch = FetchType.LAZY, targetEntity = DireccionResidencia.class)
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = DireccionResidencia.class)
   @JoinColumn(name = "domicilio", unique = true)
   DireccionResidencia domicilio;
 

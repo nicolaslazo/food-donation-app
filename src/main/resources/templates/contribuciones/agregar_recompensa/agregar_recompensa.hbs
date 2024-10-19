@@ -1,55 +1,28 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="../../static/Logo_viandas_donation.png">
-    <link rel="stylesheet" href="../../styles.css">
-    <link rel="stylesheet" href="../reset.css">
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Scripts JS -->
-    <script src="script.js" defer></script>
-    <title>VD - Agregar Recompensa</title>
-</head>
-<body>
-    <header>
-        <div class="container-logo">
-            <a class="img-logo" href="../../home/home.html">
-                <img src="../../static/Logo_viandas_donation.png" alt="Logo">
-                <h2 class="name-logo"> Viandas Donation </h2>
-            </a>
-            <button class="btn-contribuir">
-                <a href="../../logueo/inicioSesion/index.html">Contribuir Ya</a>
-            </button>
-        </div>
-        <nav class="navbar">
-            <a href="../../home/home.html" class="navbar-item">INICIO</a>
-            <a href="../../quienes_somos/quienes_somos.html" class="navbar-item">QUIENES SOMOS </a>
-            <a href="../../contacto/contacto.html" class="navbar-item">CONTACTO</a>
-            <a href="../../tienda/tienda_home/tienda.html" class="navbar-item">TIENDA</a>
-        </nav>
-    </header>
-
+{{#partial "titulo"}}Ofrecer Recompensas - Viandas Donation{{/partial}}
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
+    <link rel="stylesheet" href="/public/css/contribuciones/agregar_recompensa/styles.css">
+{{/partial}}
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+    <script src="/public/js/contribuciones/agregar_recompensa/agregar_recompensa.js" defer></script>
+{{/partial}}
+{{#partial "contenido"}}
     <main class="main__container">
         <div class="form__container">
             <div class="form-title">
                 RECOMPENSA
             </div>
-
-            <form action="" class="form__body">
+            <form method="post" action="/contribucion/agregar-recompensa" class="form__body">
                 <div class="heladera-details-container">
                     <!-- Existing Inputs -->
                     <label class="input-box">
-                        Nombre del Producto/Servicio 
-                        <input type="text" required>
+                        Nombre del Producto/Servicio
+                        <input name="nombreRecompensa" type="text" required>
                     </label>
                     <label class="input-box">
                         Costo de Puntos
-                        <input type="number" min="1" required>
+                        <input name="costoPuntos" type="number" min="1" required>
                     </label>
                     <label class="input-box" id="rubro-container">
                         Rubro
@@ -72,35 +45,31 @@
                     </label>
                     <label class="input-box">
                         Stock Inicial
-                        <input type="number" min="1" required>
+                        <input name="stockInicial" type="number" min="1" required>
                     </label>
+                    <!-- SE VALIDA QUE SEA FORMATO .JPG -->
                     <label class="input-box-img">
                         Imagen del Producto/Servicio
-                        <input type="file" accept="image/*" required>
+                        <input name="imagen" type="file" accept="image/*" required>
                     </label>
-                    
                     <label class="input-check">
-                        Acepto los <a href="../../terminosYcondiciones/terminos.html"> terminos y condiciones </a>
+                        Acepto los <a href="/terminos"> terminos y condiciones </a>
                         <input type="checkbox" required>
                     </label>
                 </div>
-
                 <div class="submit-button">
                     <input type="submit" value="ENVIAR SOLICITUD">
                 </div>
             </form>
         </div>
-
         <aside>
             <div class="aside">
-                <img src="../../static/icono_reward.png" alt="Icono Recompensa" class="img__aside">
+                <img src="/public/img/contribuciones/icono_reward.png" alt="Icono Recompensa" class="img__aside">
             </div>
         </aside>
     </main>
-
-    <footer>
-        <div class="footer-text">
-            Derechos reservados © 2024 Viandas Donation.
-        </div>
-    </footer>
-</body>
+{{/partial}}
+{{#partial "contenido-footer"}}
+    <p>Derechos reservados © 2024 Viandas Donation.</p>
+{{/partial}}
+{{> templates/base}}

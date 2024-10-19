@@ -1,0 +1,43 @@
+.img__aside{
+    width: 200px;
+    height: 200px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.input-box-img {
+    display: flex;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #2980B9;
+    color: #fff;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.input-box-img:hover {
+    background-color: #2074A3;
+}
+
+#map {
+    border-radius: 20px;
+    margin-top: 10px;
+    border: solid 1px #0006;
+    min-height: 400px;
+    min-width: 400px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 1.5em;
+    pointer-events: none;
+    margin: 5px 0;
+}
+
+
