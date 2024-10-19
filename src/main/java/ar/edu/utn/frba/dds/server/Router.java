@@ -26,7 +26,7 @@ public class Router {
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
     Permiso permisoAdministrarProductos = permisosRepository.findByName("Administrar-Productos-Servicios").get();
-    Permiso permisoCanjearProductos = permisosRepository.findByName("CanjearProductos").get();
+    Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
     Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
 

@@ -38,7 +38,7 @@ public class Recompensa {
   @JoinColumn(name = "idProveedor", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @NonNull Colaborador proveedor;
 
-  @Column(name = "costoEnPuntos", nullable = false, updatable = false)
+  @Column(name = "costoEnPuntos", nullable = false)
   @Getter
   @Setter
   @NonNull Double costoEnPuntos;
