@@ -28,7 +28,7 @@
             <p id="no-services-message">No hay Producto de este rubro :(</p>
             <div id="services-container">
                 {{#each recompensas}}
-                <div class="service-item" data-categoria="educacion">
+                <div class="service-item" data-categoria="{{this.rubro}}">
                     <img src="https://via.placeholder.com/100" alt="Servicio 3">
                     <div class="service-info">
                         <h3>{{this.nombre}}</h3>
