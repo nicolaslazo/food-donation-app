@@ -46,6 +46,9 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
       CriteriaBuilder cb = em.getCriteriaBuilder();
       CriteriaQuery<Long> query = cb.createQuery(Long.class);
 
+      // Definimos un root, aunque no lo usemos directamente, para evitar el error
+      Root<Heladera> heladeraRoot = query.from(Heladera.class);
+
       // Subconsulta para donaciones pendientes
       Subquery<Long> donacionesSubquery = query.subquery(Long.class);
       Root<DonacionViandas> donacionRoot = donacionesSubquery.from(DonacionViandas.class);
@@ -71,11 +74,12 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
               ));
 
       // Consulta final sumando ambas subconsultas
-      query.select(cb.sum(cb.coalesce(donacionesSubquery, 0L),
-              cb.coalesce(redistribucionesSubquery, 0L)));
+      query.select(cb.sum(cb.coalesce(donacionesSubquery, 0L), cb.coalesce(redistribucionesSubquery, 0L)));
 
+      // Ejecutar la consulta
       Long result = em.createQuery(query).getSingleResult();
       return result != null ? result.intValue() : 0;
+
     } catch (Exception e) {
       e.printStackTrace();
       return 0;
@@ -85,6 +89,7 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
       }
     }
   }
+
 
   public void updateFechaUsada(Long id, boolean paraExtraccion, ZonedDateTime fechaUsada)
           throws Exception {

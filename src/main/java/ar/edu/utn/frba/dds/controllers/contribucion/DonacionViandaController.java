@@ -52,6 +52,7 @@ public class DonacionViandaController {
               dto.getCaloriasVianda()
       );
       viandas.add(vianda);
+      new ViandasRepository().insert(vianda);
     }
     DonacionViandas donacionViandas = new DonacionViandas(
             colaborador,
@@ -65,7 +66,6 @@ public class DonacionViandaController {
                     "Cantidad de Viandas: " + new HeladerasRepository().getCantidadViandasDepositadas(heladeraDestino) + "\n" +
                     "Espacio Disponible: " + new HeladerasRepository().getCapacidadDisponible(heladeraDestino)
     );
-    System.out.println(donacionViandas.toString());
   }
 
   public void index(Context context) {
@@ -93,7 +93,6 @@ public class DonacionViandaController {
 
   public void create(Context context) {
     // Recupero el ID de la Heladera donde se depositaran las viandas
-    System.out.println("Id Heladera: " + context.formParam("idHeladera"));
     long idHeladera = Long.parseLong(context.formParam("idHeladera"));
 
     // Recupero y Parseo la fecha en que se completo el Formulario
