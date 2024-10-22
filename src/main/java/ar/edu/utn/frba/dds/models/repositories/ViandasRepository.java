@@ -61,7 +61,7 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
   }
 
   public void insert(Vianda vianda) {
-    if(vianda.getHeladera() != null) {
+    if (vianda.getHeladera() != null) {
       assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
     }
     super.insert(vianda);
