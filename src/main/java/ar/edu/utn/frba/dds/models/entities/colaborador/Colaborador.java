@@ -40,7 +40,7 @@ public class Colaborador {
   @NonNull
   Long id;
 
-  @OneToOne(cascade = CascadeType.ALL, targetEntity = Usuario.class)
+  @OneToOne(cascade = CascadeType.ALL, targetEntity = Usuario.class, fetch = FetchType.EAGER)
   @MapsId
   @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false)
   @NonNull
