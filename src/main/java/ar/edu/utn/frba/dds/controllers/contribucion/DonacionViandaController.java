@@ -31,13 +31,6 @@ public class DonacionViandaController {
     long idHeladera = dtos.stream().findFirst().get().getIdHeladera();
     Heladera heladeraDestino = new HeladerasRepository().findById(idHeladera).get();
 
-    System.out.println(
-            "Heladera antes de la Donación\n" +
-            "IdHeladera: " + heladeraDestino.getId() + "\n" +
-            "Cantidad de Viandas: " + new HeladerasRepository().getCantidadViandasDepositadas(heladeraDestino) + "\n" +
-            "Espacio Disponible: " + new HeladerasRepository().getCapacidadDisponible(heladeraDestino)
-    );
-
     /* TODO: Nota: No se settea la Vianda a la Heladera hasta que no ingrese físicamente */
     // Recorro los dtos para Instanciar las Viandas
     Collection<Vianda> viandas = new ArrayList<>();
@@ -52,6 +45,7 @@ public class DonacionViandaController {
               dto.getCaloriasVianda()
       );
       viandas.add(vianda);
+      // Guardo las Viandas, pero sin Heladera setteada
       new ViandasRepository().insert(vianda);
     }
     DonacionViandas donacionViandas = new DonacionViandas(
@@ -60,12 +54,6 @@ public class DonacionViandaController {
             heladeraDestino
     );
     new DonacionViandasRepository().insert(donacionViandas);
-    System.out.println(
-            "Heladera despues de la Donación\n" +
-                    "IdHeladera: " + heladeraDestino.getId() + "\n" +
-                    "Cantidad de Viandas: " + new HeladerasRepository().getCantidadViandasDepositadas(heladeraDestino) + "\n" +
-                    "Espacio Disponible: " + new HeladerasRepository().getCapacidadDisponible(heladeraDestino)
-    );
   }
 
   public void index(Context context) {
