@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import io.javalin.http.Context;
+import lombok.NonNull;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.HashMap;
@@ -15,22 +16,55 @@ import java.util.Map;
 import java.util.Set;
 
 public class SessionController {
+  @NonNull String pathTemplate;
   Set<Rol> rolesAceptados;
 
-  public SessionController(Set<Rol> rolesAceptados) {
+  public SessionController(@NonNull String pathTemplate, Set<Rol> rolesAceptados) {
     Rol rolAdmin = new RolesRepository().findByName("ADMINISTRADOR").get();
 
+    this.pathTemplate = pathTemplate;
     this.rolesAceptados = new HashSet<>(rolesAceptados);
     this.rolesAceptados.add(rolAdmin);  // Los admins pueden hacer todo
   }
 
-  public SessionController() {
+  public SessionController(@NonNull String pathTemplate) {
+    this.pathTemplate = pathTemplate;
+  }
+
+  public static void delete(Context context) {
+    // Invalidamos la sesión
+    Map<String, Object> model = context.attribute("model");
+    model.put("usuarioAutenticado", false);
+    context.attribute("model", model);
+    context.sessionAttribute("user_id", null);
+    context.sessionAttribute("usuarioAutenticado", false);
+    context.sessionAttribute("permisos", null);
+    context.redirect("/");
+  }
+
+  public static void sessionInfo(Context context) {
+    // Inicializo el Model
+    Map<String, Object> model = context.attribute("model");
+    if (model == null) {
+      model = new HashMap<>();
+    }
+
+    // Verifico el estado de la autenticación
+    Boolean usuarioAutenticado = context.sessionAttribute("usuarioAutenticado");
+    if (usuarioAutenticado == null) {
+      usuarioAutenticado = false;
+    }
+
+    // Almaceno el estado de la autenticación
+    context.sessionAttribute("usuarioAutenticado", usuarioAutenticado);
+    model.put("usuarioAutenticado", usuarioAutenticado);
+    context.attribute("model", model);
   }
 
   public void index(Context context) {
     Map<String, Object> model = context.attribute("model");
 
-    context.render("logueo/login/login.hbs", model);
+    context.render(pathTemplate, model);
   }
 
   public void create(Context context) {
@@ -68,37 +102,7 @@ public class SessionController {
       Map<String, Object> model = context.attribute("model");
       model.put("error", e.getMessage());
       model.put("usuarioAutenticado", false);
-      context.render("logueo/login/login.hbs", model);
+      context.render(this.pathTemplate, model);
     }
-  }
-
-  public void delete(Context context) {
-    // Invalidamos la sesión
-    Map<String, Object> model = context.attribute("model");
-    model.put("usuarioAutenticado", false);
-    context.attribute("model", model);
-    context.sessionAttribute("user_id", null);
-    context.sessionAttribute("usuarioAutenticado", false);
-    context.sessionAttribute("permisos", null);
-    context.redirect("/");
-  }
-
-  public void sessionInfo(Context context) {
-    // Inicializo el Model
-    Map<String, Object> model = context.attribute("model");
-    if (model == null) {
-      model = new HashMap<>();
-    }
-
-    // Verifico el estado de la autenticación
-    Boolean usuarioAutenticado = (Boolean) context.sessionAttribute("usuarioAutenticado");
-    if (usuarioAutenticado == null) {
-      usuarioAutenticado = false;
-    }
-
-    // Almaceno el estado de la autenticación
-    context.sessionAttribute("usuarioAutenticado", usuarioAutenticado);
-    model.put("usuarioAutenticado", usuarioAutenticado);
-    context.attribute("model", model);
   }
 }
