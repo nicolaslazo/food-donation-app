@@ -73,14 +73,6 @@ class ViandasRepositoryTest {
     new HibernatePersistenceReset().execute();
   }
 
-  // TODO: Arreglar esto cuando se tenga que settear la heladera en la Vianda.
-//  @Test
-//  void testInsertFallaSiHeladeraNoTieneEspacio() {
-//    new ViandasRepository().insert(vianda);  // Heladera ahora está llena
-//    otraVianda.setHeladera(heladera);
-//    assertThrows(RuntimeException.class, () -> new ViandasRepository().insert(otraVianda));
-//  }
-
   @Test
   void testInsertDeCollectionFallaSiViandasTienenHeladerasDistintas() {
 
