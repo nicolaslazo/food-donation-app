@@ -21,6 +21,15 @@ heladeras.forEach(function (heladera) {
 
     // Asignar evento al hacer clic en el marcador
     marker.on('click', function (e) {
+        // Obtener la cantidad de viandas seleccionada
+        const cantidadViandas = parseInt(document.getElementById('cantidad').value, 10);
+
+        // Verificar si la heladera tiene suficiente capacidad
+        if (!verificarCapacidadHeladera(cantidadViandas, heladera)) {
+            return; // Si no hay suficiente capacidad, salir de la función y no seleccionar la heladera
+        }
+
+        // Si la capacidad es suficiente, asignar los valores al formulario
         document.getElementById('latitude').value = heladera.lat;
         document.getElementById('longitude').value = heladera.long;
         document.getElementById('idHeladera').value = heladera.idHeladera;
@@ -60,19 +69,43 @@ L.control.pinSearch({
 }).addTo(map);
 
 // Esperar al envío del formulario
-document.getElementById('formulario-viandas').addEventListener('submit', function(event) {
-    // Obtener los valores de los inputs de heladera
+document.getElementById('formulario-viandas').addEventListener('submit', function (event) {
+    // Obtener los valores de los inputs de heladera y cantidad de viandas
     const latitude = document.getElementById('latitude').value;
     const longitude = document.getElementById('longitude').value;
     const idHeladera = document.getElementById('idHeladera').value;
+    const cantidadViandas = parseInt(document.getElementById('cantidad').value, 10);
+    const form = document.getElementById('formulario-viandas');
 
-    // Si alguno de los valores está vacío, evitar el envío del formulario
+    // Verificar si una heladera fue seleccionada
     if (!latitude || !longitude || !idHeladera) {
         event.preventDefault(); // Detener el envío del formulario
-
-        // Mostrar un mensaje de error al usuario
         alert('Debes seleccionar una heladera en el mapa antes de enviar el formulario.');
+        return;
     }
+
+    // Buscar la heladera seleccionada por su ID
+    const heladeraSeleccionada = heladeras.find(h => h.idHeladera === idHeladera);
+
+    // Verificar la capacidad de la heladera seleccionada
+    if (!verificarCapacidadHeladera(cantidadViandas, heladeraSeleccionada)) {
+        event.preventDefault(); // Detener el envío del formulario si la capacidad es insuficiente
+        return;
+    }
+    // Aquí se permite el envío automático ya que todas las verificaciones pasaron
+    form.addEventListener('submit', function (e) {
+        e.preventDefault(); // Evita el envío inmediato del formulario
+
+        // Verifica que el formulario sea válido (puedes añadir validaciones adicionales si es necesario)
+        if (form.checkValidity()) {
+            // Muestra un mensaje de confirmación
+            alert('¡El formulario se ha enviado correctamente!');
+            form.submit();
+        } else {
+            alert('Por favor, revisa los campos y asegúrate de que todo esté completo.');
+        }
+    });
+
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -197,22 +230,11 @@ function validarFechaCaducidad(fechaInput, index) {
     }
 }
 
-//
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('formulario-viandas'); // Asegúrate de poner el ID correcto de tu formulario
-
-    form.addEventListener('submit', function (e) {
-        e.preventDefault(); // Evita el envío inmediato del formulario
-
-        // Verifica que el formulario sea válido (puedes añadir validaciones adicionales si es necesario)
-        if (form.checkValidity()) {
-            // Muestra un mensaje de confirmación
-            alert('¡El formulario se ha enviado correctamente!');
-
-            // Aquí puedes proceder a enviar el formulario manualmente si es necesario
-            form.submit();
-        } else {
-            alert('Por favor, revisa los campos y asegúrate de que todo esté completo.');
-        }
-    });
-});
+// Función para verificar la capacidad de la heladera seleccionada
+function verificarCapacidadHeladera(cantidadViandas, heladera) {
+    if (cantidadViandas > heladera.capacidadDisponible) {
+        alert(`La heladera seleccionada solo tiene capacidad para ${heladera.capacidadDisponible} viandas. Por favor, elige una cantidad adecuada.`);
+        return false;
+    }
+    return true;
+}
