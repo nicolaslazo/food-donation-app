@@ -12,8 +12,13 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
+import ar.edu.utn.frba.dds.server.Initializer;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -23,11 +28,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.Set;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,32 +51,50 @@ class SolicitudAperturaPorContribucionControllerTest {
   SolicitudAperturaPorContribucionRepository repositorio;
   DonacionViandas contribucion;
 
+  public static void main(String[] args) throws MqttException, PermisoDenegadoException, IOException {
+    // Para testear la integración con HiveMQ. El servidor tiene que estar corriendo
+    Initializer.init();
+
+    Tarjeta tarjeta = new TarjetasRepository().findAll().findFirst().get();
+    Colaborador colaborador = new ColaboradorRepository().findAll().findFirst().get();
+    Vianda vianda = new ViandasRepository().findAll().findFirst().get();
+    Heladera heladera = new HeladerasRepository().findAll().findFirst().get();
+    DonacionViandas donacion = new DonacionViandas(colaborador, Set.of(vianda), heladera);
+
+    System.out.printf("El topic es heladeras/%d/solicitudes. Apretá enter%n", heladera.getId());
+    System.in.read();
+
+    SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucionController().crear(tarjeta, donacion);
+
+    System.out.println("Id de solicitud es " + solicitud.getId());
+  }
+
   @BeforeEach
   void setUp() throws PermisoDenegadoException {
     new SeederRoles().seedRoles();
 
     colaborador = new Colaborador(
-            new Documento(TipoDocumento.DNI, 1),
-            "",
-            "",
-            LocalDate.now(),
-            new CoordenadasGeograficas(-34d, -58d),
-            null,
-            new RolesRepository().findByName("COLABORADORFISICO").get()
+        new Documento(TipoDocumento.DNI, 1),
+        "",
+        "",
+        LocalDate.now(),
+        new CoordenadasGeograficas(-34d, -58d),
+        null,
+        new RolesRepository().findByName("COLABORADORFISICO").get()
     );
 
     tarjeta = new Tarjeta(randomUUID());
     repositorio = new SolicitudAperturaPorContribucionRepository();
     contribucion = new DonacionViandas(colaborador,
-            Collections.singletonList(new Vianda("",ZonedDateTime.now(),ZonedDateTime.now(), colaborador, 0.0, 22)),
-            new Heladera(
-                    "",
-                    new CoordenadasGeograficas(54.3, 54.0),
-                    colaborador,
-                    11,
-                    ZonedDateTime.now(),
-                    ""
-            )
+        Collections.singletonList(new Vianda("", ZonedDateTime.now(), ZonedDateTime.now(), colaborador, 0.0, 22)),
+        new Heladera(
+            "",
+            new CoordenadasGeograficas(54.3, 54.0),
+            colaborador,
+            11,
+            ZonedDateTime.now(),
+            ""
+        )
     );
 
     tarjeta.setEnAlta(colaborador.getUsuario(), colaborador, ZonedDateTime.now());
@@ -85,7 +110,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     final Tarjeta tarjetaInutil = new Tarjeta(randomUUID());
 
     assertThrows(PermisoDenegadoException.class,
-            () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(DonacionViandas.class)));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(DonacionViandas.class)));
   }
 
   @Test
@@ -94,7 +119,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
 
     assertThrows(PermisoDenegadoException.class,
-            () -> new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion));
   }
 
   @Test
@@ -105,7 +130,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     when(tarjetaMock.getRecipiente()).thenReturn(mock(Usuario.class));
 
     assertThrows(PermisoDenegadoException.class,
-            () -> new SolicitudAperturaPorContribucionController().crear(tarjetaMock, contribucionMock));
+        () -> new SolicitudAperturaPorContribucionController().crear(tarjetaMock, contribucionMock));
   }
 
   @Test
@@ -118,6 +143,7 @@ class SolicitudAperturaPorContribucionControllerTest {
 
     assertEquals(1, repositorio.findAll().count());
   }
+
   /*
     @Test
     void testPublicaCreacionPorMqttParaDonacion() throws MqttException, PermisoDenegadoException {
@@ -179,15 +205,14 @@ class SolicitudAperturaPorContribucionControllerTest {
     controlador.repositorio.insert(solicitud);
 
     controlador.messageArrived(
-            "heladeras/1/solicitudes/confirmadas",
-            new MqttMessage("{\"id\":%d,\"esExtraccion\":false,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
-                    .formatted(solicitud.getId(),unSegundoDespuesDeEpoch.toString())
-                    .getBytes()));
+        "heladeras/1/solicitudes/confirmadas",
+        new MqttMessage("{\"id\":%d,\"esExtraccion\":false,\"fechaRealizadaSerializadaIso8601\":\"%s\"}"
+            .formatted(solicitud.getId(), unSegundoDespuesDeEpoch.toString())
+            .getBytes()));
 
     ZonedDateTime fechaUsada =
-            repositorio.findById(solicitud.getId()).get().getFechaAperturaEnDestino();
+        repositorio.findById(solicitud.getId()).get().getFechaAperturaEnDestino();
 
     assertEquals(unSegundoDespuesDeEpoch, fechaUsada);
   }
-
 }

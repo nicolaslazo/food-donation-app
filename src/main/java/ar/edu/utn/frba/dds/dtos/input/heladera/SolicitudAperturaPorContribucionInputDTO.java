@@ -3,10 +3,12 @@ package ar.edu.utn.frba.dds.dtos.input.heladera;
 import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
+@ToString
 public final class SolicitudAperturaPorContribucionInputDTO {
   @Getter
   @NonNull Integer id;  // Tiene que ser un @NonNull Integer, no int, para mantener compatibilidad con JSON

@@ -1,17 +1,18 @@
 package ar.edu.utn.frba.dds.server;
 
-import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import ar.edu.utn.frba.dds.services.seeders.SeederHeladera;
-import ar.edu.utn.frba.dds.services.seeders.SeederTarjetas;
+import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import ar.edu.utn.frba.dds.services.seeders.SeederUsuarios;
+import ar.edu.utn.frba.dds.services.seeders.SeederViandas;
+import lombok.SneakyThrows;
 
 public class Initializer {
-
+  @SneakyThrows
   public static void init() {
     // Acá irían los datos para popular los repositorios
     new SeederRoles().seedRoles();
-    new SeederUsuarios().seederUsuarios();
+    SeederUsuarios.execute();
     new SeederHeladera().seederHeladera();
-    SeederTarjetas.execute();
+    SeederViandas.execute();
   }
 }

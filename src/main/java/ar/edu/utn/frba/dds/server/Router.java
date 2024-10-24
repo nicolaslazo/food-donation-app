@@ -47,6 +47,7 @@ public class Router {
     Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
     Rol rolColaboradorJuridico = repositorioRoles.findByName("COLABORADORJURIDICO").get();
     Set<Rol> rolesColaboradores = Set.of(rolColaboradorFisico, rolColaboradorJuridico);
+    Set<Rol> rolesPersonaVulnerable = Set.of(repositorioRoles.findByName("PERSONAVULNERABLE").get());
 
     app.before(SessionController::sessionInfo);
 
@@ -62,6 +63,9 @@ public class Router {
     app.get(
         "/persona-vulnerable/login",
         new SessionController("logueo/login/loginpersonavulnerable.hbs")::index);
+    app.post(
+        "/persona-vulnerable/login",
+        new SessionController("logueo/login/loginpersonavulnerable.hbs", rolesPersonaVulnerable)::create);
 
     // Terminos
     app.get("/terminos", new TerminosYCondicionesController()::index);
