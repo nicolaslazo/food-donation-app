@@ -64,7 +64,7 @@ public class SessionController {
   public void index(Context context) {
     // Verifica si el usuario ya está autenticado
     Boolean usuarioAutenticado = context.sessionAttribute("usuarioAutenticado");
-    if (Boolean.TRUE.equals(usuarioAutenticado)) {
+    if (usuarioAutenticado) {
       // Si ya tiene sesión activa, redirigir o mostrar mensaje
       context.redirect("/");  // Redirige al inicio o a otra página
       return;
