@@ -23,6 +23,50 @@ header {
     flex-direction: column;
 }
 
+.toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #C0392B;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+.show-toast {
+    visibility: visible;
+    animation: fadein 0.5s forwards, fadeout 0.5s 2.5s forwards;
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
 .container-logo {
     display: flex;
     align-items: center;
