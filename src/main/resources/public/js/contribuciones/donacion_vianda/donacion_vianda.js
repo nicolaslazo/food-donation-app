@@ -232,7 +232,15 @@ function validarFechaCaducidad(fechaInput, index) {
 
 // Función para verificar la capacidad de la heladera seleccionada
 function verificarCapacidadHeladera(cantidadViandas, heladera) {
-    if (cantidadViandas > heladera.capacidadDisponible) {
+    if (heladera.capacidadDisponible === 1 && (cantidadViandas > heladera.capacidadDisponible)) {
+        alert(`La heladera seleccionada solo tiene capacidad para una vianda. Por favor, elige una cantidad adecuada.`);
+        return false;
+    }
+    else if (heladera.capacidadDisponible === 0) {
+        alert(`La heladera seleccionada se encuentra llena en estos momentos. Por favor, elige otra heladera o espera que se vacie.`);
+        return false;
+    }
+    else if (cantidadViandas > heladera.capacidadDisponible) {
         alert(`La heladera seleccionada solo tiene capacidad para ${heladera.capacidadDisponible} viandas. Por favor, elige una cantidad adecuada.`);
         return false;
     }
