@@ -96,13 +96,17 @@ public class SessionController {
       // De esta manera nos ahorramos tener que reloguearnos para hacer operaciones distintas
       context.sessionAttribute("permisos", new PermisosRepository().findAll(usuario).toList());
 
-      context.redirect("/");
-
+      context.json(Map.of(
+          "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
+          "success", true,
+          "urlRedireccion", "/",
+          "demoraRedireccionEnSegundos", 3
+      ));
     } catch (Exception e) {
-      Map<String, Object> model = context.attribute("model");
-      model.put("error", e.getMessage());
-      model.put("usuarioAutenticado", false);
-      context.render(this.pathTemplate, model);
+      context.json(Map.of(
+          "message", "Contraseña incorrecta o usuario no encontrado",
+          "success", false
+      ));
     }
   }
 }
