@@ -141,6 +141,3 @@ L.control.pinSearch({
     focusOnMarker: false,
     maxSearchResults: 3
 }).addTo(map);
-
-
-

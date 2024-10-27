@@ -12,7 +12,6 @@ import ar.edu.utn.frba.dds.models.repositories.contribucion.RedistribucionVianda
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import io.javalin.http.Context;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,7 +36,7 @@ public class DistribuirViandaController {
 
     Collection<Vianda> viandasADistribuir = new ArrayList<>();
     // Recorro y obtengo las viandas a distribuir
-    for (int i=0; i<dto.getCantidadViandas(); i++) {
+    for (int i = 0; i < dto.getCantidadViandas(); i++) {
       // Obtengo la vianda y la retiro de la heladera
       Vianda viandaADistribuir = viandas.get(i);
       viandaADistribuir.setHeladera(null);
@@ -58,11 +57,11 @@ public class DistribuirViandaController {
     );
     new RedistribucionViandasRepository().insert(redistribucionViandas);
 
-    generarPDF(redistribucionViandas);
+    //generarPDF(redistribucionViandas);
   }
 
   public void generarPDF(RedistribucionViandas redistribucionViandas) {
-    //TODO
+    // TODO: Generar un PDF con los datos de las viandasa y de la distribución en general.
   }
 
   public void index(Context context) {
@@ -90,25 +89,32 @@ public class DistribuirViandaController {
   }
 
   public void create(Context context) {
-    // Recupero los IDs de las Heladeras donde se retiran y depositaran las viandas
-    long idHeladeraOrigen = Long.parseLong(context.formParam("idHeladeraOrigen"));
-    long idHeladeraDestino = Long.parseLong(context.formParam("idHeladeraDestino"));
+    try {
+      // Recupero los IDs de las Heladeras donde se retiran y depositaran las viandas
+      long idHeladeraOrigen = Long.parseLong(context.formParam("idHeladeraOrigen"));
+      long idHeladeraDestino = Long.parseLong(context.formParam("idHeladeraDestino"));
 
-    DistribuirViandaInputDTO dto = new DistribuirViandaInputDTO(
-            context.sessionAttribute("user_id"),
-            idHeladeraOrigen,
-            idHeladeraDestino,
-            Integer.parseInt(context.formParam("cantidadViandas")),
-            context.formParam("motivo").toUpperCase()
-    );
-    registrarDistribucionVianda(dto);
+      DistribuirViandaInputDTO dto = new DistribuirViandaInputDTO(
+              context.sessionAttribute("user_id"),
+              idHeladeraOrigen,
+              idHeladeraDestino,
+              Integer.parseInt(context.formParam("cantidadViandas")),
+              context.formParam("motivo").toUpperCase()
+      );
+      registrarDistribucionVianda(dto);
 
-    //TODO: Hacer que se descargue el PDF al Colaborador
-    context.json(Map.of(
-            "message", "Formulario completado con exito! Redirigiendo en tres segundos...",
-            "success", true,
-            "urlRedireccion", "/formas-colaboracion",
-            "demoraRedireccionEnSegundos", 3
-    ));
+      // TODO: Hacer que se le descargue el PDF al Colaborador
+      context.json(Map.of(
+              "message", "Formulario completado con exito! Redirigiendo en tres segundos...",
+              "success", true,
+              "urlRedireccion", "/formas-colaboracion",
+              "demoraRedireccionEnSegundos", 3
+      ));
+    } catch (Exception e) {
+      context.json(Map.of(
+              "message", "¡Error al completar el formulario!",
+              "success", false
+      ));
+    }
   }
 }

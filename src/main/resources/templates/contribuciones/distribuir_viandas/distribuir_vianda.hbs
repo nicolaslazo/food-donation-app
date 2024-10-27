@@ -28,6 +28,8 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <!-- Leaflet PinSearch -->
     <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+    <!-- Toast -->
+    <script src="/public/js/toast.js" defer></script>
 {{/partial}}
 
 {{#partial "contenido"}}
@@ -37,11 +39,11 @@
                 DISTRIBUCIÓN DE VIANDAS
             </div>
 
-            <form method="post" action="/contribucion/distribuicion-vianda" class="form__body">
+            <form method="post" action="/contribucion/distribucion-vianda" class="form__body">
                 <div class="heladera-details-container">
                     <label class="input-box">
                         Cantidad de Viandas a Distribuir
-                        <input type="number" min="1" required name="numeroViandas" id="cantidadViandas">
+                        <input type="number" min="1" required name="cantidadViandas" id="cantidadViandas">
                     </label>
                     <label class="input-box">
                         Seleccione el Origen y Destino
