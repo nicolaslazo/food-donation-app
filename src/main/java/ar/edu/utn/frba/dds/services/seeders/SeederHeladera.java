@@ -47,9 +47,18 @@ public class SeederHeladera {
         ZonedDateTime.now(),
         "Almagro"
     );
+    Heladera heladeraCasiLlena = new Heladera(
+            "Heladera Casi Llena",
+            new CoordenadasGeograficas(-34.618515, -58.375410),
+            unColaborador,
+            1,
+            ZonedDateTime.now(),
+            "San Telmo"
+    );
     heladerasRepository.insert(heladeraUno);
     heladerasRepository.insert(heladeraDos);
     heladerasRepository.insert(heladeraTres);
     heladerasRepository.insert(heladeraMedrano);
+    heladerasRepository.insert(heladeraCasiLlena);
   }
 }

@@ -15,12 +15,14 @@
     <script>
         let heladeras = [{{#each heladeras}}
             {
-                idHeladera: {{this.id}},
-                lat: {{this.ubicacion.latitud}},
-                long: {{this.ubicacion.longitud}},
-                nombre: "{{this.nombre}}"
+                idHeladera: {{this.idHeladera}},
+                lat: {{this.lat}},
+                long: {{this.long}},
+                nombre: "{{this.nombre}}",
+                capacidadDisponible: {{this.capacidadDisponible}},
+                viandasDepositadas: {{this.viandasDepositadas}}
             } {{#unless @last}},{{/unless}}
-        {{/each}}]
+        {{/each}}];
     </script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -39,7 +41,7 @@
                 <div class="heladera-details-container">
                     <label class="input-box">
                         Cantidad de Viandas a Distribuir
-                        <input type="number" min="1" required name="numeroViandas">
+                        <input type="number" min="1" required name="numeroViandas" id="cantidadViandas">
                     </label>
                     <label class="input-box">
                         Seleccione el Origen y Destino
@@ -62,9 +64,9 @@
                     <label class="input-box" id="distribucion-container">
                         Motivo de la Distribución
                         <select name="motivo" id="motivo">
-                            <option value="falla_heladera" name="fallaHeladera">Desperfecto en la Heladera</option>
-                            <option value="falta_viandas" name="faltaViandas">Faltan Viandas en la Heladera</option>
-                            <option value="falta_espacio" name="faltaEspacio">La Heladera esta casi llena</option>
+                            <option value="falla_heladera" name="fallaHeladera">Desperfecto en la Heladera Origen</option>
+                            <option value="falta_viandas" name="faltaViandas">Faltan Viandas en la Heladera Destino</option>
+                            <option value="falta_espacio" name="faltaEspacio">La Heladera origen esta casi llena</option>
                         </select>
                     </label>
                     <label class="input-check">
