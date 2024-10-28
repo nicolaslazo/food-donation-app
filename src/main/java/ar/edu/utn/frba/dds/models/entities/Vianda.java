@@ -48,7 +48,7 @@ public class Vianda {
   /* NOTA: No podemos hacer cascade en las heladeras porque
            para insertar una vianda primero necesitamos verificar que la heladera, _ya persistida_, tenga espacio */
   @ManyToOne
-  @JoinColumn(name = "idHeladera", referencedColumnName = "id", updatable = false)
+  @JoinColumn(name = "idHeladera", referencedColumnName = "id")
   @Getter
   @Setter
   Heladera heladera;

@@ -43,11 +43,11 @@ public class DistribuirViandaController {
       viandaADistribuir.setHeladera(null);
 
       // Actualizo el estado de la vianda
-      repositorioViandas.update(viandaADistribuir);
+      repositorioViandas.persist(viandaADistribuir);
 
       viandasADistribuir.add(viandaADistribuir);
     }
-    repositorioHeladeras.update(heladeraOrigen);
+    repositorioHeladeras.persist(heladeraOrigen);
 
     // Instancio la redistribución y la registro
     RedistribucionViandas redistribucionViandas = new RedistribucionViandas(
