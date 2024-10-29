@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class Vianda {
 
   /* NOTA: No podemos hacer cascade en las heladeras porque
            para insertar una vianda primero necesitamos verificar que la heladera, _ya persistida_, tenga espacio */
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Heladera.class)
   @JoinColumn(name = "idHeladera", referencedColumnName = "id", updatable = false)
   @Getter
   @Setter
@@ -66,6 +67,7 @@ public class Vianda {
     this.pesoEnGramos = pesoEnGramos;
     this.caloriasVianda = caloriasVianda;
   }
+
 
   protected Vianda() {
   }

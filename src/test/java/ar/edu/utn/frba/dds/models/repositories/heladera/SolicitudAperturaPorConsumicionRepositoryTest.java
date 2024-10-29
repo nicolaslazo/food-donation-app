@@ -71,8 +71,6 @@ public class SolicitudAperturaPorConsumicionRepositoryTest {
   }
   @Test
   void testGetPorId() {
-
-    repositorio.insert(solicitud);
     repositorio.insert(otraSolicitud);
 
     assertEquals(otraSolicitud, repositorio.findById(otraSolicitud.getId()).orElseThrow());
@@ -85,7 +83,6 @@ public class SolicitudAperturaPorConsumicionRepositoryTest {
 
   @Test
   void testEliminarTodas() {
-    repositorio.insert(solicitud);
     repositorio.insert(otraSolicitud);
     repositorio.deleteAll();
     assertEquals(0, repositorio.findAll().count());
@@ -93,8 +90,6 @@ public class SolicitudAperturaPorConsumicionRepositoryTest {
 
   @Test
   void getTodosRetornaTodosLosContenidos() {
-
-    repositorio.insert(solicitud);
     repositorio.insert(otraSolicitud);
 
     assertEquals(2, repositorio.findAll().count());
