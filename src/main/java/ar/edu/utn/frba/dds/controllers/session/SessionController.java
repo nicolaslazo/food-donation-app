@@ -92,7 +92,8 @@ public class SessionController {
 
       if (!usuario.getActivo()) {
         context.json(Map.of(
-            "message", "Contraseña incorrecta o usuario no encontrado",
+            "message", "Su usuario fue desactivado.\n" +
+                "Puede contactarse con un administrador para resolver el problema",
             "success", false
         ));
         return;

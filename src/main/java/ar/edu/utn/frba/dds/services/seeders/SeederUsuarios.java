@@ -70,6 +70,20 @@ public class SeederUsuarios {
     new ColaboradorRepository().insert(colaboradorJuridico);
     new ContactosRepository().insert(emailColaboradorJuridico);
 
+    Colaborador colaboradorFraudulento = new Colaborador(
+        new Documento(TipoDocumento.DNI, 3),
+        "Colaborador",
+        "Fraudulento",
+        LocalDate.now().minusYears(22),
+        new CoordenadasGeograficas(-34D, -58D),
+        "fraude",
+        new RolesRepository().findByName("COLABORADORFISICO").get()
+    );
+    Email emailColaboradorFraudulento =
+        new Email(colaboradorFraudulento.getUsuario(), "colaboradorFraudulento@mail.com");
+    new ColaboradorRepository().insert(colaboradorFraudulento);
+    new ContactosRepository().insert(emailColaboradorFraudulento);
+
     // ------ COLABORADORES & ADMINISTRADORES ------
     Colaborador colaboradorFisicoAdministrador = new Colaborador(
         new Documento(TipoDocumento.DNI, 4),
