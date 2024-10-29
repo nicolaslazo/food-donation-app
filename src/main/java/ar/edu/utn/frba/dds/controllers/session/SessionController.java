@@ -90,6 +90,14 @@ public class SessionController {
         throw new PermisoDenegadoException("El usuario no tiene ninguno de los roles aceptables");
 
 
+      if (!usuario.getActivo()) {
+        context.json(Map.of(
+            "message", "Contraseña incorrecta o usuario no encontrado",
+            "success", false
+        ));
+        return;
+      }
+
       // Recupero el model y Setteo el estado
       Map<String, Object> model = context.attribute("model");
       model.put("usuarioAutenticado", true);
