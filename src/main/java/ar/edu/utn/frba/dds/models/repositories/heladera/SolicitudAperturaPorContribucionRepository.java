@@ -9,10 +9,9 @@ import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -27,9 +26,9 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
     Root<SolicitudAperturaPorContribucion> root = query.from(SolicitudAperturaPorContribucion.class);
     query.select(root).where(cb.equal(root.get("id"), id));
     return em.createQuery(query)
-            .getResultStream()
-            .filter(solicitud -> solicitud.isVigenteAlMomento(momento, paraExtraccion))
-            .findFirst();
+        .getResultStream()
+        .filter(solicitud -> solicitud.isVigenteAlMomento(momento, paraExtraccion))
+        .findFirst();
   }
 
   public Optional<SolicitudAperturaPorContribucion> getSolicitudVigente(Long id, boolean paraExtraccion) {
@@ -43,24 +42,42 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
     Root<MovimientoViandas> root = query.from(MovimientoViandas.class);
     query.select(root).where(cb.equal(root.get("destino").get("id"), heladera.getId()));
     return em.createQuery(query)
-            .getResultStream()
-            .mapToInt(solicitud -> solicitud.getViandas().size())
-            .sum();
+        .getResultStream()
+        .mapToInt(solicitud -> solicitud.getViandas().size())
+        .sum();
   }
 
+  public Stream<SolicitudAperturaPorContribucion> getRedistribucionesIncompletasVencidas() {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<SolicitudAperturaPorContribucion> query = cb.createQuery(SolicitudAperturaPorContribucion.class);
+    Root<SolicitudAperturaPorContribucion> solicitud = query.from(SolicitudAperturaPorContribucion.class);
 
+    // Condiciones:
+    // 1. Fecha apertura en origen no es null (fue usada en origen)
+    // 2. Fecha apertura en destino es null (no fue usada en destino)
+    // 3. Está vencida (fecha actual > fecha vencimiento)
+    Predicate condiciones = cb.and(
+        cb.isNotNull(solicitud.get("fechaAperturaEnOrigen")),
+        cb.isNull(solicitud.get("fechaAperturaEnDestino")),
+        cb.greaterThan(cb.literal(ZonedDateTime.now()), solicitud.get("fechaVencimiento"))
+    );
 
+    query.where(condiciones);
+
+    return em.createQuery(query).getResultStream();
+  }
 
   public void updateFechaUsada(Long id, boolean paraExtraccion, ZonedDateTime fechaUsada)
-          throws Exception {
+      throws Exception {
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
-            getSolicitudVigenteAlMomento(id, paraExtraccion, fechaUsada);
+        getSolicitudVigenteAlMomento(id, paraExtraccion, fechaUsada);
 
     if (optionalSolicitud.isEmpty()) {
       String operacion = paraExtraccion ? "extracción" : "depósito";
 
       throw new SolicitudInvalidaException(
-              "No existe solicitud vigente con id %d para %s de viandas".formatted(id, operacion));
+          "No existe solicitud vigente con id %d para %s de viandas".formatted(id, operacion));
     }
 
     if (paraExtraccion) {
@@ -70,5 +87,4 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
     }
     update(optionalSolicitud.get());
   }
-
 }
