@@ -19,6 +19,7 @@ import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
+import lombok.Getter;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.time.LocalDate;
@@ -27,7 +28,23 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+@Getter
 public class SeederUsuarios {
+  static Colaborador colaboradorFraudulento = new Colaborador(
+      new Documento(TipoDocumento.DNI, 3),
+      "Colaborador",
+      "Fraudulento",
+      LocalDate.now().minusYears(22),
+      new CoordenadasGeograficas(-34D, -58D),
+      "fraude",
+      new RolesRepository().findByName("COLABORADORFISICO").get()
+  );
+
+  static Tarjeta tarjetaAdmin = new Tarjeta(UUID.fromString("12345678-1234-1234-1234-123456789abc"));
+  static Tarjeta tarjetaFraudulento = new Tarjeta(UUID.fromString("12345678-2345-2345-2345-123456789abc"));
+  static Tarjeta tarjeta3 = new Tarjeta(UUID.fromString("12345678-3456-3456-3456-123456789abc"));
+
+
   public static void execute() throws PermisoDenegadoException {
     // ------ ADMINISTRADORES ------
     Usuario usuarioAdmin = new Usuario(
@@ -70,15 +87,6 @@ public class SeederUsuarios {
     new ColaboradorRepository().insert(colaboradorJuridico);
     new ContactosRepository().insert(emailColaboradorJuridico);
 
-    Colaborador colaboradorFraudulento = new Colaborador(
-        new Documento(TipoDocumento.DNI, 3),
-        "Colaborador",
-        "Fraudulento",
-        LocalDate.now().minusYears(22),
-        new CoordenadasGeograficas(-34D, -58D),
-        "fraude",
-        new RolesRepository().findByName("COLABORADORFISICO").get()
-    );
     Email emailColaboradorFraudulento =
         new Email(colaboradorFraudulento.getUsuario(), "colaboradorFraudulento@mail.com");
     new ColaboradorRepository().insert(colaboradorFraudulento);
@@ -173,12 +181,11 @@ public class SeederUsuarios {
     new PersonaVulnerableRepository().insert(personaVulnerableUno);
     new ContactosRepository().insert(emailPersonaVulnerableUno);
 
-    Tarjeta tarjeta1 = new Tarjeta(UUID.fromString("12345678-1234-1234-1234-123456789abc"));
-    Tarjeta tarjeta2 = new Tarjeta(UUID.fromString("12345678-2345-2345-2345-123456789abc"));
-    Tarjeta tarjeta3 = new Tarjeta(UUID.fromString("12345678-3456-3456-3456-123456789abc"));
+    tarjetaAdmin.setEnAlta(usuarioAdmin, colaboradorAdmin, ZonedDateTime.now());
+    tarjetaFraudulento.setEnAlta(colaboradorFraudulento.getUsuario(),
+        colaboradorAdmin,
+        ZonedDateTime.now().minusYears(1));
 
-    tarjeta1.setEnAlta(usuarioAdmin, colaboradorAdmin, ZonedDateTime.now());
-
-    new TarjetasRepository().insertAll(Set.of(tarjeta1, tarjeta2, tarjeta3));
+    new TarjetasRepository().insertAll(Set.of(tarjetaAdmin, tarjetaFraudulento, tarjeta3));
   }
 }
