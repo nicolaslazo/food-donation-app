@@ -47,7 +47,7 @@ public class Vianda {
 
   /* NOTA: No podemos hacer cascade en las heladeras porque
            para insertar una vianda primero necesitamos verificar que la heladera, _ya persistida_, tenga espacio */
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Heladera.class)
   @JoinColumn(name = "idHeladera", referencedColumnName = "id")
   @Setter
   Heladera heladera;

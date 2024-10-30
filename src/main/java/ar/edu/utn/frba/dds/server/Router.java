@@ -95,6 +95,7 @@ public class Router {
     app.post("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::create, permisoSolicitarTarjetas);
     app.get("/contribucion/agregar-recompensa", new AgregarRecompensasController()::index, permisoCrearRecompensa);
     app.get("/contribucion/donacion-vianda", new DonacionViandaController()::index, permisoDonarViandas);
+    app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);
     app.get("/contribucion/distribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
     app.post("/contribucion/distribucion-vianda", new DistribuirViandaController()::create, permisoDistribuirViandas);
     //app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);

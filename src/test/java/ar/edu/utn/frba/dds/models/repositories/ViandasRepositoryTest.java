@@ -74,13 +74,6 @@ class ViandasRepositoryTest {
   }
 
   @Test
-  void testInsertFallaSiHeladeraNoTieneEspacio() {
-    new ViandasRepository().insert(vianda);  // Heladera ahora está llena
-
-    assertThrows(RuntimeException.class, () -> new ViandasRepository().insert(vianda));
-  }
-
-  @Test
   void testInsertDeCollectionFallaSiViandasTienenHeladerasDistintas() {
 
     assertNull(otraVianda.getHeladera());

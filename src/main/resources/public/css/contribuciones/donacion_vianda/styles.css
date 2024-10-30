@@ -8,19 +8,27 @@
 }
 
 .vianda-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 16px;
     background-color: #f1f1f1;
-    border: none;
     padding: 10px;
+    border: none;
+    cursor: pointer;
     width: 100%;
     text-align: left;
-    font-size: 1.1em;
-    cursor: pointer;
-    outline: none;
+}
+
+.vianda-title i {
+    margin-right: 10px;
 }
 
 .vianda-inputs {
-    display: block; /* Inicialmente mostrado */
-    margin-top: 10px;
+    display: none; /* Las secciones estarán ocultas por defecto */
+    padding: 10px;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
 }
 
 .vianda-inputs label {
@@ -33,7 +41,6 @@
     border-radius: 10px;
     border: solid 1px #000;
     resize: none; /* Evita que se pueda cambiar el tamaño del textarea */
-    font-family: montserrat;
     font-size: 12px;
     min-height: 100px; /* Puedes ajustar la altura según necesites */
 }
@@ -44,7 +51,6 @@
 }
 
 .vianda-title {
-    font-family: montserrat;
     font-size: 16px;
     font-weight: bold;
     border: none;
@@ -54,3 +60,4 @@
     width: 100%;
     border-radius: 10px;
 }
+

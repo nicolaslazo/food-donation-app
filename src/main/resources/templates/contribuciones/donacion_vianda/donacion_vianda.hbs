@@ -5,6 +5,9 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
+    <!-- Icono de Lista Desplegable -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 {{/partial}}
 {{#partial "scripts"}}
     <script src="/public/js/sticky_nav_bar.js" defer></script>
@@ -12,12 +15,13 @@
     <script>
         let heladeras = [{{#each heladeras}}
             {
-                idHeladera: {{this.id}},
-                lat: {{this.ubicacion.latitud}},
-                long: {{this.ubicacion.longitud}},
-                nombre: "{{this.nombre}}"
+                idHeladera: {{this.idHeladera}},
+                lat: {{this.lat}},
+                long: {{this.long}},
+                nombre: "{{this.nombre}}",
+                capacidadDisponible: {{this.capacidadDisponible}}
             } {{#unless @last}},{{/unless}}
-        {{/each}}]
+        {{/each}}];
     </script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -30,7 +34,7 @@
             <div class="form-title">
                 DONACIÓN DE VIANDA
             </div>
-            <form method="post" action="/contribucion/donacion-vianda" class="form__body">
+            <form id="formulario-viandas" method="post" action="/contribucion/donacion-vianda" class="form__body">
                 <div class="heladera-details-container">
                     <!-- Cantidad de Viandas a ingresar -->
                     <label class="input-box" id="cantidad-viandas">
@@ -42,7 +46,6 @@
                             <option value="5">5</option>
                         </select>
                     </label>
-
                     <!-- Contenedor de Viandas -->
                     <div id="viandas-container">
                         <!-- Esta es la primera vianda que se muestra por defecto -->
@@ -58,36 +61,34 @@
                                     <input name="fechaCaducidad_1" type="date" required>
                                 </label>
                                 <label class="input-box">
-                                    Peso de la Vianda
+                                    Peso de la Vianda *
                                     <input name="pesoVianda_1" type="number" min="1" placeholder="En Gramos">
                                 </label>
                                 <label class="input-box">
-                                    Calorías
+                                    Calorías *
                                     <input name="calorias_1" type="number" min="1" placeholder="En Calorías">
                                 </label>
                             </div>
                         </div>
                     </div>
-
                     <!-- Input Coordenadas de la Heladera a la que se deposita -->
                     <label class="input-box">
                         Heladera a Depositar *
                         <div id="map"></div>
                         <input type="hidden" id="latitude" name="latitud">
                         <input type="hidden" id="longitude" name="longitud">
-                        <input type="hidden" id="idHeladera" name="idHeladera">
+                        <input type="hidden" id="idHeladera" name="idHeladera" value="">
                     </label>
-
+                    <!-- Fecha de Donación, No es visible para el Usuario -->
+                    <input type="hidden" id="fechaHora" name="fechaHora">
                     <label class="input-check">
                         Acepto los <a href="/terminos"> terminos y condiciones </a>
                         <input type="checkbox" required>
                     </label>
                 </div>
-
                 <div class="submit-button">
                     <input type="submit" value="ENVIAR SOLICITUD">
                 </div>
-
                 <div class="aclaracion-campos"> Los campos con * son obligatorios </div>
             </form>
         </div>
