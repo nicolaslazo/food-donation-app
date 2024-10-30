@@ -9,11 +9,9 @@ import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.ZonedDateTime;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class SolicitudAperturaPorContribucionRepository extends HibernateEntityManager<SolicitudAperturaPorContribucion, Long> {
 
@@ -45,27 +43,6 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
         .getResultStream()
         .mapToInt(solicitud -> solicitud.getViandas().size())
         .sum();
-  }
-
-  public Stream<SolicitudAperturaPorContribucion> getRedistribucionesIncompletasVencidas() {
-    EntityManager em = entityManager();
-    CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery<SolicitudAperturaPorContribucion> query = cb.createQuery(SolicitudAperturaPorContribucion.class);
-    Root<SolicitudAperturaPorContribucion> solicitud = query.from(SolicitudAperturaPorContribucion.class);
-
-    // Condiciones:
-    // 1. Fecha apertura en origen no es null (fue usada en origen)
-    // 2. Fecha apertura en destino es null (no fue usada en destino)
-    // 3. Está vencida (fecha actual > fecha vencimiento)
-    Predicate condiciones = cb.and(
-        cb.isNotNull(solicitud.get("fechaAperturaEnOrigen")),
-        cb.isNull(solicitud.get("fechaAperturaEnDestino")),
-        cb.greaterThan(cb.literal(ZonedDateTime.now()), solicitud.get("fechaVencimiento"))
-    );
-
-    query.where(condiciones);
-
-    return em.createQuery(query).getResultStream();
   }
 
   public void updateFechaUsada(Long id, boolean paraExtraccion, ZonedDateTime fechaUsada)

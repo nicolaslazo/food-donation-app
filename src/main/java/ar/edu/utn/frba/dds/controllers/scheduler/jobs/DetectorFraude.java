@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.controllers.scheduler.jobs;
 import ar.edu.utn.frba.dds.models.entities.contacto.MensajeAContactoException;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
-import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import lombok.Getter;
 import org.quartz.Job;
@@ -14,8 +13,7 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DetectorFraude implements Job {
   @Getter
@@ -29,12 +27,9 @@ public class DetectorFraude implements Job {
   static JobDetail jobDetail = JobBuilder.newJob(DetectorFraude.class).withIdentity("jobDetectorFraude").build();
 
   public void execute(JobExecutionContext ctx) {
-    Set<Usuario> fraudulentos = new SolicitudAperturaPorContribucionRepository()
-        .getRedistribucionesIncompletasVencidas()
-        .map(redistribucion -> redistribucion.getTarjeta().getRecipiente())
-        .collect(Collectors.toSet());
+    Stream<Usuario> fraudulentos = new UsuariosRepository().findFraudulentosActivos();
 
-    for (Usuario usuario : fraudulentos) {
+    fraudulentos.forEach(usuario -> {
       usuario.setActivo(false);
       new UsuariosRepository().update(usuario);
 
@@ -50,6 +45,6 @@ public class DetectorFraude implements Job {
               throw new RuntimeException(e);
             }
           });
-    }
+    });
   }
 }
