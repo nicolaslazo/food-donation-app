@@ -21,6 +21,76 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public class DistribuirViandaController {
+  public void generarPDF(RedistribucionViandas redistribucionViandas) {
+    // TODO: Generar un PDF con los datos de las viandasa y de la distribución en general.
+  }
+
+  public void index(Context context) {
+    Map<String, Object> model = context.attribute("model");
+
+    // Recupero heladeras
+    HeladerasRepository heladerasRepository = new HeladerasRepository();
+    Stream<Heladera> heladeras = heladerasRepository.findAll();
+
+    // Tomo información de las heladeras.
+    List<Map<String, Object>> heladerasData = heladeras.map(heladera -> {
+      Map<String, Object> heladeraData = new HashMap<>();
+      heladeraData.put("idHeladera", heladera.getId());
+      heladeraData.put("lat", heladera.getUbicacion().getLatitud());
+      heladeraData.put("long", heladera.getUbicacion().getLongitud());
+      heladeraData.put("nombre", heladera.getNombre());
+      heladeraData.put("capacidadDisponible", heladerasRepository.getCapacidadDisponible(heladera));
+      heladeraData.put("viandasDepositadas", heladerasRepository.getCantidadViandasDepositadas(heladera));
+      return heladeraData;
+    }).toList();
+
+    model.put("heladeras", heladerasData);
+
+    // Esto es nuevo:
+    // Recupero las Viandas
+    ViandasRepository viandasRepository = new ViandasRepository();
+    Stream<Vianda> viandas = viandasRepository.findAll();
+
+    // Tomo información de las Viandas
+    List<Map<String, Object>> viandasData = viandas.map(vianda -> {
+      Map<String, Object> viandaData = new HashMap<>();
+      viandaData.put("idVianda", vianda.getId());
+      viandaData.put("idHeladera", vianda.getHeladera().getId());
+      viandaData.put("descripcion", vianda.getDescripcion());
+      viandaData.put("fechaCaducidad", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(vianda.getFechaCaducidad()));
+      viandaData.put("pesoVianda", vianda.getPesoEnGramos());
+      return viandaData;
+    }).toList();
+
+    model.put("viandas", viandasData);
+
+    context.render("contribuciones/distribuir_viandas/distribuir_vianda.hbs", model);
+  }
+
+  public void create(Context context) {
+    // Recupero los IDs de las Heladeras donde se retiran y depositaran las viandas
+    long idHeladeraOrigen = Long.parseLong(context.formParam("idHeladeraOrigen"));
+    long idHeladeraDestino = Long.parseLong(context.formParam("idHeladeraDestino"));
+
+    // Recupero los IDs de las Viandas y Parseo a Long
+    List<String> viandasIDsString = context.formParams("viandasIds");
+    List<Long> viandasIDs = viandasIDsString.stream()
+            .map(Long::parseLong)  // Convierte cada String en Long
+            .toList();
+
+    DistribuirViandaInputDTO dto = new DistribuirViandaInputDTO(
+            context.sessionAttribute("user_id"),
+            idHeladeraOrigen,
+            idHeladeraDestino,
+            viandasIDs,
+            context.formParam("motivo").toUpperCase()
+    );
+    create(dto);
+
+    // TODO: Hacer que se le descargue el PDF al Colaborador
+    context.redirect("/formas-colaboracion");
+  }
+
   // Registro la solicitud de Distribución de viandas
   public void create(DistribuirViandaInputDTO dto) {
     ViandasRepository repositorioViandas = new ViandasRepository();
@@ -61,75 +131,5 @@ public class DistribuirViandaController {
     System.out.println("Viandas en la Primera Heladera: " + (long) viandasEnHeladera.size());
 
     //generarPDF(redistribucionViandas);
-  }
-
-  public void generarPDF(RedistribucionViandas redistribucionViandas) {
-    // TODO: Generar un PDF con los datos de las viandasa y de la distribución en general.
-  }
-
-  public void index(Context context) {
-    Map<String, Object> model = context.attribute("model");
-
-    // Recupero heladeras
-    HeladerasRepository heladerasRepository = new HeladerasRepository();
-    Stream<Heladera> heladeras = heladerasRepository.findAll();
-
-    // Tomo información de las heladeras.
-    List<Map<String, Object>> heladerasData = heladeras.map(heladera -> {
-      Map<String, Object> heladeraData = new HashMap<>();
-      heladeraData.put("idHeladera", heladera.getId());
-      heladeraData.put("lat", heladera.getUbicacion().getLatitud());
-      heladeraData.put("long", heladera.getUbicacion().getLongitud());
-      heladeraData.put("nombre", heladera.getNombre());
-      heladeraData.put("capacidadDisponible", heladerasRepository.getCapacidadDisponible(heladera));
-      heladeraData.put("viandasDepositadas", heladerasRepository.getCantidadViandasDepositadas(heladera));
-      return heladeraData;
-    }).toList();
-
-    model.put("heladeras", heladerasData);
-
-    // Esto es nuevo:
-    // Recupero las Viandas
-    ViandasRepository viandasRepository = new ViandasRepository();
-    Stream<Vianda> viandas = viandasRepository.findAll();
-
-    // Tomo información de las Viandas
-    List<Map<String, Object>> viandasData = viandas.map(vianda ->{
-      Map<String, Object> viandaData = new HashMap<>();
-      viandaData.put("idVianda", vianda.getId());
-      viandaData.put("idHeladera", vianda.getHeladera().getId());
-      viandaData.put("descripcion", vianda.getDescripcion());
-      viandaData.put("fechaCaducidad", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(vianda.getFechaCaducidad()));
-      viandaData.put("pesoVianda", vianda.getPesoEnGramos());
-      return viandaData;
-    }).toList();
-
-    model.put("viandas", viandasData);
-
-    context.render("contribuciones/distribuir_viandas/distribuir_vianda.hbs", model);
-  }
-
-  public void create(Context context) {
-    // Recupero los IDs de las Heladeras donde se retiran y depositaran las viandas
-    long idHeladeraOrigen = Long.parseLong(context.formParam("idHeladeraOrigen"));
-    long idHeladeraDestino = Long.parseLong(context.formParam("idHeladeraDestino"));
-
-    // Recupero los IDs de las Viandas y Parseo a Long
-    List<String> viandasIDsString = context.formParams("viandasIds");
-    List<Long> viandasIDs = viandasIDsString.stream()
-            .map(Long::parseLong)  // Convierte cada String en Long
-            .toList();
-
-    DistribuirViandaInputDTO dto = new DistribuirViandaInputDTO(
-            context.sessionAttribute("user_id"),
-            idHeladeraOrigen,
-            idHeladeraDestino,
-            viandasIDs,
-            context.formParam("motivo").toUpperCase()
-    );
-    create(dto);
-
-    // TODO: Hacer que se le descargue el PDF al Colaborador
-    context.redirect("/formas-colaboracion");
   }
 }
