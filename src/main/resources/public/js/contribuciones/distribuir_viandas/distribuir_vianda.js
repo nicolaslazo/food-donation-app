@@ -57,7 +57,7 @@ function seleccionarPunto(marker, nombreHeladera, idHeladera, capacidadDisponibl
                         <strong>Caducidad: </strong>${vianda.fechaCaducidad}<br>
                         <strong>Peso: </strong>${vianda.pesoVianda}g
                     </div>
-                    <input type="checkbox" value="${vianda.idVianda}" data-id="${vianda.idHeladera}">
+                    <input name="viandasIds" type="checkbox" value="${vianda.idVianda}" data-id="${vianda.idHeladera}">
                 </label>
             `;
             listaViandas.appendChild(li);
@@ -104,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmarViandasBtn = document.getElementById('confirmarViandas');
     const cancelarViandasBtn = document.getElementById('cancelarViandas');
 
-    // Confirmar selección de viandas
     document.getElementById('confirmarViandas').addEventListener('click', () => {
         const selectedViandas = [];
         const checkboxes = document.querySelectorAll('#listaViandas input[type="checkbox"]:checked');
@@ -113,13 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
             selectedViandas.push(checkbox.value); // Agrega el ID de la vianda seleccionada
         });
 
-        totalViandasSeleccionadas = checkboxes.length
-
         // Crear un input oculto para enviar los IDs de las viandas
         const inputViandas = document.createElement('input');
         inputViandas.type = 'hidden';
-        inputViandas.name = 'viandaIds'; // Nombre para recuperar en el back
-        inputViandas.value = selectedViandas.join(',');
+        inputViandas.name = 'viandasIds'; // Nombre para recuperar en el back (cambia a viandasIds)
+        inputViandas.value = selectedViandas.join(','); // Cadena separada por comas
 
         // Agregar el input oculto al formulario
         const form = document.querySelector('.form__body');
@@ -128,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Cerrar el modal después de confirmar
         document.getElementById('modalViandas').classList.add('hidden');
     });
-
 
     cancelarViandasBtn.addEventListener('click', () => {
         if (markerOrigen) {

@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 public class DistribuirViandaController {
   // Registro la solicitud de Distribución de viandas
-  public void registrarDistribucionVianda(DistribuirViandaInputDTO dto) {
+  public void create(DistribuirViandaInputDTO dto) {
     ViandasRepository repositorioViandas = new ViandasRepository();
     HeladerasRepository repositorioHeladeras = new HeladerasRepository();
 
@@ -33,13 +33,11 @@ public class DistribuirViandaController {
     Heladera heladeraOrigen = repositorioHeladeras.findById(dto.getIdHeladeraOrigen()).get();
     Heladera heladeraDestino = repositorioHeladeras.findById(dto.getIdHeladeraDestino()).get();
 
-    List<Vianda> viandas = repositorioViandas.findAll(heladeraOrigen).toList();
-
     Collection<Vianda> viandasADistribuir = new ArrayList<>();
     // Recorro y obtengo las viandas a distribuir
-    for (int i = 0; i < dto.getCantidadViandas(); i++) {
+    for (Long idVianda : dto.getIdsViandas()) {
       // Obtengo la vianda y la retiro de la heladera
-      Vianda viandaADistribuir = viandas.get(i);
+      Vianda viandaADistribuir = repositorioViandas.findById(idVianda).get();
       viandaADistribuir.setHeladera(null);
 
       // Actualizo el estado de la vianda
@@ -116,14 +114,20 @@ public class DistribuirViandaController {
     long idHeladeraOrigen = Long.parseLong(context.formParam("idHeladeraOrigen"));
     long idHeladeraDestino = Long.parseLong(context.formParam("idHeladeraDestino"));
 
+    // Recupero los IDs de las Viandas y Parseo a Long
+    List<String> viandasIDsString = context.formParams("viandasIds");
+    List<Long> viandasIDs = viandasIDsString.stream()
+            .map(Long::parseLong)  // Convierte cada String en Long
+            .toList();
+
     DistribuirViandaInputDTO dto = new DistribuirViandaInputDTO(
             context.sessionAttribute("user_id"),
             idHeladeraOrigen,
             idHeladeraDestino,
-            Integer.parseInt(context.formParam("cantidadViandas")),
+            viandasIDs,
             context.formParam("motivo").toUpperCase()
     );
-    registrarDistribucionVianda(dto);
+    create(dto);
 
     // TODO: Hacer que se le descargue el PDF al Colaborador
     context.redirect("/formas-colaboracion");
