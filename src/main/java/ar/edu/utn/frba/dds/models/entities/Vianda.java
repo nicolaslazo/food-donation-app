@@ -19,6 +19,7 @@ import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "vianda")
+@Getter
 public class Vianda {
   @Id
   @Column(name = "id", nullable = false, unique = true, updatable = false)
@@ -38,7 +39,6 @@ public class Vianda {
   @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @NonNull Colaborador colaborador;
 
-  @Getter
   @Column(name = "pesoEnGramos", nullable = false, updatable = false)
   @NonNull Double pesoEnGramos;
 
@@ -49,7 +49,6 @@ public class Vianda {
            para insertar una vianda primero necesitamos verificar que la heladera, _ya persistida_, tenga espacio */
   @ManyToOne
   @JoinColumn(name = "idHeladera", referencedColumnName = "id")
-  @Getter
   @Setter
   Heladera heladera;
 

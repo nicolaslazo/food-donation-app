@@ -12,12 +12,12 @@ import ar.edu.utn.frba.dds.models.repositories.contribucion.RedistribucionVianda
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import io.javalin.http.Context;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DistribuirViandaController {
@@ -86,9 +86,27 @@ public class DistribuirViandaController {
       heladeraData.put("capacidadDisponible", heladerasRepository.getCapacidadDisponible(heladera));
       heladeraData.put("viandasDepositadas", heladerasRepository.getCantidadViandasDepositadas(heladera));
       return heladeraData;
-    }).collect(Collectors.toList());
+    }).toList();
 
     model.put("heladeras", heladerasData);
+
+    // Esto es nuevo:
+    // Recupero las Viandas
+    ViandasRepository viandasRepository = new ViandasRepository();
+    Stream<Vianda> viandas = viandasRepository.findAll();
+
+    // Tomo información de las Viandas
+    List<Map<String, Object>> viandasData = viandas.map(vianda ->{
+      Map<String, Object> viandaData = new HashMap<>();
+      viandaData.put("idVianda", vianda.getId());
+      viandaData.put("idHeladera", vianda.getHeladera().getId());
+      viandaData.put("descripcion", vianda.getDescripcion());
+      viandaData.put("fechaCaducidad", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(vianda.getFechaCaducidad()));
+      viandaData.put("pesoVianda", vianda.getPesoEnGramos());
+      return viandaData;
+    }).toList();
+
+    model.put("viandas", viandasData);
 
     context.render("contribuciones/distribuir_viandas/distribuir_vianda.hbs", model);
   }
