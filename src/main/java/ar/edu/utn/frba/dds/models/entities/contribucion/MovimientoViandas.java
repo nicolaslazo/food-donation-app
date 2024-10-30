@@ -23,7 +23,7 @@ import java.util.Objects;
 public abstract class MovimientoViandas extends Contribucion {
 
   @OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-  @JoinColumn(name = "idVianda", referencedColumnName = "id", unique = true)
+  @JoinColumn(name = "idVianda", referencedColumnName = "id")
   Collection<Vianda> viandas;
 
   @ManyToOne(targetEntity = Heladera.class, cascade = {CascadeType.MERGE, CascadeType.PERSIST })

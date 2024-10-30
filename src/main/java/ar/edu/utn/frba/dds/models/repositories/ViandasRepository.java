@@ -60,11 +60,6 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
     super.insertAll(viandas);
   }
 
-  public void insert(Vianda vianda) {
-    assertHeladeraTieneSuficienteEspacio(vianda.getHeladera(), 1);
-    super.insert(vianda);
-  }
-
   public void updateUbicacion(Vianda vianda, Heladera ubicacionNueva) {
     assertHeladeraTieneSuficienteEspacio(ubicacionNueva, 1);
     vianda.setHeladera(ubicacionNueva);
