@@ -61,16 +61,16 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
       throw new RuntimeException("No se pueden insertar viandas de heladeras distintas en la misma transacción");
   }
 
-//  public void insertAll(Collection<Vianda> viandas) {
-//    // Diseñada para calcular la disponibilidad de espacio en una heladera sola.
-//    // No hay caso de uso que justifique complicarla
-//    assertViandasSonDeLaMismaHeladera(viandas);
-//
-//    final Heladera heladeraInvolucrada = viandas.iterator().next().getHeladera();
-//    assertHeladeraTieneSuficienteEspacio(heladeraInvolucrada, viandas.size());
-//
-//    super.insertAll(viandas);
-//  }
+  //  public void insertAll(Collection<Vianda> viandas) {
+  //    // Diseñada para calcular la disponibilidad de espacio en una heladera sola.
+  //    // No hay caso de uso que justifique complicarla
+  //    assertViandasSonDeLaMismaHeladera(viandas);
+  //
+  //    final Heladera heladeraInvolucrada = viandas.iterator().next().getHeladera();
+  //    assertHeladeraTieneSuficienteEspacio(heladeraInvolucrada, viandas.size());
+  //
+  //    super.insertAll(viandas);
+  //  }
 
   public void updateUbicacion(Vianda vianda, Heladera ubicacionNueva) {
     assertHeladeraTieneSuficienteEspacio(ubicacionNueva, 1);
