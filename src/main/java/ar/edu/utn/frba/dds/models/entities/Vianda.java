@@ -35,6 +35,7 @@ public class Vianda {
   @Column(name = "fechaDonacion", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaDonacion;
 
+  @Getter
   @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Colaborador.class)
   @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @NonNull Colaborador colaborador;

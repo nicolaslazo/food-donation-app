@@ -35,8 +35,7 @@ public class DetectorFraude implements Job {
 
       new ContactosRepository()
           .get(usuario)
-          .forEach(contacto ->
-          {
+          .forEach(contacto -> {
             try {
               contacto.enviarMensaje(
                   "Su cuenta ha sido desactivada por sospechas de fraude. " +

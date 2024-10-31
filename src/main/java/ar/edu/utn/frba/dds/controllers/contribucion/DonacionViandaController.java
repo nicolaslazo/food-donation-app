@@ -23,10 +23,6 @@ import java.util.stream.Collectors;
 
 public class DonacionViandaController {
   public void registrarDonacionViandas(List<DonacionViandaInputDTO> dtos) {
-    // Recupero al colaborador
-    long idColaborador = dtos.stream().findFirst().get().getIdColaborador();
-    Colaborador colaborador = new ColaboradorRepository().findById(idColaborador).get();
-
     // Recupero a la Heladera donde se depositaran las Viandas
     long idHeladera = dtos.stream().findFirst().get().getIdHeladera();
     Heladera heladeraDestino = new HeladerasRepository().findById(idHeladera).get();
@@ -43,6 +39,8 @@ public class DonacionViandaController {
     ViandasRepository repositorioViandas = new ViandasRepository();
     repositorioViandas.assertHeladeraTieneSuficienteEspacio(heladeraDestino, viandas.size());
     repositorioViandas.insertAll(viandas);
+
+    Colaborador colaborador = viandas.iterator().next().getColaborador();
 
     DonacionViandas donacionViandas = new DonacionViandas(
         colaborador,
