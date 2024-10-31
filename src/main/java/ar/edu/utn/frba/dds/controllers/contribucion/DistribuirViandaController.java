@@ -14,6 +14,7 @@ import io.javalin.http.Context;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -70,16 +71,15 @@ public class DistribuirViandaController {
     context.render("contribuciones/distribuir_viandas/distribuir_vianda.hbs", model);
   }
 
-
   public void create(Context context) {
     // Recupero los IDs de las Heladeras donde se retiran y depositaran las viandas
     long idHeladeraOrigen = Long.parseLong(context.formParam("idHeladeraOrigen"));
     long idHeladeraDestino = Long.parseLong(context.formParam("idHeladeraDestino"));
 
-    // Recupero los IDs de las Viandas y Parseo a Long
-    List<String> viandasIDsString = context.formParams("viandasIds");
-    List<Long> viandasIDs = viandasIDsString.stream()
-            .map(Long::parseLong)  // Convierte cada String en Long
+    // Recupero los IDs de las Viandas como un String y luego divido en una lista de Strings
+    String viandasIDsString = context.formParam("viandasIds"); // Recibe el String "2,3,5"
+    List<Long> viandasIDs = Arrays.stream(viandasIDsString.split(",")) // Separa el String por comas
+            .map(Long::parseLong) // Convierte cada elemento a Long
             .toList();
 
     DistribuirViandaInputDTO dto = new DistribuirViandaInputDTO(
