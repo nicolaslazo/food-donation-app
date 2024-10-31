@@ -92,8 +92,7 @@ public class SessionController {
 
       if (!usuario.getActivo()) {
         context.json(Map.of(
-            "message", "Su usuario fue desactivado.\n" +
-                "Puede contactarse con un administrador para resolver el problema",
+            "message", "Su usuario fue desactivado. Puede usar la pestaña de contacto para resolver el problema",
             "success", false
         ));
         return;

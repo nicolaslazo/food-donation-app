@@ -39,6 +39,8 @@ public class SeederUsuarios {
       "fraude",
       new RolesRepository().findByName("COLABORADORFISICO").get()
   );
+  static Email emailColaboradorFraudulento =
+      new Email(colaboradorFraudulento.getUsuario(), "colaboradorFraudulento@mail.com");
 
   static Tarjeta tarjetaAdmin = new Tarjeta(UUID.fromString("12345678-1234-1234-1234-123456789abc"));
   static Tarjeta tarjetaFraudulento = new Tarjeta(UUID.fromString("12345678-2345-2345-2345-123456789abc"));
@@ -87,8 +89,6 @@ public class SeederUsuarios {
     new ColaboradorRepository().insert(colaboradorJuridico);
     new ContactosRepository().insert(emailColaboradorJuridico);
 
-    Email emailColaboradorFraudulento =
-        new Email(colaboradorFraudulento.getUsuario(), "colaboradorFraudulento@mail.com");
     new ColaboradorRepository().insert(colaboradorFraudulento);
     new ContactosRepository().insert(emailColaboradorFraudulento);
 
