@@ -38,9 +38,12 @@ public class DonacionViandaController {
       Vianda viandaNueva = dto.getVianda();
 
       viandas.add(viandaNueva);
-      // Guardo las Viandas, pero sin Heladera setteada
-      new ViandasRepository().insert(viandaNueva);
     }
+
+    ViandasRepository repositorioViandas = new ViandasRepository();
+    repositorioViandas.assertHeladeraTieneSuficienteEspacio(heladeraDestino, viandas.size());
+    repositorioViandas.insertAll(viandas);
+
     DonacionViandas donacionViandas = new DonacionViandas(
         colaborador,
         viandas,

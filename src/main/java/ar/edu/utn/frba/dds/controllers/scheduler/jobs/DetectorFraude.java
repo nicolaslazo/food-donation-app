@@ -13,7 +13,7 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 public class DetectorFraude implements Job {
   @Getter
@@ -27,9 +27,9 @@ public class DetectorFraude implements Job {
   static JobDetail jobDetail = JobBuilder.newJob(DetectorFraude.class).withIdentity("jobDetectorFraude").build();
 
   public void execute(JobExecutionContext ctx) {
-    Stream<Usuario> fraudulentos = new UsuariosRepository().findFraudulentosActivos();
+    List<Usuario> fraudulentos = new UsuariosRepository().findFraudulentosActivos().toList();
 
-    fraudulentos.forEach(usuario -> {
+    for (Usuario usuario : fraudulentos) {
       usuario.setActivo(false);
       new UsuariosRepository().update(usuario);
 
@@ -45,6 +45,6 @@ public class DetectorFraude implements Job {
               throw new RuntimeException(e);
             }
           });
-    });
+    }
   }
 }

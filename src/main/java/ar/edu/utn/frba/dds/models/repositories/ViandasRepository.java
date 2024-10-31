@@ -25,7 +25,7 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
     return em.createQuery(query).getResultStream();
   }
 
-  private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) {
+  public void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) {
     final long capacidadDisponible = new HeladerasRepository().getCapacidadDisponible(destino);
     final String sPlural = cantidadViandas > 1 ? "s" : "";
 
@@ -53,9 +53,6 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
     // Diseñada para calcular la disponibilidad de espacio en una heladera sola.
     // No hay caso de uso que justifique complicarla
     assertViandasSonDeLaMismaHeladera(viandas);
-
-    final Heladera heladeraInvolucrada = viandas.iterator().next().getHeladera();
-    assertHeladeraTieneSuficienteEspacio(heladeraInvolucrada, viandas.size());
 
     super.insertAll(viandas);
   }
