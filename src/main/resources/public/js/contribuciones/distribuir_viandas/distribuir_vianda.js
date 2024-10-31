@@ -13,9 +13,12 @@ const modal = document.getElementById('modalViandas');
 // Añadir marcadores de heladeras con datos de capacidad
 heladeras.forEach(function(heladera) {
     const marker = L.marker([heladera.lat, heladera.long], { title: heladera.nombre })
-        .bindPopup(`<strong>${heladera.nombre}</strong><br>
-        Capacidad: ${heladera.capacidadDisponible} viandas<br>
-        Viandas Depositadas: ${heladera.viandasDepositadas}`)
+        .bindTooltip(
+            `<strong>${heladera.nombre}</strong><br>
+             Capacidad: ${heladera.capacidadDisponible} viandas<br>
+             Viandas Depositadas: ${heladera.viandasDepositadas}`,
+            { permanent: false, direction: 'top', opacity: 0.8 }
+        )
         .addTo(map);
 
     // Evento para seleccionar la heladera al hacer clic
@@ -24,7 +27,7 @@ heladeras.forEach(function(heladera) {
     });
 });
 
-let totalViandasSeleccionadas;
+let totalViandasSeleccionadas = 0;
 
 // Mostrar el modal cuando se selecciona el Origen o Destino
 function seleccionarPunto(marker, nombreHeladera, idHeladera, capacidadDisponible, viandasDepositadas) {
@@ -80,6 +83,7 @@ function seleccionarPunto(marker, nombreHeladera, idHeladera, capacidadDisponibl
             return;
         }
 
+        console.log(totalViandasSeleccionadas);
         if (totalViandasSeleccionadas > capacidadDisponible) {
             alert(`La heladera de destino no tiene suficiente espacio. Puede recibir un máximo de ${capacidadDisponible} viandas.`);
             limpiarInputsHeladera();
@@ -109,7 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkboxes = document.querySelectorAll('#listaViandas input[type="checkbox"]:checked');
 
         checkboxes.forEach(checkbox => {
-            selectedViandas.push(checkbox.value); // Agrega el ID de la vianda seleccionada
+            selectedViandas.push(checkbox.value);
+            // Supongamos que cada vianda pesa 1 vianda para simplificar
+            totalViandasSeleccionadas += 1;
         });
 
         // Crear un input oculto para enviar los IDs de las viandas
@@ -157,6 +163,7 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
 
 function limpiarInputsHeladera() {
     if (markerOrigen) {
+        totalViandasSeleccionadas = 0;
         markerOrigen.closePopup();
         markerOrigen = null;
         markerDestino = null;
