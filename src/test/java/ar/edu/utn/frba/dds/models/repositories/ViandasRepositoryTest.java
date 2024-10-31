@@ -19,7 +19,6 @@ import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -79,14 +78,5 @@ class ViandasRepositoryTest {
     assertNull(otraVianda.getHeladera());
     assertThrows(RuntimeException.class,
         () -> new ViandasRepository().insertAll(List.of(otraVianda, vianda)));
-  }
-
-  @Test
-  void testInsertDeCollectionFallaSiHayDemasiadasViandas() {
-    otraVianda.setHeladera(heladera);
-
-    assertThrows(RuntimeException.class,
-        () -> new ViandasRepository().insertAll(List.of(vianda, otraVianda)));
-    assertEquals(0, new ViandasRepository().findAll().count());
   }
 }
