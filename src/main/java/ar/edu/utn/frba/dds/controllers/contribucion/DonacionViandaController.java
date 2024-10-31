@@ -35,23 +35,16 @@ public class DonacionViandaController {
     // Recorro los dtos para Instanciar las Viandas
     Collection<Vianda> viandas = new ArrayList<>();
     for (DonacionViandaInputDTO dto : dtos) {
-      // Instancio Vianda por Vianda
-      Vianda vianda = new Vianda(
-              dto.getDescripcion(),
-              dto.getFechaCaducidad(),
-              dto.getFechaDonacion(),
-              colaborador,
-              dto.getPesoEnGramos(),
-              dto.getCaloriasVianda()
-      );
-      viandas.add(vianda);
+      Vianda viandaNueva = dto.getVianda();
+
+      viandas.add(viandaNueva);
       // Guardo las Viandas, pero sin Heladera setteada
-      new ViandasRepository().insert(vianda);
+      new ViandasRepository().insert(viandaNueva);
     }
     DonacionViandas donacionViandas = new DonacionViandas(
-            colaborador,
-            viandas,
-            heladeraDestino
+        colaborador,
+        viandas,
+        heladeraDestino
     );
     new DonacionViandasRepository().insert(donacionViandas);
   }
