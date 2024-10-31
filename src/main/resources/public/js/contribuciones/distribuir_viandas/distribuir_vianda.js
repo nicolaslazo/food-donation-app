@@ -158,6 +158,9 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
     if (!idHeladeraOrigen || !idHeladeraDestino) {
         alert('Por favor, selecciona una heladera de origen y destino.');
         event.preventDefault();
+    } else {
+        // Alerta al completar el formulario correctamente
+        alert("Colaboración Registrada con éxito!");
     }
 });
 

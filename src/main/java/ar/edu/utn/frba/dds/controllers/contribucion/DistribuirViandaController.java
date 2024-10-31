@@ -72,39 +72,27 @@ public class DistribuirViandaController {
   }
 
   public void create(Context context) {
-    try {
-      // Recupero los IDs de las Heladeras donde se retiran y depositaran las viandas
-      long idHeladeraOrigen = Long.parseLong(context.formParam("idHeladeraOrigen"));
-      long idHeladeraDestino = Long.parseLong(context.formParam("idHeladeraDestino"));
+    // Recupero los IDs de las Heladeras donde se retiran y depositaran las viandas
+    long idHeladeraOrigen = Long.parseLong(context.formParam("idHeladeraOrigen"));
+    long idHeladeraDestino = Long.parseLong(context.formParam("idHeladeraDestino"));
 
-      // Recupero los IDs de las Viandas como un String y luego divido en una lista de Strings
-      String viandasIDsString = context.formParam("viandasIds"); // Recibe el String "2,3,5"
-      List<Long> viandasIDs = Arrays.stream(viandasIDsString.split(",")) // Separa el String por comas
-              .map(Long::parseLong) // Convierte cada elemento a Long
-              .toList();
+    // Recupero los IDs de las Viandas como un String y luego divido en una lista de Strings
+    String viandasIDsString = context.formParam("viandasIds"); // Recibe el String "2,3,5"
+    List<Long> viandasIDs = Arrays.stream(viandasIDsString.split(",")) // Separa el String por comas
+            .map(Long::parseLong) // Convierte cada elemento a Long
+            .toList();
 
-      DistribuirViandaInputDTO dto = new DistribuirViandaInputDTO(
-              context.sessionAttribute("user_id"),
-              idHeladeraOrigen,
-              idHeladeraDestino,
-              viandasIDs,
-              context.formParam("motivo").toUpperCase()
-      );
-      create(dto);
+    DistribuirViandaInputDTO dto = new DistribuirViandaInputDTO(
+            context.sessionAttribute("user_id"),
+            idHeladeraOrigen,
+            idHeladeraDestino,
+            viandasIDs,
+            context.formParam("motivo").toUpperCase()
+    );
+    create(dto);
 
-      // TODO: Hacer que se le descargue el PDF al Colaborador
-      context.json(Map.of(
-              "message", "Colaboración registrada con éxito! Redirigiendo en tres segundos...",
-              "success", true,
-              "urlRedireccion", "/formas-colaboracion",
-              "demoraRedireccionEnSegundos", 3
-      ));
-    } catch (Exception e) {
-      context.json(Map.of(
-              "message", "Error al registirar la colaboración.",
-              "success", false
-      ));
-    }
+    // TODO: Hacer que se le descargue el PDF al Colaborador
+    context.redirect("/formas-colaboracion");
   }
 
   // Registro la solicitud de Distribución de viandas
