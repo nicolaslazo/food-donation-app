@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaDelete;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -37,6 +38,13 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
     return entityManager()
         .createQuery("SELECT e FROM " + claseDeEntidad.getSimpleName() + " e", claseDeEntidad)
         .getResultStream();
+  }
+
+  // Generaba problemas con los Streams, implemente esta alternativa para no cambiar mucho el TP. 
+  public List<T> findAllToList() {
+    return entityManager()
+            .createQuery("SELECT e FROM " + claseDeEntidad.getSimpleName() + " e", claseDeEntidad)
+            .getResultList();
   }
 
   public void insert(T object) {

@@ -54,7 +54,7 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
    * Solicitudes de apertura. Para saber el espacio disponible, reservando los espacios de las solicitudes de apertura
    */
   public long getCantidadViandasDepositadas(Heladera heladera) {
-    return new ViandasRepository().findAll(heladera).count();
+    return new ViandasRepository().findAllToList(heladera).size();
   }
 
   public long getCapacidadDisponible(Heladera heladera) {
