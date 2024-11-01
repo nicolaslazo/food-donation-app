@@ -1,0 +1,111 @@
+{{#partial "titulo"}}Mapa de Heladeras - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
+    <link rel="stylesheet" href="/public/css/mapa/styles.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+    <script src="/public/js/contribuciones/distribuir_viandas/distribuir_vianda.js" defer></script>
+    <!-- Recuperación de las heladeras -->
+    <script>
+        let heladeras = [{{#each heladeras}}
+            {
+                idHeladera: {{this.id}},
+                lat: {{this.ubicacion.latitud}},
+                long: {{this.ubicacion.longitud}},
+                nombre: "{{this.nombre}}"
+            } {{#unless @last}},{{/unless}}
+        {{/each}}]
+    </script>
+    <!-- Recuperación de las Viandas -->
+    <script>
+        let viandas = [{{#each viandas}}
+            {
+                idVianda: {{this.idVianda}},
+                idHeladera: {{this.idHeladera}},
+                descripcion: "{{this.descripcion}}",
+                fechaCaducidad: "{{this.fechaCaducidad}}",
+                pesoVianda: {{this.pesoVianda}} // En Gramos
+            } {{#unless @last}},{{/unless}}
+        {{/each}}];
+    </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!-- Leaflet PinSearch -->
+    <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main class="main__container">
+        <div class="form__container">
+            <div class="form-title">
+                MAPA DE HELADERAS
+            </div>
+            <form method="post" action="/vianda/solicitud-retiro" class="form__body">
+                <div class="heladera-details-container">
+                    <label class="input-box">
+                        Seleccione una Heladera para realizar una solicitud de consumición
+                        <div id="map"></div>
+                        <input type="hidden" id="idHeladera" name="idHeladera">
+                    </label>
+                    <div class="btn-clear">
+                        <!-- Botones para eliminar la selección de origen y destino -->
+                        <label>
+                            <button type="button" id="clear">Deseleccionar Heladera</button>
+                        </label>
+                    </div>
+                </div>
+                <div class="submit-button">
+                    <input type="submit" value="SIGUIENTE" id="submitBtn">
+                </div>
+            </form>
+        </div>
+
+        <aside>
+            <div class="aside-container">
+                {{#if usuarioAutenticado}}
+                    {{#if esPersonaVulnerable}}
+                        <div class="user-info-container">
+                            <p class="user-info">
+                                <strong>Nombre: </strong> {{nombre}} <br>
+                                <strong>Apellido: </strong> {{apellido}} <br>
+                                <strong>Menores a Cargo: </strong>> {{menoresACargo}} <br>
+                                <strong>Usos Disponibles de la Tarjeta para Retirar: </strong>> {{usosDisponibles}}
+                            </p>
+                        </div>
+                        <form action="/persona-vulnerable/logout" method="post">
+                            <button type="submit" class="btn-login">Cerrar Sesión</button>
+                        </form>
+                    {{/if}}
+                {{else}}
+                    <h2>Iniciar Sesión como Persona Vulnerable</h2>
+                    <button class="btn-login">
+                        <a href="/persona-vulnerable/login">Iniciar Sesión</a>
+                    </button>
+                {{/if}}
+                <!-- Ventana al Costado del Mapa para la Selección de Viandas -->
+                <!-- Aparece cuando se selecciona una Heladera -->
+                <div id="viandas-info-container" class="viandas-info-container hidden">
+                    <div class="viandas-content">
+                        <h2>Selecciona las Viandas a Retirar</h2>
+                        <ul id="listaViandas">
+                        </ul>
+                        <button class="btn-vianda" id="confirmarViandas">Confirmar</button>
+                        <button class="btn-vianda" id="cancelarViandas">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Derechos reservados © 2024 Viandas Donation.</p>
+{{/partial}}
+
+{{> templates/base}}
