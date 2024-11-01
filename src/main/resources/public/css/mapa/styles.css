@@ -1,0 +1,115 @@
+
+.btn-clear {
+    display: flex;
+    flex-flow: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+#clear {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+#resultadosBusqueda {
+    display: none;
+}
+
+/* Estilos de modal */
+.viandas-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    z-index: 1000;
+}
+
+.viandas-content {
+    background-color: white;
+    width: 40%; /* Ancho del modal */
+    height: 80vh; /* Altura máxima del modal */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.viandas-content h2 {
+    font-weight: bold;
+    color: #C0392B;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.viandas-content h3 {
+    font-weight: bold;
+    color: #C0392B;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#listaViandas {
+    list-style-type: none;
+    padding: 0;
+    max-height: 50vh;
+    overflow-y: auto;
+    margin: 0 0 20px;
+}
+
+#listaViandas li {
+    margin-bottom: 10px; /* Espacio entre elementos */
+}
+
+.vianda-input-box {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 10px;
+    border: solid 1px #0006;
+}
+
+.viandal-input-box h3 {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.vianda-input-box input[type="checkbox"] {
+    margin-top: 5px;
+}
+
+.btn-vianda {
+    padding: 10px 20px; /* Espacio interior */
+    background-color: #2980B9; /* Color de fondo de los botones */
+    color: #fff; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor */
+    font-size: 16px; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    margin-top: 15px; /* Espacio superior */
+    width: 100%; /* Botones de ancho completo */
+    transition: background-color 0.3s; /* Transición de color */
+}
+
+.btn-vianda:hover {
+    background-color: #1A6A92; /* Color al pasar el mouse */
+}
+
+/* Ocultar el modal */
+.hidden {
+    display: none;
+}
