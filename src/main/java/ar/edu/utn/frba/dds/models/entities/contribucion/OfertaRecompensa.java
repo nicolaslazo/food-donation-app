@@ -4,7 +4,6 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 import lombok.NonNull;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "OfertaRecompensa")
 public class OfertaRecompensa extends Contribucion {
 
-  @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  @ManyToOne
   @JoinColumn(name = "idRecompensa", referencedColumnName = "id", nullable = false)
   @NonNull Recompensa recompensa;
 
