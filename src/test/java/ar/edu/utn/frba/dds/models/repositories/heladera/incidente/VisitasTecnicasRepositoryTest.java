@@ -12,6 +12,7 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.junit.jupiter.api.AfterEach;
@@ -50,6 +51,7 @@ class VisitasTecnicasRepositoryTest {
         "",
         LocalDate.now(),
         new CoordenadasGeograficas(-30d, -50d));
+    new ColaboradorRepository().insert(colaborador);
 
     tecnico = new Tecnico(
         new Documento(TipoDocumento.DNI, 1),
