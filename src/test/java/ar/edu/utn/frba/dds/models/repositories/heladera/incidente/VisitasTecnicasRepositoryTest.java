@@ -13,6 +13,7 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.junit.jupiter.api.AfterEach;
@@ -69,6 +70,7 @@ class VisitasTecnicasRepositoryTest {
         ZonedDateTime.now().minusMonths(5),
         ""
     );
+    new HeladerasRepository().insert(heladera);
 
     incidente = new Incidente(heladera, TipoIncidente.FRAUDE, ZonedDateTime.now());
     incidente2 = new Incidente(heladera, TipoIncidente.ALTA_TEMPERATURA, ZonedDateTime.now());
