@@ -3,7 +3,6 @@ package ar.edu.utn.frba.dds.models.entities.ubicacion;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.NonNull;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +19,7 @@ public class DireccionResidencia {
   @Column(name = "id", nullable = false, unique = true, updatable = false)
   Long id;
 
-  @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY)
   @MapsId
   @JoinColumn(name = "idUsuario", referencedColumnName = "id", unique = true, nullable = false, updatable = false)
   @NonNull Usuario usuario;
