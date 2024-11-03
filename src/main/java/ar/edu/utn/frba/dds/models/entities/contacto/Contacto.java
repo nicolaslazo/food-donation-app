@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -32,7 +31,7 @@ public abstract class Contacto {
   @GeneratedValue
   @NonNull Long id;
 
-  @ManyToOne(cascade = {CascadeType.ALL})
+  @ManyToOne
   @JoinColumn(name = "idUsuario", referencedColumnName = "id")
   @NonNull Usuario usuario;
 

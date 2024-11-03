@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository;
 import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.junit.jupiter.api.AfterEach;
@@ -32,6 +33,8 @@ class RecompensasRepositoryTest {
         "",
         LocalDate.now(),
         new CoordenadasGeograficas(-34., -58.));
+    new ColaboradorRepository().insert(colaborador);
+
     recompensa = new Recompensa("Recompensa dummy",
         colaborador,
         100L,
