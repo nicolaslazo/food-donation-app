@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -88,6 +90,7 @@ class DonacionViandasRepositoryTest {
     new ColaboradorRepository().insert(colaborador);
     new UsuariosRepository().insert(usuario);
     new HeladerasRepository().insert(heladera);
+    new ViandasRepository().insertAll(List.of(vianda, viandaDos, viandaTres));
     new DonacionViandasRepository().insert(donacion);
   }
 
