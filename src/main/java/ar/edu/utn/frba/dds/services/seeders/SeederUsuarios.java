@@ -18,6 +18,7 @@ import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
 import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
+import ar.edu.utn.frba.dds.models.repositories.ubicacion.DireccionResidenciaRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -156,6 +157,7 @@ public class SeederUsuarios {
         5
     );
     Email emailPersonaVulnerableUno = new Email(usuarioPersonaVulnerable, "personaVulnerable@gmail.com");
+    new DireccionResidenciaRepository().insert(direccionResidencia);
     new PersonaVulnerableRepository().insert(personaVulnerableUno);
     new ContactosRepository().insert(emailPersonaVulnerableUno);
 
