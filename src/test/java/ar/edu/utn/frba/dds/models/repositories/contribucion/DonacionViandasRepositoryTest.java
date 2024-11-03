@@ -126,6 +126,8 @@ class DonacionViandasRepositoryTest {
         LocalDate.now(),
         new CoordenadasGeograficas(-20d, -20d));
 
+    new ColaboradorRepository().insert(colaboradorDos);
+
     List<DonacionViandas> donaciones = List.of(
         new DonacionViandas(colaborador, List.of(viandaTres), heladera),
         new DonacionViandas(colaboradorDos, List.of(viandaDos), heladera)

@@ -29,8 +29,7 @@ public abstract class Contribucion {
   @Id
   Long id;
 
-  @ManyToOne(targetEntity = Colaborador.class, fetch = FetchType.LAZY,
-          cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToOne(targetEntity = Colaborador.class, fetch = FetchType.LAZY)
   @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario")
   @NonNull Colaborador colaborador;
 
