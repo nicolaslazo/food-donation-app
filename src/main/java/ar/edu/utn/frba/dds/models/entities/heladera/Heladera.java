@@ -9,6 +9,8 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,6 +34,10 @@ public class Heladera {
   @Column(name = "nombre", nullable = false)
   @Getter
   @NonNull String nombre;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "modeloHeladera", updatable = false)
+  ModeloHeladera modeloHeladera;
 
   @Column(name = "capacidadEnViandas", nullable = false, updatable = false)
   @Getter
@@ -72,6 +78,26 @@ public class Heladera {
     this.capacidadEnViandas = capacidadEnViandas;
     this.fechaInstalacion = fechaInstalacion;
     this.barrio = barrio;
+  }
+
+  public Heladera(String nombre,
+                  CoordenadasGeograficas ubicacion,
+                  Colaborador encargado,
+                  ModeloHeladera modeloHeladera,
+                  ZonedDateTime fechaInstalacion,
+                  String barrio) {
+    this.nombre = nombre;
+    this.ubicacion = ubicacion;
+    this.encargado = encargado;
+    this.modeloHeladera = modeloHeladera;
+    this.fechaInstalacion = fechaInstalacion;
+    this.barrio = barrio;
+    switch (modeloHeladera) {
+      case HELADERA_CHICA -> this.capacidadEnViandas = 10;
+      case HELADERA_MEDIANA -> this.capacidadEnViandas = 20;
+      case HELADERA_GRANDE -> this.capacidadEnViandas = 30;
+      default -> throw new RuntimeException("Unsupported modeloHeladera");
+    }
   }
 
   protected Heladera() {
