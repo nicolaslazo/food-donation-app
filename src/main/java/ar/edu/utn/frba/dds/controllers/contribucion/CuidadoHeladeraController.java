@@ -63,6 +63,7 @@ public class CuidadoHeladeraController {
   }
 
   public void create(Context context) {
+    // Obtengo los datos del formulario
     CuidadoHeladeraInputDTO cuidadoHeladeraInputDTO = new CuidadoHeladeraInputDTO(
         context.formParam("nombreHeladera"),
         ModeloHeladera.valueOf(context.formParam("modelo").toUpperCase()),
@@ -71,9 +72,15 @@ public class CuidadoHeladeraController {
         Double.parseDouble(context.formParam("longitud")),
         context.formParam("barrio")
     );
+
+    // Instancio y Registro la Nueva Heladera
     Heladera heladeraNueva = tomarCuidadoHeladera(cuidadoHeladeraInputDTO);
     new HeladerasRepository().insert(heladeraNueva);
 
-    context.redirect("/");
+    // TODO: Crear un método/controller para asignar los sensores a la Heladera
+    // Los sensores de Temperatura tienen distintos rangos según el modelo de la Heladera
+    // ¿Los sensores tambien se persisten?
+
+    context.redirect("/formas-colaboracion");
   }
 }
