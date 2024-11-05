@@ -1,34 +1,31 @@
 package ar.edu.utn.frba.dds.dtos.input.contribucion;
 
+import ar.edu.utn.frba.dds.models.entities.heladera.ModeloHeladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.NonNull;
 
-import java.util.UUID;
 
+@Getter
 public final class CuidadoHeladeraInputDTO {
-  @Getter
   @NonNull String nombreHeladera;
-  @Getter
-  int capacidadEnViandas;
-  @Getter
-  long idColaborador;
-  double latitud;
-  double longitud;
-  @Getter
+  @NonNull ModeloHeladera modeloHeladera;
+  @NonNull Long idColaborador;
+  @NonNull Double latitud;
+  @NonNull Double longitud;
   @NonNull String barrio;
 
   public CuidadoHeladeraInputDTO(
       @NonNull String nombreHeladera,
-      int capacidadEnViandas,
-      long idColaborador,
-      double latitud,
-      double longitud,
+      ModeloHeladera modeloHeladera,
+      Long idColaborador,
+      Double latitud,
+      Double longitud,
       @NonNull String barrio
   ) {
     this.nombreHeladera = nombreHeladera;
-    this.capacidadEnViandas = capacidadEnViandas;
+    this.modeloHeladera = modeloHeladera;
     this.idColaborador = idColaborador;
     this.latitud = latitud;
     this.longitud = longitud;
