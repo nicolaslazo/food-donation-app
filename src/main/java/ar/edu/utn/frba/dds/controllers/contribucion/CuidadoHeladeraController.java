@@ -5,6 +5,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.heladera.ModeloHeladera;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
@@ -26,7 +27,7 @@ public class CuidadoHeladeraController {
     Heladera heladeraNueva = new Heladera(dtoCuidado.getNombreHeladera(),
         dtoCuidado.getUbicacion(),
         encargado,
-        dtoCuidado.getCapacidadEnViandas(),
+        dtoCuidado.getModeloHeladera(),
         ZonedDateTime.now(),
         dtoCuidado.getBarrio());
 
@@ -43,7 +44,7 @@ public class CuidadoHeladeraController {
     Heladera heladeraNueva = new Heladera(dtoCuidado.getNombreHeladera(),
         dtoCuidado.getUbicacion(),
         encargado,
-        dtoCuidado.getCapacidadEnViandas(),
+        dtoCuidado.getModeloHeladera(),
         ZonedDateTime.now(),
         dtoCuidado.getBarrio());
 
@@ -64,7 +65,7 @@ public class CuidadoHeladeraController {
   public void create(Context context) {
     CuidadoHeladeraInputDTO cuidadoHeladeraInputDTO = new CuidadoHeladeraInputDTO(
         context.formParam("nombreHeladera"),
-        Integer.parseInt(context.formParam("cantidadViandas")),
+        ModeloHeladera.valueOf(context.formParam("modelo").toUpperCase()),
         context.sessionAttribute("user_id"),
         Double.parseDouble(context.formParam("latitud")),
         Double.parseDouble(context.formParam("longitud")),
@@ -72,6 +73,7 @@ public class CuidadoHeladeraController {
     );
     Heladera heladeraNueva = tomarCuidadoHeladera(cuidadoHeladeraInputDTO);
     new HeladerasRepository().insert(heladeraNueva);
+
     context.redirect("/");
   }
 }
