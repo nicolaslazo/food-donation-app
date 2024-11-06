@@ -21,10 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DistribuirViandaController {
-  public void generarPDF(RedistribucionViandas redistribucionViandas) {
-    // TODO: Generar un PDF con los datos de las viandasa y de la distribución en general.
-  }
-
   public void index(Context context) {
     Map<String, Object> model = context.attribute("model");
 
@@ -55,6 +51,7 @@ public class DistribuirViandaController {
     List<Vianda> viandas = viandasRepository.findAllToList();
     // Tomo información de las Viandas, excluyendo las que no tienen heladera física asociada
     viandasData = viandas.stream()
+            // TODO: Hacer este filtrado en la query a la db para menos transferencia de datos
             .filter(vianda -> vianda.getHeladera() != null) // Solo cargamos viandas que estan depositadas en una heladera
             .map(vianda -> {
               Map<String, Object> viandaData = new HashMap<>();
@@ -90,8 +87,7 @@ public class DistribuirViandaController {
             context.formParam("motivo").toUpperCase()
     );
     create(dto);
-
-    // TODO: Hacer que se le descargue el PDF al Colaborador
+    
     context.redirect("/formas-colaboracion");
   }
 
@@ -130,6 +126,5 @@ public class DistribuirViandaController {
             MotivoDeDistribucion.valueOf(dto.getMotivoDistribucion())
     );
     new RedistribucionViandasRepository().insert(redistribucionViandas);
-    //generarPDF(redistribucionViandas);
   }
 }
