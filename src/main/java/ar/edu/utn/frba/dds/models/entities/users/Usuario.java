@@ -68,7 +68,7 @@ public class Usuario {
   // Nulificable por el cargador CSV
   LocalDate fechaNacimiento;
 
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToMany
   @JoinTable(
       name = "rolesAsignados",
       joinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "id"),

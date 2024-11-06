@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -34,7 +33,7 @@ public class Tecnico {
   @Column(name = "id", nullable = false, unique = true)
   Long id;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne
   @JoinColumn(name = "idUsuario", referencedColumnName = "id")
   @MapsId
   @NonNull

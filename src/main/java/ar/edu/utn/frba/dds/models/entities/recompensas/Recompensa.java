@@ -4,9 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -30,7 +28,7 @@ public class Recompensa {
   @Column(name = "nombre", nullable = false)
   @NonNull String nombre;
 
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToOne
   @JoinColumn(name = "idProveedor", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @NonNull Colaborador proveedor;
 

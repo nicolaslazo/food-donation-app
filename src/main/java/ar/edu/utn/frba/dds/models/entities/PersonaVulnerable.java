@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,7 +25,7 @@ public class PersonaVulnerable {
   @Getter
   Long id;
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Usuario.class)
+  @OneToOne(fetch = FetchType.LAZY, targetEntity = Usuario.class)
   @MapsId
   @JoinColumn(name = "idUsuario", referencedColumnName = "id", nullable = false, updatable = false)
   @NonNull Usuario usuario;
@@ -39,7 +38,7 @@ public class PersonaVulnerable {
   @Column(name = "fechaRegistro", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaRegistro;
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = DireccionResidencia.class)
+  @OneToOne(fetch = FetchType.LAZY, targetEntity = DireccionResidencia.class)
   @JoinColumn(name = "domicilio", unique = true)
   DireccionResidencia domicilio;
 

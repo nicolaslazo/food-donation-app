@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,11 +24,11 @@ public class Tarjeta {
   @Column(name = "id", nullable = false, unique = true, updatable = false, columnDefinition = "binary(16)")
   @NonNull UUID id;
 
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Colaborador.class)
+  @ManyToOne(targetEntity = Colaborador.class)
   @JoinColumn(name = "idProveedor", referencedColumnName = "idUsuario")
   Colaborador proveedor = null;
 
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Usuario.class)
+  @ManyToOne(targetEntity = Usuario.class)
   @JoinColumn(name = "idRecipiente", referencedColumnName = "id")
   Usuario recipiente = null;
 
@@ -39,7 +38,7 @@ public class Tarjeta {
   @Column(name = "fechaBaja")
   ZonedDateTime fechaBaja = null;
 
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Usuario.class)
+  @ManyToOne(targetEntity = Usuario.class)
   @JoinColumn(name = "idResponsableBaja", referencedColumnName = "id")
   Usuario responsableDeBaja = null;
 

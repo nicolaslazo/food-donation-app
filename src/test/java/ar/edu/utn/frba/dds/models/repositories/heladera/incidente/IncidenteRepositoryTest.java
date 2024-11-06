@@ -8,6 +8,8 @@ import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +38,7 @@ public class IncidenteRepositoryTest {
         "",
         LocalDate.now(),
         new CoordenadasGeograficas(-34d, -58d));
+    new ColaboradorRepository().insert(colaborador);
 
     heladera = new Heladera("",
         new CoordenadasGeograficas(-34d, -58d),
@@ -43,6 +46,7 @@ public class IncidenteRepositoryTest {
         1,
         ZonedDateTime.now(),
         "");
+    new HeladerasRepository().insert(heladera);
 
     incidente = new Incidente(
         heladera,

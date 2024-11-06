@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -41,7 +40,7 @@ public class Heladera {
   @Column(name = "fechaInstalacion", nullable = false, updatable = false)
   @NonNull ZonedDateTime fechaInstalacion;
 
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToOne
   @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @Getter
   @NonNull Colaborador encargado;
