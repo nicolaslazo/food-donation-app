@@ -30,7 +30,7 @@ public class DistribuirViandaController {
     List<Map<String, Object>> heladerasData;
     List<Map<String, Object>> viandasData;
 
-    List<Heladera> heladeras = heladerasRepository.findAllToList();
+    List<Heladera> heladeras = heladerasRepository.findAll().toList();
     // Tomo información de las heladeras.
     heladerasData = heladeras.stream().map(heladera -> {
       Map<String, Object> heladeraData = new HashMap<>();
@@ -48,7 +48,7 @@ public class DistribuirViandaController {
     // Recupero las Viandas
     ViandasRepository viandasRepository = new ViandasRepository();
 
-    List<Vianda> viandas = viandasRepository.findAllToList();
+    List<Vianda> viandas = viandasRepository.findAll().toList();
     // Tomo información de las Viandas, excluyendo las que no tienen heladera física asociada
     viandasData = viandas.stream()
             // TODO: Hacer este filtrado en la query a la db para menos transferencia de datos
@@ -111,11 +111,11 @@ public class DistribuirViandaController {
       viandaADistribuir.setHeladera(null);
 
       // Actualizo el estado de la vianda
-      repositorioViandas.persist(viandaADistribuir);
+      repositorioViandas.insert(viandaADistribuir);
 
       viandasADistribuir.add(viandaADistribuir);
     }
-    repositorioHeladeras.persist(heladeraOrigen);
+    repositorioHeladeras.insert(heladeraOrigen);
 
     // Instancio la redistribución y la registro
     RedistribucionViandas redistribucionViandas = new RedistribucionViandas(

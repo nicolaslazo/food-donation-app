@@ -98,7 +98,6 @@ public class Router {
     app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);
     app.get("/contribucion/redistribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
     app.post("/contribucion/redistribucion-vianda", new DistribuirViandaController()::create, permisoDistribuirViandas);
-    //app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);
 
     // Registro Persona Vulnerable
     app.before("/persona-vulnerable/registro", new AuthMiddleware());

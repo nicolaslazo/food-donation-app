@@ -40,13 +40,6 @@ public abstract class HibernateEntityManager<T, U> implements WithSimplePersiste
         .getResultStream();
   }
 
-  // Generaba problemas con los Streams, implemente esta alternativa para no cambiar mucho el TP. 
-  public List<T> findAllToList() {
-    return entityManager()
-            .createQuery("SELECT e FROM " + claseDeEntidad.getSimpleName() + " e", claseDeEntidad)
-            .getResultList();
-  }
-
   public void insert(T object) {
     withTransaction(() -> entityManager().persist(object));
   }
