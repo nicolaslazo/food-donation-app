@@ -25,30 +25,6 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
     return em.createQuery(query).getResultStream();
   }
 
-  private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) {
-    final long capacidadDisponible = new HeladerasRepository().getCapacidadDisponible(destino);
-    final String sPlural = cantidadViandas > 1 ? "s" : "";
-
-    if (capacidadDisponible < cantidadViandas)
-      throw new RuntimeException(
-          "La heladera con id " +
-              destino.getId() +
-              " no posee el espacio para esta" +
-              sPlural +
-              " vianda" +
-              sPlural +
-              ". Requerido: " +
-              cantidadViandas +
-              ". Disponible: " +
-              capacidadDisponible);
-  }
-
-  private void assertViandasSonDeLaMismaHeladera(Collection<Vianda> viandas) {
-    final Set<Heladera> heladerasInvolucradas = new HashSet<>(viandas.stream().map(Vianda::getHeladera).toList());
-    if (heladerasInvolucradas.size() > 1)
-      throw new RuntimeException("No se pueden insertar viandas de heladeras distintas en la misma transacción");
-  }
-
   //  public void insertAll(Collection<Vianda> viandas) {
   //    // Diseñada para calcular la disponibilidad de espacio en una heladera sola.
   //    // No hay caso de uso que justifique complicarla
@@ -60,8 +36,8 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
   //    super.insertAll(viandas);
   //  }
 
+  // TODO: ¿Esta obsoleto este método?
   public void updateUbicacion(Vianda vianda, Heladera ubicacionNueva) {
-    assertHeladeraTieneSuficienteEspacio(ubicacionNueva, 1);
     vianda.setHeladera(ubicacionNueva);
     update(vianda);
   }
