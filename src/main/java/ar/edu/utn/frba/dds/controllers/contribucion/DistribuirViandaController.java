@@ -115,7 +115,6 @@ public class DistribuirViandaController {
 
       viandasADistribuir.add(viandaADistribuir);
     }
-    repositorioHeladeras.insert(heladeraOrigen);
 
     // Instancio la redistribución y la registro
     RedistribucionViandas redistribucionViandas = new RedistribucionViandas(

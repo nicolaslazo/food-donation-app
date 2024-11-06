@@ -26,17 +26,6 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
     return em.createQuery(query).getResultStream();
   }
 
-  public List<Vianda> findAllToList(Heladera heladera) {
-    EntityManager em = entityManager();
-    CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery<Vianda> query = cb.createQuery(Vianda.class);
-    Root<Vianda> root = query.from(Vianda.class);
-
-    query.select(root).where(cb.equal(root.get("heladera"), heladera));
-
-    return em.createQuery(query).getResultList();
-  }
-
   private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) {
     final long capacidadDisponible = new HeladerasRepository().getCapacidadDisponible(destino);
     final String sPlural = cantidadViandas > 1 ? "s" : "";
