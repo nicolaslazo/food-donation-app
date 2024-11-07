@@ -96,8 +96,8 @@ public class Router {
     app.get("/contribucion/agregar-recompensa", new AgregarRecompensasController()::index, permisoCrearRecompensa);
     app.get("/contribucion/donacion-vianda", new DonacionViandaController()::index, permisoDonarViandas);
     app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);
-    app.get("/contribucion/distribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
-    //app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);
+    app.get("/contribucion/redistribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
+    app.post("/contribucion/redistribucion-vianda", new DistribuirViandaController()::create, permisoDistribuirViandas);
 
     // Registro Persona Vulnerable
     app.before("/persona-vulnerable/registro", new AuthMiddleware());

@@ -57,6 +57,7 @@ public class SolicitudAperturaPorContribucionRepository extends HibernateEntityM
 
       // Ejecutar la consulta
       Long result = em.createQuery(query).getSingleResult();
+      em.close();
       return result != null ? result.intValue() : 0;
 
     } catch (Exception e) {

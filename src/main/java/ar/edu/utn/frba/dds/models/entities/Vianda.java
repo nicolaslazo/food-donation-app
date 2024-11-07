@@ -18,6 +18,7 @@ import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "vianda")
+@Getter
 public class Vianda {
   @Id
   @Column(name = "id", nullable = false, unique = true, updatable = false)
@@ -37,7 +38,6 @@ public class Vianda {
   @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", nullable = false, updatable = false)
   @NonNull Colaborador colaborador;
 
-  @Getter
   @Column(name = "pesoEnGramos", nullable = false, updatable = false)
   @NonNull Double pesoEnGramos;
 
@@ -45,8 +45,7 @@ public class Vianda {
   @NonNull Integer caloriasVianda;
 
   @ManyToOne(targetEntity = Heladera.class)
-  @JoinColumn(name = "idHeladera", referencedColumnName = "id", updatable = false)
-  @Getter
+  @JoinColumn(name = "idHeladera", referencedColumnName = "id")
   @Setter
   Heladera heladera;
 
@@ -63,7 +62,6 @@ public class Vianda {
     this.pesoEnGramos = pesoEnGramos;
     this.caloriasVianda = caloriasVianda;
   }
-
 
   protected Vianda() {
   }

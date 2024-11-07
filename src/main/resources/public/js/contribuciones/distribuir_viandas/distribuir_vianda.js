@@ -6,49 +6,167 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
 }).addTo(map);
 
-// Variables para los marcadores y la línea que conecta origen y destino
-var markerOrigen, markerDestino, polyline;
+// Variables para marcadores, la línea entre origen y destino, y la selección de viandas
+let markerOrigen, markerDestino, polyline, selectedViandas = [];
+const modal = document.getElementById('modalViandas');
 
-// Función para seleccionar punto de origen y destino
-function seleccionarPunto(marker, nombreHeladera, idHeladera) {
+// Añadir marcadores de heladeras con datos de capacidad
+heladeras.forEach(function(heladera) {
+    const marker = L.marker([heladera.lat, heladera.long], { title: heladera.nombre })
+        .bindTooltip(
+            `<strong>${heladera.nombre}</strong><br>
+             Capacidad: ${heladera.capacidadDisponible} viandas<br>
+             Viandas Depositadas: ${heladera.viandasDepositadas}`,
+            { permanent: false, direction: 'top', opacity: 0.8 }
+        )
+        .addTo(map);
+
+    // Evento para seleccionar la heladera al hacer clic
+    marker.on('click', function() {
+        seleccionarPunto(marker, heladera.nombre, heladera.idHeladera, heladera.capacidadDisponible, heladera.viandasDepositadas);
+    });
+});
+
+let totalViandasSeleccionadas = 0;
+
+// Mostrar el modal cuando se selecciona el Origen o Destino
+function seleccionarPunto(marker, nombreHeladera, idHeladera, capacidadDisponible, viandasDepositadas) {
     if (!markerOrigen) {
-        // Asignar origen
+        // Asignar heladera como origen
         markerOrigen = marker;
-        markerOrigen.bindPopup(`Origen: ${nombreHeladera}`).openPopup();
         document.getElementById('latitudeOrigen').value = marker.getLatLng().lat;
         document.getElementById('longitudeOrigen').value = marker.getLatLng().lng;
-        document.getElementById('idHeladeraOrigen').value = idHeladera; // Guardar el id de la heladera de origen
-    } else if (!markerDestino) {
-        // Verificar si el destino es el mismo que el origen
-        if (markerOrigen.getLatLng().equals(marker.getLatLng())) {
-            alert('El destino no puede ser el mismo que el origen. Selecciona otro destino.');
+        document.getElementById('idHeladeraOrigen').value = idHeladera;
+
+        // Filtrar viandas que pertenecen a la heladera seleccionada
+        const viandasHeladera = viandas.filter(vianda => vianda.idHeladera === idHeladera);
+
+        // Si esta vacia, es que no tiene viandas
+        if (viandasHeladera.length === 0) {
+            alert(`La heladera ${nombreHeladera} se encuentra actualmente vacia. Por favor seleccione una heladera que posea viandas.`)
+            limpiarInputsHeladera();
             return;
         }
 
-        // Verificar la distancia
-        var distancia = calcularDistancia(markerOrigen.getLatLng().lat, markerOrigen.getLatLng().lng, marker.getLatLng().lat, marker.getLatLng().lng);
+        // Llenar la lista de viandas en el modal
+        const listaViandas = document.getElementById('listaViandas');
+        listaViandas.innerHTML = ''; // Limpiar la lista anterior
+        viandasHeladera.forEach(vianda => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <label class="modal-input-box">
+                    <h3>${vianda.descripcion}</h3>
+                    <div>
+                        <strong>Caducidad: </strong>${vianda.fechaCaducidad}<br>
+                        <strong>Peso: </strong>${vianda.pesoVianda}g
+                    </div>
+                    <input name="viandasIds" type="checkbox" value="${vianda.idVianda}" data-id="${vianda.idHeladera}">
+                </label>
+            `;
+            listaViandas.appendChild(li);
+        });
+
+        // Mostrar modal de selección de viandas
+        modal.classList.remove('hidden');
+    } else if (!markerDestino) {
+        if (markerOrigen.getLatLng().equals(marker.getLatLng())) {
+            alert('El destino no puede ser el mismo que el origen. Selecciona otra heladera.');
+            limpiarInputsHeladera();
+            return;
+        }
+
+        // Verificar distancia máxima de 2.5 km
+        const distancia = calcularDistancia(markerOrigen.getLatLng(), marker.getLatLng());
         if (distancia > 2.5) {
-            alert('La distancia entre las heladeras es mayor a 2.5 km. Selecciona otro destino.');
+            alert('La distancia entre las heladeras es mayor a 2.5 km. Selecciona otra heladera.');
+            limpiarInputsHeladera();
+            return;
+        }
+
+        console.log(totalViandasSeleccionadas);
+        if (totalViandasSeleccionadas > capacidadDisponible) {
+            alert(`La heladera de destino no tiene suficiente espacio. Puede recibir un máximo de ${capacidadDisponible} viandas.`);
+            limpiarInputsHeladera();
+            return;
+        }
+
+        markerDestino = marker;
+        document.getElementById('latitudeDestino').value = marker.getLatLng().lat;
+        document.getElementById('longitudeDestino').value = marker.getLatLng().lng;
+        document.getElementById('idHeladeraDestino').value = idHeladera;
+
+        if (polyline) {
+            polyline.setLatLngs([markerOrigen.getLatLng(), markerDestino.getLatLng()]);
         } else {
-            // Asignar destino
-            markerDestino = marker;
-            markerDestino.bindPopup(`Destino: ${nombreHeladera}`).openPopup();
-            document.getElementById('latitudeDestino').value = marker.getLatLng().lat;
-            document.getElementById('longitudeDestino').value = marker.getLatLng().lng;
-            document.getElementById('idHeladeraDestino').value = idHeladera;
-            // Dibujar la trayectoria entre origen y destino
-            if (polyline) {
-                polyline.setLatLngs([markerOrigen.getLatLng(), markerDestino.getLatLng()]);
-            } else {
-                polyline = L.polyline([markerOrigen.getLatLng(), markerDestino.getLatLng()], { color: 'blue' }).addTo(map);
-            }
+            polyline = L.polyline([markerOrigen.getLatLng(), markerDestino.getLatLng()], { color: 'blue' }).addTo(map);
         }
     }
 }
 
-// Evento para deseleccionar el origen y destino
-document.getElementById('clear').addEventListener('click', function() {
+document.addEventListener('DOMContentLoaded', () => {
+    const listaViandas = document.getElementById('listaViandas');
+    const confirmarViandasBtn = document.getElementById('confirmarViandas');
+    const cancelarViandasBtn = document.getElementById('cancelarViandas');
+
+    document.getElementById('confirmarViandas').addEventListener('click', () => {
+        const selectedViandas = [];
+        const checkboxes = document.querySelectorAll('#listaViandas input[type="checkbox"]:checked');
+
+        checkboxes.forEach(checkbox => {
+            selectedViandas.push(checkbox.value);
+            // Supongamos que cada vianda pesa 1 vianda para simplificar
+            totalViandasSeleccionadas += 1;
+        });
+
+        // Crear un input oculto para enviar los IDs de las viandas
+        const inputViandas = document.createElement('input');
+        inputViandas.type = 'hidden';
+        inputViandas.name = 'viandasIds'; // Nombre para recuperar en el back (cambia a viandasIds)
+        inputViandas.value = selectedViandas.join(','); // Cadena separada por comas
+
+        // Agregar el input oculto al formulario
+        const form = document.querySelector('.form__body');
+        form.appendChild(inputViandas);
+
+        // Cerrar el modal después de confirmar
+        document.getElementById('modalViandas').classList.add('hidden');
+    });
+
+    cancelarViandasBtn.addEventListener('click', () => {
+        if (markerOrigen) {
+            limpiarInputsHeladera();
+        }
+        modal.classList.add('hidden');
+    });
+});
+
+// Función para calcular la distancia entre dos puntos geográficos en kilómetros
+function calcularDistancia(latlng1, latlng2) {
+    const R = 6371;
+    const dLat = (latlng2.lat - latlng1.lat) * Math.PI / 180;
+    const dLon = (latlng2.lng - latlng1.lng) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(latlng1.lat * Math.PI / 180) * Math.cos(latlng2.lat * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return R * 2 * Math.asin(Math.sqrt(a));
+}
+
+document.getElementById('submitBtn').addEventListener('click', function(event) {
+    const idHeladeraOrigen = document.getElementById('idHeladeraOrigen').value;
+    const idHeladeraDestino = document.getElementById('idHeladeraDestino').value;
+
+    if (!idHeladeraOrigen || !idHeladeraDestino) {
+        alert('Por favor, selecciona una heladera de origen y destino.');
+        event.preventDefault();
+    } else {
+        // Alerta al completar el formulario correctamente
+        alert("Colaboración Registrada con éxito!");
+    }
+});
+
+function limpiarInputsHeladera() {
     if (markerOrigen) {
+        totalViandasSeleccionadas = 0;
         markerOrigen.closePopup();
         markerOrigen = null;
         markerDestino = null;
@@ -56,46 +174,28 @@ document.getElementById('clear').addEventListener('click', function() {
         document.getElementById('longitudeOrigen').value = '';
         document.getElementById('latitudeDestino').value = '';
         document.getElementById('longitudeDestino').value = '';
-        document.getElementById('idHeladeraOrigen').value = ''; // Resetear el id de la heladera
+        document.getElementById('idHeladeraOrigen').value = '';
         document.getElementById('idHeladeraDestino').value = '';
-        // Eliminar la línea de conexión si existe
         if (polyline) {
             map.removeLayer(polyline);
             polyline = null;
         }
     }
-});
-
-// Añadir los marcadores de heladeras recuperadas de la base de datos
-heladeras.forEach(function(heladera) {
-    var marker = L.marker([heladera.lat, heladera.long]).bindPopup(heladera.nombre).addTo(map);
-    // Asignar evento al hacer clic en el marcador
-    marker.on('click', function() {
-        seleccionarPunto(marker, heladera.nombre, heladera.idHeladera);
-    });
-});
-
-// Cálculo de distancia en kilómetros entre dos puntos geográficos
-function calcularDistancia(lat1, lon1, lat2, lon2) {
-    var R = 6371; // Radio de la Tierra en km
-    var dLat = (lat2 - lat1) * Math.PI / 180;
-    var dLon = (lon2 - lon1) * Math.PI / 180;
-    var a =
-        0.5 - Math.cos(dLat)/2 +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        (1 - Math.cos(dLon))/2;
-    return R * 2 * Math.asin(Math.sqrt(a));
 }
 
-// Integración de Leaflet.PinSearch para buscar heladeras
+document.getElementById('clear').addEventListener('click', function() {
+    limpiarInputsHeladera();
+});
+
 L.control.pinSearch({
     placeholder: 'Buscar heladera...',
+    buttonText: 'Buscar',
     onSearch: function(query) {
-        var resultado = heladeras.find(heladera => heladera.nombre.toLowerCase().includes(query.toLowerCase()));
+        const resultado = heladeras.find(heladera => heladera.nombre.toLowerCase().includes(query.toLowerCase()));
         if (resultado) {
-            var latlng = L.latLng(resultado.lat, resultado.long);
-            map.setView(latlng, 15);  // Centramos el mapa en la heladera encontrada
-            seleccionarPunto(L.marker(latlng), resultado.nombre, resultado.idHeladera);
+            const latlng = L.latLng(resultado.lat, resultado.long);
+            map.setView(latlng, 15);
+            seleccionarPunto(L.marker(latlng), resultado.nombre, resultado.idHeladera, resultado.capacidadDisponible);
         } else {
             alert('No se encontró la heladera');
         }
