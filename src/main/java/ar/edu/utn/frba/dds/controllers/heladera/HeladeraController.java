@@ -91,4 +91,22 @@ public class HeladeraController {
   public void alertarFallaDeConexion(Heladera heladera) {
     incidenteController.crearAlerta(heladera, TipoIncidente.FALLA_CONEXION, ZonedDateTime.now());
   }
+
+  public void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) {
+    final long capacidadDisponible = new HeladerasRepository().getCapacidadDisponible(destino);
+    final String sPlural = cantidadViandas > 1 ? "s" : "";
+
+    if (capacidadDisponible < cantidadViandas)
+      throw new RuntimeException(
+              "La heladera con id " +
+                      destino.getId() +
+                      " no posee el espacio para esta" +
+                      sPlural +
+                      " vianda" +
+                      sPlural +
+                      ". Requerido: " +
+                      cantidadViandas +
+                      ". Disponible: " +
+                      capacidadDisponible);
+  }
 }

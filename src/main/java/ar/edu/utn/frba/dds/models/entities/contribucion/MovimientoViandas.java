@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -22,11 +21,11 @@ import java.util.Objects;
 @Getter
 public abstract class MovimientoViandas extends Contribucion {
 
-  @OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+  @OneToMany(targetEntity = Vianda.class)
   @JoinColumn(name = "idVianda", referencedColumnName = "id")
   Collection<Vianda> viandas;
 
-  @ManyToOne(targetEntity = Heladera.class, cascade = {CascadeType.MERGE, CascadeType.PERSIST })
+  @ManyToOne(targetEntity = Heladera.class)
   @JoinColumn(name = "idHeladera", referencedColumnName = "id")
   Heladera destino;
 

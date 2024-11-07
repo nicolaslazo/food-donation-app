@@ -14,6 +14,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorContribucionRepository;
@@ -49,7 +50,9 @@ class SolicitudAperturaPorContribucionControllerTest {
 
   Tarjeta tarjeta;
   SolicitudAperturaPorContribucionRepository repositorio;
+  Vianda vianda;
   DonacionViandas contribucion;
+  Heladera heladera;
 
   public static void main(String[] args) throws MqttException, PermisoDenegadoException, IOException {
     // Para testear la integración con HiveMQ. El servidor tiene que estar corriendo
@@ -85,16 +88,23 @@ class SolicitudAperturaPorContribucionControllerTest {
 
     tarjeta = new Tarjeta(randomUUID());
     repositorio = new SolicitudAperturaPorContribucionRepository();
-    contribucion = new DonacionViandas(colaborador,
-        Collections.singletonList(new Vianda("", ZonedDateTime.now(), ZonedDateTime.now(), colaborador, 0.0, 22)),
-        new Heladera(
+    vianda = new Vianda("",
+        ZonedDateTime.now(),
+        ZonedDateTime.now(),
+        colaborador,
+        0.0,
+        22);
+    heladera = new Heladera(
             "",
             new CoordenadasGeograficas(54.3, 54.0),
             colaborador,
             11,
             ZonedDateTime.now(),
             ""
-        )
+    );
+    contribucion = new DonacionViandas(colaborador,
+        Collections.singletonList(vianda),
+        heladera
     );
 
     tarjeta.setEnAlta(colaborador.getUsuario(), colaborador, ZonedDateTime.now());
@@ -135,6 +145,11 @@ class SolicitudAperturaPorContribucionControllerTest {
 
   @Test
   void testCreacionExitosaSeGuardaEnRepositorio() throws MqttException, PermisoDenegadoException {
+    new ColaboradorRepository().insert(colaborador);
+    new HeladerasRepository().insert(heladera);
+    new ViandasRepository().insert(vianda);
+    new DonacionViandasRepository().insert(contribucion);
+    new TarjetasRepository().insert(tarjeta);
     try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
       brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
 
