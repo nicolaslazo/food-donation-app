@@ -8,7 +8,9 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,7 @@ class SuscripcionControllerTest {
         "",
         LocalDate.now(),
         new CoordenadasGeograficas(-34., -58.));
+    new ColaboradorRepository().insert(colaborador);
 
     heladera = new Heladera("Heladera de testeo",
         obelisco,
@@ -40,6 +43,7 @@ class SuscripcionControllerTest {
         5,
         ZonedDateTime.now(),
         "");
+    new HeladerasRepository().insert(heladera);
   }
 
   @AfterEach

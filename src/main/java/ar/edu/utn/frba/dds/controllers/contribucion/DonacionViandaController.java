@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.contribucion;
 
+import ar.edu.utn.frba.dds.controllers.heladera.HeladeraController;
 import ar.edu.utn.frba.dds.dtos.input.contribucion.DonacionViandaInputDTO;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
@@ -27,7 +28,7 @@ public class DonacionViandaController {
     long idHeladera = dtos.stream().findFirst().get().getIdHeladera();
     Heladera heladeraDestino = new HeladerasRepository().findById(idHeladera).get();
 
-    /* TODO: Nota: No se settea la Vianda a la Heladera hasta que no ingrese físicamente */
+    /* NOTE: No se settea la Vianda a la Heladera hasta que no ingrese físicamente */
     // Recorro los dtos para Instanciar las Viandas
     Collection<Vianda> viandas = new ArrayList<>();
     for (DonacionViandaInputDTO dto : dtos) {
@@ -37,7 +38,7 @@ public class DonacionViandaController {
     }
 
     ViandasRepository repositorioViandas = new ViandasRepository();
-    repositorioViandas.assertHeladeraTieneSuficienteEspacio(heladeraDestino, viandas.size());
+    HeladeraController.assertHeladeraTieneSuficienteEspacio(heladeraDestino, viandas.size());
     repositorioViandas.insertAll(viandas);
 
     Colaborador colaborador = viandas.iterator().next().getColaborador();

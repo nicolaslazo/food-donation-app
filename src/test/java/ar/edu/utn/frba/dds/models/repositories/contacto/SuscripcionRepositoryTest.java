@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +46,8 @@ class SuscripcionRepositoryTest {
 
   @BeforeEach
   void setUp() {
+    new ColaboradorRepository().insert(colaborador);
+    new HeladerasRepository().insert(heladera);
     repositorio.insert(suscripcion);
   }
 
@@ -77,6 +80,7 @@ class SuscripcionRepositoryTest {
         "",
         LocalDate.now(),
         null);
+    new ColaboradorRepository().insertAll(List.of(otroColaborador, otroColaboradorMas, todaviaOtroColaboradorMas));
 
     Suscripcion faltanViandasDeseada =
         new Suscripcion(colaborador, heladera, MotivoDeDistribucion.FALTAN_VIANDAS, 4);
@@ -87,17 +91,17 @@ class SuscripcionRepositoryTest {
     Suscripcion faltaEspacioIndeseada =
         new Suscripcion(todaviaOtroColaboradorMas, heladera, MotivoDeDistribucion.FALTA_ESPACIO, 2);
 
-    for (Suscripcion suscripcion :
-        List.of(faltanViandasDeseada, faltanViandasIndeseada, faltaEspacioDeseada, faltaEspacioIndeseada)) {
-      repositorio.insert(suscripcion);
-    }
+    repositorio.insertAll(List.of(faltanViandasDeseada,
+        faltanViandasIndeseada,
+        faltaEspacioDeseada,
+        faltaEspacioIndeseada));
 
     Set<Suscripcion> interesadas;
 
     try (MockedConstruction<HeladerasRepository> ignored =
              mockConstruction(HeladerasRepository.class, (mock, context) ->
                  when(mock.getCantidadViandasDepositadas(heladera)).thenReturn(3L))) {
-    interesadas = repositorio.findInteresadasEnStock(heladera).collect(Collectors.toSet());
+      interesadas = repositorio.findInteresadasEnStock(heladera).collect(Collectors.toSet());
     }
 
     assertEquals(Set.of(faltanViandasDeseada, faltaEspacioDeseada), interesadas);

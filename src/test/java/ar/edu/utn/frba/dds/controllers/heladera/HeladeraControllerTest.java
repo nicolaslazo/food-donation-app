@@ -10,6 +10,7 @@ import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
+import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
@@ -35,6 +36,7 @@ class HeladeraControllerTest {
       "",
       LocalDate.now(),
       null);
+
   Heladera heladeraMock = Mockito.mock(Heladera.class);
   CoordenadasGeograficas obelisco =
       new CoordenadasGeograficas(-34.603706013664166, -58.3815728218273);
@@ -45,6 +47,8 @@ class HeladeraControllerTest {
 
   @BeforeEach
   void setUp() {
+    new ColaboradorRepository().insert(colaborador);
+
     new SeederRoles().seedRoles();
     rolTecnico = new RolesRepository().findByName("TECNICO").get();
 

@@ -55,6 +55,7 @@ class EntregaTarjetasRepositoryTest {
     new ColaboradorRepository().insert(colaborador);
     new UsuariosRepository().insert(usuario);
     entrega.setFechaRealizada(ZonedDateTime.now());
+    new TarjetasRepository().insertAll(List.of(tarjeta, tarjetaDos));
     new EntregaTarjetasRepository().insert(entrega);
   }
 

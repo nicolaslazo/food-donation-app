@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "entregaTarjetas")
 @Getter
 public class EntregaTarjetas extends Contribucion {
-  @OneToMany(targetEntity = Tarjeta.class, cascade = {CascadeType.ALL}, orphanRemoval = true)
+  @OneToMany(targetEntity = Tarjeta.class, orphanRemoval = true)
   @JoinColumn(name = "idEntrega", referencedColumnName = "id")
   List<Tarjeta> tarjetasSolicitadas;
 

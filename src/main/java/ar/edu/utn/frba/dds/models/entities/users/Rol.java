@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,26 +24,23 @@ public class Rol {
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @NonNull
-  Long id;
+  @NonNull Long id;
 
   @Column(name = "nombre", unique = true, nullable = false, updatable = false)
-  @NonNull
-  String nombre;
+  @NonNull String nombre;
 
   @Getter
   @Setter
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(
-          name = "permisosPorRol",
-          joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),
-          inverseJoinColumns = @JoinColumn(name = "idPermiso", referencedColumnName = "id"))
-  @NonNull
-  Set<Permiso> permisos;
+      name = "permisosPorRol",
+      joinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "idPermiso", referencedColumnName = "id"))
+  @NonNull Set<Permiso> permisos;
 
   public Rol(
-          @NonNull String nombre,
-          @NonNull Set<Permiso> permisos) {
+      @NonNull String nombre,
+      @NonNull Set<Permiso> permisos) {
     this.nombre = nombre;
     this.permisos = new HashSet<>(permisos);
   }
