@@ -92,7 +92,7 @@ public class HeladeraController {
     incidenteController.crearAlerta(heladera, TipoIncidente.FALLA_CONEXION, ZonedDateTime.now());
   }
 
-  private void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) {
+  public void assertHeladeraTieneSuficienteEspacio(Heladera destino, int cantidadViandas) {
     final long capacidadDisponible = new HeladerasRepository().getCapacidadDisponible(destino);
     final String sPlural = cantidadViandas > 1 ? "s" : "";
 
