@@ -2,15 +2,11 @@ package ar.edu.utn.frba.dds.models.repositories;
 
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
-import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Stream;
 
 public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
@@ -24,17 +20,6 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
 
     return em.createQuery(query).getResultStream();
   }
-
-  //  public void insertAll(Collection<Vianda> viandas) {
-  //    // Diseñada para calcular la disponibilidad de espacio en una heladera sola.
-  //    // No hay caso de uso que justifique complicarla
-  //    assertViandasSonDeLaMismaHeladera(viandas);
-  //
-  //    final Heladera heladeraInvolucrada = viandas.iterator().next().getHeladera();
-  //    assertHeladeraTieneSuficienteEspacio(heladeraInvolucrada, viandas.size());
-  //
-  //    super.insertAll(viandas);
-  //  }
 
   // TODO: ¿Esta obsoleto este método?
   public void updateUbicacion(Vianda vianda, Heladera ubicacionNueva) {
