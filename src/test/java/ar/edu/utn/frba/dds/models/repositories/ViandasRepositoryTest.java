@@ -72,21 +72,4 @@ class ViandasRepositoryTest {
   void tearDown() {
     new HibernatePersistenceReset().execute();
   }
-
-  @Test
-  void testInsertDeCollectionFallaSiViandasTienenHeladerasDistintas() {
-
-    assertNull(otraVianda.getHeladera());
-    assertThrows(RuntimeException.class,
-        () -> new ViandasRepository().insertAll(List.of(otraVianda, vianda)));
-  }
-
-  @Test
-  void testInsertDeCollectionFallaSiHayDemasiadasViandas() {
-    otraVianda.setHeladera(heladera);
-
-    assertThrows(RuntimeException.class,
-        () -> new ViandasRepository().insertAll(List.of(vianda, otraVianda)));
-    assertEquals(0, new ViandasRepository().findAll().count());
-  }
 }

@@ -15,12 +15,25 @@
     <script>
         let heladeras = [{{#each heladeras}}
             {
-                idHeladera: {{this.id}},
-                lat: {{this.ubicacion.latitud}},
-                long: {{this.ubicacion.longitud}},
-                nombre: "{{this.nombre}}"
+                idHeladera: {{this.idHeladera}},
+                lat: {{this.lat}},
+                long: {{this.long}},
+                nombre: "{{this.nombre}}",
+                capacidadDisponible: {{this.capacidadDisponible}},
+                viandasDepositadas: {{this.viandasDepositadas}}
             } {{#unless @last}},{{/unless}}
-        {{/each}}]
+        {{/each}}];
+    </script>
+    <script>
+        let viandas = [{{#each viandas}}
+            {
+                idVianda: {{this.idVianda}},
+                idHeladera: {{this.idHeladera}},
+                descripcion: "{{this.descripcion}}",
+                fechaCaducidad: "{{this.fechaCaducidad}}",
+                pesoVianda: {{this.pesoVianda}} // En Gramos
+            } {{#unless @last}},{{/unless}}
+        {{/each}}];
     </script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -35,11 +48,15 @@
                 DISTRIBUCIÓN DE VIANDAS
             </div>
 
-            <form method="post" action="/contribucion/distribuicion-vianda" class="form__body">
+            <form method="post" action="/contribucion/redistribucion-vianda" class="form__body">
                 <div class="heladera-details-container">
-                    <label class="input-box">
-                        Cantidad de Viandas a Distribuir
-                        <input type="number" min="1" required name="numeroViandas">
+                    <label class="input-box" id="distribucion-container">
+                        Motivo de la Distribución
+                        <select name="motivo" id="motivo">
+                            <option value="falla_heladera" name="fallaHeladera">Desperfecto en la Heladera Origen</option>
+                            <option value="falta_viandas" name="faltaViandas">Faltan Viandas en la Heladera Destino</option>
+                            <option value="falta_espacio" name="faltaEspacio">La Heladera origen esta casi llena</option>
+                        </select>
                     </label>
                     <label class="input-box">
                         Seleccione el Origen y Destino
@@ -58,15 +75,6 @@
                             <button type="button" id="clear">Deseleccionar Recorrido</button>
                         </label>
                     </div>
-
-                    <label class="input-box" id="distribucion-container">
-                        Motivo de la Distribución
-                        <select name="motivo" id="motivo">
-                            <option value="falla_heladera" name="fallaHeladera">Desperfecto en la Heladera</option>
-                            <option value="falta_viandas" name="faltaViandas">Faltan Viandas en la Heladera</option>
-                            <option value="falta_espacio" name="faltaEspacio">La Heladera esta casi llena</option>
-                        </select>
-                    </label>
                     <label class="input-check">
                         Acepto los <a href="/terminos"> terminos y condiciones </a>
                         <input type="checkbox" required>
@@ -85,6 +93,16 @@
             </div>
         </aside>
     </main>
+    <!-- Ventana Modal para la Selección de Viandas -->
+    <div id="modalViandas" class="modal hidden">
+        <div class="modal-content">
+            <h2>Selecciona las Viandas a Redistribuir</h2>
+            <ul id="listaViandas">
+            </ul>
+            <button class="btn-modal" id="confirmarViandas">Confirmar</button>
+            <button class="btn-modal" id="cancelarViandas">Cancelar</button>
+        </div>
+    </div>
 {{/partial}}
 
 {{#partial "contenido-footer"}}

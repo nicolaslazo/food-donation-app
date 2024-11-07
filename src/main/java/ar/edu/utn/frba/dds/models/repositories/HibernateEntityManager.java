@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaDelete;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
