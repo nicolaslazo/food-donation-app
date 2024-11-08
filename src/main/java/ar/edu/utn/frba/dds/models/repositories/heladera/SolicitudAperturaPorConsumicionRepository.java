@@ -7,12 +7,18 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudAperturaPorConsumicion;
+import ar.edu.utn.frba.dds.models.entities.heladera.SolicitudInvalidaException;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
 import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 public class SolicitudAperturaPorConsumicionRepository
@@ -47,12 +53,60 @@ public class SolicitudAperturaPorConsumicionRepository
           10,
           ZonedDateTime.now(),
           barrios[i]);
+      vianda.setHeladera(heladera);
       SolicitudAperturaPorConsumicion solicitud =
-          new SolicitudAperturaPorConsumicion(tarjeta, vianda, heladera, ZonedDateTime.now().minusDays(i));
+          new SolicitudAperturaPorConsumicion(tarjeta, vianda, ZonedDateTime.now().minusDays(i));
 
       repository.insert(solicitud);
       System.out.println("Solicitud insertada para " + nombres[i] + " " + apellidos[i]);
     }
+  }
 
+  public Optional<SolicitudAperturaPorConsumicion> getSolicitudVigenteAlMomento(Long id, ZonedDateTime momento) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<SolicitudAperturaPorConsumicion> query = cb.createQuery(SolicitudAperturaPorConsumicion.class);
+    Root<SolicitudAperturaPorConsumicion> root = query.from(SolicitudAperturaPorConsumicion.class);
+    query.select(root).where(cb.equal(root.get("id"), id));
+    return em.createQuery(query)
+        .getResultStream()
+        .filter(solicitud -> solicitud.isVigenteAlMomento(momento))
+        .findFirst();
+  }
+
+  public Optional<SolicitudAperturaPorConsumicion> getSolicitudVigente(Long id) {
+    return getSolicitudVigenteAlMomento(id, ZonedDateTime.now());
+  }
+
+  public void updateFechaUsada(Long id, ZonedDateTime fechaUsada)
+      throws Exception {
+    SolicitudAperturaPorConsumicion solicitud =
+        getSolicitudVigenteAlMomento(id, fechaUsada)
+            .orElseThrow(() -> new SolicitudInvalidaException("No existe solicitud vigente con id %d".formatted(id)));
+
+    solicitud.setFechaUsada(fechaUsada);
+
+    update(solicitud);
+  }
+
+  public Long findCantidadUsadasHoy(Tarjeta tarjeta) {
+    var em = entityManager();
+    var cb = em.getCriteriaBuilder();
+    var query = cb.createQuery(Long.class);
+    var root = query.from(SolicitudAperturaPorConsumicion.class);
+
+    // Obtener el inicio y fin del día actual en la zona horaria del sistema
+    ZonedDateTime inicioDia = ZonedDateTime.now().toLocalDate().atStartOfDay(ZonedDateTime.now().getZone());
+    ZonedDateTime finDia = inicioDia.plusDays(1);
+
+    query.select(cb.count(root))
+        .where(cb.and(
+            cb.equal(root.get("tarjeta"), tarjeta),
+            cb.isNotNull(root.get("fechaUsada")),
+            cb.greaterThanOrEqualTo(root.get("fechaUsada"), inicioDia),
+            cb.lessThan(root.get("fechaUsada"), finDia)
+        ));
+
+    return em.createQuery(query).getSingleResult();
   }
 }
