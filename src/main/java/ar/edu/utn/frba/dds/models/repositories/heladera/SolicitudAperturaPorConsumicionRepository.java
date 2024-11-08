@@ -74,10 +74,6 @@ public class SolicitudAperturaPorConsumicionRepository
         .findFirst();
   }
 
-  public Optional<SolicitudAperturaPorConsumicion> getSolicitudVigente(Long id) {
-    return getSolicitudVigenteAlMomento(id, ZonedDateTime.now());
-  }
-
   public void updateFechaUsada(Long id, ZonedDateTime fechaUsada)
       throws Exception {
     SolicitudAperturaPorConsumicion solicitud =
