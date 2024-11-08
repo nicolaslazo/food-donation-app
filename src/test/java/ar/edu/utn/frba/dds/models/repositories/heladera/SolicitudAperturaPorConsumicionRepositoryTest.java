@@ -50,10 +50,7 @@ public class SolicitudAperturaPorConsumicionRepositoryTest {
 
   Tarjeta tarjeta = new Tarjeta(UUID.randomUUID());
 
-  SolicitudAperturaPorConsumicion solicitud =
-      new SolicitudAperturaPorConsumicion(tarjeta, vianda, heladera, ZonedDateTime.now().minusMonths(2));
-  SolicitudAperturaPorConsumicion otraSolicitud =
-      new SolicitudAperturaPorConsumicion(tarjeta, vianda, heladera, ZonedDateTime.now().minusMonths(1));
+  SolicitudAperturaPorConsumicion solicitud, otraSolicitud;
 
   @AfterEach
    void tearDown() {
@@ -67,7 +64,9 @@ public class SolicitudAperturaPorConsumicionRepositoryTest {
     vianda.setHeladera(heladera);
     new ViandasRepository().insert(vianda);
     new TarjetasRepository().insert(tarjeta);
+    solicitud = new SolicitudAperturaPorConsumicion(tarjeta, vianda, ZonedDateTime.now().minusMonths(2));
     repositorio.insert(solicitud);
+    otraSolicitud = new SolicitudAperturaPorConsumicion(tarjeta, vianda, ZonedDateTime.now().minusMonths(1));
   }
   @Test
   void testGetPorId() {
