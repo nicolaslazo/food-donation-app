@@ -63,6 +63,7 @@ public class SessionController {
 
     // Almaceno el estado de la autenticación
     context.sessionAttribute("usuarioAutenticado", usuarioAutenticado);
+    context.sessionAttribute("esPersonaVulnerable", esPersonaVulnerable);
     model.put("usuarioAutenticado", usuarioAutenticado);
     model.put("esPersonaVulnerable", esPersonaVulnerable);
     context.attribute("model", model);

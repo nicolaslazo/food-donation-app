@@ -51,7 +51,9 @@
             <form method="post" action="/vianda/solicitud-retiro" class="form__body">
                 <div class="heladera-details-container">
                     <label class="input-box">
-                        Seleccione una Heladera para realizar una solicitud de consumición
+                        {{#if esPersonaVulnerable}}
+                            Seleccione una Heladera para realizar una solicitud de consumición
+                        {{/if}}
                         <div id="map"></div>
                         <input type="hidden" id="idHeladera" name="idHeladera">
                     </label>
@@ -70,7 +72,7 @@
 
         <aside>
             <div class="aside-container">
-                {{#unless usuarioLogueado}}
+                {{#unless usuarioAutenticado}}
                     <h2>Iniciar Sesión como Persona Vulnerable</h2>
                     <button class="btn-login">
                         <a href="/persona-vulnerable/login">Iniciar Sesión</a>
@@ -81,8 +83,8 @@
                         <p class="user-info">
                             <strong>Nombre: </strong> {{nombre}} <br>
                             <strong>Apellido: </strong> {{apellido}} <br>
-                            <strong>Menores a Cargo: </strong>> {{menoresACargo}} <br>
-                            <strong>Usos Disponibles de la Tarjeta para Retirar: </strong>> {{usosDisponibles}}
+                            <strong>Menores a Cargo: </strong> {{menoresACargo}} <br>
+                            <strong>Usos Disponibles de la Tarjeta para Retirar: </strong> {{usosDisponibles}}
                         </p>
                     </div>
                     <form action="/persona-vulnerable/logout" method="post">

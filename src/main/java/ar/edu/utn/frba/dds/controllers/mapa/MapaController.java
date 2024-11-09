@@ -1,7 +1,9 @@
 package ar.edu.utn.frba.dds.controllers.mapa;
 
+import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.repositories.PersonaVulnerableRepository;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import io.javalin.http.Context;
@@ -13,14 +15,10 @@ import java.util.Map;
 
 public class MapaController {
   public void index(Context context) {
+    //TODO: Estería bueno poder mover toda esta lógica a otro lugar.
     Map<String, Object> model = context.attribute("model");
 
-    // Por alguna razon no es capaz de usar el mismo put dos veces en dos lugares distintos...
-    // usuarioLogueado == usuarioAutenticado
-    model.put("usuarioLogueado", context.sessionAttribute("usuarioAutenticado"));
-    System.out.println("Usuario Logueado?: " + model.get("usuarioAutenticado"));
-
-    // Recupero heladeras
+    // --- Recupero heladeras ---
     HeladerasRepository heladerasRepository = new HeladerasRepository();
 
     List<Map<String, Object>> heladerasData;
@@ -40,7 +38,7 @@ public class MapaController {
 
     model.put("heladeras", heladerasData);
 
-    // Recupero las Viandas
+    // --- Recupero las Viandas ---
     ViandasRepository viandasRepository = new ViandasRepository();
 
     List<Vianda> viandas = viandasRepository.findAll().toList();
@@ -62,6 +60,16 @@ public class MapaController {
 
     model.put("viandas", viandasData);
 
-    context.render("mapa/mapa.hbs");
+    // --- Recupero los datos de la Persona Vulnerable ---
+    // Unicamente si esta Logueada
+    if (context.sessionAttribute("esPersonaVulnerable")) {
+      PersonaVulnerable personaVulnerable = new PersonaVulnerableRepository().findById(context.sessionAttribute("user_id")).get();
+      model.put("nombre", personaVulnerable.getUsuario().getPrimerNombre());
+      model.put("apellido", personaVulnerable.getUsuario().getApellido());
+      model.put("menoresACargo", personaVulnerable.getMenoresACargo());
+      model.put("usosDisponibles", 0); //TODO: El controller de las tarjetas debería de brindarnos esta lógica.
+    }
+
+    context.render("mapa/mapa.hbs", model);
   }
 }
