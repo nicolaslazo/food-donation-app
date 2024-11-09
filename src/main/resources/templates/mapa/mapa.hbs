@@ -70,25 +70,24 @@
 
         <aside>
             <div class="aside-container">
-                {{#if usuarioAutenticado}}
-                    {{#if esPersonaVulnerable}}
-                        <div class="user-info-container">
-                            <p class="user-info">
-                                <strong>Nombre: </strong> {{nombre}} <br>
-                                <strong>Apellido: </strong> {{apellido}} <br>
-                                <strong>Menores a Cargo: </strong>> {{menoresACargo}} <br>
-                                <strong>Usos Disponibles de la Tarjeta para Retirar: </strong>> {{usosDisponibles}}
-                            </p>
-                        </div>
-                        <form action="/persona-vulnerable/logout" method="post">
-                            <button type="submit" class="btn-login">Cerrar Sesión</button>
-                        </form>
-                    {{/if}}
-                {{else}}
+                {{#unless usuarioLogueado}}
                     <h2>Iniciar Sesión como Persona Vulnerable</h2>
                     <button class="btn-login">
                         <a href="/persona-vulnerable/login">Iniciar Sesión</a>
                     </button>
+                {{/unless}}
+                {{#if esPersonaVulnerable}}
+                    <div class="user-info-container">
+                        <p class="user-info">
+                            <strong>Nombre: </strong> {{nombre}} <br>
+                            <strong>Apellido: </strong> {{apellido}} <br>
+                            <strong>Menores a Cargo: </strong>> {{menoresACargo}} <br>
+                            <strong>Usos Disponibles de la Tarjeta para Retirar: </strong>> {{usosDisponibles}}
+                        </p>
+                    </div>
+                    <form action="/persona-vulnerable/logout" method="post">
+                        <button type="submit" class="btn-login">Cerrar Sesión</button>
+                    </form>
                 {{/if}}
                 <!-- Ventana al Costado del Mapa para la Selección de Viandas -->
                 <!-- Aparece cuando se selecciona una Heladera -->

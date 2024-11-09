@@ -15,6 +15,11 @@ public class MapaController {
   public void index(Context context) {
     Map<String, Object> model = context.attribute("model");
 
+    // Por alguna razon no es capaz de usar el mismo put dos veces en dos lugares distintos...
+    // usuarioLogueado == usuarioAutenticado
+    model.put("usuarioLogueado", context.sessionAttribute("usuarioAutenticado"));
+    System.out.println("Usuario Logueado?: " + model.get("usuarioAutenticado"));
+
     // Recupero heladeras
     HeladerasRepository heladerasRepository = new HeladerasRepository();
 
