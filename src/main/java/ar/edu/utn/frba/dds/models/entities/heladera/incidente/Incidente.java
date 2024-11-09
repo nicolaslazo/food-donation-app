@@ -5,7 +5,6 @@ import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -28,7 +27,7 @@ public class Incidente {
   @Getter
   Long id;
 
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Heladera.class)
+  @ManyToOne(targetEntity = Heladera.class)
   @JoinColumn(name = "idHeladera", referencedColumnName = "id", nullable = false, updatable = false)
   @Getter
   @NonNull Heladera heladera;
@@ -42,9 +41,7 @@ public class Incidente {
   @Getter
   @NonNull ZonedDateTime fecha;
 
-  @ManyToOne(fetch = FetchType.LAZY,
-      cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-      targetEntity = Colaborador.class)
+  @ManyToOne(fetch = FetchType.LAZY, targetEntity = Colaborador.class)
   @JoinColumn(name = "idColaborador", referencedColumnName = "idUsuario", updatable = false)
   Colaborador colaborador;
 

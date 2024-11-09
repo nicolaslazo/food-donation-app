@@ -9,14 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
 
 @Entity
 @Table(name = "cuidadoHeladera")
 @Getter
 public class CuidadoHeladera extends Contribucion {
-
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Heladera.class)
+  @ManyToOne(targetEntity = Heladera.class)
   @JoinColumn(name = "idHeladera", referencedColumnName = "id", updatable = false, unique = true)
   Heladera heladera;
 
@@ -25,5 +23,6 @@ public class CuidadoHeladera extends Contribucion {
     this.heladera = heladera;
   }
 
-  protected CuidadoHeladera() {}
+  protected CuidadoHeladera() {
+  }
 }

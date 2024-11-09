@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.HibernatePersistenceReset;
+import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -68,6 +69,7 @@ class RedistribucionViandasRepositoryTest {
   void setUp() {
     new ColaboradorRepository().insert(colaborador);
     new HeladerasRepository().insert(heladera);
+    new ViandasRepository().insert(vianda);
   }
 
   @Test
