@@ -19,8 +19,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "rol")
+@Getter
 public class Rol {
-  @Getter
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,6 @@ public class Rol {
   @Column(name = "nombre", unique = true, nullable = false, updatable = false)
   @NonNull String nombre;
 
-  @Getter
   @Setter
   @ManyToMany
   @JoinTable(
