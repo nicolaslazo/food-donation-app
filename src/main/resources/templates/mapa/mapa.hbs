@@ -18,7 +18,8 @@
                 idHeladera: {{this.id}},
                 lat: {{this.ubicacion.latitud}},
                 long: {{this.ubicacion.longitud}},
-                nombre: "{{this.nombre}}"
+                nombre: "{{this.nombre}}",
+                viandasDepositadas: {{this.viandasDepositadas}}
             } {{#unless @last}},{{/unless}}
         {{/each}}]
     </script>
@@ -30,7 +31,8 @@
                 idHeladera: {{this.idHeladera}},
                 descripcion: "{{this.descripcion}}",
                 fechaCaducidad: "{{this.fechaCaducidad}}",
-                pesoVianda: {{this.pesoVianda}} // En Gramos
+                pesoVianda: {{this.pesoVianda}}, // En Gramos
+                caloriasVianda: {{this.caloriasVianda}}
             } {{#unless @last}},{{/unless}}
         {{/each}}];
     </script>
