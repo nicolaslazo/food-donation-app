@@ -45,7 +45,7 @@ public class PersonaVulnerable {
   @Column(name = "menoresACargo", nullable = false)
   @NonNull Integer menoresACargo;
 
-  public int getCantidadViandasPermitidasPorDia() {
+  public long getCantidadViandasPermitidasPorDia() {
     return 4 + menoresACargo * 2;
   }
 

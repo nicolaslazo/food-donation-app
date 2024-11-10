@@ -51,14 +51,14 @@ public class SolicitudAperturaPorConsumicionController implements IMqttMessageLi
         vianda,
         ZonedDateTime.now());
 
-    repositorio.insert(solicitud);
+    new SolicitudAperturaPorConsumicionRepository().insert(solicitud);
 
     // Este broker era un atributo de instancia y lo movimos acá para poder instanciar sin contactarnos con internet
     MqttBrokerService broker = MqttBrokerService.getInstancia();
 
     String dtoSolicitud = new SolicitudAperturaPorConsumicionOutputDTO(solicitud).enJson();
 
-    String formatoTopicDeSolicitudes = "heladeras/%d/solicitud/consumicion";
+    String formatoTopicDeSolicitudes = "heladera/%d/solicitud/consumicion";
     String topicSolicitudes = formatoTopicDeSolicitudes.formatted(solicitud.getHeladera().getId());
 
     broker.publicar(topicSolicitudes, dtoSolicitud);
