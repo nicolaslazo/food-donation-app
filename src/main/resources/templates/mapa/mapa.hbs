@@ -1,7 +1,6 @@
 {{#partial "titulo"}}Mapa de Heladeras - Viandas Donation{{/partial}}
 
 {{#partial "styles"}}
-    <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
     <link rel="stylesheet" href="/public/css/mapa/styles.css">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -10,14 +9,14 @@
 
 {{#partial "scripts"}}
     <script src="/public/js/sticky_nav_bar.js" defer></script>
-    <script src="/public/js/contribuciones/distribuir_viandas/distribuir_vianda.js" defer></script>
+    <script src="/public/js/mapa/mapa.js" defer></script>
     <!-- Recuperación de las heladeras -->
     <script>
         let heladeras = [{{#each heladeras}}
             {
-                idHeladera: {{this.id}},
-                lat: {{this.ubicacion.latitud}},
-                long: {{this.ubicacion.longitud}},
+                idHeladera: {{this.idHeladera}},
+                lat: {{this.lat}},
+                long: {{this.long}},
                 nombre: "{{this.nombre}}",
                 viandasDepositadas: {{this.viandasDepositadas}}
             } {{#unless @last}},{{/unless}}
@@ -50,10 +49,12 @@
             </div>
             <form method="post" action="/vianda/solicitud-retiro" class="form__body">
                 <div class="heladera-details-container">
-                    <label class="input-box">
-                        {{#if esPersonaVulnerable}}
+                    {{#if esPersonaVulnerable}}
+                        <h3>
                             Seleccione una Heladera para realizar una solicitud de consumición
-                        {{/if}}
+                        </h3>
+                    {{/if}}
+                    <label class="input-box">
                         <div id="map"></div>
                         <input type="hidden" id="idHeladera" name="idHeladera">
                     </label>
@@ -64,6 +65,8 @@
                         </label>
                     </div>
                 </div>
+                <!-- Usos Disponibles de la Tarjeta del Usuario -->
+                <input type="hidden" id="usosDisponibles" value="{{usosDisponibles}}">
                 <div class="submit-button">
                     <input type="submit" value="SIGUIENTE" id="submitBtn">
                 </div>
@@ -73,12 +76,15 @@
         <aside>
             <div class="aside-container">
                 {{#unless usuarioAutenticado}}
-                    <h2>Iniciar Sesión como Persona Vulnerable</h2>
-                    <button class="btn-login">
-                        <a href="/persona-vulnerable/login">Iniciar Sesión</a>
-                    </button>
+                    <div class="login-container">
+                        <div class="form-title">Iniciar Sesión como Persona Vulnerable</div>
+                        <button class="btn-login-vulnerable">
+                            <a href="/persona-vulnerable/login">Iniciar Sesión</a>
+                        </button>
+                    </div>
                 {{/unless}}
                 {{#if esPersonaVulnerable}}
+                    <div class="form-title">Tus Datos Personales</div>
                     <div class="user-info-container">
                         <p class="user-info">
                             <strong>Nombre: </strong> {{nombre}} <br>
@@ -87,23 +93,25 @@
                             <strong>Usos Disponibles de la Tarjeta para Retirar: </strong> {{usosDisponibles}}
                         </p>
                     </div>
-                    <form action="/persona-vulnerable/logout" method="post">
-                        <button type="submit" class="btn-login">Cerrar Sesión</button>
-                    </form>
                 {{/if}}
-                <!-- Ventana al Costado del Mapa para la Selección de Viandas -->
-                <!-- Aparece cuando se selecciona una Heladera -->
-                <div id="viandas-info-container" class="viandas-info-container hidden">
-                    <div class="viandas-content">
-                        <h2>Selecciona las Viandas a Retirar</h2>
-                        <ul id="listaViandas">
-                        </ul>
-                        <button class="btn-vianda" id="confirmarViandas">Confirmar</button>
-                        <button class="btn-vianda" id="cancelarViandas">Cancelar</button>
-                    </div>
-                </div>
             </div>
         </aside>
+        <!-- Ventana Modal para la Selección de Viandas -->
+        <div id="modalViandas" class="modal hidden">
+            <div class="modal-content">
+                {{#if esPersonaVulnerable}}
+                    <h2>Selecciona las Viandas a Retirar</h2>
+                {{else}}
+                    <h2>Viandas Depositadas en la Heladera</h2>
+                {{/if}}
+                <ul id="listaViandas">
+                </ul>
+                {{#if esPersonaVulnerable}}
+                    <button class="btn-modal" id="confirmarViandas">Confirmar</button>
+                {{/if}}
+                <button class="btn-modal" id="cancelarViandas">Cancelar</button>
+            </div>
+        </div>
     </main>
 {{/partial}}
 
