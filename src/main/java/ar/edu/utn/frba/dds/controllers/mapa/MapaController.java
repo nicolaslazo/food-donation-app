@@ -67,7 +67,7 @@ public class MapaController {
       model.put("nombre", personaVulnerable.getUsuario().getPrimerNombre());
       model.put("apellido", personaVulnerable.getUsuario().getApellido());
       model.put("menoresACargo", personaVulnerable.getMenoresACargo());
-      model.put("usosDisponibles", 0); //TODO: El controller de las tarjetas debería de brindarnos esta lógica.
+      model.put("usosDisponibles", 5); //TODO: El controller de las tarjetas debería de brindarnos esta lógica.
     }
 
     context.render("mapa/mapa.hbs", model);
