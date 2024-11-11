@@ -114,17 +114,23 @@ public class SessionController {
       context.sessionAttribute("permisos", new PermisosRepository().findAll(usuario).toList());
 
       // Si tiene rol de Persona Vulnerable, puede hacer una solicitud de viandas
+      // tambien se lo redirije directamente al mapa
       if (usuario.getRoles().stream().anyMatch(rol -> rol.getNombre().equals("PERSONAVULNERABLE"))) {
         context.sessionAttribute("esPersonaVulnerable", true);
+        context.json(Map.of(
+                "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
+                "success", true,
+                "urlRedireccion", "/mapa",
+                "demoraRedireccionEnSegundos", 3
+        ));
+      } else { // Si no es persona vulnerable, sigue el flujo normal
+        context.json(Map.of(
+                "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
+                "success", true,
+                "urlRedireccion", "/",
+                "demoraRedireccionEnSegundos", 3
+        ));
       }
-
-
-      context.json(Map.of(
-          "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
-          "success", true,
-          "urlRedireccion", "/",
-          "demoraRedireccionEnSegundos", 3
-      ));
     } catch (Exception e) {
       context.json(Map.of(
           "message", "Contraseña incorrecta o usuario no encontrado",
