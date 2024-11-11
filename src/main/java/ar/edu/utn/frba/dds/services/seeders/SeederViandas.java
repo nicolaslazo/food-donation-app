@@ -59,11 +59,113 @@ public class SeederViandas {
         400
     );
 
-    Set<Vianda> todasLasViandas = Set.of(vianda1, vianda2, vianda3, vianda4, vianda5);
-    Heladera heladera = new HeladerasRepository().findAll().findFirst().get();
+    Vianda vianda6 = new Vianda(
+            "Tarta de espinaca y queso",
+            ZonedDateTime.now().plusDays(2),
+            ZonedDateTime.now(),
+            colaborador,
+            300.0,
+            350
+    );
 
-    for (Vianda vianda : todasLasViandas) vianda.setHeladera(heladera);
+    Vianda vianda7 = new Vianda(
+            "Milanesa de soja con puré",
+            ZonedDateTime.now().plusDays(4),
+            ZonedDateTime.now(),
+            colaborador,
+            450.0,
+            500
+    );
 
-    new ViandasRepository().insertAll(todasLasViandas);
+    Vianda vianda8 = new Vianda(
+            "Risotto de hongos",
+            ZonedDateTime.now().plusDays(3),
+            ZonedDateTime.now(),
+            colaborador,
+            400.0,
+            600
+    );
+
+    Vianda vianda9 = new Vianda(
+            "Empanadas de carne",
+            ZonedDateTime.now().plusDays(1),
+            ZonedDateTime.now(),
+            colaborador,
+            300.0,
+            700
+    );
+
+    Vianda vianda10 = new Vianda(
+            "Pizza margarita",
+            ZonedDateTime.now().plusDays(5),
+            ZonedDateTime.now(),
+            colaborador,
+            250.0,
+            800
+    );
+
+    Vianda vianda11 = new Vianda(
+            "Hamburguesa con papas fritas",
+            ZonedDateTime.now().plusDays(2),
+            ZonedDateTime.now(),
+            colaborador,
+            500.0,
+            900
+    );
+
+    Vianda vianda12 = new Vianda(
+            "Canelones de ricota",
+            ZonedDateTime.now().plusDays(6),
+            ZonedDateTime.now(),
+            colaborador,
+            350.0,
+            450
+    );
+
+    Vianda vianda13 = new Vianda(
+            "Guiso de lentejas",
+            ZonedDateTime.now().plusDays(4),
+            ZonedDateTime.now(),
+            colaborador,
+            400.0,
+            550
+    );
+
+    Vianda vianda14 = new Vianda(
+            "Tacos de pollo",
+            ZonedDateTime.now().plusDays(3),
+            ZonedDateTime.now(),
+            colaborador,
+            450.0,
+            650
+    );
+
+    Vianda vianda15 = new Vianda(
+            "Wrap de vegetales",
+            ZonedDateTime.now().plusDays(1),
+            ZonedDateTime.now(),
+            colaborador,
+            300.0,
+            300
+    );
+
+    Set<Vianda> tandaDeViandas1 = Set.of(vianda1, vianda2, vianda3, vianda4, vianda5);
+    Heladera primerHeladera = new HeladerasRepository().findAll().toList().get(0);
+
+    for (Vianda vianda : tandaDeViandas1) vianda.setHeladera(primerHeladera);
+
+    Set<Vianda> tandaDeViandas2 = Set.of(vianda6, vianda7, vianda8, vianda9, vianda10);
+    Heladera segundaHeladera = new HeladerasRepository().findAll().toList().get(1);
+
+    for (Vianda vianda : tandaDeViandas2) vianda.setHeladera(segundaHeladera);
+
+    Set<Vianda> tandaDeViandas3 = Set.of(vianda11, vianda12, vianda13, vianda14, vianda15);
+    Heladera terceraHeladera = new HeladerasRepository().findAll().toList().get(2);
+
+    for (Vianda vianda : tandaDeViandas3) vianda.setHeladera(terceraHeladera);
+
+    new ViandasRepository().insertAll(tandaDeViandas1);
+    new ViandasRepository().insertAll(tandaDeViandas2);
+    new ViandasRepository().insertAll(tandaDeViandas3);
   }
 }
