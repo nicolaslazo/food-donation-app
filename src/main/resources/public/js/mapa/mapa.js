@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         cancelarViandasBtn.addEventListener('click', () => {
+            limpiarInputsHeladera();
             modal.classList.add('hidden');
         });
     } else {

@@ -58,19 +58,23 @@
                         <div id="map"></div>
                         <input type="hidden" id="idHeladera" name="idHeladera">
                     </label>
-                    <div class="btn-clear">
-                        <!-- Botones para eliminar la selección de origen y destino -->
-                        <label>
-                            <button type="button" id="clear">Deseleccionar Heladera</button>
-                        </label>
-                    </div>
+                    {{#if esPersonaVulnerable}}
+                        <div class="btn-clear">
+                            <!-- Botones para eliminar la selección de origen y destino -->
+                            <label>
+                                <button type="button" id="clear">Deseleccionar Heladera</button>
+                            </label>
+                        </div>
+                    {{/if}}
                 </div>
                 <!-- Usos Disponibles de la Tarjeta del Usuario -->
                 <input type="hidden" id="usosDisponibles" value="{{usosDisponibles}}">
                 <input type="hidden" id="userRol" value="{{userRol}}">
-                <div class="submit-button">
-                    <input type="submit" value="SIGUIENTE" id="submitBtn">
-                </div>
+                 {{#if esPersonaVulnerable}}
+                    <div class="submit-button">
+                        <input type="submit" value="SIGUIENTE" id="submitBtn">
+                    </div>
+                 {{/if}}
             </form>
         </div>
 
