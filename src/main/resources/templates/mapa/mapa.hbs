@@ -67,6 +67,7 @@
                 </div>
                 <!-- Usos Disponibles de la Tarjeta del Usuario -->
                 <input type="hidden" id="usosDisponibles" value="{{usosDisponibles}}">
+                <input type="hidden" id="userRol" value="{{userRol}}">
                 <div class="submit-button">
                     <input type="submit" value="SIGUIENTE" id="submitBtn">
                 </div>
@@ -106,9 +107,7 @@
                 {{/if}}
                 <ul id="listaViandas">
                 </ul>
-                {{#if esPersonaVulnerable}}
-                    <button class="btn-modal" id="confirmarViandas">Confirmar</button>
-                {{/if}}
+                <button class="btn-modal" id="confirmarViandas">Confirmar</button>
                 <button class="btn-modal" id="cancelarViandas">Cancelar</button>
             </div>
         </div>

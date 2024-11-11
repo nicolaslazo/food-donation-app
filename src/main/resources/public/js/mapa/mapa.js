@@ -10,6 +10,9 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let markerOrigen;
 const modal = document.getElementById('modalViandas');
 
+// Variable para detectar el rol del usuario
+const userRol = document.getElementById('userRol');
+
 // Añadir marcadores de heladeras con datos de capacidad
 heladeras.forEach(function(heladera) {
     const marker = L.marker([heladera.lat, heladera.long], { title: heladera.nombre })
@@ -42,7 +45,8 @@ function seleccionarPunto(marker, nombreHeladera, idHeladera, viandasDepositadas
     listaViandas.innerHTML = ''; // Limpiar la lista anterior
     viandasHeladera.forEach(vianda => {
         const li = document.createElement('li');
-        li.innerHTML = `
+        if (userRol.value === "PERSONAVULNERABLE") {
+            li.innerHTML = `
             <label class="modal-input-box">
                 <h3>${vianda.descripcion}</h3>
                 <div>
@@ -52,6 +56,17 @@ function seleccionarPunto(marker, nombreHeladera, idHeladera, viandasDepositadas
                 <input name="viandasIds" type="checkbox" value="${vianda.idVianda}" data-id="${vianda.idHeladera}">
             </label>
         `;
+        } else {
+            li.innerHTML = `
+            <label class="modal-input-box">
+                <h3>${vianda.descripcion}</h3>
+                <div>
+                    <strong>Caducidad: </strong>${vianda.fechaCaducidad}<br>
+                    <strong>Peso: </strong>${vianda.pesoVianda}g
+                </div>
+            </label>
+        `;
+        }
         listaViandas.appendChild(li);
     });
 
@@ -62,47 +77,54 @@ function seleccionarPunto(marker, nombreHeladera, idHeladera, viandasDepositadas
 document.addEventListener('DOMContentLoaded', () => {
     const usosDisponibles = parseInt(document.getElementById('usosDisponibles').value);
     let totalViandasSeleccionadas = 0;
-
     const listaViandas = document.getElementById('listaViandas');
     const confirmarViandasBtn = document.getElementById('confirmarViandas');
     const cancelarViandasBtn = document.getElementById('cancelarViandas');
 
-    confirmarViandasBtn.addEventListener('click', () => {
-        const selectedViandas = [];
-        const checkboxes = document.querySelectorAll('#listaViandas input[type="checkbox"]:checked');
+    // Lógica para mostrar la ventana modal en función del rol del usuario
+    if (userRol.value === "PERSONAVULNERABLE") {
+        confirmarViandasBtn.addEventListener('click', () => {
+            const selectedViandas = [];
+            const checkboxes = document.querySelectorAll('#listaViandas input[type="checkbox"]:checked');
 
-        checkboxes.forEach(checkbox => {
-            selectedViandas.push(checkbox.value);
-            totalViandasSeleccionadas += 1;
+            checkboxes.forEach(checkbox => {
+                selectedViandas.push(checkbox.value);
+                totalViandasSeleccionadas += 1;
+            });
+
+            if (totalViandasSeleccionadas > usosDisponibles) {
+                alert('No puedes retirar más viandas de las disponibles en tu tarjeta.');
+                totalViandasSeleccionadas -= selectedViandas.length; // Reset total viandas seleccionadas
+                return; // No se realiza la confirmación
+            }
+
+            // Crear un input oculto para enviar los IDs de las viandas
+            const inputViandas = document.createElement('input');
+            inputViandas.type = 'hidden';
+            inputViandas.name = 'viandasIds'; // Nombre para recuperar en el back
+            inputViandas.value = selectedViandas.join(','); // Cadena separada por comas
+
+            // Agregar el input oculto al formulario
+            const form = document.querySelector('.form__body');
+            form.appendChild(inputViandas);
+
+            // Cerrar el modal después de confirmar
+            modal.classList.add('hidden');
         });
 
-        if (totalViandasSeleccionadas > usosDisponibles) {
-            alert('No puedes retirar más viandas de las disponibles en tu tarjeta.');
-            totalViandasSeleccionadas -= selectedViandas.length; // Reset total viandas seleccionadas
-            return; // No se realiza la confirmación
-        }
+        cancelarViandasBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+    } else {
+        // Lógica para otros roles que solo pueden ver las viandas
+        confirmarViandasBtn.style.display = 'none'; // Oculta el botón de confirmar
 
-        // Crear un input oculto para enviar los IDs de las viandas
-        const inputViandas = document.createElement('input');
-        inputViandas.type = 'hidden';
-        inputViandas.name = 'viandasIds'; // Nombre para recuperar en el back (cambia a viandasIds)
-        inputViandas.value = selectedViandas.join(','); // Cadena separada por comas
-
-        // Agregar el input oculto al formulario
-        const form = document.querySelector('.form__body');
-        form.appendChild(inputViandas);
-
-        // Cerrar el modal después de confirmar
-        modal.classList.add('hidden');
-    });
-
-    cancelarViandasBtn.addEventListener('click', () => {
-        if (markerOrigen) {
-            limpiarInputsHeladera();
-        }
-        modal.classList.add('hidden');
-    });
+        cancelarViandasBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+    }
 });
+
 
 document.getElementById('submitBtn').addEventListener('click', function(event) {
     const idHeladera = document.getElementById('idHeladera').value;

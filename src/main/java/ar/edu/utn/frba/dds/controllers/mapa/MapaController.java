@@ -68,6 +68,9 @@ public class MapaController {
       model.put("apellido", personaVulnerable.getUsuario().getApellido());
       model.put("menoresACargo", personaVulnerable.getMenoresACargo());
       model.put("usosDisponibles", 5); //TODO: El controller de las tarjetas debería de brindarnos esta lógica.
+      model.put("userRol", "PERSONAVULNERABLE");
+    } else {
+      model.put("userRol", "OTHER");
     }
 
     context.render("mapa/mapa.hbs", model);
