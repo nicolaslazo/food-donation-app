@@ -45,6 +45,10 @@ public class PersonaVulnerable {
   @Column(name = "menoresACargo", nullable = false)
   @NonNull Integer menoresACargo;
 
+  public long getCantidadViandasPermitidasPorDia() {
+    return 4 + menoresACargo * 2;
+  }
+
   public PersonaVulnerable(@NonNull Usuario usuario,
                            @NonNull Colaborador reclutador,
                            @NonNull ZonedDateTime fechaRegistro,
