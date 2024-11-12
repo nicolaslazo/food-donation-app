@@ -56,6 +56,7 @@ public class Heladera {
   CoordenadasGeograficas ubicacion;
 
   @Column(name = "barrio", nullable = false, updatable = false)
+  @Getter
   @NonNull String barrio;
 
   @Column(name = "ultimaTemperaturaRegistradaEnCelsius")
