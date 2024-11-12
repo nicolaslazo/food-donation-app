@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.contribucion;
 
+import ar.edu.utn.frba.dds.controllers.sensor.SensorController;
 import ar.edu.utn.frba.dds.dtos.input.contribucion.CuidadoHeladeraInputDTO;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
@@ -10,6 +11,7 @@ import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import io.javalin.http.Context;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.time.ZonedDateTime;
 import java.util.HashMap;
@@ -62,7 +64,7 @@ public class CuidadoHeladeraController {
     context.render("contribuciones/cuidado_heladera/cuidado_heladera.hbs", model);
   }
 
-  public void create(Context context) {
+  public void create(Context context) throws MqttException {
     // Obtengo los datos del formulario
     CuidadoHeladeraInputDTO cuidadoHeladeraInputDTO = new CuidadoHeladeraInputDTO(
         context.formParam("nombreHeladera"),
@@ -77,10 +79,13 @@ public class CuidadoHeladeraController {
     Heladera heladeraNueva = tomarCuidadoHeladera(cuidadoHeladeraInputDTO);
     new HeladerasRepository().insert(heladeraNueva);
 
-    // TODO: Crear un método/controller para asignar los sensores a la Heladera
-    // Los sensores de Temperatura tienen distintos rangos según el modelo de la Heladera
-    // ¿Los sensores tambien se persisten?
+    // Asigno los Sensores a la Heladera
+    asignarSensoresAHeladera(heladeraNueva);
 
     context.redirect("/formas-colaboracion");
+  }
+
+  private void asignarSensoresAHeladera(Heladera heladera) throws MqttException {
+    new SensorController().create(heladera);
   }
 }
