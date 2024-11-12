@@ -1,7 +1,8 @@
-package ar.edu.utn.frba.dds.sensores;
+package ar.edu.utn.frba.dds.models.entities.heladera.sensor;
 
 import ar.edu.utn.frba.dds.dtos.input.sensores.SensorMovimientoInputDTO;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.sensores.ReceptorMovimiento;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttException;

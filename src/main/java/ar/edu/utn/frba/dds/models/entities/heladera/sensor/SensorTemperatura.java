@@ -1,14 +1,14 @@
-package ar.edu.utn.frba.dds.sensores;
+package ar.edu.utn.frba.dds.models.entities.heladera.sensor;
 
 import ar.edu.utn.frba.dds.dtos.input.sensores.SensorTemperaturaInputDTO;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.sensores.ReceptorTemperatura;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.time.ZonedDateTime;
-
 
 public class SensorTemperatura implements IMqttMessageListener {
   final ReceptorTemperatura receptorTemperatura;
