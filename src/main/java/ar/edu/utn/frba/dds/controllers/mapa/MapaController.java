@@ -60,16 +60,25 @@ public class MapaController {
 
     model.put("viandas", viandasData);
 
+    Boolean puedeAbrirHeladeraPorConsumicion = context.sessionAttribute("abrirHeladeraConsumicion");
+    if (puedeAbrirHeladeraPorConsumicion == null) {
+      puedeAbrirHeladeraPorConsumicion = false;
+    }
+
     // --- Recupero los datos de la Persona Vulnerable ---
     // Unicamente si esta Logueada
-    if (context.sessionAttribute("esPersonaVulnerable")) {
+    if (context.sessionAttribute("esPersonaVulnerable")) { // Si posee el Rol de Persona Vulnerable, completo sus datos
       PersonaVulnerable personaVulnerable = new PersonaVulnerableRepository().findById(context.sessionAttribute("user_id")).get();
+
       model.put("nombre", personaVulnerable.getUsuario().getPrimerNombre());
       model.put("apellido", personaVulnerable.getUsuario().getApellido());
       model.put("menoresACargo", personaVulnerable.getMenoresACargo());
       model.put("usosDisponibles", 5); //TODO: El controller de las tarjetas debería de brindarnos esta lógica.
       model.put("userRol", "PERSONAVULNERABLE");
-    } else {
+    } else if (puedeAbrirHeladeraPorConsumicion) { // Si posee el Permiso para Abrir Por consumición, se completan estos datos
+      model.put("usosDisponibles", 20);
+      model.put("userRol", "PERSONAVULNERABLE");
+    } else { // No posee permisos para abrir por consumición
       model.put("userRol", "OTHER");
     }
 

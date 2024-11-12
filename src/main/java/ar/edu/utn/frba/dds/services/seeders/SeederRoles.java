@@ -49,6 +49,7 @@ public class SeederRoles {
           Permiso permisoSubirRecompensa = permisosRepository.findByName("Subir-Recompensa").get();
           Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
           Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
+          Permiso permisoAbrirHeladeraConsumicion = permisosRepository.findByName("Abrir-Heladera-Consumicion").get();
           Rol newRolAdmin = new Rol(rolName, Set.of(
               permisoCrearColaborador,
               permisoCrearTecnico,
@@ -68,7 +69,8 @@ public class SeederRoles {
               permisoSuscribirseHeladera,
               permisoSubirRecompensa,
               permisoDistribuirViandas,
-              permisoCrearReporte
+              permisoCrearReporte,
+              permisoAbrirHeladeraConsumicion
           ));
           rolesRepository.insert(newRolAdmin);
           break;

@@ -115,8 +115,11 @@ public class SessionController {
 
       // Si tiene rol de Persona Vulnerable, puede hacer una solicitud de viandas
       // tambien se lo redirije directamente al mapa
-      if (usuario.getRoles().stream().anyMatch(rol -> rol.getNombre().equals("PERSONAVULNERABLE"))) {
-        context.sessionAttribute("esPersonaVulnerable", true);
+      if (usuario.tienePermiso("Abrir-Heladera-Consumicion")) {
+        context.sessionAttribute("abrirHeladeraConsumicion", true);
+        if (usuario.getRoles().contains(new Rol("PERSONAVULNERABLE"))) {
+          context.sessionAttribute("esPersonaVulnerable", true);
+        }
         context.json(Map.of(
                 "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
                 "success", true,
