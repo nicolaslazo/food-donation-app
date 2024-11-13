@@ -36,10 +36,12 @@ public class CargaCSVController {
       UploadedFile uploadedFile = context.uploadedFile("archivo");
 
       if (uploadedFile == null) {
-        context.json(new HashMap<String, Object>() {{
-          put("message", "No se encontró ningún archivo");
-          put("success", false);
-        }});
+        context.json(new HashMap<String, Object>() {
+          {
+            put("message", "No se encontró ningún archivo");
+            put("success", false);
+          }
+        });
         return;
       }
 
@@ -77,16 +79,20 @@ public class CargaCSVController {
             });
       }
 
-      context.json(new HashMap<String, Object>() {{
-        put("message", "Se procesaron %d contribuciones para %d colaboradores".formatted(contribuciones.size(), colaboradores.size()));
-        put("success", true);
-      }});
+      context.json(new HashMap<String, Object>() {
+        {
+          put("message", "Se procesaron %d contribuciones para %d colaboradores".formatted(contribuciones.size(), colaboradores.size()));
+          put("success", true);
+        }
+      });
     } catch (Exception e) {
       e.printStackTrace();
-      context.json(new HashMap<String, Object>() {{
-        put("message", "Error al procesar el archivo: " + e.getMessage());
-        put("success", false);
-      }});
+      context.json(new HashMap<String, Object>() {
+        {
+          put("message", "Error al procesar el archivo: " + e.getMessage());
+          put("success", false);
+        }
+      });
     }
   }
 }
