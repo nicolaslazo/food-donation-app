@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector('form');
+    const form = document.querySelector('.triggerea-toast');
     const toast = document.getElementById('toast');
 
     function mostrarToast(mensaje) {
