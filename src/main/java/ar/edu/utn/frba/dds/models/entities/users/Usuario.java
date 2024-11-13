@@ -23,6 +23,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -76,6 +77,10 @@ public class Usuario {
   @Getter
   @NonNull Set<Rol> roles;
 
+  @Getter
+  @Transient
+  String contrasenaPlaintextTemporaria;
+
   @Column(name = "contrasenia", nullable = false)
   @NonNull String contraseniaHasheada;
 
@@ -91,10 +96,9 @@ public class Usuario {
                  LocalDate fechaNacimiento,
                  String contraseniaHasheada,
                  @NonNull HashSet<Rol> roles) {
-    String contraseniaGenerada;
     if (contraseniaHasheada == null) {
-      contraseniaGenerada = GeneradorDeContrasenias.generarContrasenia();
-      contraseniaHasheada = DigestUtils.sha256Hex(contraseniaGenerada);
+      contrasenaPlaintextTemporaria = GeneradorDeContrasenias.generarContrasenia();
+      contraseniaHasheada = DigestUtils.sha256Hex(contrasenaPlaintextTemporaria);
     }
 
     this.documento = documento;

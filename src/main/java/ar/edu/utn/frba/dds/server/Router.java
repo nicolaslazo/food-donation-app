@@ -107,6 +107,7 @@ public class Router {
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
     app.get("/carga-csv", new CargaCSVController()::index);
+    app.post("/carga-csv", new CargaCSVController()::create);
 
     //Reportes
     app.before("/ver-reportes", new AuthMiddleware());
