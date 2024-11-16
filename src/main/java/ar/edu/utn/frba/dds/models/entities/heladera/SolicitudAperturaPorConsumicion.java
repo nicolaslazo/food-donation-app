@@ -6,10 +6,10 @@ import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,19 +21,19 @@ import java.time.ZonedDateTime;
 @Getter
 public class SolicitudAperturaPorConsumicion {
   @Column(name = "id", nullable = false, unique = true, updatable = false)
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   Long id;
 
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Tarjeta.class)
+  @ManyToOne(targetEntity = Tarjeta.class)
   @JoinColumn(name = "idTarjeta", nullable = false)
   @NonNull Tarjeta tarjeta;
 
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Vianda.class)
+  @ManyToOne(targetEntity = Vianda.class)
   @JoinColumn(name = "idVianda", nullable = false, referencedColumnName = "id")
   @NonNull Vianda vianda;
 
-  @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity = Heladera.class)
+  @ManyToOne(targetEntity = Heladera.class)
   @JoinColumn(name = "idHeladera", nullable = false, updatable = false, referencedColumnName = "id")
   @NonNull Heladera heladera;
 

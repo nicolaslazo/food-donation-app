@@ -50,27 +50,29 @@ public class Router {
     Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
     Rol rolColaboradorJuridico = repositorioRoles.findByName("COLABORADORJURIDICO").get();
     Set<Rol> rolesColaboradores = Set.of(rolColaboradorFisico, rolColaboradorJuridico);
+    Set<Rol> rolesPersonaVulnerable = Set.of(repositorioRoles.findByName("PERSONAVULNERABLE").get());
 
-    app.before(ctx -> new SessionController().sessionInfo(ctx));
+    app.before(SessionController::sessionInfo);
 
-    app.get("/colaborador/login", new SessionController()::index);
-    app.post("/colaborador/login", new SessionController(rolesColaboradores)::create);
+    app.get("/colaborador/login", new SessionController("logueo/login/logincolaborador.hbs")::index);
+    app.post(
+        "/colaborador/login",
+        new SessionController("logueo/login/logincolaborador.hbs", rolesColaboradores)::create);
 
-    app.get("/tienda", new TiendaController()::index);    
-    app.post("/tienda/ofrecerProducto/createProducto", new TiendaController()::createProducto, permisoAdministrarProductos);
-    app.delete("/tienda/ofrecerProducto/deleteProducto/{id}", new TiendaController()::deleteProducto, permisoAdministrarProductos);
-    app.post("/tienda/ofrecerProducto/{id}", new TiendaController()::modifyProducto, permisoAdministrarProductos);
-    app.get("/tienda/ofrecerProducto", new TiendaController()::ofrecerProducto, permisoAdministrarProductos);
-    app.get("/tienda/canjearProductos", new TiendaController()::canjearProductos, permisoCanjearProductos);
-    app.post("/tienda/canjearProductos/{id}", new TiendaController()::canjearProductosPost, permisoCanjearProductos);
+    app.post("/colaborador/logout", SessionController::delete);
+    app.get("/colaborador/registro", new ColaboradorController()::index);
+    app.post("/colaborador/registro", new ColaboradorController()::create);
 
     app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
 
-    app.post("/colaborador/logout", new SessionController()::delete);
-    app.get("/colaborador/registro", new ColaboradorController()::index);
-    app.post("/colaborador/registro", new ColaboradorController()::create);
+    app.get(
+        "/persona-vulnerable/login",
+        new SessionController("logueo/login/loginpersonavulnerable.hbs")::index);
+    app.post(
+        "/persona-vulnerable/login",
+        new SessionController("logueo/login/loginpersonavulnerable.hbs", rolesPersonaVulnerable)::create);
 
     // Terminos
     app.get("/terminos", new TerminosYCondicionesController()::index);
@@ -100,13 +102,23 @@ public class Router {
     app.post("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::create, permisoSolicitarTarjetas);
     app.get("/contribucion/agregar-recompensa", new AgregarRecompensasController()::index, permisoCrearRecompensa);
     app.get("/contribucion/donacion-vianda", new DonacionViandaController()::index, permisoDonarViandas);
-    app.get("/contribucion/distribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
-    //app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);
+    app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);
+    app.get("/contribucion/redistribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
+    app.post("/contribucion/redistribucion-vianda", new DistribuirViandaController()::create, permisoDistribuirViandas);
 
     // Registro Persona Vulnerable
     app.before("/persona-vulnerable/registro", new AuthMiddleware());
     app.get("/persona-vulnerable/registro", new PersonaVulnerableController()::index, permisoAsignarTarjetas);
     app.post("/persona-vulnerable/registro", new PersonaVulnerableController()::create, permisoAsignarTarjetas);
+
+    // Recompensas
+    app.get("/tienda", new TiendaController()::index);
+    app.post("/tienda/ofrecerProducto/createProducto", new TiendaController()::createProducto, permisoAdministrarProductos);
+    app.delete("/tienda/ofrecerProducto/deleteProducto/{id}", new TiendaController()::deleteProducto, permisoAdministrarProductos);
+    app.post("/tienda/ofrecerProducto/{id}", new TiendaController()::modifyProducto, permisoAdministrarProductos);
+    app.get("/tienda/ofrecerProducto", new TiendaController()::ofrecerProducto, permisoAdministrarProductos);
+    app.get("/tienda/canjearProductos", new TiendaController()::canjearProductos, permisoCanjearProductos);
+    app.post("/tienda/canjearProductos/{id}", new TiendaController()::canjearProductosPost, permisoCanjearProductos);
 
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());

@@ -15,16 +15,20 @@ import lombok.NonNull;
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class SolicitudAperturaPorContribucionController implements IMqttMessageListener {
+  static final Logger logger = LoggerFactory.getLogger(SolicitudAperturaPorContribucionController.class);
+
   final SolicitudAperturaPorContribucionRepository repositorio = new SolicitudAperturaPorContribucionRepository();
 
   private void checkearPrecondicionesCreacion(Tarjeta tarjeta, MovimientoViandas contribucion)
       throws PermisoDenegadoException {
-    tarjeta.assertTienePermiso("Depositar-Viandas",
+    tarjeta.assertTienePermiso("Donar-Viandas",
         "las viandas sólo pueden ser ingresadas o redistribuidas por colaboradores registrados");
 
     if (contribucion.getColaborador().getUbicacion() == null)
@@ -36,8 +40,8 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
       throw new PermisoDenegadoException("Un usuario no puede solicitar una apertura con la tarjeta de otro");
   }
 
-  public void crear(@NonNull Tarjeta tarjeta,
-                    @NonNull MovimientoViandas contribucion) throws MqttException, PermisoDenegadoException {
+  public SolicitudAperturaPorContribucion crear(@NonNull Tarjeta tarjeta,
+                                                @NonNull MovimientoViandas contribucion) throws MqttException, PermisoDenegadoException {
     checkearPrecondicionesCreacion(tarjeta, contribucion);
 
     SolicitudAperturaPorContribucion solicitud = new SolicitudAperturaPorContribucion(
@@ -67,16 +71,26 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
     broker.publicar(topicDeSolicitudesHeladeraDestino,
         dtoSolicitud);
 
+    /*
+     * CUIDADO: SUSCRIBIR DOS TOPICS HACE QUE INTELLIJ NO CAPTURE ERRORES NI PUEDA FRENAR EN BREAKPOINTS
+     * SI NECESITAN DEBUGGEAR ALGO COMENTEN LOS `broker.suscribir` QUE NO NECESITEN
+     */
     // Para marcar las solicitudes de apertura como usadas
     broker.suscribir(topicDeSolicitudesHeladeraDestino + "/confirmadas", this);
     // Para mandar las notificaciones necesarias a los suscriptos
     broker.suscribir(topicDeSolicitudesHeladeraDestino + "/confirmadas", SuscripcionController.getInstancia());
+
+    return solicitud;
   }
 
   @Override
   public void messageArrived(String topic, MqttMessage payload) throws Exception {
+    logger.warn("Payload recibida: " + payload);
+
     final SolicitudAperturaPorContribucionInputDTO confirmacion =
         SolicitudAperturaPorContribucionInputDTO.desdeJson(payload.toString());
+
+    logger.warn("Confirmacion: " + confirmacion);
 
     Optional<SolicitudAperturaPorContribucion> optionalSolicitud =
         repositorio.getSolicitudVigenteAlMomento(Long.valueOf(confirmacion.getId()),
@@ -89,5 +103,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
     SolicitudAperturaPorContribucion solicitud = optionalSolicitud.get();
 
     repositorio.updateFechaUsada(solicitud.getId(), confirmacion.getEsExtraccion(), confirmacion.getFechaRealizada());
+
+    logger.warn("Solicitud usada exitosamente el " + solicitud.getFechaAperturaEnDestino());
   }
 }

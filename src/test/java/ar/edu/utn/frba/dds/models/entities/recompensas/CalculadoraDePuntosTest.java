@@ -6,101 +6,58 @@ import ar.edu.utn.frba.dds.models.repositories.contribucion.DineroRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.EntregaTarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.RedistribucionViandasRepository;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockedConstruction;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Field;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.when;
 
-/* TODO: Volveria a este TEST una vez ORMicemos los otros repos
 @ExtendWith(MockitoExtension.class)
 class CalculadoraDePuntosTest {
   @Mock
   Colaborador colaboradorMock;
-  @Mock
-  DineroRepository repositorioDineroMock;
-  @Mock
-  RedistribucionViandasRepository repositorioViandasRedistribuidasMock;
-  @Mock
-  DonacionViandasRepository repositorioViandasDonadasMock;
-  @Mock
-  EntregaTarjetasRepository repositorioEntregaTarjetasMock;
-  @Mock
-  CuidadoHeladerasRepository repositorioCuidadoHeladerasMock;
 
-  @AfterAll
-  static void afterAll() throws NoSuchFieldException, IllegalAccessException {
-    Field campoInstancia;
-
-    campoInstancia = DineroRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, null);
-
-    campoInstancia = RedistribucionViandasRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, null);
-
-    campoInstancia = DonacionViandasRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, null);
-
-    campoInstancia = EntregaTarjetasRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, null);
-
-    campoInstancia = CuidadoHeladerasRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, null);
-  }
+  private MockedConstruction<DineroRepository> dineroRepositoryMock;
+  private MockedConstruction<RedistribucionViandasRepository> redistribucionViandasRepositoryMock;
+  private MockedConstruction<DonacionViandasRepository> donacionViandasRepositoryMock;
+  private MockedConstruction<EntregaTarjetasRepository> entregaTarjetasRepositoryMock;
+  private MockedConstruction<CuidadoHeladerasRepository> cuidadoHeladerasRepositoryMock;
 
   @BeforeEach
-  void setUp() throws NoSuchFieldException, IllegalAccessException {
-       TODO: Hay alguna manera más elegante de hacer esto?
-     *  Capaz esto?
-     *  try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
-     *    brokerService.when(MqttBrokerService::getInstancia).thenReturn(brokerServiceMock);
-     *    new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion);
-     *  }
+  void setUp() {
+    dineroRepositoryMock = mockConstruction(DineroRepository.class,
+        (mock, context) -> when(mock.getTotal(colaboradorMock)).thenReturn(2.));
 
+    redistribucionViandasRepositoryMock = mockConstruction(RedistribucionViandasRepository.class,
+        (mock, context) -> when(mock.getTotal(colaboradorMock)).thenReturn(10));
 
-    Field campoInstancia;
+    donacionViandasRepositoryMock = mockConstruction(DonacionViandasRepository.class,
+        (mock, context) -> when(mock.getTotal(colaboradorMock)).thenReturn(100));
 
-    campoInstancia = DineroRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, repositorioDineroMock);
+    entregaTarjetasRepositoryMock = mockConstruction(EntregaTarjetasRepository.class,
+        (mock, context) -> when(mock.getTotal(colaboradorMock)).thenReturn(1000));
 
-    campoInstancia = RedistribucionViandasRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, repositorioViandasRedistribuidasMock);
+    cuidadoHeladerasRepositoryMock = mockConstruction(CuidadoHeladerasRepository.class,
+        (mock, context) -> when(mock.getMesesActivosCumulativos(colaboradorMock)).thenReturn(10000));
+  }
 
-    campoInstancia = DonacionViandasRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, repositorioViandasDonadasMock);
-
-    campoInstancia = EntregaTarjetasRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, repositorioEntregaTarjetasMock);
-
-    campoInstancia = CuidadoHeladerasRepository.class.getDeclaredField("instancia");
-    campoInstancia.setAccessible(true);
-    campoInstancia.set(null, repositorioCuidadoHeladerasMock);
+  @AfterEach
+  void tearDown() {
+    dineroRepositoryMock.close();
+    redistribucionViandasRepositoryMock.close();
+    donacionViandasRepositoryMock.close();
+    entregaTarjetasRepositoryMock.close();
+    cuidadoHeladerasRepositoryMock.close();
   }
 
   @Test
   public void testCalculaPuntaje() {
-    when(repositorioDineroMock.getTotal(colaboradorMock)).thenReturn(2.);  // 2.0 * 0.5 = 1
-    when(repositorioViandasRedistribuidasMock.getTotal(colaboradorMock)).thenReturn(10);  // 10 * 1 = 10
-    when(repositorioViandasDonadasMock.getTotal(colaboradorMock)).thenReturn(100);  // 100 * 1.5 = 150
-    when(repositorioEntregaTarjetasMock.getTotal(colaboradorMock)).thenReturn(1000);  // 1000 * 2 = 2000
-    when(repositorioCuidadoHeladerasMock.getMesesActivosCumulativos(colaboradorMock)).thenReturn(10000);  // 10000 * 5 = 50000
-
     assertEquals(52161, CalculadoraDePuntos.calcular(colaboradorMock));
   }
 }
-*/

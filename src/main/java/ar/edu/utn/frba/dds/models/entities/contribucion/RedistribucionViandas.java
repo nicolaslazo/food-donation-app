@@ -18,11 +18,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "RedistribucionViandas")
-
+@Getter
 public class RedistribucionViandas extends MovimientoViandas {
   // Algunos de estos se mantienen nulificables para el cargador masivo CSV
-
-  @Getter
   @ManyToOne
   @JoinColumn(name = "idHeladeraOrigen", referencedColumnName = "id")
   Heladera origen;

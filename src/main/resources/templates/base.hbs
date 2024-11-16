@@ -21,6 +21,11 @@
     <title>{{#block "titulo"}}{{/block}}</title>
 </head>
 <body>
+<div id="toast" class="toast">
+    {{#if toast}}
+        <p>{{toast}}</p>
+    {{/if}}
+</div>
 <header>
     <div class="container-logo">
         <a class="img-logo" href="/">
