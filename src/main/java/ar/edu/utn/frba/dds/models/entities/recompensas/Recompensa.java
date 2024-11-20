@@ -35,7 +35,7 @@ public class Recompensa {
   @NonNull Colaborador proveedor;
 
   @Column(name = "costoEnPuntos", nullable = false, updatable = false)
-  @NonNull Double costoEnPuntos;
+  @NonNull Long costoEnPuntos;
 
   @Column(name = "stockInicial", nullable = false, updatable = false)
   @NonNull Integer stockInicial;
@@ -49,7 +49,7 @@ public class Recompensa {
 
   public Recompensa(@NonNull String nombre,
                     @NonNull Colaborador proveedor,
-                    @NonNull Double costoEnPuntos,
+                    @NonNull Long costoEnPuntos,
                     @NonNull Integer stockInicial,
                     @NonNull RubroRecompensa rubro,
                     URL imagen) {
