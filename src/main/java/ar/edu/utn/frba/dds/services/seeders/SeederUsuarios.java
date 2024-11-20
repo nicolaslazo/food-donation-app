@@ -189,5 +189,8 @@ public class SeederUsuarios {
     Canjeo canje1 = new Canjeo(colaboradorJuridico, recompensa1, ZonedDateTime.now());
     new CanjeosRepository().insert(canje1);
 
+    // ------ CONTRIBUCIONES -------
+    Dinero donacionDineroAdmin = new Dinero(colaboradorAdmin, 10000, null);
+    new DineroRepository().insert(donacionDineroAdmin);
   }
 }
