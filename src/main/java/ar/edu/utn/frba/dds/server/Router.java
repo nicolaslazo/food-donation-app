@@ -63,10 +63,6 @@ public class Router {
     app.get("/colaborador/registro", new ColaboradorController()::index);
     app.post("/colaborador/registro", new ColaboradorController()::create);
 
-    app.get("/terminos-y-condiciones", new TerminosYCondicionesController()::index);
-    app.get("/quiero-ayudar", new QuieroAyudarController()::index);
-    app.get("/formas-colaboracion", new FormasColaboracionController()::index);
-
     app.get(
         "/persona-vulnerable/login",
         new SessionController("logueo/login/loginpersonavulnerable.hbs")::index);
@@ -113,12 +109,10 @@ public class Router {
 
     // Recompensas
     app.get("/tienda", new TiendaController()::index);
-    app.post("/tienda/ofrecerProducto/createProducto", new TiendaController()::createProducto, permisoAdministrarProductos);
-    app.delete("/tienda/ofrecerProducto/deleteProducto/{id}", new TiendaController()::deleteProducto, permisoAdministrarProductos);
-    app.post("/tienda/ofrecerProducto/{id}", new TiendaController()::modifyProducto, permisoAdministrarProductos);
-    app.get("/tienda/ofrecerProducto", new TiendaController()::ofrecerProducto, permisoAdministrarProductos);
-    app.get("/tienda/canjearProductos", new TiendaController()::canjearProductos, permisoCanjearProductos);
-    app.post("/tienda/canjearProductos/{id}", new TiendaController()::canjearProductosPost, permisoCanjearProductos);
+    app.get("/tienda/recompensas", new TiendaController()::indexRecompensas, permisoCanjearProductos);
+    app.post("/tienda/recompensas/{id}", new TiendaController()::canjearRecompensa, permisoCanjearProductos);
+    app.get("/tienda/recompensas/admin", new TiendaController()::indexRecompensaNueva, permisoAdministrarProductos);
+    app.post("/tienda/recompensas/admin", new TiendaController()::crearRecompensa, permisoAdministrarProductos);
 
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
