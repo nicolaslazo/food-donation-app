@@ -20,7 +20,7 @@ public class TiendaController {
   RecompensasRepository recompensaRepository = new RecompensasRepository();
 
   public void index(Context context) {
-    context.render("tienda/home/tienda.hbs");
+    context.render("tienda/tienda.hbs");
   }
 
   public void indexRecompensaNueva(Context ctx) {
@@ -30,7 +30,7 @@ public class TiendaController {
     List<Recompensa> recompensas = recompensaRepository.findAll(colaborador);
     model.put("recompensas", recompensas);
     model.put("categorias", RubroRecompensa.values());
-    ctx.render("tienda/ofrecerRecompensaEmpresa/ofrecerProductoServicio.hbs", model);
+    ctx.render("tienda/ofrecer.hbs", model);
   }
 
   public void crearRecompensa(Context ctx) {
@@ -51,7 +51,7 @@ public class TiendaController {
     model.put("my-puntos", canjeosRepository.getPuntosDisponibles(colaborador));
     model.put("categorias", RubroRecompensa.values());
     model.put("items", recompensaRepository.findAll().toList());
-    context.render("tienda/canjearPuntos/canjePuntosProductosServicios.hbs", model);
+    context.render("tienda/canjear.hbs", model);
   }
 
   public void canjearRecompensa(Context ctx) {

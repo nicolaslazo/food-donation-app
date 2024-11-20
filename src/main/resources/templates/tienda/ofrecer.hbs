@@ -8,7 +8,7 @@
 
 {{#partial "scripts"}}
     <script src="/public/js/tienda/script.js" defer></script>
-    <script src="/public/js/tienda/ofrecerRecompensaProducto/script.js" defer></script>
+    <script src="/public/js/tienda/ofrecer/script.js" defer></script>
 {{/partial}}
 
 {{#partial "contenido"}}
@@ -35,14 +35,14 @@
                         <p>Valor en Puntos: {{this.costoEnPuntos}}</p>
                         <p>Categoría: {{this.rubro}}</p>
                     </div>
-                    <div class="service-actions">
-                        <button class="btn-edit" onclick="administrarServicio({{this.id}})">
-                            <i class="fa fa-pencil-alt"></i>
-                        </button>
-                        <button class="btn-delete" onclick="mostrarModalEliminar(this, {{this.id}})">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
+<!--                    <div class="service-actions">-->
+<!--                        <button class="btn-edit" onclick="administrarServicio({{this.id}})">-->
+<!--                            <i class="fa fa-pencil-alt"></i>-->
+<!--                        </button>-->
+<!--                        <button class="btn-delete" onclick="mostrarModalEliminar(this, {{this.id}})">-->
+<!--                            <i class="fa fa-trash"></i>-->
+<!--                        </button>-->
+<!--                    </div>-->
                 </div>
                 {{/each}}
             </div>
@@ -71,7 +71,7 @@
     <div class="modal" id="modal-agregar-servicio">
         <div class="modal-content">
             <h2>Agregar Nuevo Producto</h2>
-            <form id="form-agregar-servicio" method="POST" action="/tienda/ofrecerProducto/createProducto">
+            <form id="form-agregar-servicio" method="POST" action="/tienda/recompensas/admin">
                 <div class="input-box">
                     <p>Nombre del Producto:</p>
                     <input type="text" id="nombre-servicio" name="nombreServicio" name="nombreServicio" required>
@@ -98,15 +98,15 @@
         </div>
     </div>
 
-    <div class="modal" id="modalEliminar">
-        <div class="modal-content">
-            <h2>Eliminar Producto</h2>
-            <p>¿Está seguro de que desea eliminar este Producto?</p>
-            <p>Esta acción no se puede deshacer.</p>
-            <button class="btn-close" type="submit" onclick="eliminarConfirmado()">Eliminar</button>
-            <button class="btn-close" onclick="cerrarModalEliminar()">Cancelar</button>
-        </div>
-    </div>
+<!--    <div class="modal" id="modalEliminar">-->
+<!--        <div class="modal-content">-->
+<!--            <h2>Eliminar Producto</h2>-->
+<!--            <p>¿Está seguro de que desea eliminar este Producto?</p>-->
+<!--            <p>Esta acción no se puede deshacer.</p>-->
+<!--            <button class="btn-close" type="submit" onclick="eliminarConfirmado()">Eliminar</button>-->
+<!--            <button class="btn-close" onclick="cerrarModalEliminar()">Cancelar</button>-->
+<!--        </div>-->
+<!--    </div>-->
 </main>
 {{/partial}}
 
