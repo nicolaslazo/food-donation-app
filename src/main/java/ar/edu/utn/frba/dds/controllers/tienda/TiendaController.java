@@ -27,7 +27,7 @@ public class TiendaController {
     Colaborador colaborador = colaboradorRepository.findById(ctx.sessionAttribute("user_id")).get();
 
     Map<String, Object> model = new HashMap<>();
-    List<Recompensa> recompensas = recompensaRepository.findAll(colaborador);
+    List<Recompensa> recompensas = recompensaRepository.findAll(colaborador).toList();
     model.put("recompensas", recompensas);
     model.put("categorias", RubroRecompensa.values());
     ctx.render("tienda/ofrecer.hbs", model);
@@ -42,7 +42,6 @@ public class TiendaController {
     Recompensa recompensa = new Recompensa(nombre, colaborador, Long.parseLong(puntos), Integer.parseInt(stock), RubroRecompensa.valueOf(categoria), null);
 
     recompensaRepository.insert(recompensa);
-    ctx.redirect("/tienda/recompensas/admin");
   }
 
   public void indexRecompensas(Context context) {
@@ -50,13 +49,17 @@ public class TiendaController {
     Map<String, Object> model = new HashMap<>();
     model.put("my-puntos", canjeosRepository.getPuntosDisponibles(colaborador));
     model.put("categorias", RubroRecompensa.values());
-    model.put("items", recompensaRepository.findAll().toList());
+    model.put("items", recompensaRepository.findAllConStock().toList());
     context.render("tienda/canjear.hbs", model);
   }
 
   public void canjearRecompensa(Context ctx) {
     Colaborador colaborador = colaboradorRepository.findById(ctx.sessionAttribute("user_id")).get();
     Recompensa recompensa = recompensaRepository.findById(Long.parseLong(ctx.pathParam("id"))).get();
+
+    if (recompensaRepository.findStock(recompensa) <= 0)
+      throw new RuntimeException("Esta recompensa ya no tiene stock");
+
     canjeosRepository.insert(new Canjeo(colaborador, recompensa, ZonedDateTime.now()));
   }
 }
