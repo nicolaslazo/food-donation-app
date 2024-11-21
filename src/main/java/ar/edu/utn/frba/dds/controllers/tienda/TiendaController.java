@@ -47,7 +47,7 @@ public class TiendaController {
   public void indexRecompensas(Context context) {
     Colaborador colaborador = colaboradorRepository.findById(context.sessionAttribute("user_id")).get();
     Map<String, Object> model = new HashMap<>();
-    model.put("my-puntos", canjeosRepository.getPuntosDisponibles(colaborador));
+    model.put("puntos-disponibles", canjeosRepository.getPuntosDisponibles(colaborador));
     model.put("categorias", RubroRecompensa.values());
     model.put("items", recompensaRepository.findAllConStock().toList());
     context.render("tienda/canjear.hbs", model);
