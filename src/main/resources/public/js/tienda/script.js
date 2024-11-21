@@ -22,7 +22,6 @@ function filtrarPorCategoria() {
 }
 
 function cerrarModal() {
-
     document.getElementById('modal').style.display = 'none';
 
     const pointsContainer = document.querySelector('.points-container');
@@ -30,13 +29,3 @@ function cerrarModal() {
 
     pointsContainer.style.pointerEvents = 'auto';
 }
-
-function confirmarCanje() {
-    alert('¡Canje realizado con éxito!');
-    cerrarModal();
-}
-
-
-
-
-

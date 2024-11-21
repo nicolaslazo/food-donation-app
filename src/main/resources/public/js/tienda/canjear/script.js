@@ -1,35 +1,7 @@
-
-
-function filtrarPorCategoria() {
-    const categoriaSeleccionada = document.getElementById("category-filter").value;
-    const servicios = document.querySelectorAll(".service-item");
-    var noHayServicios = true;
-
-    servicios.forEach(servicio => {
-        const categoria = servicio.getAttribute("data-categoria");
-        if (categoriaSeleccionada === "todos" || categoria === categoriaSeleccionada) {
-            servicio.style.display = "flex";
-            noHayServicios = false;
-        } else {
-            servicio.style.display = "none";
-        }
-    });
-
-    var mensajeNoServicios = document.getElementById('no-services-message');
-    if (noHayServicios) {
-        mensajeNoServicios.style.display = 'block';
-    } else {
-        mensajeNoServicios.style.display = 'none';
-    }
-}
-
-window.onload = function() {
-};
-
-let serviceId;
+let idRecompensa;
 
 function abrirModalCanjeo(id) {
-    serviceId = id;
+    idRecompensa = id;
 
     const servicioSeleccionado = document.querySelector(`.service-item[data-id="${id}"]`);
 
@@ -50,26 +22,18 @@ function abrirModalCanjeo(id) {
 }
 
 function cerrarModal() {
-
     document.getElementById('modal').style.display = 'none';
 
     const pointsContainer = document.querySelector('.points-container');
     pointsContainer.classList.remove('blur-background');
 
     pointsContainer.style.pointerEvents = 'auto';
-    // Recargar la página actual
-    location.reload();
 }
 
 function confirmarCanje() {
-    fetch('/tienda/canjearProductos/' + serviceId, {
+    fetch('/tienda/recompensas/' + idRecompensa, {
         method: 'POST',
     })
     alert('¡Canje realizado con éxito!');
-    cerrarModal();
+    location.reload();
 }
-
-
-
-
-
