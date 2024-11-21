@@ -12,102 +12,75 @@
 {{/partial}}
 
 {{#partial "contenido"}}
-<main>
-    <div class="points-container">
-        <h1>Producto Ofrecidos</h1>
+    <main>
+        <div class="points-container">
+            <h1>Productos ofrecidos</h1>
 
-        <label for="category-filter">Filtrar por Categoría:</label>
-        <select id="category-filter" onchange="filtrarPorCategoria()">
-            <option value="todos"></option>
-            {{#each categorias}}
-                <option value="{{this}}">{{this}}</option>
-            {{/each}}
-        </select>
-
-        <div class="services-list">
-            <p id="no-services-message">No hay Producto de este rubro :(</p>
-            <div id="services-container">
-                {{#each recompensas}}
-                <div class="service-item" data-categoria="{{this.rubro}}">
-                    <img src="https://via.placeholder.com/100" alt="Servicio 3">
-                    <div class="service-info">
-                        <h3>{{this.nombre}}</h3>
-                        <p>Valor en Puntos: {{this.costoEnPuntos}}</p>
-                        <p>Categoría: {{this.rubro}}</p>
-                    </div>
-<!--                    <div class="service-actions">-->
-<!--                        <button class="btn-edit" onclick="administrarServicio({{this.id}})">-->
-<!--                            <i class="fa fa-pencil-alt"></i>-->
-<!--                        </button>-->
-<!--                        <button class="btn-delete" onclick="mostrarModalEliminar(this, {{this.id}})">-->
-<!--                            <i class="fa fa-trash"></i>-->
-<!--                        </button>-->
-<!--                    </div>-->
-                </div>
+            <label for="category-filter">Filtrar por categoría:</label>
+            <select id="category-filter" onchange="filtrarPorCategoria()">
+                <option value="todos"></option>
+                {{#each categorias}}
+                    <option value="{{this}}">{{this}}</option>
                 {{/each}}
+            </select>
+
+            <div class="services-list">
+                <p id="no-services-message">No hay producto de este rubro</p>
+                <div id="services-container">
+                    {{#each recompensas}}
+                        <div class="service-item" data-categoria="{{this.rubro}}">
+                            <img src="https://via.placeholder.com/100" alt="Servicio 3">
+                            <div class="service-info">
+                                <h3>{{this.nombre}}</h3>
+                                <p>Valor en Puntos: {{this.costoEnPuntos}}</p>
+                                <p>Categoría: {{this.rubro}}</p>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            <button class="btn-admin" onclick="abrirModalAgregarRecompensa()">Agregar recompensa</button>
+        </div>
+
+        <div class="modal" id="modal-agregar-servicio">
+            <div class="modal-content">
+                <h2>Agregar Nuevo Producto</h2>
+                <form id="form-agregar-servicio" method="POST" action="/tienda/recompensas/admin">
+                    <div class="input-box">
+                        <label for="nombre-servicio">
+                            Nombre:
+                            <input type="text" id="nombre-servicio" name="nombreServicio"
+                                   required>
+                        </label>
+                    </div>
+                    <div class="input-box">
+                        <label for="puntos-servicio">
+                            Costo:
+                            <input type="number" id="puntos-servicio" name="puntosServicio" required>
+                        </label>
+                    </div>
+                    <div class="input-box">
+                        <label for="stock-servicio">
+                            Stock:
+                            <input type="number" id="stock-servicio" name="stockServicio" required>
+                        </label>
+                    </div>
+                    <div class="input-box">
+                        <label for="categoria-servicio">
+                            Categoria:
+                            <select id="categoria-servicio" name="categoriaServicio">
+                                {{#each categorias}}
+                                    <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-canjear-modal">Agregar</button>
+                    <button type="button" class="btn-close" onclick="cerrarModalAgregarRecompensa()">Cancelar</button>
+                </form>
             </div>
         </div>
-        <button class="btn-admin" onclick="abrirModalAgregarServicio()">Agregar Producto</button>
-    </div>
-
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <h2>Modificar producto: <span id="producto">Nombre</span></h2>
-            <form id="form-modificar-valores">
-                <div class ="input-box">
-                    <p>Puntos necesarios: </p>
-                    <input type="number" id="edit-points" name="puntos" required>
-                </div>
-                <div class ="input-box">
-                    <p>Stock: </p>
-                    <input type="number" id="edit-stocks" name="stock" required>
-                </div>
-                <button type="submit" class="btn-canjear-modal">Aceptar</button>
-                <button type="button" class="btn-close" onclick="cerrarModal()">Cancelar</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="modal" id="modal-agregar-servicio">
-        <div class="modal-content">
-            <h2>Agregar Nuevo Producto</h2>
-            <form id="form-agregar-servicio" method="POST" action="/tienda/recompensas/admin">
-                <div class="input-box">
-                    <p>Nombre del Producto:</p>
-                    <input type="text" id="nombre-servicio" name="nombreServicio" name="nombreServicio" required>
-                </div>
-                <div class="input-box">
-                    <p>Puntos del Producto:</p>
-                    <input type="number" id="puntos-servicio" name="puntosServicio" required>
-                </div>
-                <div class="input-box">
-                    <p>Stock:</p>
-                    <input type="number" id="stock-servicio" name="stockServicio" required>
-                </div>
-                <div class ="input-box">
-                    <p>Categoría:</p>
-                    <select id="categoria-servicio" name="categoriaServicio">
-                        {{#each categorias}}
-                            <option value="{{this}}">{{this}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-                <button type="submit" class="btn-canjear-modal" >Agregar</button>
-                <button type="button" class="btn-close" onclick="cerrarModalAgregarServicio()">Cancelar</button>
-            </form>
-        </div>
-    </div>
-
-<!--    <div class="modal" id="modalEliminar">-->
-<!--        <div class="modal-content">-->
-<!--            <h2>Eliminar Producto</h2>-->
-<!--            <p>¿Está seguro de que desea eliminar este Producto?</p>-->
-<!--            <p>Esta acción no se puede deshacer.</p>-->
-<!--            <button class="btn-close" type="submit" onclick="eliminarConfirmado()">Eliminar</button>-->
-<!--            <button class="btn-close" onclick="cerrarModalEliminar()">Cancelar</button>-->
-<!--        </div>-->
-<!--    </div>-->
-</main>
+    </main>
 {{/partial}}
 
 {{#partial "contenido-footer"}}
