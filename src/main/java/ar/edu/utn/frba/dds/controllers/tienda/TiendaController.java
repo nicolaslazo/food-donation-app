@@ -10,7 +10,6 @@ import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository
 import io.javalin.http.Context;
 
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,33 +19,37 @@ public class TiendaController {
   RecompensasRepository recompensaRepository = new RecompensasRepository();
 
   public void index(Context context) {
-    context.render("tienda/tienda.hbs");
+    Map<String, Object> model = context.attribute("model");
+
+    context.render("tienda/tienda.hbs", model);
   }
 
   public void indexRecompensaNueva(Context ctx) {
+    Map<String, Object> model = ctx.attribute("model");
+
     Colaborador colaborador = colaboradorRepository.findById(ctx.sessionAttribute("user_id")).get();
 
-    Map<String, Object> model = new HashMap<>();
     List<Recompensa> recompensas = recompensaRepository.findAll(colaborador).toList();
     model.put("recompensas", recompensas);
     model.put("categorias", RubroRecompensa.values());
     ctx.render("tienda/ofrecer.hbs", model);
   }
 
-  public void crearRecompensa(Context ctx) {
-    String nombre = ctx.formParam("nombreServicio");
-    String puntos = ctx.formParam("puntosServicio");
-    String stock = ctx.formParam("stockServicio");
-    String categoria = ctx.formParam("categoriaServicio");
-    Colaborador colaborador = colaboradorRepository.findById(ctx.sessionAttribute("user_id")).get();
+  public void crearRecompensa(Context context) {
+    String nombre = context.formParam("nombreServicio");
+    String puntos = context.formParam("puntosServicio");
+    String stock = context.formParam("stockServicio");
+    String categoria = context.formParam("categoriaServicio");
+    Colaborador colaborador = colaboradorRepository.findById(context.sessionAttribute("user_id")).get();
     Recompensa recompensa = new Recompensa(nombre, colaborador, Long.parseLong(puntos), Integer.parseInt(stock), RubroRecompensa.valueOf(categoria), null);
 
     recompensaRepository.insert(recompensa);
   }
 
   public void indexRecompensas(Context context) {
+    Map<String, Object> model = context.attribute("model");
+
     Colaborador colaborador = colaboradorRepository.findById(context.sessionAttribute("user_id")).get();
-    Map<String, Object> model = new HashMap<>();
     model.put("puntos-disponibles", canjeosRepository.getPuntosDisponibles(colaborador));
     model.put("categorias", RubroRecompensa.values());
     model.put("items", recompensaRepository.findAllConStock().toList());
