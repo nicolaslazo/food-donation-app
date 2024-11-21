@@ -21,20 +21,6 @@ function filtrarPorCategoria() {
     }
 }
 
-window.onload = function() {
-    mostrarModal();
-};
-
-function canjearServicio(serviceId) {
-
-    document.getElementById('modal').style.display = 'block';
-
-    const pointsContainer = document.querySelector('.points-container');
-    pointsContainer.classList.add('blur-background');
-
-    pointsContainer.style.pointerEvents = 'none';
-}
-
 function cerrarModal() {
 
     document.getElementById('modal').style.display = 'none';

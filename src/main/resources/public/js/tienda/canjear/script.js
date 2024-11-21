@@ -28,13 +28,24 @@ window.onload = function() {
 
 let serviceId;
 
-function canjearServicio(id) {
+function abrirModalCanjeo(id) {
     serviceId = id;
+
+    const servicioSeleccionado = document.querySelector(`.service-item[data-id="${id}"]`);
+
+    const nombreProducto = servicioSeleccionado.querySelector('h3').textContent;
+    const puntosNecesarios = parseInt(servicioSeleccionado.querySelector('.service-info p').textContent.match(/\d+/)[0]);
+    const puntosActuales = parseInt(document.getElementById('points').textContent);
+    const puntosRestantes = puntosActuales - puntosNecesarios;
+
+    document.getElementById('required-points').textContent = puntosNecesarios;
+    document.getElementById('remaining-points').textContent = puntosRestantes;
+    document.getElementById('product-info').textContent = nombreProducto;
+
     document.getElementById('modal').style.display = 'block';
 
     const pointsContainer = document.querySelector('.points-container');
     pointsContainer.classList.add('blur-background');
-
     pointsContainer.style.pointerEvents = 'none';
 }
 

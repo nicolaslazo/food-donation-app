@@ -29,14 +29,14 @@
             <p id="no-services-message">No hay productos de este rubro :(</p>
             <div id="services-container">
                 {{#each items}}
-                <div class="service-item" data-categoria="{{this.rubro}}">
+                <div class="service-item" data-categoria="{{this.rubro}}" data-id="{{this.id}}">
                     <img src="https://via.placeholder.com/100" alt="Servicio 1">
                     <div class="service-info">
                         <h3>{{this.nombre}}</h3>
                         <p>Valor en Puntos: {{this.costoEnPuntos}}</p>
                         <p>Categoría: {{this.rubro}}</p>
                     </div>
-                    <button class="btn-canjear-lista" onclick="canjearServicio({{this.id}})">Canjear</button>
+                    <button class="btn-canjear-lista" onclick="abrirModalCanjeo({{this.id}})">Canjear</button>
                 </div>
                 {{/each}}
             </div>
