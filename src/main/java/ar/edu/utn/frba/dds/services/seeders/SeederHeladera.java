@@ -2,12 +2,16 @@ package ar.edu.utn.frba.dds.services.seeders;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public class SeederHeladera {
   Colaborador unColaborador = new ColaboradorRepository().findAll().findFirst().get();
@@ -48,17 +52,34 @@ public class SeederHeladera {
         "Almagro"
     );
     Heladera heladeraCasiLlena = new Heladera(
-            "Heladera Casi Llena",
-            new CoordenadasGeograficas(-34.618515, -58.375410),
-            unColaborador,
-            1,
-            ZonedDateTime.now(),
-            "San Telmo"
+        "Heladera Casi Llena",
+        new CoordenadasGeograficas(-34.618515, -58.375410),
+        unColaborador,
+        1,
+        ZonedDateTime.now(),
+        "San Telmo"
     );
-    heladerasRepository.insert(heladeraUno);
-    heladerasRepository.insert(heladeraDos);
-    heladerasRepository.insert(heladeraTres);
-    heladerasRepository.insert(heladeraMedrano);
-    heladerasRepository.insert(heladeraCasiLlena);
+    Heladera heladeraDefectuosa = new Heladera(
+        "Heladera Defectuosa",
+        new CoordenadasGeograficas(-34.616728, -58.381860),
+        unColaborador,
+        22,
+        ZonedDateTime.now(),
+        "UADE"
+    );
+
+    Incidente incidente = new Incidente(
+        heladeraDefectuosa,
+        TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR,
+        ZonedDateTime.now(),
+        unColaborador,
+        "Hace ruidos raros en algunos momentos",
+        null
+    );
+
+    heladerasRepository.insertAll(List.of(heladeraUno, heladeraDos, heladeraTres,
+            heladeraMedrano, heladeraCasiLlena, heladeraDefectuosa));
+
+    new IncidenteRepository().insert(incidente);
   }
 }
