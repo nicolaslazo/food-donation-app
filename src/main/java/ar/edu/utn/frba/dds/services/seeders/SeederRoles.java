@@ -30,7 +30,7 @@ public class SeederRoles {
     if (rol.isEmpty()) {
       switch (rolName) {
         case "ADMINISTRADOR":
-          Permiso permisoAdministrarProductos = permisosRepository.findByName("Administrar-Productos-Servicios").get();
+          Permiso permisoAdministrarRecompensas = permisosRepository.findByName("Administrar-Recompensas").get();
           Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
           Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
           Permiso permisoCargaCSV = permisosRepository.findByName("Cargar-CSV").get();
@@ -52,7 +52,7 @@ public class SeederRoles {
           Permiso permisoVerAlertas = permisosRepository.findByName("Ver-Alertas").get();
           Permiso permisoVerReporte = permisosRepository.findByName("Ver-Reportes").get();
           Rol newRolAdmin = new Rol(rolName, Set.of(
-              permisoAdministrarProductos,
+              permisoAdministrarRecompensas,
               permisoAsignarTarjetas,
               permisoCanjearProductos,
               permisoCargaCSV,

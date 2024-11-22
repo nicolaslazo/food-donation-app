@@ -34,7 +34,7 @@ public class Router {
 
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
-    Permiso permisoAdministrarProductos = permisosRepository.findByName("Administrar-Productos-Servicios").get();
+    Permiso permisoAdministrarRecompensas = permisosRepository.findByName("Administrar-Recompensas").get();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
@@ -109,8 +109,8 @@ public class Router {
 
     // Recompensas
     app.get("/tienda", new TiendaController()::index);
-    app.get("/tienda/recompensas/admin", new TiendaController()::indexRecompensaNueva, permisoAdministrarProductos);
-    app.post("/tienda/recompensas/admin", new TiendaController()::crearRecompensa, permisoAdministrarProductos);
+    app.get("/tienda/recompensas/admin", new TiendaController()::indexRecompensaNueva, permisoAdministrarRecompensas);
+    app.post("/tienda/recompensas/admin", new TiendaController()::crearRecompensa, permisoAdministrarRecompensas);
     app.get("/tienda/recompensas", new TiendaController()::indexRecompensas, permisoCanjearProductos);
     app.post("/tienda/recompensas/{id}", new TiendaController()::canjearRecompensa, permisoCanjearProductos);
 
