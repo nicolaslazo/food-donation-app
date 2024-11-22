@@ -74,7 +74,8 @@ public class SeederRoles {
           break;
         case "TECNICO":
           Rol newRolTecnico = new Rol(rolName, Set.of(
-              permisosRepository.findByName("Abrir-Heladera-Contribucion").get()
+              permisosRepository.findByName("Abrir-Heladera-Contribucion").get(),
+              permisosRepository.findByName("Cargar-Visita-Tecnica").get()
           ));
           rolesRepository.insert(newRolTecnico);
           break;
