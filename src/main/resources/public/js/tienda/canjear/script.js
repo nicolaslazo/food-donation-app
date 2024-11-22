@@ -21,19 +21,26 @@ function abrirModalCanjeo(id) {
     pointsContainer.style.pointerEvents = 'none';
 }
 
-function cerrarModal() {
-    document.getElementById('modal').style.display = 'none';
-
-    const pointsContainer = document.querySelector('.points-container');
-    pointsContainer.classList.remove('blur-background');
-
-    pointsContainer.style.pointerEvents = 'auto';
-}
-
 function confirmarCanje() {
-    fetch('/tienda/recompensas/' + idRecompensa, {
-        method: 'POST',
-    })
-    alert('¡Canje realizado con éxito!');
-    location.reload();
+    const puntosNecesarios = parseInt(document.getElementById('required-points').textContent);
+    const puntosActuales = parseInt(document.getElementById('points').textContent);
+
+    if (puntosActuales >= puntosNecesarios) {
+        fetch('/tienda/recompensas/' + idRecompensa, {
+            method: 'POST',
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('¡Canje realizado con éxito!');
+                location.reload();
+            } else {
+                alert('Hubo un problema al realizar el canje. Inténtalo de nuevo.');
+            }
+        })
+        .catch(error => {
+            alert('Hubo un problema al realizar el canje. Inténtalo de nuevo.');
+        });
+    } else {
+        alert('No tienes suficientes puntos para realizar el canje.');
+    }
 }
