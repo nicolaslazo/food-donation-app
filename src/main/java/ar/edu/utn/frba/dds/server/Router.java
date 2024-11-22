@@ -34,17 +34,17 @@ public class Router {
 
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
+    Permiso permisoAdministrarProductos = permisosRepository.findByName("Administrar-Productos-Servicios").get();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
-    Permiso permisoVerReportes = permisosRepository.findByName("Ver-Reportes").get();
+    Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
     Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
-    Permiso permisoAdministrarProductos = permisosRepository.findByName("Administrar-Productos-Servicios").get();
-    Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
-    Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
-    Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
-    Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
     Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
+    Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
+    Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
+    Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
+    Permiso permisoVerReportes = permisosRepository.findByName("Ver-Reportes").get();
 
     RolesRepository repositorioRoles = new RolesRepository();
     Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
