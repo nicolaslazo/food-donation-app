@@ -9,11 +9,13 @@ import javax.persistence.Tuple;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class IncidenteRepository extends HibernateEntityManager<Incidente, Long> {
   public Map<Heladera, Long> findCantidadIncidentesPorHeladeraSemanaPasada() {
@@ -46,4 +48,23 @@ public class IncidenteRepository extends HibernateEntityManager<Incidente, Long>
 
     return retval;
   }
+
+  public Stream<Heladera> findLasTodasHeladerasConFallaTecnica() {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Heladera> query = cb.createQuery(Heladera.class);
+    Root<Incidente> root = query.from(Incidente.class);
+
+    // Hacer el join con la entidad Heladera
+    Join<Incidente, Heladera> heladeraJoin = root.join("heladera");
+
+    // Condición de filtro -> incidente no solucionado
+    Predicate noSolucionado = cb.isFalse(root.get("incidenteResuelto"));
+
+    // No seleccionar repetidos
+    query.select(heladeraJoin).distinct(true).where(noSolucionado);
+
+    return em.createQuery(query).getResultStream();
+  }
+
 }

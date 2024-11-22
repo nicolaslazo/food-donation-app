@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,6 +51,14 @@ public class Incidente {
 
   @Column(name = "imagen", updatable = false)
   URL imagen;
+
+  @Column(name = "incidenteResuelto")
+  @Getter @Setter
+  Boolean incidenteResuelto;
+
+  @Column(name = "fechaResuelto")
+  @Getter @Setter
+  ZonedDateTime fechaResuelto;
 
   public Incidente(@NonNull Heladera heladera,
                    @NonNull TipoIncidente tipo,
