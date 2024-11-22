@@ -59,7 +59,7 @@ public class IncidenteRepository extends HibernateEntityManager<Incidente, Long>
     Join<Incidente, Heladera> heladeraJoin = root.join("heladera");
 
     // Condición de filtro -> incidente no solucionado
-    Predicate noSolucionado = cb.isFalse(root.get("incidenteResuelto"));
+    Predicate noSolucionado = cb.isNull(root.get("incidenteResuelto"));
 
     // No seleccionar repetidos
     query.select(heladeraJoin).distinct(true).where(noSolucionado);

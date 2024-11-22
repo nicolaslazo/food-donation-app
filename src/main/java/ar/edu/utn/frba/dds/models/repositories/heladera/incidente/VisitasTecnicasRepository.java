@@ -19,7 +19,7 @@ public class VisitasTecnicasRepository extends HibernateEntityManager<VisitaTecn
     query.select(cb.count(root))
         .where(
             cb.equal(root.get("incidente"), incidente),
-            cb.isTrue(root.get("incidenteResuelto"))
+            cb.isFalse(root.get("incidenteResuelto"))
         );
 
     Long count = em.createQuery(query).getSingleResult();
