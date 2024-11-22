@@ -19,6 +19,7 @@ import java.util.Set;
 public class SeederViandas {
   public static void execute() throws Exception {
     Colaborador colaborador = new ColaboradorRepository().findAll().findFirst().get();
+    List<Heladera> heladeras = new HeladerasRepository().findAll().toList();
 
     Vianda vianda1 = new Vianda(
         "Pollo al horno con papas",
@@ -65,6 +66,9 @@ public class SeederViandas {
         400
     );
 
+    Set<Vianda> tandaDeViandas1 = Set.of(vianda1, vianda2, vianda3, vianda4, vianda5);
+    for (Vianda vianda : tandaDeViandas1) vianda.setHeladera(heladeras.get(0));
+
     Vianda vianda6 = new Vianda(
         "Tarta de espinaca y queso",
         ZonedDateTime.now().plusDays(2),
@@ -109,6 +113,9 @@ public class SeederViandas {
         250.0,
         800
     );
+
+    Set<Vianda> tandaDeViandas2 = Set.of(vianda6, vianda7, vianda8, vianda9, vianda10);
+    for (Vianda vianda : tandaDeViandas2) vianda.setHeladera(heladeras.get(1));
 
     Vianda vianda11 = new Vianda(
         "Hamburguesa con papas fritas",
@@ -163,15 +170,6 @@ public class SeederViandas {
         450.0,
         600
     );
-
-    // Distribuir viandas en heladeras
-    List<Heladera> heladeras = new HeladerasRepository().findAll().toList();
-
-    Set<Vianda> tandaDeViandas1 = Set.of(vianda1, vianda2, vianda3, vianda4, vianda5);
-    for (Vianda vianda : tandaDeViandas1) vianda.setHeladera(heladeras.get(0));
-
-    Set<Vianda> tandaDeViandas2 = Set.of(vianda6, vianda7, vianda8, vianda9, vianda10);
-    for (Vianda vianda : tandaDeViandas2) vianda.setHeladera(heladeras.get(1));
 
     Set<Vianda> tandaDeViandas3 = Set.of(vianda11, vianda12, vianda13, vianda14, vianda15);
     for (Vianda vianda : tandaDeViandas3) vianda.setHeladera(heladeras.get(2));
