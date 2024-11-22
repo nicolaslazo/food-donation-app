@@ -42,6 +42,7 @@ public class Router {
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
     Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
     Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
+    Permiso permisoCargaCsv = permisosRepository.findByName("Cargar-CSV").get();
 
     RolesRepository repositorioRoles = new RolesRepository();
     Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
@@ -106,8 +107,8 @@ public class Router {
 
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
-    app.get("/carga-csv", new CargaCSVController()::index);
-    app.post("/carga-csv", new CargaCSVController()::create);
+    app.get("/carga-csv", new CargaCSVController()::index, permisoCargaCsv);
+    app.post("/carga-csv", new CargaCSVController()::create, permisoCargaCsv);
 
     //Reportes
     app.before("/ver-reportes", new AuthMiddleware());
