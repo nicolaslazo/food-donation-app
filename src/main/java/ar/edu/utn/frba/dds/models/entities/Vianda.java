@@ -44,9 +44,9 @@ public class Vianda {
   @Column(name = "caloriasTotales", nullable = false, updatable = false)
   @NonNull Integer caloriasVianda;
 
+  @Setter
   @ManyToOne(targetEntity = Heladera.class)
   @JoinColumn(name = "idHeladera", referencedColumnName = "id")
-  @Setter
   Heladera heladera;
 
   public Vianda(@NonNull String descripcion,

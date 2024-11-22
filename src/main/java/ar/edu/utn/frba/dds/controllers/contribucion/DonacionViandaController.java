@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.contribucion;
 
+import ar.edu.utn.frba.dds.controllers.heladera.HeladeraController;
 import ar.edu.utn.frba.dds.dtos.input.contribucion.DonacionViandaInputDTO;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
@@ -23,35 +24,29 @@ import java.util.stream.Collectors;
 
 public class DonacionViandaController {
   public void registrarDonacionViandas(List<DonacionViandaInputDTO> dtos) {
-    // Recupero al colaborador
-    long idColaborador = dtos.stream().findFirst().get().getIdColaborador();
-    Colaborador colaborador = new ColaboradorRepository().findById(idColaborador).get();
-
     // Recupero a la Heladera donde se depositaran las Viandas
     long idHeladera = dtos.stream().findFirst().get().getIdHeladera();
     Heladera heladeraDestino = new HeladerasRepository().findById(idHeladera).get();
 
-    /* TODO: Nota: No se settea la Vianda a la Heladera hasta que no ingrese físicamente */
+    /* NOTE: No se settea la Vianda a la Heladera hasta que no ingrese físicamente */
     // Recorro los dtos para Instanciar las Viandas
     Collection<Vianda> viandas = new ArrayList<>();
     for (DonacionViandaInputDTO dto : dtos) {
-      // Instancio Vianda por Vianda
-      Vianda vianda = new Vianda(
-              dto.getDescripcion(),
-              dto.getFechaCaducidad(),
-              dto.getFechaDonacion(),
-              colaborador,
-              dto.getPesoEnGramos(),
-              dto.getCaloriasVianda()
-      );
-      viandas.add(vianda);
-      // Guardo las Viandas, pero sin Heladera setteada
-      new ViandasRepository().insert(vianda);
+      Vianda viandaNueva = dto.getVianda();
+
+      viandas.add(viandaNueva);
     }
+
+    ViandasRepository repositorioViandas = new ViandasRepository();
+    HeladeraController.assertHeladeraTieneSuficienteEspacio(heladeraDestino, viandas.size());
+    repositorioViandas.insertAll(viandas);
+
+    Colaborador colaborador = viandas.iterator().next().getColaborador();
+
     DonacionViandas donacionViandas = new DonacionViandas(
-            colaborador,
-            viandas,
-            heladeraDestino
+        colaborador,
+        viandas,
+        heladeraDestino
     );
     new DonacionViandasRepository().insert(donacionViandas);
   }

@@ -51,7 +51,7 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
 
     repositorio.insert(solicitud);
 
-    String formatoTopicDeSolicitudes = "heladeras/%d/solicitudes";
+    String formatoTopicDeSolicitudes = "heladera/%d/solicitud/contribucion";
 
     // TODO: Checkear que esto puede enviar y recibir mensajes
     // Este broker era un atributo de instancia y lo movimos acá para poder instanciar sin contactarnos con internet
@@ -76,9 +76,9 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
      * SI NECESITAN DEBUGGEAR ALGO COMENTEN LOS `broker.suscribir` QUE NO NECESITEN
      */
     // Para marcar las solicitudes de apertura como usadas
-    broker.suscribir(topicDeSolicitudesHeladeraDestino + "/confirmadas", this);
+    broker.suscribir(topicDeSolicitudesHeladeraDestino + "/confirmada", this);
     // Para mandar las notificaciones necesarias a los suscriptos
-    broker.suscribir(topicDeSolicitudesHeladeraDestino + "/confirmadas", SuscripcionController.getInstancia());
+    broker.suscribir(topicDeSolicitudesHeladeraDestino + "/confirmada", SuscripcionController.getInstancia());
 
     return solicitud;
   }
