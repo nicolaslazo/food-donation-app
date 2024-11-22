@@ -11,6 +11,7 @@ import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionViandaController;
 import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
+import ar.edu.utn.frba.dds.controllers.heladera.incidente.VisitaTecnicaController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quienessomos.QuienesSomosController;
@@ -42,6 +43,7 @@ public class Router {
     Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
     Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
     Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
+    Permiso permisoCargarVisitaTecnica = permisosRepository.findByName("Cargar-Visita-Tecnica").get();
 
     RolesRepository repositorioRoles = new RolesRepository();
     Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
@@ -80,6 +82,7 @@ public class Router {
     // Incidente/*
     app.before("incidentes/*", new AuthMiddleware());
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
+    app.get("/incidentes/cargar-visita-tecnica", new VisitaTecnicaController()::index, permisoCargarVisitaTecnica);
 
     //Tecnico
     app.before("/tecnico/crear", new AuthMiddleware());
