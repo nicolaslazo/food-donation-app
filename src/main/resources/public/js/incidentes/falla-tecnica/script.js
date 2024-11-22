@@ -1,7 +1,7 @@
 // Nuestro código relacionado a Leaflet
 const map = L.map('map', {
     center: [-34.6037425,-58.381669],
-    zoom: 17
+    zoom: 13
 });
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
