@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Email;
 import ar.edu.utn.frba.dds.models.entities.contacto.Telegram;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
+import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
@@ -14,6 +15,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Rol;
 import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
@@ -23,9 +25,11 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class TecnicoController {
@@ -55,6 +59,24 @@ public class TecnicoController {
 
   public void index(Context context) {
     Map<String, Object> model = context.attribute("model");
+
+    // Recupero heladeras
+    HeladerasRepository heladerasRepository = new HeladerasRepository();
+    List<Heladera> heladeras = heladerasRepository.findAll().toList();
+
+    // Tomo información de las heladeras.
+    List<Map<String, Object>> heladerasData = heladeras.stream().map(heladera -> {
+      Map<String, Object> heladeraData = new HashMap<>();
+      heladeraData.put("idHeladera", heladera.getId());
+      heladeraData.put("lat", heladera.getUbicacion().getLatitud());
+      heladeraData.put("long", heladera.getUbicacion().getLongitud());
+      heladeraData.put("nombre", heladera.getNombre());
+      heladeraData.put("capacidadDisponible", heladerasRepository.getCapacidadDisponible(heladera));
+      return heladeraData;
+    }).collect(Collectors.toList());
+
+    model.put("heladeras", heladerasData);
+
     context.render("agregartecnico/agregartecnico.hbs", model);
   }
 

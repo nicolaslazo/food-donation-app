@@ -12,6 +12,17 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <!-- Leaflet PinSearch -->
     <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+    <script>
+        let heladeras = [{{#each heladeras}}
+        {
+            idHeladera: {{this.idHeladera}},
+            lat: {{this.lat}},
+            long: {{this.long}},
+            nombre: "{{this.nombre}}",
+            capacidadDisponible: {{this.capacidadDisponible}}
+        } {{#unless @last}},{{/unless}}
+    {{/each}}];
+    </script>
 {{/partial}}
 {{#partial "contenido"}}
     <main>
