@@ -20,10 +20,4 @@ public class ViandasRepository extends HibernateEntityManager<Vianda, Long> {
 
     return em.createQuery(query).getResultStream();
   }
-
-  // TODO: ¿Esta obsoleto este método?
-  public void updateUbicacion(Vianda vianda, Heladera ubicacionNueva) {
-    vianda.setHeladera(ubicacionNueva);
-    update(vianda);
-  }
 }

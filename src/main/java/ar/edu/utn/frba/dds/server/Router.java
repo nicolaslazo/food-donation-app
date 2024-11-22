@@ -37,6 +37,7 @@ public class Router {
     Permiso permisoAdministrarRecompensas = permisosRepository.findByName("Administrar-Recompensas").get();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
+    Permiso permisoCargaCsv = permisosRepository.findByName("Cargar-CSV").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
     Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
@@ -116,7 +117,8 @@ public class Router {
 
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
-    app.get("/carga-csv", new CargaCSVController()::index);
+    app.get("/carga-csv", new CargaCSVController()::index, permisoCargaCsv);
+    app.post("/carga-csv", new CargaCSVController()::create, permisoCargaCsv);
 
     //Reportes
     app.before("/ver-reportes", new AuthMiddleware());
