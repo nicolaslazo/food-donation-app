@@ -48,7 +48,8 @@ public class Router {
     RolesRepository repositorioRoles = new RolesRepository();
     Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
     Rol rolColaboradorJuridico = repositorioRoles.findByName("COLABORADORJURIDICO").get();
-    Set<Rol> rolesColaboradores = Set.of(rolColaboradorFisico, rolColaboradorJuridico);
+    Rol rolesTecnico = repositorioRoles.findByName("TECNICO").get();
+    Set<Rol> rolesColaboradores = Set.of(rolColaboradorFisico, rolColaboradorJuridico, rolesTecnico);
     Set<Rol> rolesPersonaVulnerable = Set.of(repositorioRoles.findByName("PERSONAVULNERABLE").get());
 
     app.before(SessionController::sessionInfo);
