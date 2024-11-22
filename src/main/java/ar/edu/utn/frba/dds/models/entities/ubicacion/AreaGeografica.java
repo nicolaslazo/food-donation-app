@@ -14,3 +14,4 @@ public class AreaGeografica {
   @NonNull CoordenadasGeograficas centro;
   float radioEnMetros;
 }
+

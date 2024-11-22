@@ -29,9 +29,9 @@
                     </label>
                     <label class="input-box">Tipo de Documento
                         <select id="documento" name="documento" required>
-                            <option value="dni">DNI</option>
-                            <option value="lc">LIBRETA CIVICA</option>
-                            <option value="le">LIBRETA DE ENROLAMIENTO</option>
+                            <option value="DNI">DNI</option>
+                            <option value="LC">LIBRETA CIVICA</option>
+                            <option value="LE">LIBRETA DE ENROLAMIENTO</option>
                         </select>
                     </label>
                     <label class="input-box">
@@ -43,6 +43,10 @@
                         <input type="number" id="cuil" name="cuil" required>
                     </label>
                     <label class="input-box">
+                        Fecha de Nacimiento
+                        <input type="date" id="dob" name="dob" required>
+                    </label>
+                    <label class="input-box">
                         Contacto de Email
                         <input type="email" id="email" name="email" required>
                     </label>
@@ -50,6 +54,7 @@
                         Contraseña acceso a Viandas Donation
                         <input type="password" id="password" name="password" required>
                     </label>
+
                     <label class="input-box">
                         Contacto de Telegram (opcional)
                         <input type="number" id="contacto" name="TelegramContacto">
@@ -57,7 +62,7 @@
                     <label class="input-box">
                         Area cobertura
                         <div id="map"></div>
-                        <input type="hidden" id="latitude" name="latitud">
+                        <input type="hidden" type= "number" id="latitude" name="latitud">
                         <input type="hidden" id="longitude" name="longitud">
                     </label>
                     <label class="input-box" for="radius">
