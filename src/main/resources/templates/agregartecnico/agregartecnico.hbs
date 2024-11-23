@@ -26,6 +26,13 @@
 {{/partial}}
 {{#partial "contenido"}}
     <main>
+        <div id="errorModal" class="modal hidden">
+            <div class="modal-content">
+                <p id="modalMessage">El correo ingresado ya está registrado.</p>
+                <span id="closeModal" class="btn-login"> CERRAR</span>
+                <p id="modalMessage"></p>
+            </div>
+        </div>
         <div class="container">
             <div class="title">REGISTRAR TÉCNICO</div>
             <form method="post" action="/tecnico/crear" class="form-container">

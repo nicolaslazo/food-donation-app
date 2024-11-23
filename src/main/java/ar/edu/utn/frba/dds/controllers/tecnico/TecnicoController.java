@@ -89,12 +89,12 @@ public class TecnicoController {
     );
     String email = context.formParam("email");
 
-    // Optional<Usuario> usuarioExistente = Optional.ofNullable(new UsuariosRepository().findByEmail(email));
-    // if (usuarioExistente.isPresent()) {
-    //   context.attribute("error", "El correo electrónico ya está registrado.");
-    //   context.attribute("formData", context.formParamMap());
-    //  context.render("agregartecnico/errorMailRepetido.hbs");
-    //}
+    Optional<Usuario> usuarioExistente = Optional.ofNullable(new UsuariosRepository().findByEmail(email));
+    if (usuarioExistente.isPresent()) {
+      context.status(400); // Código de error para indicar un problema
+      context.result("El correo ya está registrado.");
+      return;
+    }
 
     Documento documento = crearDocumento(context);
     Usuario usuario = crearUsuario(context, documento);
