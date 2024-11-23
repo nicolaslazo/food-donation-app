@@ -8,9 +8,14 @@ import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository
 import ar.edu.utn.frba.dds.models.repositories.contribucion.OfertaRecompensaRepository;
 import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository;
 import io.javalin.http.Context;
+import io.javalin.http.UploadedFile;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.Objects;
 
@@ -29,13 +34,21 @@ public class AgregarRecompensasController {
     URL imagen = null;
 
     try {
-      String imagenUrl = context.formParam("imagen");
-      if (imagenUrl != null && !imagenUrl.isEmpty()) {
-        imagen = new URL(imagenUrl);
+      // Obtener el archivo subido
+      UploadedFile file = context.uploadedFile("imagen");
+
+      if (file != null && file.extension().equalsIgnoreCase("jpg")) {
+        // Guardar el archivo subido en una ubicación temporal o definitiva
+        Path tempFile = Files.createTempFile(file.filename(), ".jpg");
+        Files.copy(file.content(), tempFile, StandardCopyOption.REPLACE_EXISTING);
+
+        // Convertir la ruta temporal a URL
+        imagen = tempFile.toUri().toURL();
       }
-    } catch (MalformedURLException e) {
+    } catch (IOException e) {
       throw new IllegalArgumentException("La URL de la imagen no es válida", e);
     }
+
 
     Recompensa recompensa = new Recompensa(
         nombre, colaborador, costoEnPuntos, stockInicial, rubro, imagen);
