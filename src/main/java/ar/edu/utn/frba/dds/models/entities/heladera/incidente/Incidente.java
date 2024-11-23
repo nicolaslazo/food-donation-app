@@ -52,12 +52,8 @@ public class Incidente {
   @Column(name = "imagen", updatable = false)
   URL imagen;
 
-  @Column(name = "incidenteResuelto")
-  @Getter @Setter
-  Boolean incidenteResuelto;
-
   @Column(name = "fechaResuelto")
-  @Getter @Setter
+  @Getter @Setter // Si es Null, se entiende que no fue resuelto el incidente
   ZonedDateTime fechaResuelto;
 
   public Incidente(@NonNull Heladera heladera,
