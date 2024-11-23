@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -86,16 +87,23 @@ public class TecnicoController {
         "Crear-Tecnico",
         "No tienes permisos para crear un nuevo tecnico"
     );
-      {
-      Documento documento = crearDocumento(context);
-      Usuario usuario = crearUsuario(context, documento);
-      new UsuariosRepository().insert(usuario);
-      List<Contacto> contactos = crearContactos(context, usuario);
-      insertContactos(contactos);
-      Tecnico tecnico = createTecnico(context, documento);
-      new TecnicoRepository().insert(tecnico);
-      context.redirect("/quiero-ayudar");
-      }
+    String email = context.formParam("email");
+
+    // Optional<Usuario> usuarioExistente = Optional.ofNullable(new UsuariosRepository().findByEmail(email));
+    // if (usuarioExistente.isPresent()) {
+    //   context.attribute("error", "El correo electrónico ya está registrado.");
+    //   context.attribute("formData", context.formParamMap());
+    //  context.render("agregartecnico/errorMailRepetido.hbs");
+    //}
+
+    Documento documento = crearDocumento(context);
+    Usuario usuario = crearUsuario(context, documento);
+    new UsuariosRepository().insert(usuario);
+    List<Contacto> contactos = crearContactos(context, usuario);
+    insertContactos(contactos);
+    Tecnico tecnico = createTecnico(context, documento);
+    new TecnicoRepository().insert(tecnico);
+    context.redirect("/quiero-ayudar");
   }
 
   private Documento crearDocumento(Context context) {

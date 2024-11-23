@@ -7,4 +7,5 @@ import lombok.Getter;
 @Getter
 public class TecnicoRepository extends HibernateEntityManager<Tecnico, Long> {
 
+
 }

@@ -98,7 +98,7 @@ heladeras.forEach(function(heladera) {
     });
 });
 
-
+// Función para verificar si la persona es mayor de 18 años
 function esMayorDe18(fechaNacimiento) {
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
@@ -111,14 +111,15 @@ function esMayorDe18(fechaNacimiento) {
 
 
 document.getElementById('submitBtn').addEventListener('click', function(event) {
-    let formIsValid = true;
+    let formIsValid = true;  // Variable para controlar si el formulario es válido
 
     // Limpiar mensajes de error previos
     document.querySelectorAll('.error-message').forEach(function(element) {
-        element.textContent = '';
-        element.style.display = 'none';
+        element.textContent = '';  // Limpiar mensaje
+        element.style.display = 'none';  // Ocultar mensaje
     });
 
+    // Obtener la fecha de nacimiento
     const dob = document.getElementById('dob').value;
     const currentDate = new Date();
     const birthDate = new Date(dob);
@@ -131,6 +132,7 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
         formIsValid = false;
     }
 
+    // Validar formato de DNI, Libreta o Cédula Argentina
     const documento = document.getElementById('numero-documento').value;
     const dniRegex = /^[\d]{1,3}\.?[\d]{3,3}\.?[\d]{3,3}$/;
     if (!dniRegex.test(documento)) {
@@ -139,6 +141,7 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
         formIsValid = false;
     }
 
+    // Validar CUIT
     const cuil = document.getElementById('cuil').value;
     const cuitRegex = /^([0-9]{11}|[0-9]{2}-[0-9]{8}-[0-9]{1})$/g;
     if (!cuitRegex.test(cuil)) {
