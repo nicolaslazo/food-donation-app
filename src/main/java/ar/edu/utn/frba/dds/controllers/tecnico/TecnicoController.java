@@ -20,7 +20,6 @@ import ar.edu.utn.frba.dds.models.repositories.users.PermisosRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import io.javalin.http.Context;
-import io.javalin.http.HttpStatus;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.time.LocalDate;
@@ -80,16 +79,33 @@ public class TecnicoController {
     context.render("agregartecnico/agregartecnico.hbs", model);
   }
 
-  public void create(Context context) {
-    Documento documento =
-        new Documento(
-            TipoDocumento.fromString(context.formParam("documento")),
-            Integer.parseInt(context.formParam("numeroDocumento")));
+  public void create(Context context)  {
+    try {
+      Documento documento = crearDocumento(context);
+      Usuario usuario = crearUsuario(context, documento);
+      new UsuariosRepository().insert(usuario);
+      List<Contacto> contactos = crearContactos(context, usuario);
+      insertContactos(contactos);
+      Tecnico tecnico = crearTecnico(context, documento);
+      new TecnicoRepository().insert(tecnico);
+      context.redirect("/quiero-ayudar");
+    } catch (Exception e) {
+      e.printStackTrace(); // Esto imprimirá el stack trace en la consola
+      throw e; // Opcional: vuelve a lanzar la excepción si necesitas manejarla más arriba
+    }
+  }
 
+  private Documento crearDocumento(Context context) {
+    return new Documento(
+        TipoDocumento.fromString(context.formParam("documento")),
+        Integer.parseInt(context.formParam("numeroDocumento"))
+    );
+  }
+
+  private Usuario crearUsuario(Context context, Documento documento) {
     Rol rolTecnico = new RolesRepository().findByName("TECNICO")
         .orElseThrow(() -> new IllegalArgumentException("Rol 'TECNICO' no encontrado."));
-
-    Usuario usuario = new Usuario(
+    return new Usuario(
         documento,
         context.formParam("nombre"),
         context.formParam("apellido"),
@@ -97,38 +113,53 @@ public class TecnicoController {
         DigestUtils.sha256Hex(context.formParam("password")),
         new HashSet<>(List.of(rolTecnico))
     );
+  }
 
-    new UsuariosRepository().insert(usuario);
 
-    ContactosRepository contactosRepository = new ContactosRepository();
+  private List<Contacto> crearContactos(Context context, Usuario usuario) {
     List<Contacto> contactos = new ArrayList<>();
-
     String email = context.formParam("email");
     if (email != null && !email.isBlank()) {
       Contacto contactoEmail = new Email(usuario, email);
       contactos.add(contactoEmail);
-      contactosRepository.insert(contactoEmail);
     }
-
     String telegram = context.formParam("TelegramContacto");
     if (telegram != null && !telegram.isBlank()) {
       Contacto contactoTelegram = new Telegram(usuario, telegram);
       contactos.add(contactoTelegram);
-      contactosRepository.insert(contactoTelegram);
     }
-
-    CoordenadasGeograficas coordenadasGeograficas = new CoordenadasGeograficas(Double.parseDouble(context.formParam("latitud")), Double.parseDouble(context.formParam("longitud")));
-    AreaGeografica areaGeografica = new AreaGeografica(coordenadasGeograficas, Float.parseFloat(context.formParam("radio")));
-
-    String cuil = context.formParam("cuil");
-
-    Tecnico tecnico = new Tecnico(documento, context.formParam("nombre"), context.formParam("apellido"), LocalDate.parse(context.formParam("dob")), cuil, areaGeografica, context.formParam("password"), rolTecnico);
-
-
-    new TecnicoRepository().insert(tecnico);
-
-    context.redirect("/quiero-ayudar");
+    return contactos;
   }
-}
+
+  private void insertContactos(List<Contacto> contactos) {
+    ContactosRepository contactosRepository = new ContactosRepository();
+    for (Contacto contacto : contactos) {
+      contactosRepository.insert(contacto);
+    }
+  }
+
+  private Tecnico crearTecnico(Context context, Documento documento) {
+    CoordenadasGeograficas coordenadasGeograficas = new CoordenadasGeograficas(
+        Double.parseDouble(context.formParam("latitud")),
+        Double.parseDouble(context.formParam("longitud"))
+    );
+    AreaGeografica areaGeografica = new AreaGeografica(coordenadasGeograficas, Float.parseFloat(context.formParam("radio")));
+    String cuil = context.formParam("cuil");
+    Rol rolTecnico = new RolesRepository().findByName("TECNICO")
+        .orElseThrow(() -> new IllegalArgumentException("Rol 'TECNICO' no encontrado."));
+
+    return new Tecnico(
+        documento,
+        context.formParam("nombre"),
+        context.formParam("apellido"),
+        LocalDate.parse(context.formParam("dob")),
+        cuil,
+        areaGeografica,
+        context.formParam("password"),
+        rolTecnico
+    );
+  }
+  }
+
 
 
