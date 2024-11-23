@@ -84,7 +84,7 @@ class CuidadoHeladerasRepositoryTest {
 
   @Test
   void testMesesActivos() {
-    Double mesesActiva = new CuidadoHeladerasRepository().getMesesActivosCumulativos(colaborador);
+    Long mesesActiva = new CuidadoHeladerasRepository().getMesesActivosCumulativos(colaborador);
     assertEquals(5, mesesActiva);
   }
 }
