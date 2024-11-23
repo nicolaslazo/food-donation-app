@@ -98,7 +98,7 @@ heladeras.forEach(function(heladera) {
     });
 });
 
-// Función para verificar si la persona es mayor de 18 años
+
 function esMayorDe18(fechaNacimiento) {
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
@@ -109,19 +109,45 @@ function esMayorDe18(fechaNacimiento) {
     return (edad > 18 || (edad === 18 && mes > 0) || (edad === 18 && mes === 0 && dia >= 0));
 }
 
-// Agregar validación al formulario
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('formulario').addEventListener('submit', function(event) {
-        const fechaNacimiento = document.getElementById('donb').value;
-        const resultado = esMayorDe18(fechaNacimiento);
 
-        if (!resultado) {
-            event.preventDefault(); // Prevenir el envío del formulario si no es mayor de 18
-            alert("Debe ser mayor de 18 años para registrarse.");
-        }
+document.getElementById('submitBtn').addEventListener('click', function(event) {
+    let formIsValid = true;
+
+    // Limpiar mensajes de error previos
+    document.querySelectorAll('.error-message').forEach(function(element) {
+        element.textContent = '';
+        element.style.display = 'none';
     });
+
+    const dob = document.getElementById('dob').value;
+    const currentDate = new Date();
+    const birthDate = new Date(dob);
+    const age = currentDate.getFullYear() - birthDate.getFullYear();
+    const month = currentDate.getMonth() - birthDate.getMonth();
+
+    if (age < 18 || (age === 18 && month < 0)) {
+        document.getElementById('dob-error').textContent = 'Debes tener al menos 18 años para registrarte.';
+        document.getElementById('dob-error').style.display = 'block';  // Mostrar mensaje
+        formIsValid = false;
+    }
+
+    const documento = document.getElementById('numero-documento').value;
+    const dniRegex = /^[\d]{1,3}\.?[\d]{3,3}\.?[\d]{3,3}$/;
+    if (!dniRegex.test(documento)) {
+        document.getElementById('documento-error').textContent = 'El número de documento no es válido. Debe seguir el formato argentino.';
+        document.getElementById('documento-error').style.display = 'block';
+        formIsValid = false;
+    }
+
+    const cuil = document.getElementById('cuil').value;
+    const cuitRegex = /^([0-9]{11}|[0-9]{2}-[0-9]{8}-[0-9]{1})$/g;
+    if (!cuitRegex.test(cuil)) {
+        document.getElementById('cuil-error').textContent = 'El CUIT no es válido. Debe seguir el formato correcto.';
+        document.getElementById('cuil-error').style.display = 'block';
+        formIsValid = false;
+    }
+
+    if (!formIsValid) {
+        event.preventDefault();
+    }
 });
-
-// Agregar evento de cambio al input de radio
-document.getElementById('radius').addEventListener('input', actualizarRadio);
-
