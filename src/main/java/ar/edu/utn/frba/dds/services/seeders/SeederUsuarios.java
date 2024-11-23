@@ -198,10 +198,6 @@ public class SeederUsuarios {
 
     new TarjetasRepository().insertAll(Set.of(tarjetaAdmin, tarjetaFraudulento, tarjeta3));
 
-    tarjeta1.setEnAlta(usuarioAdmin, colaboradorAdmin, ZonedDateTime.now());
-
-    new TarjetasRepository().insertAll(Set.of(tarjeta1, tarjeta2, tarjeta3));
-
     // ------ RECOMPENSAS -------
     Recompensa recompensa1 = new Recompensa("Auriculares", colaboradorJuridico, 100L, 10, RubroRecompensa.ELECTRONICA, null);
     Recompensa recompensa2 = new Recompensa("PC GAMER", colaboradorJuridico, 300L, 3, RubroRecompensa.ELECTRONICA, null);
