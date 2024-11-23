@@ -4,9 +4,13 @@ import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Email;
+import ar.edu.utn.frba.dds.models.entities.contribucion.Dinero;
+import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Documento;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.documentacion.TipoDocumento;
+import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
+import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.AreaGeografica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.DireccionResidencia;
@@ -17,7 +21,10 @@ import ar.edu.utn.frba.dds.models.repositories.PersonaVulnerableRepository;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.ContactosRepository;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.DineroRepository;
 import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
+import ar.edu.utn.frba.dds.models.repositories.recompensas.CanjeosRepository;
+import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository;
 import ar.edu.utn.frba.dds.models.repositories.ubicacion.DireccionResidenciaRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import lombok.Getter;
@@ -153,6 +160,7 @@ public class SeederUsuarios {
     new TecnicoRepository().insert(tecnicoDos);
     new ContactosRepository().insert(emailTecnicoDos);
 
+    // ------ PERSONAS VULNERABLES ------
     Usuario usuarioPersonaVulnerable = new Usuario(
         new Documento(TipoDocumento.DNI, 7),
         "Eleanor", //La Loca de los Gatos
@@ -189,5 +197,21 @@ public class SeederUsuarios {
         ZonedDateTime.now().minusYears(1));
 
     new TarjetasRepository().insertAll(Set.of(tarjetaAdmin, tarjetaFraudulento, tarjeta3));
+
+    // ------ RECOMPENSAS -------
+    Recompensa recompensa1 = new Recompensa("Auriculares", colaboradorJuridico, 100L, 10, RubroRecompensa.ELECTRONICA, null);
+    Recompensa recompensa2 = new Recompensa("PC GAMER", colaboradorJuridico, 300L, 3, RubroRecompensa.ELECTRONICA, null);
+    Recompensa recompensa3 = new Recompensa("TV", colaboradorJuridicoAdministrador, 400L, 10, RubroRecompensa.ENTRETENIMIENTO, null);
+    new RecompensasRepository().insert(recompensa1);
+    new RecompensasRepository().insert(recompensa2);
+    new RecompensasRepository().insert(recompensa3);
+    new DineroRepository().insert(new Dinero(colaboradorJuridico, 1000, 1));
+    new DineroRepository().insert(new Dinero(colaboradorJuridico, 600, 10));
+    Canjeo canje1 = new Canjeo(colaboradorJuridico, recompensa1, ZonedDateTime.now());
+    new CanjeosRepository().insert(canje1);
+
+    // ------ CONTRIBUCIONES -------
+    Dinero donacionDineroAdmin = new Dinero(colaboradorAdmin, 10000, null);
+    new DineroRepository().insert(donacionDineroAdmin);
   }
 }

@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,11 +19,12 @@ import java.net.URL;
 
 @Entity
 @Table(name = "recompensa")
+@ToString
+@Getter
 public class Recompensa {
   @Id
   @GeneratedValue
   @Column(name = "id", unique = true, nullable = false, updatable = false)
-  @Getter
   @NonNull Long id;
 
   @Column(name = "nombre", nullable = false)
@@ -33,11 +35,9 @@ public class Recompensa {
   @NonNull Colaborador proveedor;
 
   @Column(name = "costoEnPuntos", nullable = false, updatable = false)
-  @Getter
   @NonNull Long costoEnPuntos;
 
   @Column(name = "stockInicial", nullable = false, updatable = false)
-  @Getter
   @NonNull Integer stockInicial;
 
   @Enumerated(EnumType.STRING)

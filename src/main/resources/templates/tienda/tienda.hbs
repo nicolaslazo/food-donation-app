@@ -1,0 +1,41 @@
+{{#partial "titulo"}}Tienda - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/tienda/home/styles.css">
+{{/partial}}
+
+{{#partial "contenido"}}
+<main>
+    <section class="tienda-section">
+        <div class="tienda-container">
+            <h1>TIENDA</h1>
+            <p>Canjea tus puntos de colaboración por productos o servicios en nuestra tienda solidaria.</p>
+            
+            <div class="options-container">
+                <div class="option-card">
+                    <img src="/public/img/tienda/tienda_compra_card.jpg" alt="Productos">
+                    <h2>Productos</h2>
+                    <p>Explora nuestra variedad de productos disponibles para canjear con tus puntos.</p>
+                    <button class="btn-opcion">
+                        <a href="/tienda/recompensas">Ver Productos</a>
+                    </button>
+                </div>
+                <div class="option-card">
+                    <img src="/public/img/tienda/tienda_donacion_card.webp" alt="Productos">
+                    <h2>Administrar Productos</h2>
+                    <p>Administra los productos disponibles en la tienda.</p>
+                    <button class="btn-opcion">
+                        <a href="/tienda/recompensas/admin">Ver Productos</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Copyright © 2024 Viandas Donation. Todos los derechos reservados.</p>
+{{/partial}}
+
+{{> templates/base}}
