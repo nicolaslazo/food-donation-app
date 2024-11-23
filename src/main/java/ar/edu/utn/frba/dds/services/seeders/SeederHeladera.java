@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 public class SeederHeladera {
   Colaborador unColaborador = new ColaboradorRepository().findAll().findFirst().get();
@@ -48,17 +49,13 @@ public class SeederHeladera {
         "Almagro"
     );
     Heladera heladeraCasiLlena = new Heladera(
-            "Heladera Casi Llena",
-            new CoordenadasGeograficas(-34.618515, -58.375410),
-            unColaborador,
-            1,
-            ZonedDateTime.now(),
-            "San Telmo"
+        "Heladera Casi Llena",
+        new CoordenadasGeograficas(-34.618515, -58.375410),
+        unColaborador,
+        1,
+        ZonedDateTime.now(),
+        "San Telmo"
     );
-    heladerasRepository.insert(heladeraUno);
-    heladerasRepository.insert(heladeraDos);
-    heladerasRepository.insert(heladeraTres);
-    heladerasRepository.insert(heladeraMedrano);
-    heladerasRepository.insert(heladeraCasiLlena);
+    heladerasRepository.insertAll(List.of(heladeraUno, heladeraDos, heladeraTres, heladeraMedrano, heladeraCasiLlena));
   }
 }

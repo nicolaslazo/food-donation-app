@@ -16,12 +16,11 @@ import static org.mockito.Mockito.verify;
 class SolicitudAperturaPorConsumicionTest {
   final Tarjeta tarjetaMock = mock(Tarjeta.class);
   final Vianda viandaMock = mock(Vianda.class);
-  final Heladera heladeraMock = mock(Heladera.class);
 
   @Test
   void testNoSePuedeUsarSolicitudDosVeces() throws SolicitudInvalidaException {
     final SolicitudAperturaPorConsumicion solicitud =
-        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, heladeraMock, ZonedDateTime.now());
+        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, ZonedDateTime.now());
 
     solicitud.setFechaUsada(ZonedDateTime.now());
 
@@ -31,7 +30,7 @@ class SolicitudAperturaPorConsumicionTest {
   @Test
   void testNoSePuedeUsarSolicitudVencida() {
     final SolicitudAperturaPorConsumicion solicitud =
-        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, heladeraMock, ZonedDateTime.now().minusMonths(1));
+        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, ZonedDateTime.now().minusMonths(1));
 
     assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaUsada(ZonedDateTime.now()));
   }
@@ -39,7 +38,7 @@ class SolicitudAperturaPorConsumicionTest {
   @Test
   void testNoSePuedeUsarSolicitudAntesDeSuVigencia() {
     final SolicitudAperturaPorConsumicion solicitud =
-        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, heladeraMock, ZonedDateTime.now().plusMinutes(10));
+        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, ZonedDateTime.now().plusMinutes(10));
 
     assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaUsada(ZonedDateTime.now()));
   }
@@ -49,7 +48,7 @@ class SolicitudAperturaPorConsumicionTest {
     ZonedDateTime ahora = ZonedDateTime.now();
 
     SolicitudAperturaPorConsumicion solicitud =
-        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, heladeraMock, ahora.minusMinutes(1));
+        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, ahora.minusMinutes(1));
 
     solicitud.setFechaUsada(ahora);
 
@@ -59,7 +58,7 @@ class SolicitudAperturaPorConsumicionTest {
   @Test
   void testSolicitudUsadaSeDeclaraAsi() throws SolicitudInvalidaException {
     SolicitudAperturaPorConsumicion solicitud =
-        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, heladeraMock, ZonedDateTime.now());
+        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, ZonedDateTime.now());
 
     assertNull(solicitud.fechaUsada);
     solicitud.setFechaUsada(ZonedDateTime.now());
@@ -69,7 +68,7 @@ class SolicitudAperturaPorConsumicionTest {
   @Test
   void testSolicitudFrescaNoEstaUsada() {
     SolicitudAperturaPorConsumicion solicitud =
-        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, heladeraMock, ZonedDateTime.now());
+        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, ZonedDateTime.now());
 
     assertNull(solicitud.fechaUsada);
   }
@@ -77,7 +76,7 @@ class SolicitudAperturaPorConsumicionTest {
   @Test
   void testSolicitudUsadaNoSePuedeUsarNuevamente() throws SolicitudInvalidaException {
     final SolicitudAperturaPorConsumicion solicitud =
-        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, heladeraMock, ZonedDateTime.now());
+        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, ZonedDateTime.now());
 
     solicitud.setFechaUsada(ZonedDateTime.now());
 
@@ -88,7 +87,7 @@ class SolicitudAperturaPorConsumicionTest {
   void testSolicitudVencidaNoSePuedeUsar() {
     ZonedDateTime fechaCreacion = ZonedDateTime.now().minusMonths(1);
     SolicitudAperturaPorConsumicion solicitud =
-        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, heladeraMock, fechaCreacion);
+        new SolicitudAperturaPorConsumicion(tarjetaMock, viandaMock, fechaCreacion);
 
     assertThrows(SolicitudInvalidaException.class, () -> solicitud.setFechaUsada(ZonedDateTime.now()));
   }
