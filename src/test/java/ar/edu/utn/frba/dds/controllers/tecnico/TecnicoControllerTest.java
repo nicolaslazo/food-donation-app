@@ -67,7 +67,7 @@ public class TecnicoControllerTest {
     // Obtener el DTO desde el JSON
     TecnicoInputDTO dataTecnico = TecnicoInputDTO.desdeJson(jsonDataTecnico);
 
-    tecnicoController.crearTecnico(dataTecnico, admin);
+    tecnicoController.crearTecnicoJson(dataTecnico, admin);
     Stream<Tecnico> tecnicos = tecnicoRepository.findAll();
     assertEquals(1, tecnicos.count());
   }
@@ -84,6 +84,6 @@ public class TecnicoControllerTest {
         new HashSet<>(List.of(new RolesRepository().findByName("TECNICO").get()))
     );
     assertThrows(PermisoDenegadoException.class, () ->
-        tecnicoController.crearTecnico(dataTecnico, usuarioDummy));
+        tecnicoController.crearTecnicoJson(dataTecnico, usuarioDummy));
   }
 }

@@ -36,7 +36,7 @@ public class TecnicoController {
   PermisosRepository permisosRepository = new PermisosRepository();
   RolesRepository rolesRepository = new RolesRepository();
 
-  public void crearTecnico(TecnicoInputDTO data, Usuario usuarioCreador) throws PermisoDenegadoException {
+  public void crearTecnicoJson(TecnicoInputDTO data, Usuario usuarioCreador) throws PermisoDenegadoException {
     usuarioCreador.assertTienePermiso(
             "Crear-Tecnico",
             "No tienes permisos para crear un nuevo tecnico"
@@ -79,20 +79,23 @@ public class TecnicoController {
     context.render("agregartecnico/agregartecnico.hbs", model);
   }
 
-  public void create(Context context)  {
-    try {
+  public void create(Context context) throws PermisoDenegadoException {
+
+    Usuario creador = new UsuariosRepository().findById(context.sessionAttribute("user_id")).get();
+    creador.assertTienePermiso(
+        "Crear-Tecnico",
+        "No tienes permisos para crear un nuevo tecnico"
+    );
+      {
       Documento documento = crearDocumento(context);
       Usuario usuario = crearUsuario(context, documento);
       new UsuariosRepository().insert(usuario);
       List<Contacto> contactos = crearContactos(context, usuario);
       insertContactos(contactos);
-      Tecnico tecnico = crearTecnico(context, documento);
+      Tecnico tecnico = createTecnico(context, documento);
       new TecnicoRepository().insert(tecnico);
       context.redirect("/quiero-ayudar");
-    } catch (Exception e) {
-      e.printStackTrace(); // Esto imprimirá el stack trace en la consola
-      throw e; // Opcional: vuelve a lanzar la excepción si necesitas manejarla más arriba
-    }
+      }
   }
 
   private Documento crearDocumento(Context context) {
@@ -138,7 +141,7 @@ public class TecnicoController {
     }
   }
 
-  private Tecnico crearTecnico(Context context, Documento documento) {
+  private Tecnico createTecnico(Context context, Documento documento) {
     CoordenadasGeograficas coordenadasGeograficas = new CoordenadasGeograficas(
         Double.parseDouble(context.formParam("latitud")),
         Double.parseDouble(context.formParam("longitud"))
@@ -159,7 +162,7 @@ public class TecnicoController {
         rolTecnico
     );
   }
-  }
+}
 
 
 
