@@ -54,16 +54,16 @@ public class MapaController {
     List<Vianda> viandas = viandasRepository.findAllViandasDisponiblesARetirar().toList();
     // Tomo información de las Viandas, excluyendo las que no tienen heladera física asociada
     viandasData = viandas.stream().map(vianda -> {
-              Map<String, Object> viandaData = new HashMap<>();
-              viandaData.put("idVianda", vianda.getId());
-              viandaData.put("idHeladera", vianda.getHeladera().getId());
-              viandaData.put("descripcion", vianda.getDescripcion());
-              viandaData.put("fechaCaducidad", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(vianda.getFechaCaducidad()));
-              viandaData.put("pesoVianda", vianda.getPesoEnGramos());
-              viandaData.put("caloriasVianda", vianda.getCaloriasVianda());
-              return viandaData;
-            })
-            .toList();
+      Map<String, Object> viandaData = new HashMap<>();
+      viandaData.put("idVianda", vianda.getId());
+      viandaData.put("idHeladera", vianda.getHeladera().getId());
+      viandaData.put("descripcion", vianda.getDescripcion());
+      viandaData.put("fechaCaducidad", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(vianda.getFechaCaducidad()));
+      viandaData.put("pesoVianda", vianda.getPesoEnGramos());
+      viandaData.put("caloriasVianda", vianda.getCaloriasVianda());
+      return viandaData;
+    })
+    .toList();
 
     model.put("viandas", viandasData);
 
@@ -114,16 +114,16 @@ public class MapaController {
       crearSolicitudConsumicion(viandasIDs, tarjetaAlimentaria);
 
       context.json(Map.of(
-              "message", "Solicitud registrada con éxito! Ya puedes retirar tus viandas",
-              "success", true,
-              "urlRedireccion", "/",
-              "demoraRedireccionEnSegundos", 3
+          "message", "Solicitud registrada con éxito! Ya puedes retirar tus viandas",
+          "success", true,
+          "urlRedireccion", "/",
+          "demoraRedireccionEnSegundos", 3
       ));
     } catch (MqttException e) {
       System.out.println("Error al crear el solicitud de consumidor: " + e.getMessage());
       context.json(Map.of(
-              "message", "Hubo un error al crear el solicitud de consumición",
-              "success", false
+          "message", "Hubo un error al crear el solicitud de consumición",
+          "success", false
       ));
     }
   }
@@ -131,7 +131,7 @@ public class MapaController {
   private void crearSolicitudConsumicion(List<Long> viandasIDs, Tarjeta tarjetaAlimentaria) throws MqttException, PermisoDenegadoException {
     ViandasRepository viandasRepository = new ViandasRepository();
 
-    for(Long viandaID : viandasIDs) {
+    for (Long viandaID : viandasIDs) {
       // Obtengo la vianda
       Vianda viandaAConsumir = viandasRepository.findById(viandaID).get();
       new SolicitudAperturaPorConsumicionController().crear(tarjetaAlimentaria, viandaAConsumir);
