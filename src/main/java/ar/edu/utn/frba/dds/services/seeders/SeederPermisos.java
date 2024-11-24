@@ -23,6 +23,7 @@ public class SeederPermisos {
     createPermisoIfNotExists("Administrar-Recompensas");
     createPermisoIfNotExists("Crear-Recompensas");
     createPermisoIfNotExists("Cuidar-Heladera");
+    createPermisoIfNotExists("Canjear-Productos");
     createPermisoIfNotExists("Donar-Dinero");
     createPermisoIfNotExists("Solicitar-Tarjetas");
     createPermisoIfNotExists("Ver-Reportes");

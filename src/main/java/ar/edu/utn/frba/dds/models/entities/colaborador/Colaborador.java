@@ -10,6 +10,8 @@ import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.CascadeType;
@@ -33,6 +35,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "colaborador")
 @Getter
+@ToString
 public class Colaborador {
   @Column(name = "id", unique = true, nullable = false, updatable = false)
   @Id
