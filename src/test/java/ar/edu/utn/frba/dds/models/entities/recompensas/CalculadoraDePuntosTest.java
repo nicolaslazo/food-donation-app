@@ -63,4 +63,4 @@ class CalculadoraDePuntosTest {
   public void testCalculaPuntaje() {
     assertEquals(52161, CalculadoraDePuntos.calcular(colaboradorMock));
   }
-} // 2161
+}
