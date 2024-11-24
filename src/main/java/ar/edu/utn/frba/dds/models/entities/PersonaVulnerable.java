@@ -19,6 +19,7 @@ import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "personaVulnerable")
+@Getter
 public class PersonaVulnerable {
   @Id
   @Column(name = "id", nullable = false, unique = true)

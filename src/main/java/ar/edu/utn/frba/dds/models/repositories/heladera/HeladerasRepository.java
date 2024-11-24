@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.models.repositories.heladera;
 
+import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
@@ -9,6 +10,7 @@ import lombok.NonNull;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.time.ZonedDateTime;
 import java.util.stream.Stream;
@@ -37,6 +39,13 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
 
     return em.createQuery(query).getResultStream();
   }
+
+  public Stream<Heladera> findHeladerasConViandas() {
+    return entityManager()
+            .createQuery("SELECT DISTINCT h FROM Heladera h JOIN Vianda v ON v.heladera = h", Heladera.class)
+            .getResultStream();
+  }
+
 
   public void updateTiempoHeladera(Long id, Double temperaturaNueva) {
     Heladera heladera = findById(id).orElseThrow();
