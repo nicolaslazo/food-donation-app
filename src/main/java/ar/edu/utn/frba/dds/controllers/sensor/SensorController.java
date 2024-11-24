@@ -9,6 +9,7 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.sensor.SensorTemperatura
 import ar.edu.utn.frba.dds.sensores.AccionadorHeladera;
 import ar.edu.utn.frba.dds.sensores.ReceptorMovimiento;
 import ar.edu.utn.frba.dds.sensores.ReceptorTemperatura;
+import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 public class SensorController {
@@ -30,19 +31,29 @@ public class SensorController {
             Double.parseDouble(ConfigLoader.getInstancia().getProperty("temperatura_maxima")),
             new AccionadorHeladera()
     );
-    return new SensorTemperatura(
+
+    SensorTemperatura sensorTemperatura = new SensorTemperatura(
             receptorTemperatura,
             heladera
     );
+
+    MqttBrokerService.getInstancia().suscribir("heladera/temperatura", sensorTemperatura);
+
+    return sensorTemperatura;
   }
 
   private SensorMovimiento asignarSensorMovimiento(Heladera heladera) throws MqttException {
     ReceptorMovimiento receptorMovimiento = new ReceptorMovimiento(
             new AccionadorHeladera()
     );
-    return new SensorMovimiento(
+
+    SensorMovimiento sensorMovimiento = new SensorMovimiento(
             receptorMovimiento,
             heladera
     );
+
+    MqttBrokerService.getInstancia().suscribir("heladera/movimiento", sensorMovimiento);
+
+    return sensorMovimiento;
   }
 }

@@ -39,7 +39,6 @@ public class SensorMovimiento implements IMqttMessageListener {
   public SensorMovimiento(ReceptorMovimiento receptorMovimiento, Heladera heladera) throws MqttException {
     this.receptorMovimiento = receptorMovimiento;
     this.heladera = heladera;
-    MqttBrokerService.getInstancia().suscribir("heladera/movimiento", this);
   }
 
   protected SensorMovimiento() {}

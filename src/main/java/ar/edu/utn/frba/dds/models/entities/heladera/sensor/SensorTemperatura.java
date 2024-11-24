@@ -39,7 +39,6 @@ public class SensorTemperatura implements IMqttMessageListener {
   public SensorTemperatura(ReceptorTemperatura receptorTemperatura, Heladera heladera) throws MqttException {
     this.receptorTemperatura = receptorTemperatura;
     this.heladera = heladera;
-    MqttBrokerService.getInstancia().suscribir("heladera/temperatura", this);
   }
 
   protected SensorTemperatura() {}
