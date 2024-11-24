@@ -48,11 +48,10 @@ public class SolicitudAperturaPorConsumicion {
 
   public SolicitudAperturaPorConsumicion(@NonNull Tarjeta tarjeta,
                                          @NonNull Vianda vianda,
-                                         @NonNull Heladera heladera,
                                          @NonNull ZonedDateTime fechaCreacion) {
     this.tarjeta = tarjeta;
     this.vianda = vianda;
-    this.heladera = heladera;
+    this.heladera = vianda.getHeladera();
     this.fechaCreacion = fechaCreacion;
 
     int tiempoSolicitudAperturaMinutos =
@@ -77,5 +76,13 @@ public class SolicitudAperturaPorConsumicion {
 
     vianda.setHeladera(null);
     fechaUsada = timestamp;
+  }
+
+  public double getPesoViandaEnGramos() {
+    return vianda.getPesoEnGramos();
+  }
+
+  public boolean isVigenteAlMomento(ZonedDateTime momento) {
+    return fechaUsada == null && momento.isAfter(fechaCreacion) && momento.isBefore(fechaVencimiento);
   }
 }

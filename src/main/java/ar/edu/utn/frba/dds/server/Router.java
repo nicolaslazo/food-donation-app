@@ -19,6 +19,7 @@ import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.session.SessionController;
 import ar.edu.utn.frba.dds.controllers.tecnico.TecnicoController;
 import ar.edu.utn.frba.dds.controllers.terminosycondiciones.TerminosYCondicionesController;
+import ar.edu.utn.frba.dds.controllers.tienda.TiendaController;
 import ar.edu.utn.frba.dds.controllers.verreportes.PDFGeneratorController;
 import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.entities.users.Rol;
@@ -34,15 +35,18 @@ public class Router {
 
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
+    Permiso permisoAdministrarRecompensas = permisosRepository.findByName("Administrar-Recompensas").get();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
-    Permiso permisoVerReportes = permisosRepository.findByName("Ver-Reportes").get();
+    Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
+    Permiso permisoCargaCsv = permisosRepository.findByName("Cargar-CSV").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
     Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
-    Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
-    Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
-    Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
     Permiso permisoDistribuirViandas = permisosRepository.findByName("Distribuir-Viandas").get();
+    Permiso permisoDonarDinero = permisosRepository.findByName("Donar-Dinero").get();
+    Permiso permisoDonarViandas = permisosRepository.findByName("Donar-Viandas").get();
+    Permiso permisoSolicitarTarjetas = permisosRepository.findByName("Solicitar-Tarjetas").get();
+    Permiso permisoVerReportes = permisosRepository.findByName("Ver-Reportes").get();
 
     RolesRepository repositorioRoles = new RolesRepository();
     Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
@@ -106,9 +110,17 @@ public class Router {
     app.get("/persona-vulnerable/registro", new PersonaVulnerableController()::index, permisoAsignarTarjetas);
     app.post("/persona-vulnerable/registro", new PersonaVulnerableController()::create, permisoAsignarTarjetas);
 
+    // Recompensas
+    app.get("/tienda", new TiendaController()::index);
+    app.get("/tienda/recompensas/admin", new TiendaController()::indexRecompensaNueva, permisoAdministrarRecompensas);
+    app.post("/tienda/recompensas/admin", new TiendaController()::crearRecompensa, permisoAdministrarRecompensas);
+    app.get("/tienda/recompensas", new TiendaController()::indexRecompensas, permisoCanjearProductos);
+    app.post("/tienda/recompensas/{id}", new TiendaController()::canjearRecompensa, permisoCanjearProductos);
+
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
-    app.get("/carga-csv", new CargaCSVController()::index);
+    app.get("/carga-csv", new CargaCSVController()::index, permisoCargaCsv);
+    app.post("/carga-csv", new CargaCSVController()::create, permisoCargaCsv);
 
     //Reportes
     app.before("/ver-reportes", new AuthMiddleware());

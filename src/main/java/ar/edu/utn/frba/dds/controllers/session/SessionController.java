@@ -98,6 +98,14 @@ public class SessionController {
         throw new PermisoDenegadoException("El usuario no tiene ninguno de los roles aceptables");
 
 
+      if (!usuario.getActivo()) {
+        context.json(Map.of(
+            "message", "Su usuario fue desactivado. Puede usar la pestaña de contacto para resolver el problema",
+            "success", false
+        ));
+        return;
+      }
+
       // Recupero el model y Setteo el estado
       Map<String, Object> model = context.attribute("model");
       model.put("usuarioAutenticado", true);

@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.util.Objects;
 
 @ToString
 @Entity
@@ -40,4 +41,16 @@ public abstract class Contacto {
   @NonNull String destinatario;
 
   public abstract void enviarMensaje(String mensaje) throws MensajeAContactoException;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Contacto contacto)) return false;
+    return Objects.equals(destinatario, contacto.destinatario);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(usuario, destinatario);
+  }
 }

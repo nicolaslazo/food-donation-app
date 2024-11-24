@@ -7,20 +7,21 @@ import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 import java.time.ZonedDateTime;
 
 public class CuidadoHeladerasRepository extends HibernateEntityManager<CuidadoHeladera, Long> {
-  public int getMesesActivosCumulativos(Colaborador colaborador) {
+  public Long getMesesActivosCumulativos(Colaborador colaborador) {
     String jpql = """
-            SELECT COALESCE(SUM(CASE\s
-                WHEN ch.heladera.fechaInstalacion <= :currentDate\s
-                THEN FLOOR(DATEDIFF(:currentDate, ch.heladera.fechaInstalacion) / 30.44)\s
-                ELSE 0 END), 0)\s
-            FROM CuidadoHeladera ch\s
-            WHERE ch.colaborador = :colaborador""";
+        SELECT COALESCE(SUM(CASE\s
+            WHEN ch.heladera.fechaInstalacion <= :currentDate\s
+            THEN FLOOR(DATEDIFF(:currentDate, ch.heladera.fechaInstalacion) / 30.44)\s
+            ELSE 0 END), 0)\s
+        FROM CuidadoHeladera ch\s
+        WHERE ch.colaborador = :colaborador""";
 
-    return entityManager()
-            .createQuery(jpql, Double.class)
-            .setParameter("colaborador", colaborador)
-            .setParameter("currentDate", ZonedDateTime.now())
-            .getSingleResult()
-            .intValue();
+    Double res = entityManager()
+        .createQuery(jpql, Double.class)
+        .setParameter("colaborador", colaborador)
+        .setParameter("currentDate", ZonedDateTime.now())
+        .getSingleResult();
+
+    return res != null ? (long) res.doubleValue() : 0;
   }
 }
