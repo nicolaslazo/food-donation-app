@@ -92,4 +92,8 @@ public class MapaController {
 
     context.render("mapa/mapa.hbs", model);
   }
+
+  public void create(Context context) {
+    // TODO: Lo hago en otra PR, se extendio mucho esta ya.
+  }
 }
