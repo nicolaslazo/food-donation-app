@@ -7,6 +7,7 @@ import ar.edu.utn.frba.dds.models.repositories.contribucion.DineroRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.DonacionViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.EntregaTarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.RedistribucionViandasRepository;
+import lombok.NonNull;
 
 public class CalculadoraDePuntos {
   private static final ConfigLoader coeficientesConfig = ConfigLoader.getInstancia();
@@ -22,11 +23,16 @@ public class CalculadoraDePuntos {
       Double.parseDouble(coeficientesConfig.getProperty("puntaje.coeficiente.heladerasActivas"));
 
   public static Long calcular(Colaborador colaborador) {
-    return (long) (new DineroRepository().getTotal(colaborador) * coeficientePesosDonados +
-            new RedistribucionViandasRepository().getTotal(colaborador) * coeficienteViandasDistribuidas +
-            (new DonacionViandasRepository().getTotal(colaborador)) * coeficienteViandasDonadas +
-            (new EntregaTarjetasRepository().getTotal(colaborador)) * coeficienteTarjetasRepartidas +
-            (new CuidadoHeladerasRepository().getMesesActivosCumulativos(colaborador)) * coeficienteHeladerasActivas);
+    @NonNull Double totalDinero = new DineroRepository().getTotal(colaborador);
+    int totalRedistribuciones = new RedistribucionViandasRepository().getTotal(colaborador);
+    int totalDonaciones = new DonacionViandasRepository().getTotal(colaborador);
+    int totalEntregasTarjetas = new EntregaTarjetasRepository().getTotal(colaborador);
+    @NonNull Long totalMesesHeladerasCuidadas = new CuidadoHeladerasRepository().getMesesActivosCumulativos(colaborador);
+    return (long) (totalDinero * coeficientePesosDonados +
+        totalRedistribuciones * coeficienteViandasDistribuidas +
+        totalDonaciones * coeficienteViandasDonadas +
+        totalEntregasTarjetas * coeficienteTarjetasRepartidas +
+        totalMesesHeladerasCuidadas * coeficienteHeladerasActivas);
   }
 }
 
