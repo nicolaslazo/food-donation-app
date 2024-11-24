@@ -18,10 +18,10 @@ public final class CuidadoHeladeraInputDTO {
 
   public CuidadoHeladeraInputDTO(
       @NonNull String nombreHeladera,
-      ModeloHeladera modeloHeladera,
-      Long idColaborador,
-      Double latitud,
-      Double longitud,
+      @NonNull ModeloHeladera modeloHeladera,
+      long idColaborador,
+      double latitud,
+      double longitud,
       @NonNull String barrio
   ) {
     this.nombreHeladera = nombreHeladera;
