@@ -1,17 +1,23 @@
 package ar.edu.utn.frba.dds.controllers.mapa;
 
+import ar.edu.utn.frba.dds.controllers.heladera.SolicitudAperturaPorConsumicionController;
 import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.users.PermisoDenegadoException;
+import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.PersonaVulnerableRepository;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
 import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorConsumicionRepository;
+import ar.edu.utn.frba.dds.models.repositories.users.UsuariosRepository;
 import io.javalin.http.Context;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +99,42 @@ public class MapaController {
     context.render("mapa/mapa.hbs", model);
   }
 
-  public void create(Context context) {
-    // TODO: Lo hago en otra PR, se extendio mucho esta ya.
+  public void create(Context context) throws MqttException, PermisoDenegadoException {
+    try {
+      // Recuerpo al Usuario con su Tarjeta Alimentaria correspondiente
+      Usuario usuario = new UsuariosRepository().findById(context.sessionAttribute("user_id")).get();
+      Tarjeta tarjetaAlimentaria = new TarjetasRepository().findByRecipiente(usuario).get();
+
+      // Recupero los IDs de las Viandas como un String y luego divido en una lista de Strings
+      String viandasIDsString = context.formParam("viandasIds"); // Recibe el String "2,3,5"
+      List<Long> viandasIDs = Arrays.stream(viandasIDsString.split(",")) // Separa el String por comas
+              .map(Long::parseLong)
+              .toList();
+
+      crearSolicitudConsumicion(viandasIDs, tarjetaAlimentaria);
+
+      context.json(Map.of(
+              "message", "Solicitud registrada con éxito! Ya puedes retirar tus viandas",
+              "success", true,
+              "urlRedireccion", "/",
+              "demoraRedireccionEnSegundos", 3
+      ));
+    } catch (MqttException e) {
+      System.out.println("Error al crear el solicitud de consumidor: " + e.getMessage());
+      context.json(Map.of(
+              "message", "Hubo un error al crear el solicitud de consumición",
+              "success", false
+      ));
+    }
+  }
+
+  private void crearSolicitudConsumicion(List<Long> viandasIDs, Tarjeta tarjetaAlimentaria) throws MqttException, PermisoDenegadoException {
+    ViandasRepository viandasRepository = new ViandasRepository();
+
+    for(Long viandaID : viandasIDs) {
+      // Obtengo la vianda
+      Vianda viandaAConsumir = viandasRepository.findById(viandaID).get();
+      new SolicitudAperturaPorConsumicionController().crear(tarjetaAlimentaria, viandaAConsumir);
+    }
   }
 }

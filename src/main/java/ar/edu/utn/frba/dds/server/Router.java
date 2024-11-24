@@ -37,6 +37,7 @@ public class Router {
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAdministrarRecompensas = permisosRepository.findByName("Administrar-Recompensas").get();
+    Permiso permisoAbrirHeladeraConsumicion = permisosRepository.findByName("Abrir-Heladera-Consumicion").get();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
     Permiso permisoCargaCsv = permisosRepository.findByName("Cargar-CSV").get();
@@ -91,7 +92,7 @@ public class Router {
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
     app.get("/incidentes/cargar-visita-tecnica", new VisitaTecnicaController()::index, permisoCargarVisitaTecnica);
 
-    //Tecnico
+    // Técnico
     app.before("/tecnico/crear", new AuthMiddleware());
     app.get("/tecnico/crear", new TecnicoController()::index, permisoCrearTecnico);
 
@@ -136,6 +137,9 @@ public class Router {
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.before("/formas-colaboracion", new AuthMiddleware());
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
+
+    // Solicitud de Retiro por Consumición
+    app.post("/mapa", new MapaController()::create, permisoAbrirHeladeraConsumicion);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);
