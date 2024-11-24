@@ -24,4 +24,20 @@ public class CuidadoHeladerasRepository extends HibernateEntityManager<CuidadoHe
 
     return res != null ? (long) res.doubleValue() : 0;
   }
+
+  public int getTotal(Colaborador colaborador) {
+    String jpql = """
+        SELECT COUNT(ch)
+        FROM CuidadoHeladera ch
+        WHERE ch.colaborador = :colaborador
+    """;
+
+    Long result = entityManager()
+            .createQuery(jpql, Long.class)
+            .setParameter("colaborador", colaborador)
+            .getSingleResult();
+
+    return result != null ? result.intValue() : 0;
+  }
+
 }
