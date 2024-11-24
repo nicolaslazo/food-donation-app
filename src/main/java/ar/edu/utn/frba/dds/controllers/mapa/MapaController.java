@@ -41,7 +41,7 @@ public class MapaController {
       heladeraData.put("lat", heladera.getUbicacion().getLatitud());
       heladeraData.put("long", heladera.getUbicacion().getLongitud());
       heladeraData.put("nombre", heladera.getNombre());
-      heladeraData.put("viandasDepositadas", heladerasRepository.getCantidadViandasDepositadas(heladera));
+      heladeraData.put("viandasDepositadas", heladerasRepository.getCantidadViandasDisponiblesARetirar(heladera));
       return heladeraData;
     }).toList();
 

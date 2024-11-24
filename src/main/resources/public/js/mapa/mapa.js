@@ -18,7 +18,7 @@ heladeras.forEach(function(heladera) {
     const marker = L.marker([heladera.lat, heladera.long], { title: heladera.nombre })
         .bindTooltip(
             `<strong>${heladera.nombre}</strong><br>
-             Viandas Depositadas: ${heladera.viandasDepositadas}`,
+             Viandas Disponibles: ${heladera.viandasDepositadas}`,
             { permanent: false, direction: 'top', opacity: 0.8 }
         )
         .addTo(map);
