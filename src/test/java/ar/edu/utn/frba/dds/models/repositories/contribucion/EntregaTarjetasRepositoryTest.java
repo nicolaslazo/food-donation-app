@@ -76,7 +76,7 @@ class EntregaTarjetasRepositoryTest {
   void testObtenerTotalPorColaborador() {
     new EntregaTarjetasRepository().insert(otraEntrega);
 
-    int total = new EntregaTarjetasRepository().getTotal(colaborador);
+    long total = new EntregaTarjetasRepository().findAll(colaborador).count();
 
     assertEquals(1 + 1, total);
   }

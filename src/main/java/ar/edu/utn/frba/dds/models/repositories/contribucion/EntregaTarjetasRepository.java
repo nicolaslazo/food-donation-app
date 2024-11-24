@@ -8,8 +8,25 @@ import ar.edu.utn.frba.dds.models.repositories.RepositoryException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class EntregaTarjetasRepository extends HibernateEntityManager<EntregaTarjetas, Long> {
+  public Stream<EntregaTarjetas> findAll(Colaborador colaborador) {
+    // Tenemos que contabilizar las tarjetas entregadas, no las solicitidas.
+    String jpql = """
+            SELECT et
+            FROM EntregaTarjetas et
+            WHERE et.colaborador = :colaborador
+            """;
+
+    Stream<EntregaTarjetas> entregaTarjetas = entityManager()
+            .createQuery(jpql, EntregaTarjetas.class)
+            .setParameter("colaborador", colaborador)
+            .getResultStream();
+
+    return entregaTarjetas;
+  }
+
   public int getTotal(Colaborador colaborador) {
     // Tenemos que contabilizar las tarjetas entregadas, no las solicitidas.
     String jpql = """
