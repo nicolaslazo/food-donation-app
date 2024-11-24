@@ -2,9 +2,12 @@ package ar.edu.utn.frba.dds.services.seeders;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.ZonedDateTime;
@@ -56,6 +59,27 @@ public class SeederHeladera {
         ZonedDateTime.now(),
         "San Telmo"
     );
-    heladerasRepository.insertAll(List.of(heladeraUno, heladeraDos, heladeraTres, heladeraMedrano, heladeraCasiLlena));
+    Heladera heladeraDefectuosa = new Heladera(
+        "Heladera Defectuosa",
+        new CoordenadasGeograficas(-34.616728, -58.381860),
+        unColaborador,
+        22,
+        ZonedDateTime.now(),
+        "UADE"
+    );
+
+    Incidente incidente = new Incidente(
+        heladeraDefectuosa,
+        TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR,
+        ZonedDateTime.now(),
+        unColaborador,
+        "Hace ruidos raros en algunos momentos",
+        null
+    );
+
+    heladerasRepository.insertAll(List.of(heladeraUno, heladeraDos, heladeraTres,
+            heladeraMedrano, heladeraCasiLlena, heladeraDefectuosa));
+
+    new IncidenteRepository().insert(incidente);
   }
 }

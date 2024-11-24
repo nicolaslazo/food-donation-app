@@ -11,6 +11,7 @@ import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionViandaController;
 import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
+import ar.edu.utn.frba.dds.controllers.heladera.incidente.VisitaTecnicaController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
 import ar.edu.utn.frba.dds.controllers.quienessomos.QuienesSomosController;
@@ -38,6 +39,7 @@ public class Router {
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
     Permiso permisoCargaCsv = permisosRepository.findByName("Cargar-CSV").get();
+    Permiso permisoCargarVisitaTecnica = permisosRepository.findByName("Cargar-Visita-Tecnica").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
     Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
@@ -50,7 +52,8 @@ public class Router {
     RolesRepository repositorioRoles = new RolesRepository();
     Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
     Rol rolColaboradorJuridico = repositorioRoles.findByName("COLABORADORJURIDICO").get();
-    Set<Rol> rolesColaboradores = Set.of(rolColaboradorFisico, rolColaboradorJuridico);
+    Rol rolesTecnico = repositorioRoles.findByName("TECNICO").get();
+    Set<Rol> rolesColaboradores = Set.of(rolColaboradorFisico, rolColaboradorJuridico, rolesTecnico);
     Set<Rol> rolesPersonaVulnerable = Set.of(repositorioRoles.findByName("PERSONAVULNERABLE").get());
 
     app.before(SessionController::sessionInfo);
@@ -84,6 +87,7 @@ public class Router {
     // Incidente/*
     app.before("incidentes/*", new AuthMiddleware());
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
+    app.get("/incidentes/cargar-visita-tecnica", new VisitaTecnicaController()::index, permisoCargarVisitaTecnica);
 
     //Tecnico
     app.before("/tecnico/crear", new AuthMiddleware());
