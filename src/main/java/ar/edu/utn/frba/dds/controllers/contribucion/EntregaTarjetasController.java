@@ -55,7 +55,13 @@ public class EntregaTarjetasController {
     List<Tarjeta> tarjetas = new ArrayList<>();
     // Genero la cantidad solicitada de tarjetas
     for (int i = 0; i < cantidad; i++) {
-      Tarjeta tarjeta = new Tarjeta(UUID.randomUUID());
+      UUID uuid = UUID.randomUUID();
+      Tarjeta tarjeta = new Tarjeta(uuid);
+
+      // Hago esto para ver los UUIDs generados, esto me sirve para testear el flujo
+      // como no nos llega ninguna tarjeta a nuestra casa, no tenemos forma de ver el UUID :P
+      System.out.println(i + ". UUID Generado: " + uuid);
+
       new TarjetasRepository().insert(tarjeta);
       tarjetas.add(tarjeta);
     }
