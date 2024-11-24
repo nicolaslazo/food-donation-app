@@ -2,10 +2,13 @@ package ar.edu.utn.frba.dds.controllers.mapa;
 
 import ar.edu.utn.frba.dds.models.entities.PersonaVulnerable;
 import ar.edu.utn.frba.dds.models.entities.Vianda;
+import ar.edu.utn.frba.dds.models.entities.documentacion.Tarjeta;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.PersonaVulnerableRepository;
 import ar.edu.utn.frba.dds.models.repositories.ViandasRepository;
+import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.SolicitudAperturaPorConsumicionRepository;
 import io.javalin.http.Context;
 
 import java.time.format.DateTimeFormatter;
@@ -15,7 +18,7 @@ import java.util.Map;
 
 public class MapaController {
   public void index(Context context) {
-    //TODO: Estería bueno poder mover toda esta lógica a otro lugar.
+    // TODO: Mover lógica para la recuperación de heladeras.
     Map<String, Object> model = context.attribute("model");
 
     // --- Recupero heladeras ---
@@ -70,13 +73,18 @@ public class MapaController {
     if (context.sessionAttribute("esPersonaVulnerable")) { // Si posee el Rol de Persona Vulnerable, completo sus datos
       PersonaVulnerable personaVulnerable = new PersonaVulnerableRepository().findById(context.sessionAttribute("user_id")).get();
 
+      Tarjeta tarjeta = new TarjetasRepository().findByRecipiente(personaVulnerable.getUsuario()).get();
+      long cantidadUsosTarjetaHoy = new SolicitudAperturaPorConsumicionRepository().findCantidadUsadasHoy(tarjeta);
+      long cantidadUsosDisponiblesHoy = personaVulnerable.getCantidadViandasPermitidasPorDia() - cantidadUsosTarjetaHoy;
+
       model.put("nombre", personaVulnerable.getUsuario().getPrimerNombre());
       model.put("apellido", personaVulnerable.getUsuario().getApellido());
       model.put("menoresACargo", personaVulnerable.getMenoresACargo());
-      model.put("usosDisponibles", 5); //TODO: El controller de las tarjetas debería de brindarnos esta lógica.
+      model.put("usosDisponibles", cantidadUsosDisponiblesHoy);
       model.put("userRol", "PERSONAVULNERABLE");
     } else if (puedeAbrirHeladeraPorConsumicion) { // Si posee el Permiso para Abrir Por consumición, se completan estos datos
-      model.put("usosDisponibles", 20);
+      // Este caso contempla que los Admins pueden acceder a esta pestaña. Realmente no debería de estar esto, pero bueno.
+      model.put("usosDisponibles", 20); // Esto esta Hardcodeado pq en sí no abren la heladera para retirar por consumisión
       model.put("userRol", "PERSONAVULNERABLE");
     } else { // No posee permisos para abrir por consumición
       model.put("userRol", "OTHER");

@@ -29,4 +29,16 @@ public class TarjetasRepository extends HibernateEntityManager<Tarjeta, UUID> {
 
     return em.createQuery(query).setMaxResults(1).getResultStream().findFirst();
   }
+
+  public Optional<Tarjeta> findByRecipiente(Usuario usuario) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Tarjeta> query = cb.createQuery(Tarjeta.class);
+    Root<Tarjeta> root = query.from(Tarjeta.class);
+
+    query.select(root)
+            .where(cb.equal(root.get("recipiente"), usuario));
+
+    return em.createQuery(query).setMaxResults(1).getResultStream().findFirst();
+  }
 }
