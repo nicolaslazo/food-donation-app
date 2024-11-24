@@ -44,7 +44,10 @@ class CalculadoraDePuntosTest {
         (mock, context) -> when(mock.getTotal(colaboradorMock)).thenReturn(1000));
 
     cuidadoHeladerasRepositoryMock = mockConstruction(CuidadoHeladerasRepository.class,
-        (mock, context) -> when(mock.getMesesActivosCumulativos(colaboradorMock)).thenReturn(10000L));
+        (mock, context) -> {
+          when(mock.getMesesActivosCumulativos(colaboradorMock)).thenReturn(10000L);
+          when(mock.getTotal(colaboradorMock)).thenReturn(1);
+        });
   }
 
   @AfterEach
@@ -60,4 +63,4 @@ class CalculadoraDePuntosTest {
   public void testCalculaPuntaje() {
     assertEquals(52161, CalculadoraDePuntos.calcular(colaboradorMock));
   }
-}
+} // 2161
