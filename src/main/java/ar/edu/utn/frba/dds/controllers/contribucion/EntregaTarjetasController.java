@@ -24,8 +24,7 @@ public class EntregaTarjetasController {
   final String plantillaMailEntregaTarjetas = """
       Usted ha solicitado Tarjetas Alimentarias. En breve le enviaremos las tarjetas.\n
       \n
-      Las Tarjetas Alimentarias tendrán los siguientes códigos:\n
-      \n
+      Las Tarjetas Alimentarias tendrán los siguientes códigos:\n\n\n
       """;
 
   public void registrarSolicitudEntregaTarjetas(EntregaTarjetasInputDTO dto) {
@@ -83,7 +82,7 @@ public class EntregaTarjetasController {
     StringBuilder plantillaCodigos = new StringBuilder();
     int i = 1;
     for (Tarjeta tarjeta : tarjetas) {
-      plantillaCodigos.append(i).append(". Código: ").append(tarjeta.getId()).append("\n");
+      plantillaCodigos.append("\n").append(i).append(". Código: ").append(tarjeta.getId()).append("\n");
       i++;
     }
     return plantillaCodigos.toString();
