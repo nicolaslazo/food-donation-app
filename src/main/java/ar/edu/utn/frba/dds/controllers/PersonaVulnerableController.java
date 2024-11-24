@@ -16,7 +16,6 @@ import ar.edu.utn.frba.dds.models.repositories.documentacion.TarjetasRepository;
 import ar.edu.utn.frba.dds.models.repositories.ubicacion.DireccionResidenciaRepository;
 import ar.edu.utn.frba.dds.models.repositories.users.RolesRepository;
 import io.javalin.http.Context;
-import io.javalin.http.HttpStatus;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.time.LocalDate;
@@ -36,11 +35,30 @@ public class PersonaVulnerableController {
   }
 
   public void create(Context context) throws PermisoDenegadoException {
-    Optional<Tarjeta> optionalTarjetaAsignada = new TarjetasRepository().findById(UUID.fromString(context.formParam("tarjeta")));
-    if (optionalTarjetaAsignada.isEmpty()) throw new RuntimeException("No existe una tarjeta con ese id");
+    Optional<Tarjeta> optionalTarjetaAsignada =
+        new TarjetasRepository().findById(UUID.fromString(context.formParam("tarjeta")));
+    if (optionalTarjetaAsignada.isEmpty()) {
+      context.json(new HashMap<>() {
+        {
+          put("message", "No existe una tarjeta con ese id");
+          put("success", false);
+        }
+      });
+
+      return;
+    }
 
     Tarjeta tarjeta = optionalTarjetaAsignada.get();
-    if (tarjeta.getFechaAlta() != null) context.result("Esta tarjeta ya fue dada de alta");
+    if (tarjeta.getFechaAlta() != null) {
+      context.json(new HashMap<>() {
+        {
+          put("message", "Esta tarjeta ya fue dada de alta");
+          put("success", false);
+        }
+      });
+
+      return;
+    }
 
     Documento documento = Boolean.parseBoolean(context.formParam("tiene-dni")) ?
         new Documento(
@@ -83,6 +101,14 @@ public class PersonaVulnerableController {
     new ContactosRepository().insert(new Email(usuario, context.formParam("email")));
     new TarjetasRepository().update(tarjeta);
 
-    context.redirect("/quiero-ayudar", HttpStatus.OK);
+//    context.redirect("/quiero-ayudar", HttpStatus.OK);
+    context.json(new HashMap<>() {
+      {
+        put("message", "Persona vulnerable registrada con éxito! Redirigiendo...");
+        put("success", true);
+        put("urlRedireccion", "/quiero-ayudar");
+        put("demoraRedireccionEnSegundos", 3);
+      }
+    });
   }
 }
