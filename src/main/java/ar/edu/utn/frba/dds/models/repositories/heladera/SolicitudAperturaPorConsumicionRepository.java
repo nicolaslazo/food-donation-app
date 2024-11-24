@@ -105,4 +105,26 @@ public class SolicitudAperturaPorConsumicionRepository
 
     return em.createQuery(query).getSingleResult();
   }
+
+  public long getCantidadSolicitudesDeRetiroHoy(Tarjeta tarjeta) {
+    var em = entityManager();
+    var cb = em.getCriteriaBuilder();
+    var query = cb.createQuery(Long.class);
+    var root = query.from(SolicitudAperturaPorConsumicion.class);
+
+    // Obtener el inicio y fin del día actual en la zona horaria del sistema
+    ZonedDateTime inicioDia = ZonedDateTime.now().toLocalDate().atStartOfDay(ZonedDateTime.now().getZone());
+    ZonedDateTime finDia = inicioDia.plusDays(1);
+
+    query.select(cb.count(root))
+            .where(cb.and(
+                    cb.equal(root.get("tarjeta"), tarjeta),
+                    cb.isNull(root.get("fechaUsada")),
+                    cb.greaterThanOrEqualTo(root.get("fechaCreacion"), inicioDia),
+                    cb.lessThan(root.get("fechaCreacion"), finDia)
+            ));
+
+    return em.createQuery(query).getSingleResult();
+  }
+
 }

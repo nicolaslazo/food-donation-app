@@ -8,6 +8,7 @@
 {{/partial}}
 
 {{#partial "scripts"}}
+    <script src="/public/js/toast.js" defer></script>
     <script src="/public/js/sticky_nav_bar.js" defer></script>
     <script src="/public/js/mapa/mapa.js" defer></script>
     <!-- Recuperación de las heladeras -->
@@ -47,7 +48,7 @@
             <div class="form-title">
                 MAPA DE HELADERAS
             </div>
-            <form method="post" action="/vianda/solicitud-retiro" class="form__body">
+            <form method="post" action="/mapa" class="form__body triggerea-toast">
                 <div class="heladera-details-container">
                     {{#if esPersonaVulnerable}}
                         <h3>
@@ -72,7 +73,7 @@
                 <input type="hidden" id="userRol" value="{{userRol}}">
                  {{#if esPersonaVulnerable}}
                     <div class="submit-button">
-                        <input type="submit" value="SIGUIENTE" id="submitBtn">
+                        <input type="submit" value="SOLICITAR" id="submitBtn">
                     </div>
                  {{/if}}
             </form>

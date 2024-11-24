@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.dds.models.repositories.heladera;
 
-import ar.edu.utn.frba.dds.models.entities.Vianda;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
@@ -72,5 +71,18 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
         repositorio.getCantidadViandasPendientes(heladera);
 
     return heladera.getCapacidadEnViandas() - getCantidadViandasDepositadas(heladera) - viandasEnContribucionesVigentes;
+  }
+
+  public long getCantidadViandasDisponiblesARetirar(Heladera heladera) {
+    EntityManager em = entityManager();
+
+    String jpql = "SELECT COUNT(v) FROM Vianda v " +
+            "LEFT JOIN SolicitudAperturaPorConsumicion s ON s.vianda = v " +
+            "WHERE v.heladera = :heladera AND (s IS NULL OR s.fechaVencimiento < :now)";
+
+    return em.createQuery(jpql, Long.class)
+            .setParameter("heladera", heladera)
+            .setParameter("now", ZonedDateTime.now())
+            .getSingleResult();
   }
 }

@@ -18,7 +18,7 @@ heladeras.forEach(function(heladera) {
     const marker = L.marker([heladera.lat, heladera.long], { title: heladera.nombre })
         .bindTooltip(
             `<strong>${heladera.nombre}</strong><br>
-             Viandas Depositadas: ${heladera.viandasDepositadas}`,
+             Viandas Disponibles: ${heladera.viandasDepositadas}`,
             { permanent: false, direction: 'top', opacity: 0.8 }
         )
         .addTo(map);
@@ -108,6 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const form = document.querySelector('.form__body');
             form.appendChild(inputViandas);
 
+            console.log("Viandas Seleccionadas: " + inputViandas.value);
+
             // Cerrar el modal después de confirmar
             modal.classList.add('hidden');
         });
@@ -133,8 +135,6 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
     if (!idHeladera) {
         alert('Por favor, selecciona una heladera donde retirar una o más viandas.');
         event.preventDefault();
-    } else {
-        alert("Solicitud Registrada con éxito!");
     }
 });
 
