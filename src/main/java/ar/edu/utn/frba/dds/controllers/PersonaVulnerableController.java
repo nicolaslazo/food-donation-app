@@ -101,7 +101,6 @@ public class PersonaVulnerableController {
     new ContactosRepository().insert(new Email(usuario, context.formParam("email")));
     new TarjetasRepository().update(tarjeta);
 
-//    context.redirect("/quiero-ayudar", HttpStatus.OK);
     context.json(new HashMap<>() {
       {
         put("message", "Persona vulnerable registrada con éxito! Redirigiendo...");
