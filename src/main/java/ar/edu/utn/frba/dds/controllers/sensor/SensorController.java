@@ -12,6 +12,9 @@ import ar.edu.utn.frba.dds.sensores.ReceptorTemperatura;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
+// Tópicos:
+//  Para temperatura: heladera/{id}/temperatura.
+//  Para movimiento: heladera/{id}/movimiento.
 public class SensorController {
   public void create(Heladera heladera) throws MqttException {
     // Instancio los Sensores
@@ -24,8 +27,6 @@ public class SensorController {
   }
 
   private SensorTemperatura asignarSensorTemperatura(Heladera heladera) throws MqttException {
-    // Instancio un Receptor con las Temperaturas Mínimas
-    // Opte por tener solo un Rango de Temperaturas porque no cambian según el tamaño de la heladera.
     ReceptorTemperatura receptorTemperatura = new ReceptorTemperatura(
             Double.parseDouble(ConfigLoader.getInstancia().getProperty("temperatura_minima")),
             Double.parseDouble(ConfigLoader.getInstancia().getProperty("temperatura_maxima")),
@@ -37,7 +38,8 @@ public class SensorController {
             heladera
     );
 
-    MqttBrokerService.getInstancia().suscribir("heladera/temperatura", sensorTemperatura);
+    String topic = "heladera/" + heladera.getId() + "/temperatura";
+    MqttBrokerService.getInstancia().suscribir(topic, sensorTemperatura);
 
     return sensorTemperatura;
   }
@@ -52,8 +54,10 @@ public class SensorController {
             heladera
     );
 
-    MqttBrokerService.getInstancia().suscribir("heladera/movimiento", sensorMovimiento);
+    String topic = "heladera/" + heladera.getId() + "/movimiento";
+    MqttBrokerService.getInstancia().suscribir(topic, sensorMovimiento);
 
     return sensorMovimiento;
   }
+
 }
