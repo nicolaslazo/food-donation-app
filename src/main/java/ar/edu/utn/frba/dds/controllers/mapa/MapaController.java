@@ -79,7 +79,9 @@ public class MapaController {
 
       Tarjeta tarjeta = new TarjetasRepository().findByRecipiente(personaVulnerable.getUsuario()).get();
       long cantidadUsosTarjetaHoy = new SolicitudAperturaPorConsumicionRepository().findCantidadUsadasHoy(tarjeta);
-      long cantidadUsosDisponiblesHoy = personaVulnerable.getCantidadViandasPermitidasPorDia() - cantidadUsosTarjetaHoy;
+      long cantidadSolicitudesRetiroActivosHoy = new SolicitudAperturaPorConsumicionRepository().getCantidadSolicitudesDeRetiroHoy(tarjeta);
+      long cantidadUsosDisponiblesHoy =
+              personaVulnerable.getCantidadViandasPermitidasPorDia() - cantidadUsosTarjetaHoy - cantidadSolicitudesRetiroActivosHoy;
 
       model.put("nombre", personaVulnerable.getUsuario().getPrimerNombre());
       model.put("apellido", personaVulnerable.getUsuario().getApellido());
