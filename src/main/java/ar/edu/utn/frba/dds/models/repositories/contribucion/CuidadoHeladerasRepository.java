@@ -37,7 +37,7 @@ public class CuidadoHeladerasRepository extends HibernateEntityManager<CuidadoHe
         SELECT COUNT(ch)
         FROM CuidadoHeladera ch
         WHERE ch.colaborador = :colaborador
-    """;
+        """;
 
     Long result = entityManager()
             .createQuery(jpql, Long.class)
