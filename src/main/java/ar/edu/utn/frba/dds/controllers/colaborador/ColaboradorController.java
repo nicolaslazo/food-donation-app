@@ -26,6 +26,7 @@ public class ColaboradorController {
     Colaborador colaborador;
     String documento = context.formParam("documento");
 
+    String emailString;
     if (documento != null && !documento.isBlank()) { // Es una persona física
       colaborador = new Colaborador(
           new Documento(TipoDocumento.fromString(context.formParam("tipoDocumento")), Integer.parseInt(documento)),
@@ -36,20 +37,22 @@ public class ColaboradorController {
           context.formParam("password"),
           new RolesRepository().findByName("COLABORADORFISICO").get()
       );
+      emailString = context.formParam("email");
     } else { // Es una persona jurídica
       colaborador = new Colaborador(
           new Documento(TipoDocumento.CUIT, Integer.parseInt(context.formParam("cuit"))),
           TipoPersonaJuridica.fromString(context.formParam("tipoPersonaJuridica")),
-          context.formParam("primerNombre"),
+          context.formParam("razonSocial"),
           // LocalDate.parse(context.formParam("fechaCreacion")),  TODO: No tenemos un campo para la fecha de creación
           null,
           context.formParam("password")
       );
+      emailString = context.formParam("emailJuridico");
     }
 
     new ColaboradorRepository().insert(colaborador);
 
-    Email email = new Email(colaborador.getUsuario(), context.formParam("email"));
+    Email email = new Email(colaborador.getUsuario(), emailString);
     new ContactosRepository().insert(email);
 
     String pais = context.formParam("pais");
