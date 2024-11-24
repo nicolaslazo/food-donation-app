@@ -50,12 +50,10 @@ public class MapaController {
     // --- Recupero las Viandas ---
     ViandasRepository viandasRepository = new ViandasRepository();
 
-    List<Vianda> viandas = viandasRepository.findAll().toList();
+    // Filtramos Viandas por disponibilidad para Retirar en el momento
+    List<Vianda> viandas = viandasRepository.findAllViandasDisponiblesARetirar().toList();
     // Tomo información de las Viandas, excluyendo las que no tienen heladera física asociada
-    viandasData = viandas.stream()
-            // TODO: Hacer este filtrado en la query a la db para menos transferencia de datos
-            .filter(vianda -> vianda.getHeladera() != null) // Solo cargamos viandas que estan depositadas en una heladera
-            .map(vianda -> {
+    viandasData = viandas.stream().map(vianda -> {
               Map<String, Object> viandaData = new HashMap<>();
               viandaData.put("idVianda", vianda.getId());
               viandaData.put("idHeladera", vianda.getHeladera().getId());
