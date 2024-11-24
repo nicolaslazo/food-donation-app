@@ -27,12 +27,13 @@ public class CalculadoraDePuntos {
     int totalRedistribuciones = new RedistribucionViandasRepository().getTotal(colaborador);
     int totalDonaciones = new DonacionViandasRepository().getTotal(colaborador);
     int totalEntregasTarjetas = new EntregaTarjetasRepository().getTotal(colaborador);
+    int totalHeladeras = new CuidadoHeladerasRepository().getTotal(colaborador);
     @NonNull Long totalMesesHeladerasCuidadas = new CuidadoHeladerasRepository().getMesesActivosCumulativos(colaborador);
     return (long) (totalDinero * coeficientePesosDonados +
         totalRedistribuciones * coeficienteViandasDistribuidas +
         totalDonaciones * coeficienteViandasDonadas +
         totalEntregasTarjetas * coeficienteTarjetasRepartidas +
-        totalMesesHeladerasCuidadas * coeficienteHeladerasActivas);
+        totalHeladeras * totalMesesHeladerasCuidadas * coeficienteHeladerasActivas);
   }
 }
 
