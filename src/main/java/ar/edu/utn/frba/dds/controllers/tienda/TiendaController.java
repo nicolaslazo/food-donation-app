@@ -10,8 +10,12 @@ import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository
 import io.javalin.http.Context;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TiendaController {
   CanjeosRepository canjeosRepository = new CanjeosRepository();
@@ -68,11 +72,36 @@ public class TiendaController {
   }
 
   public void indexHistorial(Context ctx) {
-    Map<String, Object> model = ctx.attribute("model");
+    Map<String, Object> model = new HashMap<>();
 
-    List<Canjeo> canjeo = canjeosRepository.findCanjeosByColaboradorId(ctx.sessionAttribute("user_id"));
-    model.put("canje", canjeo);
-    model.put("categorias", RubroRecompensa.values());
+    // Obtén el ID del colaborador desde la sesión
+    Long colaboradorId = ctx.sessionAttribute("user_id");
+
+    // Obtén los canjes del colaborador
+    List<Canjeo> canjeos = canjeosRepository.findCanjeosByColaboradorId(colaboradorId);
+
+    // Formateador para la fecha
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    // Transformar los canjeos para incluir las fechas formateadas
+    List<Map<String, Object>> formattedCanjeos = canjeos.stream()
+        .map(canjeo -> {
+          Map<String, Object> map = new HashMap<>();
+          map.put("nombre", canjeo.getRecompensa().getNombre());
+          map.put("costoEnPuntos", canjeo.getRecompensa().getCostoEnPuntos());
+          map.put("rubro", canjeo.getRecompensa().getRubro().name());
+          map.put("fecha", canjeo.getFecha().format(formatter));
+          return map;
+        })
+        .collect(Collectors.toList());
+
+    // Agrega los datos al modelo
+    model.put("canje", formattedCanjeos); // Coincide con `{{#each canje}}` en la plantilla
+    model.put("categorias", Arrays.stream(RubroRecompensa.values())
+        .map(Enum::name)
+        .collect(Collectors.toList())); // Convierte los enums a texto
+
     ctx.render("tienda/historial.hbs", model);
   }
+
 }
