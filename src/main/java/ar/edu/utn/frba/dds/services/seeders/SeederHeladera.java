@@ -16,8 +16,6 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepos
 import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.VisitasTecnicasRepository;
 
 import javax.annotation.PostConstruct;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -76,6 +74,20 @@ public class SeederHeladera {
         "UADE"
     );
 
+    // --- Cuidado Heladera ---
+
+    CuidadoHeladerasRepository cuidadoHeladerasRepository = new CuidadoHeladerasRepository();
+    CuidadoHeladera cuidadoHeladeraUno = new CuidadoHeladera(unColaborador, heladeraUno);
+    CuidadoHeladera cuidadoHeladeraDos = new CuidadoHeladera(unColaborador, heladeraDos);
+    CuidadoHeladera cuidadoHeladeraTres = new CuidadoHeladera(unColaborador, heladeraTres);
+    CuidadoHeladera cuidadoHeladeraMedrano = new CuidadoHeladera(unColaborador, heladeraMedrano);
+    CuidadoHeladera cuidadoHeladeraCasiLlena = new CuidadoHeladera(unColaborador, heladeraCasiLlena);
+    CuidadoHeladera cuidadoHeladeraDefectuosa = new CuidadoHeladera(unColaborador, heladeraDefectuosa);
+    heladerasRepository.insertAll(List.of(heladeraUno, heladeraDos, heladeraTres,
+            heladeraMedrano, heladeraCasiLlena, heladeraDefectuosa));
+    cuidadoHeladerasRepository.insertAll(List.of(cuidadoHeladeraUno, cuidadoHeladeraDos, cuidadoHeladeraTres,
+            cuidadoHeladeraMedrano, cuidadoHeladeraCasiLlena, cuidadoHeladeraDefectuosa));
+
     // --- Incidentes ---
 
     Incidente incidente = new Incidente(
@@ -87,6 +99,8 @@ public class SeederHeladera {
         null
     );
 
+    new IncidenteRepository().insert(incidente);
+
     Tecnico tecnico = new TecnicoRepository().findAll().findFirst().get();
 
     VisitaTecnica visitaTecnica = new VisitaTecnica(
@@ -97,30 +111,6 @@ public class SeederHeladera {
         "No tengo los repuestos necesarios.",
         null
     );
-
-    // --- Cuidado Heladera ---
-
-    CuidadoHeladerasRepository cuidadoHeladerasRepository = new CuidadoHeladerasRepository();
-
-    CuidadoHeladera cuidadoHeladeraUno = new CuidadoHeladera(unColaborador, heladeraUno);
-
-    CuidadoHeladera cuidadoHeladeraDos = new CuidadoHeladera(unColaborador, heladeraDos);
-
-    CuidadoHeladera cuidadoHeladeraTres = new CuidadoHeladera(unColaborador, heladeraTres);
-
-    CuidadoHeladera cuidadoHeladeraMedrano = new CuidadoHeladera(unColaborador, heladeraMedrano);
-
-    CuidadoHeladera cuidadoHeladeraCasiLlena = new CuidadoHeladera(unColaborador, heladeraCasiLlena);
-
-    CuidadoHeladera cuidadoHeladeraDefectuosa = new CuidadoHeladera(unColaborador, heladeraDefectuosa);
-
-    heladerasRepository.insertAll(List.of(heladeraUno, heladeraDos, heladeraTres,
-            heladeraMedrano, heladeraCasiLlena, heladeraDefectuosa));
-
-    cuidadoHeladerasRepository.insertAll(List.of(cuidadoHeladeraUno, cuidadoHeladeraDos, cuidadoHeladeraTres,
-            cuidadoHeladeraMedrano, cuidadoHeladeraCasiLlena, cuidadoHeladeraDefectuosa));
-
-    new IncidenteRepository().insert(incidente);
 
     new VisitasTecnicasRepository().insert(visitaTecnica);
   }
