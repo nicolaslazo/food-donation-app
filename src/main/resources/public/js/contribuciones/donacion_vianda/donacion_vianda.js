@@ -1,7 +1,7 @@
 // Inicializar el mapa centrado en Buenos Aires
 var map = L.map('map').setView([-34.6037, -58.3816], 13);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 18,
 }).addTo(map);
@@ -38,7 +38,7 @@ heladeras.forEach(function (heladera) {
 
 L.control.pinSearch({
     placeholder: 'Buscar heladera...',
-    onSearch: function(query) {
+    onSearch: function (query) {
         // Verificar que el input no esté vacío antes de realizar la búsqueda
         if (query.trim() === "") {
             return; // Si el input está vacío, no hacer nada
@@ -97,15 +97,10 @@ document.getElementById('formulario-viandas').addEventListener('submit', functio
         e.preventDefault(); // Evita el envío inmediato del formulario
 
         // Verifica que el formulario sea válido (puedes añadir validaciones adicionales si es necesario)
-        if (form.checkValidity()) {
-            // Muestra un mensaje de confirmación
-            alert('¡El formulario se ha enviado correctamente!');
-            form.submit();
-        } else {
+        if (!form.checkValidity()) {
             alert('Por favor, revisa los campos y asegúrate de que todo esté completo.');
         }
     });
-
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -170,7 +165,7 @@ function updateViandas() {
 
         // Añadimos validación a la fecha de caducidad
         const fechaInput = document.getElementById(`fechaCaducidad_${i}`);
-        fechaInput.addEventListener('input', function() {
+        fechaInput.addEventListener('input', function () {
             validarFechaCaducidad(fechaInput, i);
         });
     }
@@ -194,11 +189,11 @@ function toggleSection(section, icon, initialize = false) {
 }
 
 // Registro la fecha en el que se completa el formulario, en el back seria la fecha de donación
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector('.form__body');
     const fechaHoraInput = document.getElementById('fechaHora');
 
-    form.addEventListener('submit', function() {
+    form.addEventListener('submit', function () {
         const now = new Date();
         fechaHoraInput.value = now.toISOString();
     });
@@ -235,12 +230,10 @@ function verificarCapacidadHeladera(cantidadViandas, heladera) {
     if (heladera.capacidadDisponible === 1 && (cantidadViandas > heladera.capacidadDisponible)) {
         alert(`La heladera seleccionada solo tiene capacidad para una vianda. Por favor, elige una cantidad adecuada.`);
         return false;
-    }
-    else if (heladera.capacidadDisponible === 0) {
+    } else if (heladera.capacidadDisponible === 0) {
         alert(`La heladera seleccionada se encuentra llena en estos momentos. Por favor, elige otra heladera o espera que se vacie.`);
         return false;
-    }
-    else if (cantidadViandas > heladera.capacidadDisponible) {
+    } else if (cantidadViandas > heladera.capacidadDisponible) {
         alert(`La heladera seleccionada solo tiene capacidad para ${heladera.capacidadDisponible} viandas. Por favor, elige una cantidad adecuada.`);
         return false;
     }
