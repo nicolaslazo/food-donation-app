@@ -95,7 +95,7 @@ public class TiendaController {
         .map(Enum::name)
         .collect(Collectors.toList()));
 
-    context.attribute("model", model); 
+    context.attribute("model", model);
     context.render("tienda/historial.hbs", model);
   }
 

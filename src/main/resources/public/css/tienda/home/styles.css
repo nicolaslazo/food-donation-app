@@ -21,11 +21,11 @@ body {
 
 .options-container {
     display: flex;
-    justify-content: center; /* Centra horizontalmente las tarjetas */
-    align-items: center; /* Alinea verticalmente si es necesario */
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    align-items: stretch; /* Asegura que todas las tarjetas tengan la misma altura */
     gap: 20px; /* Espacio entre tarjetas */
-    flex-wrap: wrap; /* Permite que las tarjetas pasen a otra línea en pantallas pequeñas */
-    margin-top: 30px;
+    flex-wrap: nowrap; /* Evita que las tarjetas se desplacen a una nueva línea */
+    margin-top: 20px;
 }
 
 .option-card {
@@ -37,12 +37,12 @@ body {
     box-shadow: 0 0 5px #0006;
     width: 300px; /* Todas las tarjetas tendrán el mismo ancho */
     max-width: 100%; /* Evita que excedan su contenedor */
-    display: flex;
+    display: flex; /* Activamos el modelo flexbox */
     flex-direction: column; /* Ordena el contenido de arriba hacia abajo */
-    justify-content: space-between; /* Espacia uniformemente el contenido dentro de la tarjeta */
-    align-items: center; /* Centra horizontalmente el contenido */
+    justify-content: space-between; /* Espaciamos uniformemente el contenido */
+    align-items: center;
+    flex: 1; /* Todas las tarjetas tendrán el mismo tamaño */
 }
-
 .option-card:hover {
     transform: scale(1.05); /* Efecto de hover */
 }
