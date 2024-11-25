@@ -80,8 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!formValido) {
             event.preventDefault();
             alert('Por favor, complete todos los campos requeridos.');
-        } else {
-            alert('Colaborador creado exitosamente');
         }
     });
 });
