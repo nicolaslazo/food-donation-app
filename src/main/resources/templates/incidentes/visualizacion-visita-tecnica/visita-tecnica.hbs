@@ -1,0 +1,50 @@
+{{#partial "titulo"}}Reportes Visitas Técnicas - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/incidentes/visualizacion-visita-tecnica/styles.css">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main>
+        <section class="visita-tecnica-section">
+            <div class="visita-tecnica-container">
+                <h1>REPORTES DE VISITAS TÉCNICAS</h1>
+                <p>Reportes sobre tus Heladeras: </p>
+                <div class="reportes-container">
+                    {{#each visitasTecnicas}}
+                        <div class="reporte-card">
+                            <h2>{{this.incidente.heladera.nombre}}</h2>
+                            <img src="{{#if this.imagen}}{{this.imagen}}{{else}}/public/img/icono_reporte_default.png{{/if}}" alt="Imagen Reporte">
+                            <p><strong>Descripción del Incidente: </strong> {{this.incidente.descripcion}}</p>
+                            <p><strong>Fecha del Incidente: </strong> {{this.incidente.fecha}}</p>
+                            <p><strong>Fecha de la Visita: </strong> {{this.fecha}}</p>
+                            <p><strong>Descripción del Técnico: </strong>
+                                {{#if this.descripcion}}{{this.descripcion}}{{else}}No hay descripción proporcionada.{{/if}}
+                            </p>
+                            {{#if this.incidenteResuelto}}
+                                <button class="btn-resuelto">
+                                    Resuelto
+                                </button>
+                            {{else}}
+                                <button class="btn-no-resuelto">
+                                    No Resuelto
+                                </button>
+                            {{/if}}
+                        </div>
+                    {{/each}}
+                </div>
+
+            </div>
+        </section>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Copyright © 2024 Viandas Donation. Todos los derechos reservados.</p>
+{{/partial}}
+
+{{> templates/base}}
