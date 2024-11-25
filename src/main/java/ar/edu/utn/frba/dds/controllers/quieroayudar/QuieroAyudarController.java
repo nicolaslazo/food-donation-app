@@ -18,6 +18,7 @@ public class QuieroAyudarController {
     model.put("puedeCargarCSV", tienePermiso(permisos, "Cargar-CSV"));
     model.put("puedeCargarTecnico", tienePermiso(permisos, "Crear-Tecnico"));
     model.put("puedeCargarVisitaTecnica", tienePermiso(permisos, "Cargar-Visita-Tecnica"));
+    model.put("puedeVerReportesTecnicos", tienePermiso(permisos, "Cuidar-Heladera"));
 
     context.render("quieroayudar/quieroayudar.hbs", model);
   }
