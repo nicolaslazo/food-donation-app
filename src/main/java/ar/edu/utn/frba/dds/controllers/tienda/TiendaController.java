@@ -74,16 +74,12 @@ public class TiendaController {
   public void indexHistorial(Context ctx) {
     Map<String, Object> model = new HashMap<>();
 
-    // Obtén el ID del colaborador desde la sesión
     Long colaboradorId = ctx.sessionAttribute("user_id");
 
-    // Obtén los canjes del colaborador
     List<Canjeo> canjeos = canjeosRepository.findCanjeosByColaboradorId(colaboradorId);
 
-    // Formateador para la fecha
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    // Transformar los canjeos para incluir las fechas formateadas
     List<Map<String, Object>> formattedCanjeos = canjeos.stream()
         .map(canjeo -> {
           Map<String, Object> map = new HashMap<>();
@@ -95,8 +91,7 @@ public class TiendaController {
         })
         .collect(Collectors.toList());
 
-    // Agrega los datos al modelo
-    model.put("canje", formattedCanjeos); // Coincide con `{{#each canje}}` en la plantilla
+    model.put("canje", formattedCanjeos);
     model.put("categorias", Arrays.stream(RubroRecompensa.values())
         .map(Enum::name)
         .collect(Collectors.toList())); // Convierte los enums a texto
