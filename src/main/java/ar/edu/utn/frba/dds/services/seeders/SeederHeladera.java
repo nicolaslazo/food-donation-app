@@ -1,17 +1,23 @@
 package ar.edu.utn.frba.dds.services.seeders;
 
+import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.VisitaTecnica;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
+import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.CuidadoHeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.VisitasTecnicasRepository;
 
 import javax.annotation.PostConstruct;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -66,7 +72,7 @@ public class SeederHeladera {
         new CoordenadasGeograficas(-34.616728, -58.381860),
         unColaborador,
         22,
-        ZonedDateTime.now(),
+        ZonedDateTime.now().minusHours(2),
         "UADE"
     );
 
@@ -75,9 +81,20 @@ public class SeederHeladera {
     Incidente incidente = new Incidente(
         heladeraDefectuosa,
         TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR,
-        ZonedDateTime.now(),
+        ZonedDateTime.now().minusHours(1),
         unColaborador,
-        "Hace ruidos raros en algunos momentos",
+        "Hace ruidos raros en algunos momentos.",
+        null
+    );
+
+    Tecnico tecnico = new TecnicoRepository().findAll().findFirst().get();
+
+    VisitaTecnica visitaTecnica = new VisitaTecnica(
+        tecnico,
+        incidente,
+        ZonedDateTime.now(),
+        false,
+        "No tengo los repuestos necesarios.",
         null
     );
 
@@ -105,5 +122,6 @@ public class SeederHeladera {
 
     new IncidenteRepository().insert(incidente);
 
+    new VisitasTecnicasRepository().insert(visitaTecnica);
   }
 }
