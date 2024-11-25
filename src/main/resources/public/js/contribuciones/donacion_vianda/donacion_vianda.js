@@ -73,7 +73,7 @@ document.getElementById('formulario-viandas').addEventListener('submit', functio
     // Obtener los valores de los inputs de heladera y cantidad de viandas
     const latitude = document.getElementById('latitude').value;
     const longitude = document.getElementById('longitude').value;
-    const idHeladera = document.getElementById('idHeladera').value;
+    const idHeladera = parseInt(document.getElementById('idHeladera').value);
     const cantidadViandas = parseInt(document.getElementById('cantidad').value, 10);
     const form = document.getElementById('formulario-viandas');
 
@@ -86,6 +86,12 @@ document.getElementById('formulario-viandas').addEventListener('submit', functio
 
     // Buscar la heladera seleccionada por su ID
     const heladeraSeleccionada = heladeras.find(h => h.idHeladera === idHeladera);
+
+    if (!heladeraSeleccionada) {
+      event.preventDefault(); // Detener el envío del formulario
+      alert('La heladera seleccionada no se encuentra en la base de datos.');
+      return;
+    }
 
     // Verificar la capacidad de la heladera seleccionada
     if (!verificarCapacidadHeladera(cantidadViandas, heladeraSeleccionada)) {
