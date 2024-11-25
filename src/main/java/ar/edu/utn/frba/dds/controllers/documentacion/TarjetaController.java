@@ -38,6 +38,14 @@ public class TarjetaController {
     tarjetasRepository.update(tarjeta);
   }
 
+  public static void darDeAlta(@NonNull Tarjeta tarjeta, @NonNull Usuario recipiente) throws PermisoDenegadoException {
+    if (tarjetasRepository.getVigentePara(recipiente).isPresent())
+      throw new PermisoDenegadoException("Este usuario ya tiene una tarjeta asignada");
+
+    tarjeta.setEnAlta(recipiente, ZonedDateTime.now());
+    tarjetasRepository.update(tarjeta);
+  }
+
   public static void darDeBaja(@NonNull Tarjeta tarjeta, @NonNull Usuario responsable) throws PermisoDenegadoException {
     responsable
         .assertTienePermiso("Dar-Baja-Tarjetas", "Sólo administradores pueden dar tarjetas de baja");
