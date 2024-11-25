@@ -31,10 +31,14 @@ body {
     border-radius: 10px;
     margin: 20px;
     padding: 20px;
-    max-width: 300px;
+    max-width: 400px;
     text-align: center;
     transition: transform 0.3s;
     box-shadow: 0 0 5px #0006;
+}
+
+.reporte-card p {
+    text-align: start;
 }
 
 .reporte-card:hover {
@@ -42,7 +46,7 @@ body {
 }
 
 .reporte-card img {
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
     border-radius: 10px;
     object-fit: cover;
@@ -68,7 +72,12 @@ body {
     font-weight: bold;
 }
 
-.btn-opcion a {
+.btn-resuelto a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-no-resuelto a {
     color: #fff;
     text-decoration: none;
 }

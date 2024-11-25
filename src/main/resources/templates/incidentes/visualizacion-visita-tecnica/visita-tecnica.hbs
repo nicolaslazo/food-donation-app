@@ -17,27 +17,32 @@
                 <div class="reportes-container">
                     {{#each visitasTecnicas}}
                         <div class="reporte-card">
-                            <h2>{{this.incidente.heladera.nombre}}</h2>
-                            <img src="{{#if this.imagen}}{{this.imagen}}{{else}}/public/img/icono_reporte_default.png{{/if}}" alt="Imagen Reporte">
-                            <p><strong>Descripción del Incidente: </strong> {{this.incidente.descripcion}}</p>
-                            <p><strong>Fecha del Incidente: </strong> {{this.incidente.fecha}}</p>
-                            <p><strong>Fecha de la Visita: </strong> {{this.fecha}}</p>
+                            <h2>{{this.nombreHeladera}}</h2>
+                            {{#if this.imagen}}
+                                <img src="{{this.imagen}}" alt="Imagen Reporte">
+                            {{else}}
+                                <img src="/public/img/icono_reporte_default.png" alt="Imagen Reporte Default">
+                            {{/if}}
+                            <p><strong>Descripción del Incidente: </strong>
+                                {{#if this.incidenteDescripcion}}{{this.incidenteDescripcion}}{{else}}No hay descripción proporcionada.{{/if}}
+                            </p>
+                            <p><strong>Fecha del Incidente:</strong> {{this.fechaIncidente}}</p>
+                            <p><strong>Fecha de la Visita:</strong> {{this.fechaVisita}}</p>
                             <p><strong>Descripción del Técnico: </strong>
-                                {{#if this.descripcion}}{{this.descripcion}}{{else}}No hay descripción proporcionada.{{/if}}
+                                {{#if this.visitaDescripcion}}{{this.visitaDescripcion}}{{else}}No hay descripción proporcionada.{{/if}}
                             </p>
                             {{#if this.incidenteResuelto}}
                                 <button class="btn-resuelto">
-                                    Resuelto
+                                    <a>Resuelto</a>
                                 </button>
                             {{else}}
                                 <button class="btn-no-resuelto">
-                                    No Resuelto
+                                    <a>No Resuelto</a>
                                 </button>
                             {{/if}}
                         </div>
                     {{/each}}
                 </div>
-
             </div>
         </section>
     </main>

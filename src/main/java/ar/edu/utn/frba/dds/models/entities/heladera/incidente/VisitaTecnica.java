@@ -22,7 +22,6 @@ public class VisitaTecnica {
   @Column(name = "id", nullable = false, updatable = false, unique = true)
   @Id
   @GeneratedValue
-  @Getter
   Long id;
 
   @ManyToOne(targetEntity = Tecnico.class)
@@ -31,14 +30,12 @@ public class VisitaTecnica {
 
   @ManyToOne
   @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id", unique = true)
-  @Getter
   @NonNull Incidente incidente;
 
   @Column(name = "fecha", nullable = false)
   @NonNull ZonedDateTime fecha;
 
   @Column(name = "incidenteResuelto")
-  @Getter
   Boolean incidenteResuelto;
 
   @Column(name = "descripcion", length = 1000)

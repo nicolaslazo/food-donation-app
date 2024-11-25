@@ -19,27 +19,24 @@ import javax.persistence.Table;
 import java.net.URL;
 import java.time.ZonedDateTime;
 
+@Getter
 @Entity
 @Table(name = "incidente")
 public class Incidente {
   @Id
   @GeneratedValue
   @Column(name = "id", nullable = false, unique = true, updatable = false)
-  @Getter
   Long id;
 
   @ManyToOne(targetEntity = Heladera.class)
   @JoinColumn(name = "idHeladera", referencedColumnName = "id", nullable = false, updatable = false)
-  @Getter
   @NonNull Heladera heladera;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "tipo", nullable = false, updatable = false)
-  @Getter
   @NonNull TipoIncidente tipo;
 
   @Column(name = "fecha", nullable = false, updatable = false)
-  @Getter
   @NonNull ZonedDateTime fecha;
 
   @ManyToOne(fetch = FetchType.LAZY, targetEntity = Colaborador.class)
@@ -53,7 +50,7 @@ public class Incidente {
   URL imagen;
 
   @Column(name = "fechaResuelto")
-  @Getter @Setter // Si es Null, se entiende que no fue resuelto el incidente
+  @Setter // Si es Null, se entiende que no fue resuelto el incidente
   ZonedDateTime fechaResuelto;
 
   public Incidente(@NonNull Heladera heladera,
