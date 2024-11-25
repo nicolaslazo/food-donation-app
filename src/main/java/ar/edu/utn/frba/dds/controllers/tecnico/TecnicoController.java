@@ -60,11 +60,9 @@ public class TecnicoController {
   public void index(Context context) {
     Map<String, Object> model = context.attribute("model");
 
-    // Recupero heladeras
     HeladerasRepository heladerasRepository = new HeladerasRepository();
     List<Heladera> heladeras = heladerasRepository.findAll().toList();
 
-    // Tomo información de las heladeras.
     List<Map<String, Object>> heladerasData = heladeras.stream().map(heladera -> {
       Map<String, Object> heladeraData = new HashMap<>();
       heladeraData.put("idHeladera", heladera.getId());
@@ -76,7 +74,6 @@ public class TecnicoController {
     }).collect(Collectors.toList());
 
     model.put("heladeras", heladerasData);
-
     context.render("agregartecnico/agregartecnico.hbs", model);
   }
 

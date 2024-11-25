@@ -1,53 +1,63 @@
-// Inicializar el mapa en el div con id 'map' y centrarlo en unas coordenadas
-var map = L.map('map').setView([-34.6037, -58.3816], 13); // Coordenadas de Buenos Aires con zoom nivel 13
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 18,
-}).addTo(map);
-
-let currentMarker = null;
-let currentCircle = null;
-
-map.on('click', function (e) {
-    const lat = e.latlng.lat;
-    const lng = e.latlng.lng;
-
-    document.getElementById('latitude').value = lat;
-    document.getElementById('longitude').value = lng;
-    document.getElementById('radius').disabled = false;
-
-    if (currentMarker) map.removeLayer(currentMarker);
-    if (currentCircle) map.removeLayer(currentCircle);
-
-    currentMarker = L.marker([lat, lng]).addTo(map);
-    actualizarRadio();
-});
-
-function actualizarRadio() {
-    const radiusInKm = document.getElementById('radius').value;
-    if (!radiusInKm || !currentMarker) return;
-
-    const radiusInMeters = radiusInKm * 1000;
-    if (currentCircle) map.removeLayer(currentCircle);
-
-    const markerLatLng = currentMarker.getLatLng();
-    currentCircle = L.circle([markerLatLng.lat, markerLatLng.lng], {
-        color: 'blue',
-        fillColor: '#a0d6ff',
-        fillOpacity: 0.3,
-        radius: radiusInMeters,
-    }).addTo(map);
-}
 
 // Manejo del formulario
 document.querySelector('.form-container').addEventListener('submit', async function (event) {
-    event.preventDefault(); // Prevenir el envío del formulario por defecto
+    event.preventDefault(); // Prevenir el envío por defecto
 
     const form = event.target;
-    const formData = new FormData(form);
+    let formIsValid = true;
 
+    // Obtener la fecha de nacimiento
+    const dob = document.getElementById('dob').value;
+    const dobError = document.getElementById('dob-error');
+    const currentDate = new Date();
+    const birthDate = new Date(dob);
+
+    const age = currentDate.getFullYear() - birthDate.getFullYear();
+    const isBirthdayPassed =
+        currentDate.getMonth() > birthDate.getMonth() ||
+        (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() >= birthDate.getDate());
+
+    if (age < 18 || (age === 18 && !isBirthdayPassed)) {
+        dobError.textContent = 'Debes tener al menos 18 años para registrarte.';
+        dobError.style.display = 'block'; // Mostrar mensaje de error
+        formIsValid = false;
+    } else {
+        dobError.style.display = 'none'; // Ocultar mensaje de error
+    }
+
+    // Validar formato de DNI
+    const documento = document.getElementById('numero-documento').value;
+    const documentoError = document.getElementById('documento-error');
+    const dniRegex = /^[\d]{1,3}\.?[\d]{3}\.?[\d]{3}$/;
+
+    if (!dniRegex.test(documento)) {
+        documentoError.textContent = 'El número de documento no es válido. Debe seguir el formato argentino.';
+        documentoError.style.display = 'block'; // Mostrar error
+        formIsValid = false;
+    } else {
+        documentoError.style.display = 'none'; // Ocultar error
+    }
+
+    // Validar CUIT
+    const cuil = document.getElementById('cuil').value;
+    const cuilError = document.getElementById('cuil-error');
+    const cuitRegex = /^([0-9]{11}|[0-9]{2}-[0-9]{8}-[0-9]{1})$/;
+
+    if (!cuitRegex.test(cuil)) {
+        cuilError.textContent = 'El CUIT no es válido. Debe seguir el formato correcto.';
+        cuilError.style.display = 'block'; // Mostrar error
+        formIsValid = false;
+    } else {
+        cuilError.style.display = 'none'; // Ocultar error
+    }
+
+    if (!formIsValid) {
+        return; // No enviar el formulario si hay errores
+    }
+
+    // Si todo está correcto, enviar el formulario
     try {
+        const formData = new FormData(form);
         const response = await fetch(form.action, {
             method: 'POST',
             body: formData,
@@ -77,4 +87,3 @@ document.getElementById('closeModal').addEventListener('click', function () {
     const modal = document.getElementById('errorModal');
     modal.style.display = 'none';
 });
-
