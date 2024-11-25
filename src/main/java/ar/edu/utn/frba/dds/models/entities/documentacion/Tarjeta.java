@@ -71,6 +71,14 @@ public class Tarjeta {
     this.fechaAlta = timestamp;
   }
 
+  public void setEnAlta(@NonNull Usuario recipiente, @NonNull ZonedDateTime timestamp)
+          throws PermisoDenegadoException {
+    if (this.fechaAlta != null) throw new PermisoDenegadoException("Esta tarjeta ya está en alta");
+
+    this.recipiente = recipiente;
+    this.fechaAlta = timestamp;
+  }
+
   public void setDeBaja(@NonNull Usuario quien, @NonNull ZonedDateTime timestamp) throws PermisoDenegadoException {
     assertEstaVigente();
 
