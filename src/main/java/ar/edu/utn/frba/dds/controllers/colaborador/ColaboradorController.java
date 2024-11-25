@@ -143,13 +143,13 @@ public class ColaboradorController {
 
   public void notificarColaborador(Usuario usuario, String mensaje) {
     new ContactosRepository()
-      .get(usuario)
-      .forEach(contacto -> {
-        try {
-          contacto.enviarMensaje(mensaje);
-        } catch (MensajeAContactoException e) {
-          throw new RuntimeException("Error al enviar mensaje al contacto: " + contacto, e);
-        }
-      });
+        .get(usuario)
+        .forEach(contacto -> {
+          try {
+            contacto.enviarMensaje(mensaje);
+          } catch (MensajeAContactoException e) {
+            throw new RuntimeException("Error al enviar mensaje al contacto: " + contacto, e);
+          }
+        });
   }
 }
