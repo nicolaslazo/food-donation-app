@@ -83,8 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!formValido) {
             alert('Por favor, complete todos los campos requeridos.');
-        } else {
-            this.submit(); // Envía el formulario si es válido
         }
     });
 });
