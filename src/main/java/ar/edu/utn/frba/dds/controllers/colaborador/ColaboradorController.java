@@ -102,7 +102,7 @@ public class ColaboradorController {
       context.json(Map.of(
           "message", "Cuenta registrada con éxito! Redirigiendo en tres segundos...",
           "success", true,
-          "urlRedireccion", "/",
+          "urlRedireccion", "/colaborador/login",
           "demoraRedireccionEnSegundos", 3
       ));
     } catch (Exception e) {
