@@ -29,10 +29,9 @@ public class VisitaTecnicaController {
 
     Colaborador colaboradorResponsable = new ColaboradorRepository().findById(context.sessionAttribute("user_id")).get();
 
-    List<Map<String, Object>> visitasTecnicasData;
-
     List<VisitaTecnica> reportesVisitasTecnicas = new VisitasTecnicasRepository().findAllVisitasTecnicas(colaboradorResponsable).toList();
 
+    List<Map<String, Object>> visitasTecnicasData;
     visitasTecnicasData = reportesVisitasTecnicas.stream().map(visitaTecnica -> {
       Map<String, Object> visitaTecnicaData = new HashMap<>();
       visitaTecnicaData.put("nombreHeladera", visitaTecnica.getIncidente().getHeladera().getNombre());
