@@ -40,65 +40,77 @@ public class ColaboradorController {
   }
 
   public void create(Context context) {
-    Colaborador colaborador;
-    String documento = context.formParam("documento");
+    try {
+      Colaborador colaborador;
+      String documento = context.formParam("documento");
 
-    String emailString;
-    if (documento != null && !documento.isBlank()) { // Es una persona física
-      colaborador = new Colaborador(
-          new Documento(TipoDocumento.fromString(context.formParam("tipoDocumento")), Integer.parseInt(documento)),
-          context.formParam("primerNombre"),
-          context.formParam("apellido"),
-          LocalDate.parse(context.formParam("fechaNacimiento")),
-          null,
-          context.formParam("password"),
-          new RolesRepository().findByName("COLABORADORFISICO").get()
-      );
-      emailString = context.formParam("email");
-    } else { // Es una persona jurídica
-      colaborador = new Colaborador(
-          new Documento(TipoDocumento.CUIT, Integer.parseInt(context.formParam("cuit"))),
-          TipoPersonaJuridica.fromString(context.formParam("tipoPersonaJuridica")),
-          context.formParam("razonSocial"),
-          // LocalDate.parse(context.formParam("fechaCreacion")),  TODO: No tenemos un campo para la fecha de creación
-          null,
-          context.formParam("password")
-      );
-      emailString = context.formParam("emailJuridico");
+      String emailString;
+      if (documento != null && !documento.isBlank()) { // Es una persona física
+        colaborador = new Colaborador(
+                new Documento(TipoDocumento.fromString(context.formParam("tipoDocumento")), Integer.parseInt(documento)),
+                context.formParam("primerNombre"),
+                context.formParam("apellido"),
+                LocalDate.parse(context.formParam("fechaNacimiento")),
+                null,
+                context.formParam("password"),
+                new RolesRepository().findByName("COLABORADORFISICO").get()
+        );
+        emailString = context.formParam("email");
+      } else { // Es una persona jurídica
+        colaborador = new Colaborador(
+                new Documento(TipoDocumento.CUIT, Integer.parseInt(context.formParam("cuit"))),
+                TipoPersonaJuridica.fromString(context.formParam("tipoPersonaJuridica")),
+                context.formParam("razonSocial"),
+                // LocalDate.parse(context.formParam("fechaCreacion")),  TODO: No tenemos un campo para la fecha de creación
+                null,
+                context.formParam("password")
+        );
+        emailString = context.formParam("emailJuridico");
+      }
+
+      new ColaboradorRepository().insert(colaborador);
+
+      Email email = new Email(colaborador.getUsuario(), emailString);
+      new ContactosRepository().insert(email);
+
+      String pais = context.formParam("pais");
+      if (pais != null && !pais.isBlank()) {  // Hay una dirección definida
+        DireccionResidencia residencia = new DireccionResidencia(
+                colaborador.getUsuario(),
+                context.formParam("unidad"),
+                context.formParam("piso"),
+                context.formParam("altura"),
+                context.formParam("calle"),
+                context.formParam("codigoPostal"),
+                context.formParam("ciudad"),
+                context.formParam("provincia"),
+                pais
+        );
+        new DireccionResidenciaRepository().insert(residencia);
+      }
+
+      context.sessionAttribute("user_id", colaborador.getId());
+      context.sessionAttribute("permisos",
+              new PermisosRepository().findAll(colaborador.getUsuario()).toList());
+
+      if (colaborador.getUsuario().tienePermiso("Abrir-Heladera-Contribucion")) {
+        asignarTarjetaAlimentaria(colaborador.getUsuario());
+      } else {
+        notificarColaborador(colaborador.getUsuario(), plantillaMailEntregaTarjetas);
+      }
+
+      context.json(Map.of(
+          "message", "Cuenta registrada con éxito! Redirigiendo en tres segundos...",
+          "success", true,
+          "urlRedireccion", "/",
+          "demoraRedireccionEnSegundos", 3
+      ));
+    } catch (Exception e) {
+      context.json(Map.of(
+          "message", "Contraseña incorrecta o usuario no encontrado",
+          "success", false
+      ));
     }
-
-    new ColaboradorRepository().insert(colaborador);
-
-    Email email = new Email(colaborador.getUsuario(), emailString);
-    new ContactosRepository().insert(email);
-
-    String pais = context.formParam("pais");
-    if (pais != null && !pais.isBlank()) {  // Hay una dirección definida
-      DireccionResidencia residencia = new DireccionResidencia(
-          colaborador.getUsuario(),
-          context.formParam("unidad"),
-          context.formParam("piso"),
-          context.formParam("altura"),
-          context.formParam("calle"),
-          context.formParam("codigoPostal"),
-          context.formParam("ciudad"),
-          context.formParam("provincia"),
-          pais
-      );
-      new DireccionResidenciaRepository().insert(residencia);
-    }
-
-    context.sessionAttribute("user_id", colaborador.getId());
-    context.sessionAttribute("permisos",
-            new PermisosRepository().findAll(colaborador.getUsuario()).toList());
-
-    if (colaborador.getUsuario().tienePermiso("Abrir-Heladera-Contribucion")) {
-      asignarTarjetaAlimentaria(colaborador.getUsuario());
-    } else {
-      notificarColaborador(colaborador.getUsuario(), plantillaMailEntregaTarjetas);
-    }
-
-    context.redirect("/");
   }
 
   private void asignarTarjetaAlimentaria(Usuario usuario) {
