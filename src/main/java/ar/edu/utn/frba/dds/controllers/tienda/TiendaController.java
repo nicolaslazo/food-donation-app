@@ -65,4 +65,10 @@ public class TiendaController {
 
     canjeosRepository.insert(new Canjeo(colaborador, recompensa, ZonedDateTime.now()));
   }
+
+  public void indexHistorial(Context ctx) {
+    Map<String, Object> model = ctx.attribute("model");
+
+    ctx.render("tienda/historial.hbs", model);
+  }
 }

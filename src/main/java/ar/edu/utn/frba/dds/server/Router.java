@@ -114,6 +114,7 @@ public class Router {
     app.post("/tienda/recompensas/admin", new TiendaController()::crearRecompensa, permisoAdministrarRecompensas);
     app.get("/tienda/recompensas", new TiendaController()::indexRecompensas, permisoCanjearProductos);
     app.post("/tienda/recompensas/{id}", new TiendaController()::canjearRecompensa, permisoCanjearProductos);
+    app.get("/tienda/historial", new TiendaController()::indexHistorial, permisoCanjearProductos);
 
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
