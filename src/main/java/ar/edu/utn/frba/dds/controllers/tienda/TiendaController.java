@@ -71,15 +71,14 @@ public class TiendaController {
     canjeosRepository.insert(new Canjeo(colaborador, recompensa, ZonedDateTime.now()));
   }
 
-  public void indexHistorial(Context ctx) {
-    Map<String, Object> model = new HashMap<>();
+  public void indexHistorial(Context context) {
+    Map<String, Object> model = context.attribute("model");
 
-    Long colaboradorId = ctx.sessionAttribute("user_id");
+    Long colaboradorId = context.sessionAttribute("user_id");
 
     List<Canjeo> canjeos = canjeosRepository.findCanjeosByColaboradorId(colaboradorId);
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
     List<Map<String, Object>> formattedCanjeos = canjeos.stream()
         .map(canjeo -> {
           Map<String, Object> map = new HashMap<>();
@@ -94,9 +93,11 @@ public class TiendaController {
     model.put("canje", formattedCanjeos);
     model.put("categorias", Arrays.stream(RubroRecompensa.values())
         .map(Enum::name)
-        .collect(Collectors.toList())); // Convierte los enums a texto
+        .collect(Collectors.toList()));
 
-    ctx.render("tienda/historial.hbs", model);
+    context.attribute("model", model); 
+    context.render("tienda/historial.hbs", model);
   }
+
 
 }
