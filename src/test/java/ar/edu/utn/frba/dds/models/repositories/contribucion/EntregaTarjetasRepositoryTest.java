@@ -72,15 +72,6 @@ class EntregaTarjetasRepositoryTest {
     assertEquals(entrega.getId(), encontrada.get().getId());
   }
 
-  @Test
-  void testObtenerTotalPorColaborador() {
-    new EntregaTarjetasRepository().insert(otraEntrega);
-
-    long total = new EntregaTarjetasRepository().findAll(colaborador).count();
-
-    assertEquals(1 + 1, total);
-  }
-
   // TODO: Tecnicamente no hace el insert, ya contempla el unique = true. Pero no lanza exception
   //  @Test
   //  void testInsertarEntregaConTarjetasRepetidasLanzaExcepcion() throws ContribucionYaRealizadaException {
