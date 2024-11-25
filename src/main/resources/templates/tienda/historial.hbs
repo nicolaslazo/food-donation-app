@@ -14,6 +14,7 @@
 {{#partial "contenido"}}
     <main>
         <div class="points-container">
+            <h1> Historial Canjes</h1>
             <label for="category-filter">Filtrar por categoría:</label>
             <select id="category-filter" onchange="filtrarPorCategoria()">
                 <option value="todos"></option>
@@ -25,13 +26,14 @@
             <div class="services-list">
                 <p id="no-services-message">No hay producto de este rubro</p>
                 <div id="services-container">
-                    {{#each recompensas}}
+                    {{#each canje}}
                         <div class="service-item" data-categoria="{{this.rubro}}">
                             <img src="https://via.placeholder.com/100" alt="Servicio 3">
                             <div class="service-info">
                                 <h3>{{this.nombre}}</h3>
                                 <p>Valor en Puntos: {{this.costoEnPuntos}}</p>
                                 <p>Categoría: {{this.rubro}}</p>
+                                <p>Fecha: {{this.fecha}}</p>
                             </div>
                         </div>
                     {{/each}}

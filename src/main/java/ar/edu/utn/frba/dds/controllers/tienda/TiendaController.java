@@ -18,6 +18,7 @@ public class TiendaController {
   ColaboradorRepository colaboradorRepository = new ColaboradorRepository();
   RecompensasRepository recompensaRepository = new RecompensasRepository();
 
+
   public void index(Context context) {
     Map<String, Object> model = context.attribute("model");
 
@@ -69,6 +70,9 @@ public class TiendaController {
   public void indexHistorial(Context ctx) {
     Map<String, Object> model = ctx.attribute("model");
 
+    List<Canjeo> canjeo = canjeosRepository.findCanjeosByColaboradorId(ctx.sessionAttribute("user_id"));
+    model.put("canje", canjeo);
+    model.put("categorias", RubroRecompensa.values());
     ctx.render("tienda/historial.hbs", model);
   }
 }
