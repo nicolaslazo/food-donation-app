@@ -201,8 +201,8 @@ public class SeederUsuarios {
     new TarjetasRepository().insertAll(Set.of(tarjetaAdmin, tarjetaFraudulento, tarjeta3, tarjetaVulnerable));
 
     // ------ RECOMPENSAS -------
-    Recompensa recompensa1 = new Recompensa("Auriculares", colaboradorJuridico, 100L, 10, RubroRecompensa.ELECTRONICA, null);
-    Recompensa recompensa2 = new Recompensa("PC GAMER", colaboradorJuridico, 300L, 3, RubroRecompensa.ELECTRONICA, null);
+    Recompensa recompensa1 = new Recompensa("AURICULARES", colaboradorJuridico, 100L, 10, RubroRecompensa.ELECTRONICA, null);
+    Recompensa recompensa2 = new Recompensa("PC GAMER ÚNICA", colaboradorJuridico, 200L, 1, RubroRecompensa.ELECTRONICA, null);
     Recompensa recompensa3 = new Recompensa("TV", colaboradorJuridicoAdministrador, 400L, 10, RubroRecompensa.ENTRETENIMIENTO, null);
     new RecompensasRepository().insert(recompensa1);
     new RecompensasRepository().insert(recompensa2);
