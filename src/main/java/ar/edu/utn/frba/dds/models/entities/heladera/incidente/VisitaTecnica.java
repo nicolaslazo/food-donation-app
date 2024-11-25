@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import java.net.URL;
 import java.time.ZonedDateTime;
 
+// TODO: Hubiese estado copado desnormalizar la heladera y tenerla directamente en la visita técnica.
 @Entity
 @Table(name = "visitaTecnica")
 @Getter
