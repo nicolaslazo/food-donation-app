@@ -30,15 +30,19 @@ public class TarjetasRepository extends HibernateEntityManager<Tarjeta, UUID> {
     return em.createQuery(query).setMaxResults(1).getResultStream().findFirst();
   }
 
-  public Optional<Tarjeta> findByRecipiente(Usuario usuario) {
-    EntityManager em = entityManager();
-    CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery<Tarjeta> query = cb.createQuery(Tarjeta.class);
-    Root<Tarjeta> root = query.from(Tarjeta.class);
+  public Optional<Tarjeta> findActivaByRecipiente(Usuario usuario) {
+      EntityManager em = entityManager();
+      CriteriaBuilder cb = em.getCriteriaBuilder();
+      CriteriaQuery<Tarjeta> query = cb.createQuery(Tarjeta.class);
+      Root<Tarjeta> root = query.from(Tarjeta.class);
 
-    query.select(root)
-            .where(cb.equal(root.get("recipiente"), usuario));
+      Predicate recipientePredicate = cb.equal(root.get("recipiente"), usuario);
+      Predicate fechaAltaNotNullPredicate = cb.isNotNull(root.get("fechaAlta"));
+      Predicate fechaBajaNullPredicate = cb.isNull(root.get("fechaBaja"));
 
-    return em.createQuery(query).setMaxResults(1).getResultStream().findFirst();
+      query.select(root)
+          .where(cb.and(recipientePredicate, fechaAltaNotNullPredicate, fechaBajaNullPredicate));
+
+      return em.createQuery(query).setMaxResults(1).getResultStream().findFirst();
   }
 }
