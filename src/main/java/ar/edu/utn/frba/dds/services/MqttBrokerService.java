@@ -35,7 +35,7 @@ public class MqttBrokerService {
   }
 
   public static MqttBrokerService getInstancia() throws MqttException {
-    if (instancia == null) {
+    if (instancia == null || !instancia.mqttClient.isConnected()) {
       instancia = new MqttBrokerService();
     }
 
