@@ -94,8 +94,7 @@ public class TiendaController {
     model.put("categorias", Arrays.stream(RubroRecompensa.values())
         .map(Enum::name)
         .collect(Collectors.toList()));
-
-    context.attribute("model", model);
+    
     context.render("tienda/historial.hbs", model);
   }
 
