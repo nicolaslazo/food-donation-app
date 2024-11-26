@@ -8,6 +8,7 @@ import ar.edu.utn.frba.dds.models.entities.users.Usuario;
 import ar.edu.utn.frba.dds.models.repositories.HibernateEntityManager;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -35,6 +36,23 @@ public class UsuariosRepository extends HibernateEntityManager<Usuario, Long> {
 
     //Realizo la query
     return em.createQuery(query).getSingleResult();
+  }
+
+  public Usuario findByEmail(String email) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Usuario> query = cb.createQuery(Usuario.class);
+    Root<Usuario> root = query.from(Usuario.class);
+    Join<Usuario, Contacto> contactoJoin = root.join("contactos");
+
+    query.select(root)
+        .where(cb.equal(contactoJoin.get("destinatario"), email));
+
+    try {
+      return em.createQuery(query).getSingleResult();
+    } catch (NoResultException e) {
+      return null;
+    }
   }
 
   public Stream<Usuario> findFraudulentosActivos() {

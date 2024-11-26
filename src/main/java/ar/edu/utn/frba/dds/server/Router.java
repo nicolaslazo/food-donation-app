@@ -96,6 +96,7 @@ public class Router {
     // Técnico
     app.before("/tecnico/crear", new AuthMiddleware());
     app.get("/tecnico/crear", new TecnicoController()::index, permisoCrearTecnico);
+    app.post("/tecnico/crear", new TecnicoController()::create, permisoCrearTecnico);
 
     // Contribucion/*
     app.before("/contribucion/*", new AuthMiddleware());

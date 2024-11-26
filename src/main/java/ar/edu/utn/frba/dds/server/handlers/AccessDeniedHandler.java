@@ -12,7 +12,7 @@ public class AccessDeniedHandler implements IHandler {
     app.exception(PermisoDenegadoException.class, (e, context) -> {
       Map<String, Object> model = context.attribute("model");
       context.status(401);
-      context.render("401.hbs", model);
+      context.render("errorMailRepetido.hbs", model);
     });
   }
 }

@@ -1,66 +1,89 @@
-// Inicializar el mapa en el div con id 'map' y centrarlo en unas coordenadas (por ejemplo, Buenos Aires)
-var map = L.map('map').setView([-34.6037, -58.3816], 13); // Coordenadas de Buenos Aires con zoom nivel 13
 
-// Cargar y añadir una capa de mapa desde OpenStreetMap
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 18,
-}).addTo(map);
+// Manejo del formulario
+document.querySelector('.form-container').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Prevenir el envío por defecto
 
-// Variables para almacenar el marcador y el círculo actual
-var currentMarker = null;
-var currentCircle = null;
+    const form = event.target;
+    let formIsValid = true;
 
-// Cuando se hace clic en el mapa, actualizar los campos de latitud y longitud
-map.on('click', function(e) {
-    var lat = e.latlng.lat;
-    var lng = e.latlng.lng;
-    // Actualizar los campos ocultos con la latitud y longitud seleccionadas
-    document.getElementById('latitude').value = lat;
-    document.getElementById('longitude').value = lng;
-    // Habilitar el campo de radio
-    document.getElementById('radius').disabled = false;
+    // Obtener la fecha de nacimiento
+    const dob = document.getElementById('dob').value;
+    const dobError = document.getElementById('dob-error');
+    const currentDate = new Date();
+    const birthDate = new Date(dob);
 
-    // Si ya existe un marcador, eliminarlo
-    if (currentMarker) {
-        map.removeLayer(currentMarker);
+    const age = currentDate.getFullYear() - birthDate.getFullYear();
+    const isBirthdayPassed =
+        currentDate.getMonth() > birthDate.getMonth() ||
+        (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() >= birthDate.getDate());
+
+    if (age < 18 || (age === 18 && !isBirthdayPassed)) {
+        dobError.textContent = 'Debes tener al menos 18 años para registrarte.';
+        dobError.style.display = 'block'; // Mostrar mensaje de error
+        formIsValid = false;
+    } else {
+        dobError.style.display = 'none'; // Ocultar mensaje de error
     }
 
-    // Si ya existe un círculo, eliminarlo
-    if (currentCircle) {
-        map.removeLayer(currentCircle);
+    // Validar formato de DNI
+    const documento = document.getElementById('numero-documento').value;
+    const documentoError = document.getElementById('documento-error');
+    const dniRegex = /^[\d]{1,3}\.?[\d]{3}\.?[\d]{3}$/;
+
+    if (!dniRegex.test(documento)) {
+        documentoError.textContent = 'El número de documento no es válido. Debe seguir el formato argentino.';
+        documentoError.style.display = 'block'; // Mostrar error
+        formIsValid = false;
+    } else {
+        documentoError.style.display = 'none'; // Ocultar error
     }
 
-    // Añadir un nuevo marcador en la ubicación clicada y guardarlo en la variable
-    currentMarker = L.marker([lat, lng]).addTo(map);
-    // Llamar a la función para actualizar el radio cuando se coloca un nuevo marcador
-    actualizarRadio();
+    // Validar CUIT
+    const cuil = document.getElementById('cuil').value;
+    const cuilError = document.getElementById('cuil-error');
+    const cuitRegex = /^([0-9]{11}|[0-9]{2}-[0-9]{8}-[0-9]{1})$/;
+
+    if (!cuitRegex.test(cuil)) {
+        cuilError.textContent = 'El CUIT no es válido. Debe seguir el formato correcto.';
+        cuilError.style.display = 'block'; // Mostrar error
+        formIsValid = false;
+    } else {
+        cuilError.style.display = 'none'; // Ocultar error
+    }
+
+    if (!formIsValid) {
+        return; // No enviar el formulario si hay errores
+    }
+
+    // Si todo está correcto, enviar el formulario
+    try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            if (errorMessage.includes("El correo ya está registrado.")) {
+                mostrarModalError("El correo ingresado ya está registrado.");
+            }
+        } else {
+            window.location.href = "/quiero-ayudar"; // Redirigir si todo está correcto
+        }
+    } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+    }
 });
 
-// Función para actualizar el radio cuando el usuario ingresa el valor
-function actualizarRadio() {
-    var radiusInKm = document.getElementById('radius').value;
-    if (!radiusInKm || !currentMarker) {
-        return;
-    }
-    var radiusInMeters = radiusInKm * 1000; // Convertir de kilómetros a metros
-
-    // Si ya existe un círculo, eliminarlo
-    if (currentCircle) {
-        map.removeLayer(currentCircle);
-    }
-
-    // Obtener las coordenadas del marcador
-    var markerLatLng = currentMarker.getLatLng();
-
-    // Añadir un círculo alrededor del marcador con el radio dado en metros
-    currentCircle = L.circle([markerLatLng.lat, markerLatLng.lng], {
-        color: 'blue',       // Color del borde
-        fillColor: '#a0d6ff', // Color de relleno
-        fillOpacity: 0.3,     // Opacidad del relleno
-        radius: radiusInMeters // Radio en metros
-    }).addTo(map);
+function mostrarModalError(mensaje) {
+    const modal = document.getElementById('errorModal');
+    const modalMessage = document.getElementById('modalMessage');
+    modalMessage.textContent = mensaje;
+    modal.style.display = 'block';
 }
 
-// Agregar evento de cambio al input de radio
-document.getElementById('radius').addEventListener('input', actualizarRadio);
+document.getElementById('closeModal').addEventListener('click', function () {
+    const modal = document.getElementById('errorModal');
+    modal.style.display = 'none';
+});

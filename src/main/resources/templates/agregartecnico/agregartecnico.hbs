@@ -7,14 +7,33 @@
 {{/partial}}
 {{#partial "scripts"}}
     <script src="/public/js/sticky_nav_bar.js" defer></script>
+    <script src="/public/js/agregartecnico/mapa.js" defer></script>
     <script src="/public/js/agregartecnico/script.js" defer></script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <!-- Leaflet PinSearch -->
     <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+    <script>
+        let heladeras = [{{#each heladeras}}
+        {
+            idHeladera: {{this.idHeladera}},
+            lat: {{this.lat}},
+            long: {{this.long}},
+            nombre: "{{this.nombre}}",
+            capacidadDisponible: {{this.capacidadDisponible}}
+        } {{#unless @last}},{{/unless}}
+    {{/each}}];
+    </script>
 {{/partial}}
 {{#partial "contenido"}}
     <main>
+        <div id="errorModal" class="modal hidden">
+            <div class="modal-content">
+                <p id="modalMessage">El correo ingresado ya está registrado.</p>
+                <span id="closeModal" class="btn-login"> CERRAR</span>
+                <p id="modalMessage"></p>
+            </div>
+        </div>
         <div class="container">
             <div class="title">REGISTRAR TÉCNICO</div>
             <form method="post" action="/tecnico/crear" class="form-container">
@@ -29,18 +48,25 @@
                     </label>
                     <label class="input-box">Tipo de Documento
                         <select id="documento" name="documento" required>
-                            <option value="dni">DNI</option>
-                            <option value="lc">LIBRETA CIVICA</option>
-                            <option value="le">LIBRETA DE ENROLAMIENTO</option>
+                            <option value="DNI">DNI</option>
+                            <option value="LC">LIBRETA CIVICA</option>
+                            <option value="LE">LIBRETA DE ENROLAMIENTO</option>
                         </select>
                     </label>
                     <label class="input-box">
                         Número Documento
                         <input type="number" id="numero-documento" name="numeroDocumento" required>
+                        <span class="error-message" id="documento-error"></span>
                     </label>
                     <label class="input-box" for="surname">
                         CUIL
                         <input type="number" id="cuil" name="cuil" required>
+                        <span class="error-message" id="cuil-error"></span>
+                    </label>
+                    <label class="input-box">
+                        Fecha de Nacimiento
+                        <input type="date" id="dob" name="dob" required>
+                        <span class="error-message" id="dob-error"></span>
                     </label>
                     <label class="input-box">
                         Contacto de Email
@@ -50,6 +76,7 @@
                         Contraseña acceso a Viandas Donation
                         <input type="password" id="password" name="password" required>
                     </label>
+
                     <label class="input-box">
                         Contacto de Telegram (opcional)
                         <input type="number" id="contacto" name="TelegramContacto">
