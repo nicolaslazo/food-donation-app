@@ -75,21 +75,38 @@
                     <div class="contribucion-info">
                         <h2>Distribuir Viandas</h2>
                         <p>
-                            Puedes contribuir distribuyendo viandas entre heladeras, ya sea por fallas técnicas, por poco
-                            espacio disponible, entre otras.
+                            Puedes contribuir distribuyendo viandas entre heladeras, ya sea por fallas técnicas, por poco espacio disponible, entre otras.
                             La principal funcion es poder trasladar en tiempo y forma a otra heladera. Para ello, te debes
-                            de suscribir a la heladera
-                            que desees brindar soporte.
+                            de suscribir a la heladera que desees brindar soporte.
                         </p>
                         <div class="btn-container">
                             <button class="btn-contribuir-ahora">
-                                <a href="/contribucion/redistribucion-vianda">Contribuir Ahora</a>
+                                <a href="/contribucion/solicitud-tarjetas">Contribuir Ahora</a>
                             </button>
                         </div>
                     </div>
                     <div class="contribucion-image">
                         <img src="/public/img/formas_colaboracion/viandas_traslado.jpg"
                              alt="Imagen de un traslado de viandas">
+                    </div>
+                </div>
+            {{/if}}
+            {{#if puedeSolicitarTarjetas}}
+                <div class="contribucion">
+                    <div class="contribucion-info">
+                        <h2>Solicitar Tarjetas Alimentarias</h2>
+                        <p>
+                            Como colaborador puedes solicitar hasta 10 tarjetas para entregar a Personas
+                            Vulnerables que no hayan sido ingresadas en el Sistema.
+                        </p>
+                        <div class="btn-container">
+                            <button class="btn-contribuir-ahora">
+                                <a href="/contribucion/entrega-tarjetas">Contribuir Ahora</a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="contribucion-image">
+                        <img src="/public/img/formas_colaboracion/icono_tarjetas.webp" alt="Icono de Entrega Tarjetas">
                     </div>
                 </div>
             {{/if}}
