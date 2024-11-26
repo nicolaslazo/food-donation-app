@@ -128,13 +128,17 @@ public class SessionController {
         if (usuario.getRoles().contains(new Rol("PERSONAVULNERABLE"))) {
           context.sessionAttribute("esPersonaVulnerable", true);
         }
+      }
+
+      if (context.sessionAttribute("esPersonaVulnerable")) {
         context.json(Map.of(
                 "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
                 "success", true,
                 "urlRedireccion", "/mapa",
                 "demoraRedireccionEnSegundos", 3
         ));
-      } else { // Si no es persona vulnerable, sigue el flujo normal
+      } else {
+        // Si no es persona vulnerable, sigue el flujo normal
         context.json(Map.of(
                 "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
                 "success", true,
