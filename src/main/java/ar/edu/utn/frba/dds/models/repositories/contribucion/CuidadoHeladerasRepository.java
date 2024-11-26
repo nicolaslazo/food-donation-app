@@ -22,6 +22,29 @@ public class CuidadoHeladerasRepository extends HibernateEntityManager<CuidadoHe
         .setParameter("currentDate", ZonedDateTime.now())
         .getSingleResult();
 
-    return res != null ? (long) res.doubleValue() : 0;
+    // Hago esto para que no sea absorbente si da 0.
+    // Esto pasa cuando recien te haces cargo de una Heladera y no tiene meses activos acumulados
+    // Pero en si, suma la cantidad de heladeras aportadas por el colaborador
+    if ((res >= 0 && res < 1) || res == null) {
+      res = 1D;
+    }
+
+    return (long) res.doubleValue();
   }
+
+  public int getTotal(Colaborador colaborador) {
+    String jpql = """
+        SELECT COUNT(ch)
+        FROM CuidadoHeladera ch
+        WHERE ch.colaborador = :colaborador
+        """;
+
+    Long result = entityManager()
+            .createQuery(jpql, Long.class)
+            .setParameter("colaborador", colaborador)
+            .getSingleResult();
+
+    return result != null ? result.intValue() : 0;
+  }
+
 }

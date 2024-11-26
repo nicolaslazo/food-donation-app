@@ -1,0 +1,309 @@
+.btn-clear {
+    display: flex;
+    flex-flow: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+#clear {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+#resultadosBusqueda {
+    display: none;
+}
+
+/* MAIN SECTION */
+
+.main__container {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px; /* Añadimos un espacio entre las columnas */
+}
+
+/* FORM SECTION */
+
+.form__container {
+    grid-column: 1/2;
+    background-color: #f2f2f2;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    align-content: center;
+    border-radius: 20px;
+    width: 80%;
+    justify-self: center;
+    box-shadow: 0 0 10px #0006;
+}
+
+.form-title {
+    font-weight: bold;
+    padding: 10px 20px;
+    background: #C0392B;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.form__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+}
+
+h3 {
+    text-align: center;
+}
+
+.heladera-details-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 10px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input-box input {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #000;
+}
+
+.input-box input:focus {
+    outline: solid 1px #2980B9;
+    border: solid 1px transparent;
+}
+
+.btn-clear button {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px #C0392B;
+    background-color: #E74C3C;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-clear button:hover {
+    background-color: #C0392B;
+}
+
+.submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.submit-button input {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+/* MAP SECTION */
+
+#map {
+    border-radius: 20px;
+    border: solid 1px #0006;
+    min-height: 400px;
+    min-width: 400px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 1.5em;
+    pointer-events: none;
+    margin: 5px 0;
+}
+
+/* ASIDE SECTION */
+
+aside {
+    grid-column: 2/3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.aside-container {
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    width: 80%;
+    box-shadow: 0 0 10px #0006;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-login-vulnerable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2980B9;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bolder;
+    text-align: center;
+    margin: 10px;
+}
+
+.btn-login-vulnerable a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-login-vulnerable:hover {
+    background-color: #1A5276;
+}
+
+.user-info-container {
+    background-color: #ecf0f1;
+    padding: 20px;
+}
+
+.user-info {
+    font-size: 14px;
+}
+
+/* MODAL SECTION */
+
+/* Estilos de modal */
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    width: 40%; /* Ancho del modal */
+    height: 80vh; /* Altura máxima del modal */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+    font-weight: bold;
+    color: #C0392B;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.modal-content h3 {
+    font-weight: bold;
+    color: #C0392B;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#listaViandas {
+    list-style-type: none;
+    padding: 0;
+    max-height: 50vh;
+    overflow-y: auto;
+    margin: 0 0 20px;
+}
+
+#listaViandas li {
+    margin-bottom: 10px; /* Espacio entre elementos */
+}
+
+.modal-input-box {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 10px;
+    border: solid 1px #0006;
+}
+
+.modal-input-box h3 {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.modal-input-box input[type="checkbox"] {
+    margin-top: 5px;
+}
+
+.btn-modal {
+    padding: 10px 20px; /* Espacio interior */
+    background-color: #2980B9; /* Color de fondo de los botones */
+    color: #fff; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor */
+    font-size: 16px; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    margin-top: 15px; /* Espacio superior */
+    width: 100%; /* Botones de ancho completo */
+    transition: background-color 0.3s; /* Transición de color */
+}
+
+.btn-modal:hover {
+    background-color: #1A6A92; /* Color al pasar el mouse */
+}
+
+/* Ocultar el modal */
+.hidden {
+    display: none;
+}
+
+/* Bloquear interacción del mapa cuando el modal está visible */
+#map.modal-overlay {
+    pointer-events: none;
+}

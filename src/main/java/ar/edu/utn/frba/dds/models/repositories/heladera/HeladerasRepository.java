@@ -9,6 +9,7 @@ import lombok.NonNull;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.time.ZonedDateTime;
 import java.util.stream.Stream;
@@ -38,6 +39,13 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
     return em.createQuery(query).getResultStream();
   }
 
+  public Stream<Heladera> findHeladerasConViandas() {
+    return entityManager()
+            .createQuery("SELECT DISTINCT h FROM Heladera h JOIN Vianda v ON v.heladera = h", Heladera.class)
+            .getResultStream();
+  }
+
+
   public void updateTiempoHeladera(Long id, Double temperaturaNueva) {
     Heladera heladera = findById(id).orElseThrow();
     heladera.setUltimaTempRegistradaCelsius(temperaturaNueva);
@@ -63,5 +71,18 @@ public class HeladerasRepository extends HibernateEntityManager<Heladera, Long> 
         repositorio.getCantidadViandasPendientes(heladera);
 
     return heladera.getCapacidadEnViandas() - getCantidadViandasDepositadas(heladera) - viandasEnContribucionesVigentes;
+  }
+
+  public long getCantidadViandasDisponiblesARetirar(Heladera heladera) {
+    EntityManager em = entityManager();
+
+    String jpql = "SELECT COUNT(v) FROM Vianda v " +
+            "LEFT JOIN SolicitudAperturaPorConsumicion s ON s.vianda = v " +
+            "WHERE v.heladera = :heladera AND (s IS NULL OR s.fechaVencimiento < :now)";
+
+    return em.createQuery(jpql, Long.class)
+            .setParameter("heladera", heladera)
+            .setParameter("now", ZonedDateTime.now())
+            .getSingleResult();
   }
 }
