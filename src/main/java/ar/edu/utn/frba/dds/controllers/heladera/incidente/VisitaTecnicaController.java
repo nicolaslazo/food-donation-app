@@ -1,13 +1,23 @@
 package ar.edu.utn.frba.dds.controllers.heladera.incidente;
 
+import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
 import ar.edu.utn.frba.dds.models.entities.heladera.incidente.VisitaTecnica;
+import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.VisitasTecnicasRepository;
 import io.javalin.http.Context;
+import io.javalin.http.UploadedFile;
 
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -54,5 +64,63 @@ public class VisitaTecnicaController {
     return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm"));
   }
 
-  public void create(Context context) {}
+  public void create(Context context) {
+    try {
+      URL imagen = null;
+      try {
+        // Obtener el archivo subido
+        UploadedFile file = context.uploadedFile("imagen");
+
+        if (file != null && file.extension().equalsIgnoreCase("jpg")) {
+          // Guardar el archivo subido en una ubicación temporal o definitiva
+          Path tempFile = Files.createTempFile(file.filename(), ".jpg");
+          Files.copy(file.content(), tempFile, StandardCopyOption.REPLACE_EXISTING);
+
+          // Convertir la ruta temporal a URL
+          imagen = tempFile.toUri().toURL();
+        }
+      } catch (IOException e) {
+        throw new IllegalArgumentException("La URL de la imagen no es válida", e);
+      }
+
+      long idHeladeraDefectuosa = Long.parseLong(context.formParam("idHeladera"));
+      Heladera heladeraDefectuosa = new HeladerasRepository().findById(idHeladeraDefectuosa).get();
+
+      Incidente incidente = new IncidenteRepository().findByHeladera(heladeraDefectuosa).get();
+
+      ZonedDateTime fechaParseada = ZonedDateTime.parse(context.formParam("fecha"));
+
+      Tecnico tecnico = new TecnicoRepository().findById(context.sessionAttribute("user_id")).get();
+
+      Boolean incidenteResuelto = Boolean.parseBoolean(context.formParam("incidenteResuelto"));
+
+      VisitaTecnica visitaTecnica = new VisitaTecnica(
+          tecnico,
+          incidente,
+          fechaParseada,
+          incidenteResuelto,
+          context.formParam("descripcionReparacion"),
+          imagen
+      );
+
+      new VisitasTecnicasRepository().insert(visitaTecnica);
+
+      if (incidenteResuelto) {
+        incidente.setFechaResuelto(fechaParseada);
+        new IncidenteRepository().insert(incidente);
+      }
+
+      context.json(Map.of(
+              "message", "Visita Técnica registrada con éxito! Redirigiendo en tres segundos...",
+              "success", true,
+              "urlRedireccion", "/quiero-ayudar",
+              "demoraRedireccionEnSegundos", 3
+      ));
+    } catch (Exception e) {
+      context.json(Map.of(
+              "message", "Error al cargar la visita técnica",
+              "success", false
+      ));
+    }
+  }
 }
