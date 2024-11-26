@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class CanjeosRepository extends HibernateEntityManager<Canjeo, Long> {
@@ -61,4 +62,18 @@ public class CanjeosRepository extends HibernateEntityManager<Canjeo, Long> {
 
     super.insert(canjeo);
   }
+
+  public List<Canjeo> findCanjeosByColaboradorId(Long colaboradorId) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Canjeo> query = cb.createQuery(Canjeo.class);
+    Root<Canjeo> root = query.from(Canjeo.class);
+
+    query.select(root)
+        .where(cb.equal(root.get("colaborador").get("id"), colaboradorId));
+
+    return em.createQuery(query).getResultList();
+  }
+
+
 }

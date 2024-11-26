@@ -15,6 +15,7 @@ import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "canjeo")
+@Getter
 public class Canjeo {
   @Id
   @GeneratedValue

@@ -10,13 +10,18 @@ import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository
 import io.javalin.http.Context;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TiendaController {
   CanjeosRepository canjeosRepository = new CanjeosRepository();
   ColaboradorRepository colaboradorRepository = new ColaboradorRepository();
   RecompensasRepository recompensaRepository = new RecompensasRepository();
+
 
   public void index(Context context) {
     Map<String, Object> model = context.attribute("model");
@@ -65,4 +70,33 @@ public class TiendaController {
 
     canjeosRepository.insert(new Canjeo(colaborador, recompensa, ZonedDateTime.now()));
   }
+
+  public void indexHistorial(Context context) {
+    Map<String, Object> model = context.attribute("model");
+
+    Long colaboradorId = context.sessionAttribute("user_id");
+
+    List<Canjeo> canjeos = canjeosRepository.findCanjeosByColaboradorId(colaboradorId);
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    List<Map<String, Object>> formattedCanjeos = canjeos.stream()
+        .map(canjeo -> {
+          Map<String, Object> map = new HashMap<>();
+          map.put("nombre", canjeo.getRecompensa().getNombre());
+          map.put("costoEnPuntos", canjeo.getRecompensa().getCostoEnPuntos());
+          map.put("rubro", canjeo.getRecompensa().getRubro().name());
+          map.put("fecha", canjeo.getFecha().format(formatter));
+          return map;
+        })
+        .collect(Collectors.toList());
+
+    model.put("canje", formattedCanjeos);
+    model.put("categorias", Arrays.stream(RubroRecompensa.values())
+        .map(Enum::name)
+        .collect(Collectors.toList()));
+    
+    context.render("tienda/historial.hbs", model);
+  }
+
+
 }
