@@ -148,11 +148,22 @@ public class DonacionViandaController {
       dtos.add(dto);
     }
 
-    registrarDonacionViandas(optionalTarjeta.get(), dtos);
+    try {
+      registrarDonacionViandas(optionalTarjeta.get(), dtos);
+    } catch (PermisoDenegadoException e) {
+      context.json(new HashMap<>() {
+        {
+          put("message", e.getMessage());
+          put("success", false);
+        }
+      });
+
+      return;
+    }
 
     context.json(new HashMap<>() {
       {
-        put("message", "La heladera está esperando tu vianda! Redirigiendo...");
+        put("message", "La heladera está esperando tu(s) vianda(s)! Redirigiendo...");
         put("success", true);
         put("urlRedireccion", "/quiero-ayudar");
         put("demoraRedireccionEnSegundos", 3);
