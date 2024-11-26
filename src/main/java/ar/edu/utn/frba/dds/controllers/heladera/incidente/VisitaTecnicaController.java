@@ -14,15 +14,19 @@ import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class VisitaTecnicaController {
   public void index(Context context) {
@@ -68,31 +72,45 @@ public class VisitaTecnicaController {
     try {
       URL imagen = null;
       try {
-        // Obtener el archivo subido
         UploadedFile file = context.uploadedFile("imagen");
 
         if (file != null && file.extension().equalsIgnoreCase("jpg")) {
-          // Guardar el archivo subido en una ubicación temporal o definitiva
-          Path tempFile = Files.createTempFile(file.filename(), ".jpg");
-          Files.copy(file.content(), tempFile, StandardCopyOption.REPLACE_EXISTING);
+          // Crear un archivo temporal para guardar la imagen
+          Path tempFile = Files.createTempFile("uploaded_", ".jpg");
 
-          // Convertir la ruta temporal a URL
+          // Copiar el contenido del InputStream al archivo temporal
+          try (InputStream inputStream = file.content()) {
+            Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
+          }
+
+          // Convertir la ruta del archivo temporal a URL
           imagen = tempFile.toUri().toURL();
+          System.out.println("Imagen: " + imagen.toString());
         }
       } catch (IOException e) {
         throw new IllegalArgumentException("La URL de la imagen no es válida", e);
       }
+
 
       long idHeladeraDefectuosa = Long.parseLong(context.formParam("idHeladera"));
       Heladera heladeraDefectuosa = new HeladerasRepository().findById(idHeladeraDefectuosa).get();
 
       Incidente incidente = new IncidenteRepository().findByHeladera(heladeraDefectuosa).get();
 
-      ZonedDateTime fechaParseada = ZonedDateTime.parse(context.formParam("fecha"));
+      String fechaInput = context.formParam("fecha");
+      LocalDate localDate = LocalDate.parse(fechaInput);
+      ZonedDateTime fechaParseada = localDate.atStartOfDay(ZoneId.of("America/Argentina/Buenos_Aires"));
 
       Tecnico tecnico = new TecnicoRepository().findById(context.sessionAttribute("user_id")).get();
 
-      Boolean incidenteResuelto = Boolean.parseBoolean(context.formParam("incidenteResuelto"));
+
+      Boolean incidenteResuelto = false;
+      System.out.println("Problema Resuelto: " + context.formParam("problemaResuelto"));
+      if (Objects.equals(context.formParam("problemaResuelto"), "true")) {
+        incidenteResuelto = true;
+      }
+
+      System.out.println("Resuelto?: " + incidenteResuelto.toString());
 
       VisitaTecnica visitaTecnica = new VisitaTecnica(
           tecnico,
@@ -107,7 +125,7 @@ public class VisitaTecnicaController {
 
       if (incidenteResuelto) {
         incidente.setFechaResuelto(fechaParseada);
-        new IncidenteRepository().insert(incidente);
+        new IncidenteRepository().update(incidente);
       }
 
       context.json(Map.of(
@@ -117,6 +135,7 @@ public class VisitaTecnicaController {
               "demoraRedireccionEnSegundos", 3
       ));
     } catch (Exception e) {
+      System.out.println("Fallo: " + e.toString());
       context.json(Map.of(
               "message", "Error al cargar la visita técnica",
               "success", false

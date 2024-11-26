@@ -29,7 +29,7 @@ public class VisitaTecnica {
   @NonNull Tecnico tecnico;
 
   @ManyToOne
-  @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id", unique = true)
+  @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id")
   @NonNull Incidente incidente;
 
   @Column(name = "fecha", nullable = false)
