@@ -97,7 +97,6 @@ public class VisitaTecnicaController {
         throw new IllegalArgumentException("La URL de la imagen no es válida", e);
       }
 
-
       long idHeladeraDefectuosa = Long.parseLong(context.formParam("idHeladera"));
       Heladera heladeraDefectuosa = new HeladerasRepository().findById(idHeladeraDefectuosa).get();
 
@@ -107,17 +106,12 @@ public class VisitaTecnicaController {
       LocalDate localDate = LocalDate.parse(fechaInput);
       ZonedDateTime fechaParseada = localDate.atStartOfDay(ZoneId.of("America/Argentina/Buenos_Aires"));
 
-      Tecnico tecnico = new TecnicoRepository().findById(context.sessionAttribute("user_id")).get();
-
-
       Boolean incidenteResuelto = false;
-      System.out.println("Problema Resuelto: " + context.formParam("problemaResuelto"));
       if (Objects.equals(context.formParam("problemaResuelto"), "true")) {
         incidenteResuelto = true;
       }
 
-      System.out.println("Resuelto?: " + incidenteResuelto.toString());
-
+      Tecnico tecnico = new TecnicoRepository().findById(context.sessionAttribute("user_id")).get();
       VisitaTecnica visitaTecnica = new VisitaTecnica(
           tecnico,
           incidente,
