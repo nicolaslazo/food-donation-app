@@ -1,0 +1,55 @@
+{{#partial "titulo"}}Reportes Visitas Técnicas - Viandas Donation{{/partial}}
+
+{{#partial "styles"}}
+    <link rel="stylesheet" href="/public/css/incidentes/visualizacion-visita-tecnica/styles.css">
+{{/partial}}
+
+{{#partial "scripts"}}
+    <script src="/public/js/sticky_nav_bar.js" defer></script>
+{{/partial}}
+
+{{#partial "contenido"}}
+    <main>
+        <section class="visita-tecnica-section">
+            <div class="visita-tecnica-container">
+                <h1>REPORTES DE VISITAS TÉCNICAS</h1>
+                <p>Reportes sobre tus Heladeras: </p>
+                <div class="reportes-container">
+                    {{#each visitasTecnicas}}
+                        <div class="reporte-card">
+                            <h2>{{this.nombreHeladera}}</h2>
+                            {{#if this.imagen}}
+                                <img src="{{this.imagen}}" alt="Imagen Reporte">
+                            {{else}}
+                                <img src="/public/img/icono_reporte_default.png" alt="Imagen Reporte Default">
+                            {{/if}}
+                            <p><strong>Descripción del Incidente: </strong>
+                                {{#if this.incidenteDescripcion}}{{this.incidenteDescripcion}}{{else}}No hay descripción proporcionada.{{/if}}
+                            </p>
+                            <p><strong>Fecha del Incidente:</strong> {{this.fechaIncidente}}</p>
+                            <p><strong>Fecha de la Visita:</strong> {{this.fechaVisita}}</p>
+                            <p><strong>Descripción del Técnico: </strong>
+                                {{#if this.visitaDescripcion}}{{this.visitaDescripcion}}{{else}}No hay descripción proporcionada.{{/if}}
+                            </p>
+                            {{#if this.incidenteResuelto}}
+                                <button class="btn-resuelto">
+                                    <a>Resuelto</a>
+                                </button>
+                            {{else}}
+                                <button class="btn-no-resuelto">
+                                    <a>No Resuelto</a>
+                                </button>
+                            {{/if}}
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        </section>
+    </main>
+{{/partial}}
+
+{{#partial "contenido-footer"}}
+    <p>Copyright © 2024 Viandas Donation. Todos los derechos reservados.</p>
+{{/partial}}
+
+{{> templates/base}}

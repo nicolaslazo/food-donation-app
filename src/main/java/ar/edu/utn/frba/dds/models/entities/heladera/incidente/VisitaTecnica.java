@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import java.net.URL;
 import java.time.ZonedDateTime;
 
+// TODO: Hubiese estado copado desnormalizar la heladera y tenerla directamente en la visita técnica.
 @Entity
 @Table(name = "visitaTecnica")
 @Getter
@@ -21,7 +22,6 @@ public class VisitaTecnica {
   @Column(name = "id", nullable = false, updatable = false, unique = true)
   @Id
   @GeneratedValue
-  @Getter
   Long id;
 
   @ManyToOne(targetEntity = Tecnico.class)
@@ -30,14 +30,12 @@ public class VisitaTecnica {
 
   @ManyToOne
   @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id", unique = true)
-  @Getter
   @NonNull Incidente incidente;
 
   @Column(name = "fecha", nullable = false)
   @NonNull ZonedDateTime fecha;
 
   @Column(name = "incidenteResuelto")
-  @Getter
   Boolean incidenteResuelto;
 
   @Column(name = "descripcion", length = 1000)

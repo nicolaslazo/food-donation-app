@@ -91,6 +91,7 @@ public class Router {
     app.before("incidentes/*", new AuthMiddleware());
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
     app.get("/incidentes/cargar-visita-tecnica", new VisitaTecnicaController()::index, permisoCargarVisitaTecnica);
+    app.get("/incidentes/reporte-tecnico", new VisitaTecnicaController()::indexReporteTecnico, permisoCuidarHeladera);
 
     // Técnico
     app.before("/tecnico/crear", new AuthMiddleware());

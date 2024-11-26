@@ -1,0 +1,83 @@
+body {
+    background-color: #eee;
+}
+
+/* Sección Visita Técnica */
+.visita-tecnica-section {
+    background-size: cover;
+    background-position: center;
+    padding: 50px 0;
+}
+
+.visita-tecnica-container {
+    text-align: center;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.visita-tecnica-container h1 {
+    font-size: 40px;
+}
+
+.reportes-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.reporte-card {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    max-width: 400px;
+    text-align: center;
+    transition: transform 0.3s;
+    box-shadow: 0 0 5px #0006;
+}
+
+.reporte-card p {
+    text-align: start;
+}
+
+.reporte-card:hover {
+    transform: scale(1.05);
+}
+
+.reporte-card img {
+    max-width: 80%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.btn-resuelto {
+    background-color: #46b34f;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn-no-resuelto {
+    background-color: #C0392B;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.btn-resuelto a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-no-resuelto a {
+    color: #fff;
+    text-decoration: none;
+}
