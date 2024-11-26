@@ -53,7 +53,7 @@ public class VisitaTecnicaController {
       visitaTecnicaData.put("incidenteDescripcion", visitaTecnica.getIncidente().getDescripcion());
       visitaTecnicaData.put("visitaDescripcion", visitaTecnica.getDescripcion());
       visitaTecnicaData.put("fechaIncidente", formatearFecha(visitaTecnica.getIncidente().getFecha()));
-      visitaTecnicaData.put("fechaVisita", formatearFecha(visitaTecnica.getFecha()));
+      visitaTecnicaData.put("fechaVisita", formatearFechaDate(visitaTecnica.getFecha()));
       visitaTecnicaData.put("incidenteResuelto", visitaTecnica.getIncidenteResuelto());
       return visitaTecnicaData;
     }).toList();
@@ -67,6 +67,12 @@ public class VisitaTecnicaController {
     // Formato: dd/mm/aaaa - hora:minuto - 24hs
     return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm"));
   }
+
+  private String formatearFechaDate(ZonedDateTime fecha) {
+    // Formato: dd/mm/aaaa - hora:minuto - 24hs
+    return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+  }
+
 
   public void create(Context context) {
     try {
