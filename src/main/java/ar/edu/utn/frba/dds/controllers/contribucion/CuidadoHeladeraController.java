@@ -3,15 +3,16 @@ package ar.edu.utn.frba.dds.controllers.contribucion;
 import ar.edu.utn.frba.dds.dtos.input.contribucion.CuidadoHeladeraInputDTO;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
+import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.CuidadoHeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import io.javalin.http.Context;
 
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,14 @@ public class CuidadoHeladeraController {
         ZonedDateTime.now(),
         dtoCuidado.getBarrio());
 
+    // Se registra la contribución
+    CuidadoHeladera cuidadoHeladera = new CuidadoHeladera(
+            encargado,
+            heladeraNueva
+    );
+
     new HeladerasRepository().insert(heladeraNueva);
+    new CuidadoHeladerasRepository().insert(cuidadoHeladera);
     new SuscripcionRepository()
         .insert(new Suscripcion(encargado, heladeraNueva, MotivoDeDistribucion.FALLA_HELADERA, null));
 
@@ -47,7 +55,14 @@ public class CuidadoHeladeraController {
         ZonedDateTime.now(),
         dtoCuidado.getBarrio());
 
+    // Se registra la contribución
+    CuidadoHeladera cuidadoHeladera = new CuidadoHeladera(
+            encargado,
+            heladeraNueva
+    );
+
     new HeladerasRepository().insert(heladeraNueva);
+    new CuidadoHeladerasRepository().insert(cuidadoHeladera);
     new SuscripcionRepository()
         .insert(new Suscripcion(encargado, heladeraNueva, MotivoDeDistribucion.FALLA_HELADERA, null));
 

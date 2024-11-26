@@ -11,8 +11,10 @@ import ar.edu.utn.frba.dds.controllers.contribucion.DonacionDineroController;
 import ar.edu.utn.frba.dds.controllers.contribucion.DonacionViandaController;
 import ar.edu.utn.frba.dds.controllers.contribucion.EntregaTarjetasController;
 import ar.edu.utn.frba.dds.controllers.formascolaboracion.FormasColaboracionController;
+import ar.edu.utn.frba.dds.controllers.heladera.incidente.VisitaTecnicaController;
 import ar.edu.utn.frba.dds.controllers.heladera.incidente.IncidenteController;
 import ar.edu.utn.frba.dds.controllers.home.HomeController;
+import ar.edu.utn.frba.dds.controllers.mapa.MapaController;
 import ar.edu.utn.frba.dds.controllers.quienessomos.QuienesSomosController;
 import ar.edu.utn.frba.dds.controllers.quieroayudar.QuieroAyudarController;
 import ar.edu.utn.frba.dds.controllers.session.SessionController;
@@ -35,9 +37,11 @@ public class Router {
   public static void init(Javalin app) {
     PermisosRepository permisosRepository = new PermisosRepository();
     Permiso permisoAdministrarRecompensas = permisosRepository.findByName("Administrar-Recompensas").get();
+    Permiso permisoAbrirHeladeraConsumicion = permisosRepository.findByName("Abrir-Heladera-Consumicion").get();
     Permiso permisoAsignarTarjetas = permisosRepository.findByName("Asignar-Tarjetas").get();
     Permiso permisoCanjearProductos = permisosRepository.findByName("Canjear-Productos").get();
     Permiso permisoCargaCsv = permisosRepository.findByName("Cargar-CSV").get();
+    Permiso permisoCargarVisitaTecnica = permisosRepository.findByName("Cargar-Visita-Tecnica").get();
     Permiso permisoCrearRecompensa = permisosRepository.findByName("Crear-Recompensas").get();
     Permiso permisoCrearTecnico = permisosRepository.findByName("Crear-Tecnico").get();
     Permiso permisoCuidarHeladera = permisosRepository.findByName("Cuidar-Heladera").get();
@@ -50,7 +54,8 @@ public class Router {
     RolesRepository repositorioRoles = new RolesRepository();
     Rol rolColaboradorFisico = repositorioRoles.findByName("COLABORADORFISICO").get();
     Rol rolColaboradorJuridico = repositorioRoles.findByName("COLABORADORJURIDICO").get();
-    Set<Rol> rolesColaboradores = Set.of(rolColaboradorFisico, rolColaboradorJuridico);
+    Rol rolesTecnico = repositorioRoles.findByName("TECNICO").get();
+    Set<Rol> rolesColaboradores = Set.of(rolColaboradorFisico, rolColaboradorJuridico, rolesTecnico);
     Set<Rol> rolesPersonaVulnerable = Set.of(repositorioRoles.findByName("PERSONAVULNERABLE").get());
 
     app.before(SessionController::sessionInfo);
@@ -79,13 +84,15 @@ public class Router {
     app.get("/quienes-somos", new QuienesSomosController()::index);
     app.get("/contacto", new ContactoController()::index);
     app.post("/contacto", new ContactoController()::create);
+    app.get("/mapa", new MapaController()::index);
 
     // --- Rutas Protegidas que requieren autenticación ---
     // Incidente/*
     app.before("incidentes/*", new AuthMiddleware());
     app.get("/incidentes/reportar-falla", IncidenteController.getInstancia()::index);
+    app.get("/incidentes/cargar-visita-tecnica", new VisitaTecnicaController()::index, permisoCargarVisitaTecnica);
 
-    //Tecnico
+    // Técnico
     app.before("/tecnico/crear", new AuthMiddleware());
     app.get("/tecnico/crear", new TecnicoController()::index, permisoCrearTecnico);
     app.post("/tecnico/crear", new TecnicoController()::create, permisoCrearTecnico);
@@ -99,6 +106,7 @@ public class Router {
     app.get("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::index, permisoSolicitarTarjetas);
     app.post("/contribucion/entrega-tarjetas", new EntregaTarjetasController()::create, permisoSolicitarTarjetas);
     app.get("/contribucion/agregar-recompensa", new AgregarRecompensasController()::index, permisoCrearRecompensa);
+    app.post("/contribucion/agregar-recompensa", new AgregarRecompensasController()::create, permisoCrearRecompensa);
     app.get("/contribucion/donacion-vianda", new DonacionViandaController()::index, permisoDonarViandas);
     app.post("/contribucion/donacion-vianda", new DonacionViandaController()::create, permisoDonarViandas);
     app.get("/contribucion/redistribucion-vianda", new DistribuirViandaController()::index, permisoDistribuirViandas);
@@ -130,6 +138,9 @@ public class Router {
     app.get("/quiero-ayudar", new QuieroAyudarController()::index);
     app.before("/formas-colaboracion", new AuthMiddleware());
     app.get("/formas-colaboracion", new FormasColaboracionController()::index);
+
+    // Solicitud de Retiro por Consumición
+    app.post("/mapa", new MapaController()::create, permisoAbrirHeladeraConsumicion);
 
     app.exception(Exception.class, (e, ctx) -> {
       ctx.status(500);

@@ -53,6 +53,7 @@ public class SeederUsuarios {
   static Tarjeta tarjetaAdmin = new Tarjeta(UUID.fromString("12345678-1234-1234-1234-123456789abc"));
   static Tarjeta tarjetaFraudulento = new Tarjeta(UUID.fromString("12345678-2345-2345-2345-123456789abc"));
   static Tarjeta tarjeta3 = new Tarjeta(UUID.fromString("12345678-3456-3456-3456-123456789abc"));
+  static Tarjeta tarjetaVulnerable = new Tarjeta(UUID.fromString("12345678-4567-4567-4567-123456789abc"));
 
 
   public static void execute() throws PermisoDenegadoException {
@@ -195,12 +196,13 @@ public class SeederUsuarios {
     tarjetaFraudulento.setEnAlta(colaboradorFraudulento.getUsuario(),
         colaboradorAdmin,
         ZonedDateTime.now().minusYears(1));
+    tarjetaVulnerable.setEnAlta(usuarioPersonaVulnerable, colaboradorAdmin, ZonedDateTime.now());
 
-    new TarjetasRepository().insertAll(Set.of(tarjetaAdmin, tarjetaFraudulento, tarjeta3));
+    new TarjetasRepository().insertAll(Set.of(tarjetaAdmin, tarjetaFraudulento, tarjeta3, tarjetaVulnerable));
 
     // ------ RECOMPENSAS -------
-    Recompensa recompensa1 = new Recompensa("Auriculares", colaboradorJuridico, 100L, 10, RubroRecompensa.ELECTRONICA, null);
-    Recompensa recompensa2 = new Recompensa("PC GAMER", colaboradorJuridico, 300L, 3, RubroRecompensa.ELECTRONICA, null);
+    Recompensa recompensa1 = new Recompensa("AURICULARES", colaboradorJuridico, 100L, 10, RubroRecompensa.ELECTRONICA, null);
+    Recompensa recompensa2 = new Recompensa("PC GAMER ÚNICA", colaboradorJuridico, 200L, 1, RubroRecompensa.ELECTRONICA, null);
     Recompensa recompensa3 = new Recompensa("TV", colaboradorJuridicoAdministrador, 400L, 10, RubroRecompensa.ENTRETENIMIENTO, null);
     new RecompensasRepository().insert(recompensa1);
     new RecompensasRepository().insert(recompensa2);

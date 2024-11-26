@@ -1,10 +1,15 @@
 package ar.edu.utn.frba.dds.services.seeders;
 
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
+import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.Incidente;
+import ar.edu.utn.frba.dds.models.entities.heladera.incidente.TipoIncidente;
 import ar.edu.utn.frba.dds.models.entities.ubicacion.CoordenadasGeograficas;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
+import ar.edu.utn.frba.dds.models.repositories.contribucion.CuidadoHeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
+import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 
 import javax.annotation.PostConstruct;
 import java.time.ZonedDateTime;
@@ -21,7 +26,7 @@ public class SeederHeladera {
         new CoordenadasGeograficas(-34.6025246, -58.3843585),
         unColaborador,
         22,
-        ZonedDateTime.now(),
+        ZonedDateTime.now().minusMonths(6),
         "San Nicolas"
     );
     Heladera heladeraDos = new Heladera(
@@ -29,7 +34,7 @@ public class SeederHeladera {
         new CoordenadasGeograficas(-34.6024605, -58.3812774),
         unColaborador,
         22,
-        ZonedDateTime.now(),
+        ZonedDateTime.now().minusMonths(6),
         "San Nicolas"
     );
     Heladera heladeraTres = new Heladera(
@@ -37,7 +42,7 @@ public class SeederHeladera {
         new CoordenadasGeograficas(-34.6047476, -58.3795161),
         unColaborador,
         22,
-        ZonedDateTime.now(),
+        ZonedDateTime.now().minusMonths(6),
         "San Nicolas"
     );
     Heladera heladeraMedrano = new Heladera(
@@ -45,7 +50,7 @@ public class SeederHeladera {
         new CoordenadasGeograficas(-34.598607968791924, -58.420107873800205),
         unColaborador,
         22,
-        ZonedDateTime.now(),
+        ZonedDateTime.now().minusMonths(6),
         "Almagro"
     );
     Heladera heladeraCasiLlena = new Heladera(
@@ -56,6 +61,49 @@ public class SeederHeladera {
         ZonedDateTime.now(),
         "San Telmo"
     );
-    heladerasRepository.insertAll(List.of(heladeraUno, heladeraDos, heladeraTres, heladeraMedrano, heladeraCasiLlena));
+    Heladera heladeraDefectuosa = new Heladera(
+        "Heladera Defectuosa",
+        new CoordenadasGeograficas(-34.616728, -58.381860),
+        unColaborador,
+        22,
+        ZonedDateTime.now(),
+        "UADE"
+    );
+
+    // --- Incidentes ---
+
+    Incidente incidente = new Incidente(
+        heladeraDefectuosa,
+        TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR,
+        ZonedDateTime.now(),
+        unColaborador,
+        "Hace ruidos raros en algunos momentos",
+        null
+    );
+
+    // --- Cuidado Heladera ---
+
+    CuidadoHeladerasRepository cuidadoHeladerasRepository = new CuidadoHeladerasRepository();
+
+    CuidadoHeladera cuidadoHeladeraUno = new CuidadoHeladera(unColaborador, heladeraUno);
+
+    CuidadoHeladera cuidadoHeladeraDos = new CuidadoHeladera(unColaborador, heladeraDos);
+
+    CuidadoHeladera cuidadoHeladeraTres = new CuidadoHeladera(unColaborador, heladeraTres);
+
+    CuidadoHeladera cuidadoHeladeraMedrano = new CuidadoHeladera(unColaborador, heladeraMedrano);
+
+    CuidadoHeladera cuidadoHeladeraCasiLlena = new CuidadoHeladera(unColaborador, heladeraCasiLlena);
+
+    CuidadoHeladera cuidadoHeladeraDefectuosa = new CuidadoHeladera(unColaborador, heladeraDefectuosa);
+
+    heladerasRepository.insertAll(List.of(heladeraUno, heladeraDos, heladeraTres,
+            heladeraMedrano, heladeraCasiLlena, heladeraDefectuosa));
+
+    cuidadoHeladerasRepository.insertAll(List.of(cuidadoHeladeraUno, cuidadoHeladeraDos, cuidadoHeladeraTres,
+            cuidadoHeladeraMedrano, cuidadoHeladeraCasiLlena, cuidadoHeladeraDefectuosa));
+
+    new IncidenteRepository().insert(incidente);
+
   }
 }

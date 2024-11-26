@@ -5,6 +5,7 @@
 {{/partial}}
 
 {{#partial "scripts"}}
+    <script src="/public/js/toast.js" defer></script>
     <script src="/public/js/logueo/registro/script.js" defer></script>
 {{/partial}}
 
@@ -18,7 +19,7 @@
                 <button class="tab-button" data-tab="persona-juridica">Persona Jurídica</button>
             </div>
 
-            <form action="/colaborador/registro" method="post" class="form-container" id="registro-form">
+            <form action="/colaborador/registro" method="post" class="form-container triggerea-toast" id="registro-form">
                 <div class="tab-content" id="persona-fisica-content">
                     <div class="user-details-container">
                         <label class="input-box" for="primerNombre">
@@ -72,7 +73,7 @@
 
                         <label class="input-box" for="cuit">
                             CUIT
-                            <input type="number" id="cuit" name="cuit" required
+                            <input type="text" id="cuit" name="cuit" required
                                    placeholder="XXXXXXXXXXX">
                         </label>
 

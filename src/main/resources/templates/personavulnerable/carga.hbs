@@ -6,6 +6,7 @@
 
 {{#partial "scripts"}}
     <script src="/public/js/personavulnerable/carga/script.js" defer></script>
+    <script src="/public/js/toast.js" defer></script>
 {{/partial}}
 
 {{#partial "contenido"}}
@@ -13,7 +14,7 @@
         <div class="container">
             <div class="title">REGISTRAR PERSONA VULNERABLE</div>
 
-            <form method="post" action="/persona-vulnerable/registro" class="form-container"
+            <form method="post" action="/persona-vulnerable/registro" class="form-container triggerea-toast"
                   id="persona-vulnerable-form">
                 <div class="user-details-container">
                     <label class="input-box" for="name">

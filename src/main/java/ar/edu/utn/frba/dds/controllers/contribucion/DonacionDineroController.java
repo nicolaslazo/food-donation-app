@@ -6,7 +6,6 @@ import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository
 import ar.edu.utn.frba.dds.models.repositories.contribucion.DineroRepository;
 import io.javalin.http.Context;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class DonacionDineroController {
@@ -22,7 +21,7 @@ public class DonacionDineroController {
         Integer.parseInt(context.formParam("frecuencia"))
         : null;
     Dinero donacion = new Dinero(colaborador,
-        Double.parseDouble(context.formParam("numeroTarjeta")),
+        Double.parseDouble(context.formParam("monto")),
         frecuenciaEnDias);
     new DineroRepository().insert(donacion);
 

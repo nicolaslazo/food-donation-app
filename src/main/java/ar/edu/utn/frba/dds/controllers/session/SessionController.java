@@ -39,6 +39,7 @@ public class SessionController {
     context.sessionAttribute("user_id", null);
     context.sessionAttribute("usuarioAutenticado", false);
     context.sessionAttribute("permisos", null);
+    context.sessionAttribute("esPersonaVulnerable", false);
     context.redirect("/");
   }
 
@@ -55,9 +56,16 @@ public class SessionController {
       usuarioAutenticado = false;
     }
 
+    Boolean esPersonaVulnerable = context.sessionAttribute("esPersonaVulnerable");
+    if (esPersonaVulnerable == null) {
+      esPersonaVulnerable = false;
+    }
+
     // Almaceno el estado de la autenticación
     context.sessionAttribute("usuarioAutenticado", usuarioAutenticado);
+    context.sessionAttribute("esPersonaVulnerable", esPersonaVulnerable);
     model.put("usuarioAutenticado", usuarioAutenticado);
+    model.put("esPersonaVulnerable", esPersonaVulnerable);
     context.attribute("model", model);
   }
 
@@ -106,18 +114,34 @@ public class SessionController {
       // Asigno los SessionAttribute
       context.sessionAttribute("user_id", usuario.getId());
       context.sessionAttribute("usuarioAutenticado", true);
+      context.sessionAttribute("esPersonaVulnerable", false);
 
       // Le metemos los permisos de todos los roles que tiene,
       // independientemente de si pertenecen a alguno de los rolesAceptados.
       // De esta manera nos ahorramos tener que reloguearnos para hacer operaciones distintas
       context.sessionAttribute("permisos", new PermisosRepository().findAll(usuario).toList());
 
-      context.json(Map.of(
-          "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
-          "success", true,
-          "urlRedireccion", "/",
-          "demoraRedireccionEnSegundos", 3
-      ));
+      // Si tiene rol de Persona Vulnerable, puede hacer una solicitud de viandas
+      // tambien se lo redirije directamente al mapa
+      if (usuario.tienePermiso("Abrir-Heladera-Consumicion")) {
+        context.sessionAttribute("abrirHeladeraConsumicion", true);
+        if (usuario.getRoles().contains(new Rol("PERSONAVULNERABLE"))) {
+          context.sessionAttribute("esPersonaVulnerable", true);
+        }
+        context.json(Map.of(
+                "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
+                "success", true,
+                "urlRedireccion", "/mapa",
+                "demoraRedireccionEnSegundos", 3
+        ));
+      } else { // Si no es persona vulnerable, sigue el flujo normal
+        context.json(Map.of(
+                "message", "Cuenta logueada con éxito! Redirigiendo en tres segundos...",
+                "success", true,
+                "urlRedireccion", "/",
+                "demoraRedireccionEnSegundos", 3
+        ));
+      }
     } catch (Exception e) {
       context.json(Map.of(
           "message", "Contraseña incorrecta o usuario no encontrado",
