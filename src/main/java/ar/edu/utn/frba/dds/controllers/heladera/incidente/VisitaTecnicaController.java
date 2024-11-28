@@ -43,7 +43,7 @@ public class VisitaTecnicaController {
     visitasTecnicasData = reportesVisitasTecnicas.stream().map(visitaTecnica -> {
       Map<String, Object> visitaTecnicaData = new HashMap<>();
       visitaTecnicaData.put("nombreHeladera", visitaTecnica.getIncidente().getHeladera().getNombre());
-      visitaTecnicaData.put("imagen", visitaTecnica.getPathImagen());
+      visitaTecnicaData.put("imagen", visitaTecnica.getPathImagen()); //TODO: Porque verga no lo muestra, no lo se
       visitaTecnicaData.put("incidenteDescripcion", visitaTecnica.getIncidente().getDescripcion());
       visitaTecnicaData.put("visitaDescripcion", visitaTecnica.getDescripcion());
       visitaTecnicaData.put("fechaIncidente", formatearFecha(visitaTecnica.getIncidente().getFecha()));
