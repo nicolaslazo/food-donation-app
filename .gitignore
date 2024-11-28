@@ -30,4 +30,5 @@ target/**
 .idea/**
 
 # Uploads
-src/main/resources/public/uploads/
+src/main/resources/public/uploads/*
+!src/main/resources/public/uploads/.keep
