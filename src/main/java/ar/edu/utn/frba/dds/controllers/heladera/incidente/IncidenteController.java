@@ -59,9 +59,9 @@ public class IncidenteController implements IMqttMessageListener {
                                   @NonNull ZonedDateTime fecha,
                                   @NonNull Colaborador colaborador,
                                   String descripcion,
-                                  URL foto) {
+                                  String pathImagen) {
     new IncidenteRepository().insert(
-        new Incidente(heladera, TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR, fecha, colaborador, descripcion, foto));
+        new Incidente(heladera, TipoIncidente.FALLA_REPORTADA_POR_COLABORADOR, fecha, colaborador, descripcion, pathImagen));
 
     notificarAInteresados(heladera, fecha);
   }

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.heladera.incidente;
 
+import ar.edu.utn.frba.dds.controllers.image.ImageController;
 import ar.edu.utn.frba.dds.models.entities.Tecnico;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
@@ -11,14 +12,7 @@ import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.IncidenteRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.incidente.VisitasTecnicasRepository;
 import io.javalin.http.Context;
-import io.javalin.http.UploadedFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -49,7 +43,7 @@ public class VisitaTecnicaController {
     visitasTecnicasData = reportesVisitasTecnicas.stream().map(visitaTecnica -> {
       Map<String, Object> visitaTecnicaData = new HashMap<>();
       visitaTecnicaData.put("nombreHeladera", visitaTecnica.getIncidente().getHeladera().getNombre());
-      visitaTecnicaData.put("imagen", visitaTecnica.getImagen());
+      visitaTecnicaData.put("imagen", visitaTecnica.getPathImagen());
       visitaTecnicaData.put("incidenteDescripcion", visitaTecnica.getIncidente().getDescripcion());
       visitaTecnicaData.put("visitaDescripcion", visitaTecnica.getDescripcion());
       visitaTecnicaData.put("fechaIncidente", formatearFecha(visitaTecnica.getIncidente().getFecha()));
@@ -73,29 +67,11 @@ public class VisitaTecnicaController {
     return fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
   }
 
-
   public void create(Context context) {
     try {
-      URL imagen = null;
-      try {
-        UploadedFile file = context.uploadedFile("imagen");
+      String pathImagen = new ImageController().guardarImagen(context, "imagen");
 
-        if (file != null && file.extension().equalsIgnoreCase("jpg")) {
-          // Crear un archivo temporal para guardar la imagen
-          Path tempFile = Files.createTempFile("uploaded_", ".jpg");
-
-          // Copiar el contenido del InputStream al archivo temporal
-          try (InputStream inputStream = file.content()) {
-            Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
-          }
-
-          // Convertir la ruta del archivo temporal a URL
-          imagen = tempFile.toUri().toURL();
-          System.out.println("Imagen: " + imagen.toString());
-        }
-      } catch (IOException e) {
-        throw new IllegalArgumentException("La URL de la imagen no es válida", e);
-      }
+      System.out.println("Ruta: " + pathImagen);
 
       long idHeladeraDefectuosa = Long.parseLong(context.formParam("idHeladera"));
       Heladera heladeraDefectuosa = new HeladerasRepository().findById(idHeladeraDefectuosa).get();
@@ -118,7 +94,7 @@ public class VisitaTecnicaController {
           fechaParseada,
           incidenteResuelto,
           context.formParam("descripcionReparacion"),
-          imagen
+          pathImagen
       );
 
       new VisitasTecnicasRepository().insert(visitaTecnica);

@@ -47,7 +47,7 @@ public class Incidente {
   String descripcion;
 
   @Column(name = "imagen", updatable = false)
-  URL imagen;
+  String pathImagen;
 
   @Column(name = "fechaResuelto")
   @Setter // Si es Null, se entiende que no fue resuelto el incidente
@@ -58,13 +58,13 @@ public class Incidente {
                    @NonNull ZonedDateTime fecha,
                    Colaborador colaborador,
                    String descripcion,
-                   URL imagen) {
+                   String pathImagen) {
     this.heladera = heladera;
     this.tipo = tipo;
     this.fecha = fecha;
     this.colaborador = colaborador;
     this.descripcion = descripcion;
-    this.imagen = imagen;
+    this.pathImagen = pathImagen;
   }
 
   protected Incidente() {
