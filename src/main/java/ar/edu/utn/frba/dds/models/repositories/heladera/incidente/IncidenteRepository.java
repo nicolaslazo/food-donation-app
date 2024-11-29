@@ -15,6 +15,7 @@ import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class IncidenteRepository extends HibernateEntityManager<Incidente, Long> {
@@ -81,5 +82,24 @@ public class IncidenteRepository extends HibernateEntityManager<Incidente, Long>
 
     Long count = em.createQuery(query).getSingleResult();
     return count == 0;
+  }
+
+  public Optional<Incidente> findByHeladera(Heladera heladera) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Incidente> query = cb.createQuery(Incidente.class);
+    Root<Incidente> root = query.from(Incidente.class);
+
+    // Filtrar por heladera y fechaResuelto en NULL
+    Predicate heladeraPredicate = cb.equal(root.get("heladera"), heladera);
+    Predicate noResueltoPredicate = cb.isNull(root.get("fechaResuelto"));
+
+    // Ordenar por fecha descendente
+    query.select(root)
+            .where(cb.and(heladeraPredicate, noResueltoPredicate))
+            .orderBy(cb.desc(root.get("fecha")));
+
+    // Obtener el primer resultado de la lista
+    return em.createQuery(query).setMaxResults(1).getResultStream().findFirst();
   }
 }

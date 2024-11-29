@@ -128,14 +128,4 @@ class VisitasTecnicasRepositoryTest {
 
     assertTrue(repositorio.isIncidenteResuelto(incidente));
   }
-
-  @Test
-  void insertarVisitaParaIncidenteResueltoFalla() {
-    repositorio.insert(new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), true));
-
-    assertThrows(RollbackException.class,
-        () -> repositorio.insert(
-            new VisitaTecnica(tecnico, incidente, ZonedDateTime.now(), true))
-    );
-  }
 }

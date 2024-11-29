@@ -33,7 +33,7 @@
             <div class="form-title">
                 CARGAR REPARACION DE FALLA TECNICA
             </div>
-            <form method="POST" action="/incidentes/cargar-visita-tecnica" class="form__body ">
+            <form method="POST" action="/incidentes/cargar-visita-tecnica" enctype="multipart/form-data" class="form__body triggerea-toast">
                 <div class="heladera-details-container">
                     <label class="input-box">
                         Heladera Defectuosa *
@@ -47,7 +47,7 @@
                     </label>
                     <label class="input-box">
                         Fecha de la Revisión *
-                        <input name ="fecha" type="date" required>
+                        <input name="fecha" type="date" required>
                     </label>
                     <label class="input-box">
                         ¿Fue Resuelto el Problema?

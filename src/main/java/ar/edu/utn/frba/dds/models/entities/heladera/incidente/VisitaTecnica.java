@@ -29,7 +29,7 @@ public class VisitaTecnica {
   @NonNull Tecnico tecnico;
 
   @ManyToOne
-  @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id", unique = true)
+  @JoinColumn(name = "idIncidente", nullable = false, referencedColumnName = "id")
   @NonNull Incidente incidente;
 
   @Column(name = "fecha", nullable = false)
@@ -42,20 +42,20 @@ public class VisitaTecnica {
   String descripcion;
 
   @Column(name = "foto")
-  URL imagen;
+  String pathImagen;
 
   public VisitaTecnica(@NonNull Tecnico tecnico,
                        @NonNull Incidente incidente,
                        @NonNull ZonedDateTime fecha,
                        boolean incidenteResuelto,
                        String descripcion,
-                       URL imagen) {
+                       String pathImagen) {
     this.tecnico = tecnico;
     this.incidente = incidente;
     this.fecha = fecha;
     this.incidenteResuelto = incidenteResuelto;
     this.descripcion = descripcion;
-    this.imagen = imagen;
+    this.pathImagen = pathImagen;
   }
 
   protected VisitaTecnica() {
