@@ -83,6 +83,7 @@ public class IncidenteRepository extends HibernateEntityManager<Incidente, Long>
     Long count = em.createQuery(query).getSingleResult();
     return count == 0;
   }
+
   public Optional<Incidente> findByHeladera(Heladera heladera) {
     EntityManager em = entityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();
