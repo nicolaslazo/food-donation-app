@@ -4,6 +4,7 @@ import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contribucion.RubroRecompensa;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Canjeo;
 import ar.edu.utn.frba.dds.models.entities.recompensas.Recompensa;
+import ar.edu.utn.frba.dds.models.entities.users.Permiso;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.recompensas.CanjeosRepository;
 import ar.edu.utn.frba.dds.models.repositories.recompensas.RecompensasRepository;
@@ -25,8 +26,13 @@ public class TiendaController {
 
   public void index(Context context) {
     Map<String, Object> model = context.attribute("model");
-
+    List<Permiso> permisos = context.sessionAttribute("permisos");
+    model.put("puedeAdministrarRecompensa", tienePermiso(permisos, "Administrar-Recompensas"));
     context.render("tienda/tienda.hbs", model);
+  }
+
+  public Boolean tienePermiso(List<Permiso> permisos, String nombrePermiso) {
+    return permisos.contains(new Permiso(nombrePermiso));
   }
 
   public void indexRecompensaNueva(Context ctx) {

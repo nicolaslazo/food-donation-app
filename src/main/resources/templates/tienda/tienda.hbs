@@ -20,6 +20,7 @@
                         <a href="/tienda/recompensas">Ver Productos</a>
                     </button>
                 </div>
+                {{#if puedeAdministrarRecompensa}}
                 <div class="option-card">
                     <img src="/public/img/tienda/tienda_donacion_card.webp" alt="Productos">
                     <h2>Administrar Productos</h2>
@@ -28,6 +29,7 @@
                         <a href="/tienda/recompensas/admin">Ver Productos</a>
                     </button>
                 </div>
+                {{/if}}
                 <div class="option-card">
                     <img src="/public/img/tienda/historial_canjes.jpg" alt="Productos">
                     <h2>Historial Productos Canjeados</h2>
