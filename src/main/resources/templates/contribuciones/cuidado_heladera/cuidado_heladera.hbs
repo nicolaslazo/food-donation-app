@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/public/css/contribuciones/reset.css">
     <link rel="stylesheet" href="/public/css/contribuciones/cuidado_heladera/styles.css">
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.css" crossorigin="">
 {{/partial}}
 
@@ -20,6 +20,16 @@
                 nombre: "{{this.nombre}}"
             } {{#unless @last}},{{/unless}}
         {{/each}}]
+
+        let areasCobertura = [{{#each areas_cobertura}}
+            {
+                centro: {
+                    lat: {{this.centro.latitud}},
+                    long: {{this.centro.longitud}}
+                },
+                radioEnMetros: {{this.radioEnMetros}}
+            } {{#unless @last}},{{/unless}}
+        {{/each}}];
     </script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>

@@ -139,7 +139,7 @@ public class SeederUsuarios {
         "Simpson",
         LocalDate.now().minusYears(36),
         "20-45000111-9",
-        new AreaGeografica(new CoordenadasGeograficas(54D, 54D), 100),
+        new AreaGeografica(new CoordenadasGeograficas(-34.6036186, -58.3824606), 2000),
         DigestUtils.sha256Hex("homero123"),
         new RolesRepository().findByName("TECNICO").get()
     );
@@ -153,7 +153,7 @@ public class SeederUsuarios {
         "Carlson",
         LocalDate.now().minusYears(34),
         "20-45000222-9",
-        new AreaGeografica(new CoordenadasGeograficas(54D, 54D), 100),
+        new AreaGeografica(new CoordenadasGeograficas(-34.594265, -58.451564), 3000),
         DigestUtils.sha256Hex("carl123"),
         new RolesRepository().findByName("TECNICO").get()
     );
