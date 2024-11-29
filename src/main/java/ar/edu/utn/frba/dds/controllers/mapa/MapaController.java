@@ -77,7 +77,7 @@ public class MapaController {
     if (context.sessionAttribute("esPersonaVulnerable")) { // Si posee el Rol de Persona Vulnerable, completo sus datos
       PersonaVulnerable personaVulnerable = new PersonaVulnerableRepository().findById(context.sessionAttribute("user_id")).get();
 
-      Tarjeta tarjeta = new TarjetasRepository().findByRecipiente(personaVulnerable.getUsuario()).get();
+      Tarjeta tarjeta = new TarjetasRepository().findActivaByRecipiente(personaVulnerable.getUsuario()).get();
       long cantidadUsosTarjetaHoy = new SolicitudAperturaPorConsumicionRepository().findCantidadUsadasHoy(tarjeta);
       long cantidadSolicitudesRetiroActivosHoy = new SolicitudAperturaPorConsumicionRepository().getCantidadSolicitudesDeRetiroHoy(tarjeta);
       long cantidadUsosDisponiblesHoy =
@@ -103,7 +103,7 @@ public class MapaController {
     try {
       // Recuerpo al Usuario con su Tarjeta Alimentaria correspondiente
       Usuario usuario = new UsuariosRepository().findById(context.sessionAttribute("user_id")).get();
-      Tarjeta tarjetaAlimentaria = new TarjetasRepository().findByRecipiente(usuario).get();
+      Tarjeta tarjetaAlimentaria = new TarjetasRepository().findActivaByRecipiente(usuario).get();
 
       // Recupero los IDs de las Viandas como un String y luego divido en una lista de Strings
       String viandasIDsString = context.formParam("viandasIds"); // Recibe el String "2,3,5"

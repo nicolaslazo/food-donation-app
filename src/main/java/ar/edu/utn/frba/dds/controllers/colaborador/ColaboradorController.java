@@ -73,21 +73,8 @@ public class ColaboradorController {
       Email email = new Email(colaborador.getUsuario(), emailString);
       new ContactosRepository().insert(email);
 
-      String pais = context.formParam("pais");
-      if (pais != null && !pais.isBlank()) {  // Hay una dirección definida
-        DireccionResidencia residencia = new DireccionResidencia(
-                colaborador.getUsuario(),
-                context.formParam("unidad"),
-                context.formParam("piso"),
-                context.formParam("altura"),
-                context.formParam("calle"),
-                context.formParam("codigoPostal"),
-                context.formParam("ciudad"),
-                context.formParam("provincia"),
-                pais
-        );
-        new DireccionResidenciaRepository().insert(residencia);
-      }
+      DireccionResidencia direccion = parsearDireccionResidencia(context, colaborador);
+      new DireccionResidenciaRepository().insert(direccion);
 
       context.sessionAttribute("user_id", colaborador.getId());
       context.sessionAttribute("permisos",
@@ -102,7 +89,7 @@ public class ColaboradorController {
       context.json(Map.of(
           "message", "Cuenta registrada con éxito! Redirigiendo en tres segundos...",
           "success", true,
-          "urlRedireccion", "/",
+          "urlRedireccion", "/colaborador/login",
           "demoraRedireccionEnSegundos", 3
       ));
     } catch (Exception e) {
@@ -111,6 +98,24 @@ public class ColaboradorController {
           "success", false
       ));
     }
+  }
+
+  private DireccionResidencia parsearDireccionResidencia(Context context, Colaborador colaborador) {
+    String pais = context.formParam("pais");
+
+    if (pais == null || pais.isBlank()) return null;
+
+    return new DireccionResidencia(
+        colaborador.getUsuario(),
+        context.formParam("unidad"),
+        context.formParam("piso"),
+        context.formParam("altura"),
+        context.formParam("calle"),
+        context.formParam("codigoPostal"),
+        context.formParam("ciudad"),
+        context.formParam("provincia"),
+        pais
+    );
   }
 
   private void asignarTarjetaAlimentaria(Usuario usuario) {

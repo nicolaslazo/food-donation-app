@@ -27,6 +27,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <!-- Leaflet PinSearch -->
     <script src="https://unpkg.com/leaflet.pinsearch/src/Leaflet.PinSearch.js" crossorigin=""></script>
+    <script src="/public/js/toast.js" defer></script>
 {{/partial}}
 {{#partial "contenido"}}
     <main class="main__container">
@@ -34,7 +35,7 @@
             <div class="form-title">
                 DONACIÓN DE VIANDA
             </div>
-            <form id="formulario-viandas" method="post" action="/contribucion/donacion-vianda" class="form__body">
+            <form id="formulario-viandas" method="post" action="/contribucion/donacion-vianda" class="form__body triggerea-toast">
                 <div class="heladera-details-container">
                     <!-- Cantidad de Viandas a ingresar -->
                     <label class="input-box" id="cantidad-viandas">

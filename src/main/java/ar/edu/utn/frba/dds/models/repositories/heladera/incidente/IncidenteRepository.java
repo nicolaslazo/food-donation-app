@@ -67,4 +67,19 @@ public class IncidenteRepository extends HibernateEntityManager<Incidente, Long>
     return em.createQuery(query).getResultStream();
   }
 
+  public boolean getIsActiva(Heladera heladera) {
+    EntityManager em = entityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<Long> query = cb.createQuery(Long.class);
+    Root<Incidente> root = query.from(Incidente.class);
+
+    query.select(cb.count(root))
+        .where(cb.and(
+            cb.equal(root.get("heladera"), heladera),
+            cb.isNull(root.get("fechaResuelto"))
+        ));
+
+    Long count = em.createQuery(query).getSingleResult();
+    return count == 0;
+  }
 }
