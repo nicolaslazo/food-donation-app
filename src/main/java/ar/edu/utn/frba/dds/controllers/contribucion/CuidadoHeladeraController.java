@@ -6,6 +6,7 @@ import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
 import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
+import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.CuidadoHeladerasRepository;
@@ -33,8 +34,8 @@ public class CuidadoHeladeraController {
 
     // Se registra la contribución
     CuidadoHeladera cuidadoHeladera = new CuidadoHeladera(
-            encargado,
-            heladeraNueva
+        encargado,
+        heladeraNueva
     );
 
     new HeladerasRepository().insert(heladeraNueva);
@@ -57,8 +58,8 @@ public class CuidadoHeladeraController {
 
     // Se registra la contribución
     CuidadoHeladera cuidadoHeladera = new CuidadoHeladera(
-            encargado,
-            heladeraNueva
+        encargado,
+        heladeraNueva
     );
 
     new HeladerasRepository().insert(heladeraNueva);
@@ -73,6 +74,7 @@ public class CuidadoHeladeraController {
     Map<String, Object> model = context.attribute("model");
     List<Heladera> heladeras = new HeladerasRepository().findAll().toList();
     model.put("heladeras", heladeras);
+    model.put("areas_cobertura", new TecnicoRepository().findAllAreas().toList());
     context.render("contribuciones/cuidado_heladera/cuidado_heladera.hbs", model);
   }
 
