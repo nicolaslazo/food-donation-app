@@ -92,7 +92,6 @@ public class SeederRoles {
               permisosRepository.findByName("Abrir-Heladera-Contribucion").get(),
               permisosRepository.findByName("Asignar-Tarjetas").get(),
               permisosRepository.findByName("Canjear-Productos").get(),
-              permisosRepository.findByName("Depositar-Viandas").get(),
               permisosRepository.findByName("Distribuir-Viandas").get(),
               permisosRepository.findByName("Donar-Dinero").get(),
               permisosRepository.findByName("Donar-Viandas").get(),

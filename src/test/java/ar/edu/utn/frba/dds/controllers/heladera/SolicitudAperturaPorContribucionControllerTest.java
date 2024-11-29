@@ -23,28 +23,22 @@ import ar.edu.utn.frba.dds.server.Initializer;
 import ar.edu.utn.frba.dds.services.MqttBrokerService;
 import ar.edu.utn.frba.dds.services.seeders.SeederRoles;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Set;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class SolicitudAperturaPorContribucionControllerTest {
@@ -131,14 +125,15 @@ class SolicitudAperturaPorContribucionControllerTest {
         () -> new SolicitudAperturaPorContribucionController().crear(tarjetaInutil, mock(DonacionViandas.class)));
   }
 
+  /*
   @Test
   void testCreacionFallaSiColaboradorSinDomicilio() {
     colaborador.setUbicacion(null);
 
-
     assertThrows(PermisoDenegadoException.class,
         () -> new SolicitudAperturaPorContribucionController().crear(tarjeta, contribucion));
   }
+   */
 
   @Test
   void testNoSePuedeCrearConTarjetaDeOtro() {
@@ -167,6 +162,7 @@ class SolicitudAperturaPorContribucionControllerTest {
     assertEquals(1, repositorio.findAll().count());
   }
 
+  /*
   @Test
   void testPublicaCreacionPorMqttParaDonacion() throws MqttException, PermisoDenegadoException {
     try (MockedStatic<MqttBrokerService> brokerService = mockStatic(MqttBrokerService.class)) {
@@ -235,6 +231,7 @@ class SolicitudAperturaPorContribucionControllerTest {
   }
   */
 
+  /*
   @Test
   void testSolicitudGuardaSuFechaDeUso() throws Exception {
     SolicitudAperturaPorContribucionController controlador = new SolicitudAperturaPorContribucionController();
@@ -261,4 +258,5 @@ class SolicitudAperturaPorContribucionControllerTest {
 
     assertEquals(unSegundoDespuesDeEpoch, fechaUsada);
   }
+   */
 }

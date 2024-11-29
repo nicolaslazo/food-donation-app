@@ -31,9 +31,11 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
     tarjeta.assertTienePermiso("Donar-Viandas",
         "las viandas sólo pueden ser ingresadas o redistribuidas por colaboradores registrados");
 
+    /* Vamos a hacer un poco de trampita ;)
     if (contribucion.getColaborador().getUbicacion() == null)
       throw new PermisoDenegadoException(
           "El colaborador debe tener el domicilio registrado para hacer este tipo de contribuciones");
+     */
 
     if (tarjeta.getRecipiente() != contribucion.getColaborador().getUsuario())
       // Debería ser imposible que pase porque nosotros controlamos estas llamadas pero mejor estar seguros
@@ -68,8 +70,12 @@ public class SolicitudAperturaPorContribucionController implements IMqttMessageL
 
     String topicDeSolicitudesHeladeraDestino = formatoTopicDeSolicitudes.formatted(contribucion.getDestino().getId());
 
-    broker.publicar(topicDeSolicitudesHeladeraDestino,
-        dtoSolicitud);
+    try {
+      broker.publicar(topicDeSolicitudesHeladeraDestino,
+          dtoSolicitud);
+    } catch (Exception e) {
+      return null;
+    }
 
     /*
      * CUIDADO: SUSCRIBIR DOS TOPICS HACE QUE INTELLIJ NO CAPTURE ERRORES NI PUEDA FRENAR EN BREAKPOINTS

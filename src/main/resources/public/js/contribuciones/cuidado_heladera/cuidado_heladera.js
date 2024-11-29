@@ -15,6 +15,26 @@ heladeras.forEach(function (heladera) {
     });
 });
 
+// Areas de cobertura
+areasCobertura.forEach(function (area) {
+    L.circle([area.centro.lat, area.centro.long], {
+        color: '#befd88',
+        fillColor: '#befd88',
+        fillOpacity: 0.25,
+        radius: area.radioEnMetros
+    }).addTo(map);
+});
+
+var leyenda = L.control({ position: 'bottomleft' });
+
+leyenda.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'leyenda');
+    div.innerHTML += '<i style="background: #befd88"></i><span>Área de soporte técnico</span><br>';
+    return div;
+};
+
+leyenda.addTo(map);
+
 // Definir la variable marker fuera del evento
 var marker;
 

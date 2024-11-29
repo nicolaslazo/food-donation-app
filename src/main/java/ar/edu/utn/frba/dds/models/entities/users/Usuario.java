@@ -15,6 +15,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -69,13 +70,15 @@ public class Usuario {
   // Nulificable por el cargador CSV
   LocalDate fechaNacimiento;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "rolesAsignados",
       joinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "idRol", referencedColumnName = "id"))
   @Getter
-  @NonNull Set<Rol> roles;
+  @NonNull
+  @ToString.Exclude
+  Set<Rol> roles;
 
   @Getter
   @Transient
@@ -87,7 +90,12 @@ public class Usuario {
   @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
   @Getter
   @Setter
+  @ToString.Exclude
   private List<Contacto> contactos = new ArrayList<>();
+
+  public void setRoles(Set<Rol> roles) {
+    this.roles = roles;
+  }
 
   // Constructor para personas físicas
   public Usuario(Documento documento,
@@ -107,9 +115,6 @@ public class Usuario {
     this.fechaNacimiento = fechaNacimiento;
     this.roles = roles;
     this.contraseniaHasheada = contraseniaHasheada;
-
-    // TODO: Mover al controller creador de colaboradores
-    // new EnviadorDeMails().enviarMail(mail.destinatario(), this.contrasenia);
   }
 
   // Constructor para colaboradores jurídicos

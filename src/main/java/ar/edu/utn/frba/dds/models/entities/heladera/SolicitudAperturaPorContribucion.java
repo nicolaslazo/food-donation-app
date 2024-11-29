@@ -31,7 +31,7 @@ public class SolicitudAperturaPorContribucion {
   Long id;
 
   @Getter
-  @ManyToOne(targetEntity = Tarjeta.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @ManyToOne(targetEntity = Tarjeta.class)
   @JoinColumn(name = "idTarjeta", referencedColumnName = "id")
   @NonNull Tarjeta tarjeta;
 
