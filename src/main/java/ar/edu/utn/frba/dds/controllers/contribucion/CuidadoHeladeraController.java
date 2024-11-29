@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.dds.controllers.contribucion;
 
+import ar.edu.utn.frba.dds.controllers.sensor.SensorController;
 import ar.edu.utn.frba.dds.dtos.input.contribucion.CuidadoHeladeraInputDTO;
 import ar.edu.utn.frba.dds.models.entities.colaborador.Colaborador;
 import ar.edu.utn.frba.dds.models.entities.contacto.Suscripcion;
@@ -7,11 +8,13 @@ import ar.edu.utn.frba.dds.models.entities.contribucion.CuidadoHeladera;
 import ar.edu.utn.frba.dds.models.entities.contribucion.MotivoDeDistribucion;
 import ar.edu.utn.frba.dds.models.entities.heladera.Heladera;
 import ar.edu.utn.frba.dds.models.repositories.TecnicoRepository;
+import ar.edu.utn.frba.dds.models.entities.heladera.ModeloHeladera;
 import ar.edu.utn.frba.dds.models.repositories.colaborador.ColaboradorRepository;
 import ar.edu.utn.frba.dds.models.repositories.contacto.SuscripcionRepository;
 import ar.edu.utn.frba.dds.models.repositories.contribucion.CuidadoHeladerasRepository;
 import ar.edu.utn.frba.dds.models.repositories.heladera.HeladerasRepository;
 import io.javalin.http.Context;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -28,7 +31,7 @@ public class CuidadoHeladeraController {
     Heladera heladeraNueva = new Heladera(dtoCuidado.getNombreHeladera(),
         dtoCuidado.getUbicacion(),
         encargado,
-        dtoCuidado.getCapacidadEnViandas(),
+        dtoCuidado.getModeloHeladera(),
         ZonedDateTime.now(),
         dtoCuidado.getBarrio());
 
@@ -52,7 +55,7 @@ public class CuidadoHeladeraController {
     Heladera heladeraNueva = new Heladera(dtoCuidado.getNombreHeladera(),
         dtoCuidado.getUbicacion(),
         encargado,
-        dtoCuidado.getCapacidadEnViandas(),
+        dtoCuidado.getModeloHeladera(),
         ZonedDateTime.now(),
         dtoCuidado.getBarrio());
 
@@ -78,17 +81,28 @@ public class CuidadoHeladeraController {
     context.render("contribuciones/cuidado_heladera/cuidado_heladera.hbs", model);
   }
 
-  public void create(Context context) {
+  public void create(Context context) throws MqttException {
+    // Obtengo los datos del formulario
     CuidadoHeladeraInputDTO cuidadoHeladeraInputDTO = new CuidadoHeladeraInputDTO(
         context.formParam("nombreHeladera"),
-        Integer.parseInt(context.formParam("cantidadViandas")),
+        ModeloHeladera.valueOf(context.formParam("modelo").toUpperCase()),
         context.sessionAttribute("user_id"),
         Double.parseDouble(context.formParam("latitud")),
         Double.parseDouble(context.formParam("longitud")),
         context.formParam("barrio")
     );
+
+    // Instancio y Registro la Nueva Heladera
     Heladera heladeraNueva = tomarCuidadoHeladera(cuidadoHeladeraInputDTO);
     new HeladerasRepository().insert(heladeraNueva);
-    context.redirect("/");
+
+    // Asigno los Sensores a la Heladera
+    asignarSensoresAHeladera(heladeraNueva);
+
+    context.redirect("/formas-colaboracion");
+  }
+
+  private void asignarSensoresAHeladera(Heladera heladera) throws MqttException {
+    new SensorController().create(heladera);
   }
 }

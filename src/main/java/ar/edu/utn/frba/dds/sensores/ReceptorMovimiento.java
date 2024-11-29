@@ -9,6 +9,10 @@ import java.time.ZonedDateTime;
 public class ReceptorMovimiento {
   AccionadorHeladera accionadorHeladera;
 
+  public ReceptorMovimiento(AccionadorHeladera accionadorHeladera) {
+    this.accionadorHeladera = accionadorHeladera;
+  }
+
   public void evaluarReceptor(ZonedDateTime momentoEvento, Heladera heladera) {
     accionadorHeladera.sucedeIncidente(TipoIncidente.FRAUDE, heladera, momentoEvento);
   }

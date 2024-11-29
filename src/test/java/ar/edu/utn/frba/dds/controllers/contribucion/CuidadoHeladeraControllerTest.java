@@ -45,7 +45,7 @@ class CuidadoHeladeraControllerTest {
             .tomarCuidadoHeladera(
                 "{" +
                     "\"nombreHeladera\": \"Heladera\", " +
-                    "\"capacidadEnViandas\": 1, " +
+                    "\"modeloHeladera\": \"HELADERA_CHICA\", " +
                     "\"idColaborador\": \"" + 343434  + "\" , " +
                     "\"latitud\": -34.0, " +
                     "\"longitud\": -58.0}"));
@@ -56,7 +56,7 @@ class CuidadoHeladeraControllerTest {
     Heladera heladeraNueva = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
-            "\"capacidadEnViandas\": 1, " +
+            "\"modeloHeladera\": \"HELADERA_CHICA\", " +
             "\"idColaborador\": \"" + colaborador.getId() + "\", " +
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0, " +
@@ -71,7 +71,7 @@ class CuidadoHeladeraControllerTest {
     Heladera heladera = CuidadoHeladeraController.tomarCuidadoHeladera(
         "{" +
             "\"nombreHeladera\": \"Heladera\", " +
-            "\"capacidadEnViandas\": 1, " +
+            "\"modeloHeladera\": \"HELADERA_CHICA\", " +
             "\"idColaborador\": \"" + colaborador.getId() + "\", " +
             "\"latitud\": -34.0, " +
             "\"longitud\": -58.0, " +

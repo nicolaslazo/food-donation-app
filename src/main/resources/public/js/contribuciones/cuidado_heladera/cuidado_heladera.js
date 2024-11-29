@@ -90,3 +90,4 @@ document.querySelector('form').addEventListener('submit', function(e) {
         alert("Debe seleccionar una nueva ubicación para la heladera. No puede usar una existente.");
     }
 });
+

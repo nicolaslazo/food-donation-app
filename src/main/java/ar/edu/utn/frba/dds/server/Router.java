@@ -96,6 +96,7 @@ public class Router {
     // Técnico
     app.before("/tecnico/crear", new AuthMiddleware());
     app.get("/tecnico/crear", new TecnicoController()::index, permisoCrearTecnico);
+    app.post("/tecnico/crear", new TecnicoController()::create, permisoCrearTecnico);
 
     // Contribucion/*
     app.before("/contribucion/*", new AuthMiddleware());
@@ -123,6 +124,7 @@ public class Router {
     app.post("/tienda/recompensas/admin", new TiendaController()::crearRecompensa, permisoAdministrarRecompensas);
     app.get("/tienda/recompensas", new TiendaController()::indexRecompensas, permisoCanjearProductos);
     app.post("/tienda/recompensas/{id}", new TiendaController()::canjearRecompensa, permisoCanjearProductos);
+    app.get("/tienda/historial", new TiendaController()::indexHistorial, permisoCanjearProductos);
 
     // Carga CSV
     app.before("/carga-csv", new AuthMiddleware());
