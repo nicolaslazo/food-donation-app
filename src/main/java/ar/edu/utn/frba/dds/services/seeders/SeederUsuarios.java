@@ -203,7 +203,7 @@ public class SeederUsuarios {
     // ------ RECOMPENSAS -------
     Recompensa recompensa1 = new Recompensa("AURICULARES", colaboradorJuridico, 2L, 10, RubroRecompensa.ELECTRONICA, null);
     Recompensa recompensa2 = new Recompensa("PC GAMER ÚNICA", colaboradorJuridico, 4L, 1, RubroRecompensa.ELECTRONICA, null);
-    Recompensa recompensa3 = new Recompensa("TV", colaboradorJuridicoAdministrador, 4l, 10, RubroRecompensa.ENTRETENIMIENTO, null);
+    Recompensa recompensa3 = new Recompensa("TV", colaboradorJuridicoAdministrador, 4L, 10, RubroRecompensa.ENTRETENIMIENTO, null);
     new RecompensasRepository().insert(recompensa1);
     new RecompensasRepository().insert(recompensa2);
     new RecompensasRepository().insert(recompensa3);
