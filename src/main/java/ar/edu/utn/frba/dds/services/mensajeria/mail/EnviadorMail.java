@@ -37,6 +37,7 @@ public class EnviadorMail {
   }
 
   public void enviarMail(String destinatario, String mensaje) {
+    /*
     String body = procesarPlantillaHTML(mensaje);
     if (body == null) {
       System.out.println("Error al procesar la plantilla HTML.");
@@ -59,7 +60,7 @@ public class EnviadorMail {
       System.out.println("Exception: " + me);
     }
 
-
+    */
   }
 
   public static void main(String[] args) {

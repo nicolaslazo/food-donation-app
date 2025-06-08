@@ -23,7 +23,7 @@ public class Server {
   public static void init() {
     if (app == null) {
       int port = Integer.parseInt(ConfigLoader.getInstancia().getProperty("server_port"));
-      app = Javalin.create(config()).start(port);
+      app = Javalin.create(config()).start("0.0.0.0", port);
 
       if (Boolean.parseBoolean(ConfigLoader.getInstancia().getProperty("dev_mode"))) {
         Initializer.init();

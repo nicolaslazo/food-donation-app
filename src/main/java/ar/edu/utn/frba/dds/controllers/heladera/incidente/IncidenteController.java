@@ -26,10 +26,10 @@ import java.util.Optional;
 
 public class IncidenteController implements IMqttMessageListener {
   static IncidenteController instancia = null;
-  MqttBrokerService brokerService = MqttBrokerService.getInstancia();
+  // MqttBrokerService brokerService = MqttBrokerService.getInstancia();
 
   private IncidenteController() throws MqttException {
-    brokerService.suscribir("heladeras/incidentes", this);
+    // brokerService.suscribir("heladeras/incidentes", this);
   }
 
   public static IncidenteController getInstancia() {
